@@ -143,3 +143,25 @@ test('Rev 94: Titanenbrecher-Name, Holzkisten, Eislanze, keine Wiederbelebung vo
   expect(r[4]).toBe(true);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 95: Symbol für Reiter und Lesezeichen ist eingebettet', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => new Promise(res => {
+    const l = document.querySelector('link[rel="icon"]');
+    if (!l) return res(null);
+    const img = new Image(); img.onload = () => res([l.href.slice(0, 18), img.naturalWidth > 0]); img.onerror = () => res([l.href.slice(0, 18), false]); img.src = l.href;
+  }));
+  expect(r).toEqual(['data:image/svg+xml', true]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 96: Schatten für Ausstattung und Farbstimmung je Gebiet', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForTimeout(800);
+  const r = await page.evaluate(() => {
+    const sp = decoSprite('barrel', 0); DSHA = .5; decoShade(sp, 100, 100, 1);
+    return [!!sp.sh, sp.sh.width === sp.c.width, Array.isArray(MOODC), MOOD.mist[1] > MOOD.mist[0], DECOFLAT.rug === 1];
+  });
+  expect(r).toEqual([true, true, true, true, true]);
+  expect(fehler).toEqual([]);
+});

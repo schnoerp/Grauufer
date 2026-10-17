@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 07**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 09**, Stand: Spiel-Rev 96. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -18,7 +18,7 @@
 | Kapuzen (seit Rev 32) | weicher, nach hinten fallender Kragen mit Falten und Überwurf auf den Schultern, offene Gesichtsöffnung mit Schatten von oben, leuchtende Augen bleiben sichtbar; gilt für alle Kapuzenträger und die Spielfigur |
 | Bodendetails (seit Rev 31) | Grashalme und Blüten, Kiesel, Risse, Schlammpfützen mit Schilf, Sandrippel, Schneeglitzer, Glut in der Asche, Moos zwischen Pflastersteinen, Kristalle in Höhlen, Eisschlieren, Holzmaserung; einmal pro Kachel vorgezeichnet, daher ohne Leistungskosten beim Spielen |
 | Leuchtende Dinge | Glutklinge, Sturmzepter, Splitter, aktive Wegsteine, Kristalle, Augen der Gegner |
-| Licht | immer Tag (seit Spiel-Rev 41 kein Tag-Nacht-Wechsel); Höhlen und dunkle Zonen dunkel |
+| Licht | immer Tag (seit Spiel-Rev 41 kein Tag-Nacht-Wechsel); Höhlen und dunkle Zonen dunkel; Bildrand draußen leicht abgedunkelt (Randdunkel 0,34, seit Spiel-Rev 96, vorher 0,24) |
 
 ### Figurengrößen in Bildpunkten
 
@@ -53,12 +53,25 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 | Figuren | 60 | schlanker, längere Beine, kleinerer Kopf (ca. 6 Köpfe hoch), harte Farbstufen statt Verläufe |
 | Ausstattung | 61 | Möbel innen, Stadtdeko außen |
 | Licht | 62 | Schlagschatten von Mauern und Bäumen nach rechts unten, Figurenschatten, Lichtkarte mit Lampen in Höhlen und dunklen Orten |
+| Schatten und Stimmung | 96 | siehe Abschnitt „Schatten und Farbstimmung“ unten |
 | Dünne Hauswände | 63 | Wandscheiben (¼ Kachel) mit Eckpfosten statt Vollblöcken; Stadtmauern bleiben massiv |
+
+### Schatten und Farbstimmung (Im Spiel seit Spiel-Rev 96)
+
+| Element | Umsetzung | Werte |
+|---|---|---|
+| Bodenschatten von Mauern, Türmen, Toren und Bäumen | beim Aufbau des Bodenpuffers einmal mitgezeichnet, kostet pro Bild nichts | Deckkraft direkt neben Turm 0,62 (vorher 0,5), neben Mauer 0,54 (0,42), zwei Felder entfernt 0,34/0,24 (0,24/0,16), schräg 0,18 (0,12), Baum 0,28 (0,16); an dünnen Hauswänden × 0,55 |
+| Figurenschatten | schräger Schattenriss nach rechts unten | Stärke 0,5 bei Tag (vorher 0,38); in Höhlen, dunklen Orten und Innenräumen keiner |
+| Schatten der Ausstattung | Fässer, Kisten, Säcke, Bänke, Laternen, Möbel, Truhen, Felsbrocken, Tore, Tafeln werfen denselben schrägen Schatten; Schattenriss je Sprite einmal im Hauptspeicher angelegt, pro Bild ein Zeichenaufruf | draußen 1,2 × Figurenschatten (0,6), in Innenräumen 0,25, in Höhlen und dunklen Orten keiner; flache Dinge (Teppich, Wrackteil, Vogelnest) ohne Schatten |
+| Farbstimmung je Gebiet | dünne Farbschicht über dem ganzen Bild, beim Gebietswechsel weich überblendet (ca. 1 s) | Grau (Grauufer, Sonnwacht, Wildnis): kühles Blaugrau, 8 %; Nebel (Tränensee, Fahlmoor, Nebelwald, Miras Kate): Grün, 11 %; Glut (Glutschlund): Rot, 10 %; Schnee (Sturmspitze, Frostmark): Eisblau, 7 %; Staub (Sandhafen, Ödnis, Tempel): Ocker, 8 %; Höhle (Grotte, Kristallhöhle): Violett, 12 %; Innenraum: warmes Braun, 6 % |
+
+Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus 6 Orten): Rev 95 24,8 ms, Rev 96 24,8 ms, also keine messbare Mehrlast. Es werden keine neuen Grafikkarten-Leinwände angelegt.
 
 ### Weitere Grafik (Im Spiel seit Spiel-Rev 64–90)
 - Vulkan mit Rauch und Lavasee, Portale mit wirbelndem Licht, animiertes Meer (Wellenkämme, Brandung, seit Spiel-Rev 80), Schiffswrack (Rev 83), Truhen offen/zu, Mimik, Lesepulte, Runentafeln, Felsbrocken, Gittertore, Runentore, Vogelnester.
 - Fenster im Stil „Pergament auf Holzrollen“ mit prozeduraler Pergament-Textur, rotes Wachssiegel zum Schließen (seit Spiel-Rev 87).
 - Schrift „Pixelify Sans“ eingebettet (SIL Open Font License 1.1, seit Spiel-Rev 78).
+- Symbol für Browser-Reiter und Lesezeichen (seit Spiel-Rev 95): Wappen der Siegelwächter als Pixelgrafik 16 × 16, goldenes Kreuz (#f2b13c) auf blauem Schild (#2e4e8a) mit dunklem Riss durch das Kreuz, auf dunkelbraunem Grund (#241610); als SVG direkt in `index.html` eingebettet, keine externe Datei. Die Leistenfarbe des Browsers (theme-color) ist ebenfalls #241610.
 
 ## 3. Klang (Im Spiel)
 
