@@ -1,7 +1,7 @@
 {
   "name": "grauufer",
   "private": true,
-  "description": "Browser-Rollenspiel Grauufer – Prüfungen und Browser-Tests",
+  "description": "Browser-Rollenspiel Grauufer 1.0 – Prüfungen und Browser-Tests",
   "scripts": {
     "check": "node scripts/check.js",
     "test": "node scripts/check.js && playwright test"

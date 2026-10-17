@@ -87,6 +87,8 @@ test('Charakter: Stufenaufstieg, Attribut, Talent', async ({ page }) => {
 test('Angeln: Biss und Fang', async ({ page }) => {
   const fehler = await frisch(page);
   const r = await page.evaluate(() => {
+    /* Alle Schatzkarten gelten als gefunden, sonst zieht der Haken mit 8 % eine Flaschenpost statt eines Fischs */
+    if (!DECOK) buildDeco(); F().tmaps = Object.fromEntries(DIGS.map(d => [d.i, 1]));
     give('rod'); startFish(S.p.x, S.p.y + 2); G.fish.ph = 'bite'; G.fish.bt = performance.now(); const n0 = S.inv.length; reelIn();
     return S.inv.length > n0;
   });
@@ -227,5 +229,26 @@ test('Rev 101: Story-Baum zeigt erreichten Stand, Künftiges verborgen', async (
             document.querySelectorAll('#story .sn.rej').length, st('dE')];
   });
   expect(r2).toEqual(['done', 'av', 'hid', 1, 'sn rej|sn done|sn done']);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 102: Leben und Mana als Kugeln, Fußzeile frei', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    S.p.hp = Math.round(S.p.maxHp / 2); updateHUD();
+    const hp = document.querySelector('#orbHp'), mp = document.querySelector('#orbMp'), H = hp.getBoundingClientRect(), M = mp.getBoundingClientRect();
+    const knoepfe = [...document.querySelectorAll('#bottom button')].filter(b => b.offsetParent).map(b => b.getBoundingClientRect());
+    const ueberlappt = knoepfe.some(k => k.left < H.right || k.right > M.left);
+    const px = hp.querySelector('canvas').getContext('2d').getImageData(18, 30, 1, 1).data;
+    return [Math.round(H.width), document.querySelector('#hpt').textContent === S.p.hp + '/' + S.p.maxHp, ueberlappt, px[0] > px[2], !!document.querySelector('#bottom .bar')];
+  });
+  expect(r).toEqual([90, true, false, true, false]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 103: Spieltitel „Grauufer 1.0“', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => { intro(); return [document.title.startsWith('Grauufer 1.0 (Rev '), document.querySelector('#splash .sp-t').textContent.trim(), document.querySelector('#overlay h1').textContent]; });
+  expect(r).toEqual([true, 'Grauufer 1.0', 'Grauufer 1.0']);
   expect(fehler).toEqual([]);
 });

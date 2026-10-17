@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer – Rollenspiel-Prototyp (Rev 101)</title>
+<title>Grauufer 1.0 (Rev 103)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -38,7 +38,7 @@ body{height:100%;margin:0;background:var(--night);color:var(--bone);font-family:
 .cp svg{width:38px;height:38px;transition:transform .25s}.cp span{font-size:12px;color:var(--gold);line-height:1;text-shadow:1px 1px 0 #000}
 .zoom{display:flex;gap:6px;align-items:center}#zpct{min-width:52px;text-align:center;padding:6px 6px;font-size:14px}
 .zoom button,#bSnd{min-height:36px;min-width:36px;font-size:14px;padding:0 9px}
-#log{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 96px);pointer-events:none;font-size:15px;line-height:1.3;max-width:460px}
+#log{position:fixed;left:112px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 96px);pointer-events:none;font-size:15px;line-height:1.3;max-width:460px}
 #log div{margin-top:2px}
 #log .hurt{color:#f08a70} #log .q{color:var(--gold)} #log .magic{color:var(--arcane)}
 #hotbar{display:flex;gap:5px;justify-content:center;max-width:100%;overflow-x:auto}
@@ -82,7 +82,7 @@ button[disabled]{opacity:.45;cursor:default}
 #choices button::before{content:"◆ ";color:var(--edge)}
 #choices button:hover,#choices button:focus-visible{color:#ffd25a;outline:none}
 #choices button:hover::before,#choices button:focus-visible::before{color:#ffd25a}
-body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom{display:none}
+body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom,body.talk .orb{display:none}
 #bInv.bagbtn{display:inline-flex;align-items:center;gap:6px;padding:0 12px 0 8px}#bInv.bagbtn svg{width:30px;height:30px}
 #panel.bag{background:radial-gradient(ellipse at 30% 0%,#7a4e2a 0%,#5a361a 45%,#3e2410 100%);border:3px solid #2a1608;border-radius:18px 18px 10px 10px;box-shadow:inset 0 0 0 7px rgba(0,0,0,.12),inset 0 0 0 9px rgba(240,200,140,.28),0 14px 40px rgba(0,0,0,.65);padding:16px 18px 14px}
 #panel.bag::before{content:"";position:absolute;inset:9px;border:2px dashed rgba(240,205,150,.35);border-radius:12px 12px 6px 6px;pointer-events:none}
@@ -155,6 +155,7 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom{display:none}
 #splash{position:fixed;inset:0;z-index:8;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 45%,#2a160a 0%,#0a0402 70%);cursor:pointer;transition:opacity .9s}
 #splash.out{opacity:0;pointer-events:none}#splash[hidden]{display:none}
 .sp-in{text-align:center;padding:24px}
+.sp-v{font-size:.42em;letter-spacing:.06em;vertical-align:.9em}/* Rev 103: Spieltitel „Grauufer 1.0“ */
 .sp-t{font-weight:700;font-size:clamp(64px,17vw,150px);line-height:1;background:linear-gradient(#fff0a0,#f2a636 55%,#a8480f);-webkit-background-clip:text;background-clip:text;color:transparent;
   filter:drop-shadow(0 0 18px rgba(255,170,60,.35)) drop-shadow(4px 4px 0 #160a02);opacity:0;transform:scale(.92);letter-spacing:.12em;animation:spIn 2.2s ease-out .2s forwards}
 .sp-s{color:var(--dim);font-size:clamp(15px,3.6vw,22px);margin-top:14px;opacity:0;animation:spFade 1.2s ease-out 1.4s forwards}
@@ -254,7 +255,11 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom{display:none}
 @media (max-width:900px){.ccg.cc3{grid-template-columns:minmax(0,1fr) 160px}.ccg.cc3 .ccr{grid-column:1/-1}}
 @media (max-width:600px){.ccg.cc3{grid-template-columns:1fr}.ccx .pair{grid-template-columns:1fr}}
 /* Rev 71: Fußzeile – Lebens-/Manabalken, Schnellzugriff und Knöpfe einheitlich hoch */
-#bottom{--fh:50px}
+#bottom{--fh:50px;padding-left:110px!important;padding-right:110px!important}
+/* Rev 102: Leben und Mana als Kugeln in den unteren Ecken (außerhalb der Fußzeile), 90 Punkte, Eisenring, Zahl immer sichtbar */
+.orb{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 4px);width:90px;height:90px;z-index:5;pointer-events:none}
+.orb.hpo{left:8px}.orb.mpo{right:8px}.orb canvas{width:90px;height:90px;image-rendering:pixelated;display:block}
+.orb b{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:500 15px 'Pixelify Sans',monospace;color:#fff4dc;text-shadow:2px 2px 0 #120804,-1px 0 0 #120804,0 -1px 0 #120804,1px 0 0 #120804}
 #bottom .bar{height:var(--fh);box-sizing:border-box;font-size:15px;padding:0 10px}
 #bottom .hk{width:var(--fh);height:var(--fh);box-sizing:border-box}
 #bottom #actions button{height:var(--fh);min-height:var(--fh);box-sizing:border-box;padding-top:0;padding-bottom:0;display:inline-flex;align-items:center}
@@ -281,17 +286,17 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom{display:none}
 </div>
 <div id="log" class="px" aria-live="polite"></div>
 <div id="bottom">
-  <div class="bar hp px"><i id="hpb"></i><span>Leben</span><b id="hpt"></b></div>
   <div id="hotbar" role="toolbar" aria-label="Schnellzugriff"></div>
   <nav id="actions"><button id="bInv" class="bagbtn" aria-label="Rucksack"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 14c0-7 20-7 20 0" fill="none" stroke="#3a2410" stroke-width="4"/><path d="M12 24c0-8 6-12 20-12s20 4 20 12v28c0 5-4 8-9 8H21c-5 0-9-3-9-8z" fill="#8a5a2e" stroke="#2a1608" stroke-width="2.5"/><path d="M12 24c0-8 6-12 20-12s20 4 20 12v6c-6 4-14 6-20 6s-14-2-20-6z" fill="#a8703a" stroke="#2a1608" stroke-width="2.5"/><rect x="28" y="30" width="8" height="9" rx="1.5" fill="#d8b050" stroke="#2a1608" stroke-width="2"/><rect x="18" y="42" width="28" height="12" rx="3" fill="#7a4e26" stroke="#2a1608" stroke-width="2"/><path d="M16 26c3 2 6 3 9 3.5M48 26c-3 2-6 3-9 3.5" stroke="#e8c890" stroke-width="1" stroke-dasharray="2 2" fill="none"/></svg><span>Rucksack</span></button><button id="bSpell" hidden>Zauber</button><button id="bChar">Charakter</button><button id="bMap">Karte</button><button id="bJour">Tagebuch</button><button id="bStory">Geschichte</button><button id="bWait">Rasten</button></nav>
-  <div class="bar mp px"><i id="mpb"></i><span>Mana</span><b id="mpt"></b></div>
 </div>
+<div id="orbHp" class="orb hpo" title="Leben"><canvas width="36" height="36"></canvas><b id="hpt"></b></div>
+<div id="orbMp" class="orb mpo" title="Mana"><canvas width="36" height="36"></canvas><b id="mpt"></b></div>
 <div id="egoPad" style="display:none"><button id="eL" aria-label="links drehen">⟲</button><button id="eF" aria-label="vorwärts">▲</button><button id="eR" aria-label="rechts drehen">⟳</button><span></span><button id="eB" aria-label="zurück">▼</button><span></span></div>
 <div id="speech" hidden aria-live="polite"><div class="in"><div id="who" class="px"></div><div id="say"></div></div></div>
 <div id="choices" hidden></div>
 <section id="panel" hidden></section>
 <div id="overlay" hidden></div>
-<div id="splash"><div class="sp-in"><div class="sp-t">Grauufer</div><div class="sp-s px">Ein Rollenspiel in der Welt Vharos</div><div class="sp-a px">ein Spiel von <b>schnoerp-media</b></div><div id="spHint" class="sp-h px">Lade Welt …</div></div></div>
+<div id="splash"><div class="sp-in"><div class="sp-t">Grauufer <span class="sp-v">1.0</span></div><div class="sp-s px">Ein Rollenspiel in der Welt Vharos</div><div class="sp-a px">ein Spiel von <b>schnoerp-media</b></div><div id="spHint" class="sp-h px">Lade Welt …</div></div></div>
 <script>
 //#MAPS-BEGIN
 const CANY=[];
@@ -807,7 +812,7 @@ function toggleSound(){AU.on=!AU.on;audioInit();if(AU.m)AU.m.gain.setTargetAtTim
   try{localStorage.setItem('grauufer-snd',AU.on?'1':'0');}catch(e){}$('#bSnd').textContent=AU.on?'Ton an':'Ton aus';}
 $('#bSnd').onclick=toggleSound;
 
-$('#bQuit').onclick=()=>{if(!S||S.over)return;save(true);overlay(`<h1>Grauufer</h1><div class="sub px">Spiel beenden?</div><p class="px">Dein Fortschritt ist gespeichert. Beim nächsten Start kannst du mit „Weiterspielen“ genau hier fortfahren.</p>`,[['Zum Titelbildschirm',()=>{save();stopAmbient();setTimeout(audioPause,450);showSplash(true);},true],['Weiterspielen',closeOverlay]]);};$('#bSnd').textContent=AU.on?'Ton an':'Ton aus';
+$('#bQuit').onclick=()=>{if(!S||S.over)return;save(true);overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Spiel beenden?</div><p class="px">Dein Fortschritt ist gespeichert. Beim nächsten Start kannst du mit „Weiterspielen“ genau hier fortfahren.</p>`,[['Zum Titelbildschirm',()=>{save();stopAmbient();setTimeout(audioPause,450);showSplash(true);},true],['Weiterspielen',closeOverlay]]);};$('#bSnd').textContent=AU.on?'Ton an':'Ton aus';
 
 /* ==========================================================
    PIXEL-GRAFIK in doppelter Auflösung, alles prozedural erzeugt
@@ -2312,10 +2317,26 @@ function hotUse(i){if(uiOpen||S.over)return;const x=HB[i];if(!x)return;audioInit
   else if(x.t==='s'){if(SPELLS[x.id].target&&tg&&cheb(tg.x,tg.y,S.p.x,S.p.y)<=SPELLS[x.id].range&&S.p.mp>=SPELLS[x.id].cost){castSpell(x.id,tg);}else if(SPELLS[x.id].target){G.cast=G.cast===x.id?null:x.id;if(G.cast)log(`Wähle ein Ziel für ${SPELLS[x.id].n}.`,'magic');}else castSpell(x.id);}
   else useItem(x.k);
   updateHUD();}
+/* Rev 102: Kugel für Leben bzw. Mana, 36 × 36 Spielpixel (auf 90 Punkte gerastert vergrößert). Eisenring mit acht Nieten, Glaskugel,
+   kugelförmig schattierte Flüssigkeit mit Bayer-Dithering und Glanzbogen. Neu gezeichnet wird nur, wenn sich der Wert ändert. */
+function drawOrb(sel,v,max,liq,dark){const el=$(sel);if(!el)return;const c=el.querySelector('canvas'),key=v+'/'+max;if(c.dataset.k===key)return;c.dataset.k=key;
+  const N=c.width,g=c.getContext('2d'),im=g.createImageData(N,N),D=im.data,cx=(N-1)/2,cy=(N-1)/2,R=N/2-.3,ri=R-3.2,frac=max>0?Math.max(0,Math.min(1,v/max)):0,lvl=cy+ri-2*ri*frac;
+  const hex=h=>[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)],L=hex(liq),K=hex(dark);
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){const dx=x-cx,dy=y-cy,d=Math.hypot(dx,dy),i=(y*N+x)*4,b=BAYER[(y&3)*4+(x&3)]/16-.5;let col=null;
+    if(d<=R&&d>ri){const t2=(-dx-dy)/(R*1.4),u=Math.round(62+46*t2+b*16);col=[u,u-3,u+3];
+      for(let k=0;k<8;k++){const a=k*Math.PI/4+Math.PI/8,rx=cx+Math.cos(a)*(R-1.6),ry=cy+Math.sin(a)*(R-1.6),rd=Math.hypot(x-rx,y-ry);if(rd<1.25)col=rd<.6?[190,186,178]:[120,116,110];}
+      if(d>R-.9||d<ri+.7)col=[16,12,10];}
+    else if(d<=ri){const nx=dx/ri,ny=dy/ri,nz=Math.sqrt(Math.max(0,1-nx*nx-ny*ny)),lam=Math.max(0,-nx*.45-ny*.55+nz*.7);
+      if(y>=lvl&&frac>0){const k=Math.max(0,Math.min(1,.25+lam*.85+b*.22));col=[0,1,2].map(j=>Math.round(K[j]+(L[j]-K[j])*k));if(y<lvl+1)col=col.map(q=>Math.min(255,q+55));}
+      else{const k=.18+lam*.35+b*.1;col=[Math.round(22+30*k),Math.round(16+22*k),Math.round(20+30*k)];}
+      const an=Math.atan2(dy,dx)*180/Math.PI;if(d>ri-3.6&&d<ri-1.5&&an>-160&&an<-105)col=col.map(q=>Math.min(255,Math.round(q*.35+(b>0?170:140))));
+      if(d>ri-1.2)col=col.map(q=>Math.round(q*.6));}
+    if(col){D[i]=col[0];D[i+1]=col[1];D[i+2]=col[2];D[i+3]=255;}}
+  g.putImageData(im,0,0);}
 function updateHUD(){
   const p=S.p;
-  $('#hpb').style.width=(p.hp/p.maxHp*100)+'%';$('#hpt').textContent=p.hp+'/'+p.maxHp;
-  $('#mpb').style.width=(p.mp/p.maxMp*100)+'%';$('#mpt').textContent=p.mp+'/'+p.maxMp;
+  drawOrb('#orbHp',p.hp,p.maxHp,'#d83420','#5a0c06');$('#hpt').textContent=p.hp+'/'+p.maxHp;
+  drawOrb('#orbMp',p.mp,p.maxMp,'#3a8ad0','#0a1a48');$('#mpt').textContent=p.mp+'/'+p.maxMp;
   $('#lvl').textContent=(p.name||'Der Fremde')+', Stufe '+p.lvl;$('#quest').textContent=questText();$('#zone').textContent=ZD().name+(ZD().safe?' (sicher)':'');
   $('#time').textContent=ZD().cave?'Unter Asche':`Tag ${Math.floor(S.turn/DAY)+1}`;
   $('#gold').textContent=S.gold+' Gold'+(S.buff>0?`, Steinhaut ${S.buff}`:'');
@@ -3497,7 +3518,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer</h1><div class="sub px">Ein Rollenspiel-Prototyp von schnoerp-media, Revision 101</div>
+  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 103</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
