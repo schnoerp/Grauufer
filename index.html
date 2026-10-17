@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer – Rollenspiel-Prototyp (Rev 95)</title>
+<title>Grauufer – Rollenspiel-Prototyp (Rev 96)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -1894,8 +1894,9 @@ function gfxProbe(now,left){if(ctxWatch(now))return;if(!GB)return;
 const SHTALL=c=>c==='#'||c==='w'||c==='D'||c==='U'||c==='G';
 function castShade(g,x,y){const c=T(x,y);if(SHTALL(c)||c==='M'||c==='v')return;
   const t1=T(x-1,y),t2=T(x-2,y),td=T(x-1,y-1),tu=T(x,y-1);let a=0;
-  if(SHTALL(t1))a=t1==='U'?.5:.42;else if(SHTALL(t2))a=t2==='U'||t2==='#'?.24:.16;
-  if(!a&&SHTALL(td))a=.12;if(t1==='T')a=Math.max(a,.16);if(!a)return;
+  /* Rev 96: Schatten kräftiger (vorher .5/.42/.24/.16/.12, Bäume .16) */
+  if(SHTALL(t1))a=t1==='U'?.62:.54;else if(SHTALL(t2))a=t2==='U'||t2==='#'?.34:.24;
+  if(!a&&SHTALL(td))a=.18;if(t1==='T')a=Math.max(a,.28);if(!a)return;
   if(isThin(x-1,y)||isThin(x-1,y-1)||isThin(x-2,y))a*=.55;
   const q=iso(x,y),hw=TW/2,hh=TH/2;g.fillStyle=`rgba(12,10,24,${a})`;g.beginPath();
   if(SHTALL(t1)||t1==='T'){g.moveTo(q.x-hw,q.y);g.lineTo(q.x,q.y-hh);g.lineTo(q.x+hw*(SHTALL(tu)?1:.55),q.y-hh*(SHTALL(tu)?0:.45));g.lineTo(q.x+hw*.1,q.y+hh*.9);g.lineTo(q.x,q.y+hh);}
@@ -3386,7 +3387,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer</h1><div class="sub px">Ein Rollenspiel-Prototyp von schnoerp-media, Revision 95</div>
+  overlay(`<h1>Grauufer</h1><div class="sub px">Ein Rollenspiel-Prototyp von schnoerp-media, Revision 96</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -3423,7 +3424,13 @@ function groundKey(x,y,c){
 function pxEll(cx,cy,rx,ry,col){lx.fillStyle=col;for(let y=-ry;y<=ry;y++){const w=Math.round(rx*Math.sqrt(Math.max(0,1-(y*y)/(ry*ry))));lx.fillRect(Math.round(cx-w),Math.round(cy+y),w*2,1);}}
 function pxRing(cx,cy,rx,ry,col,step=.02){lx.fillStyle=col;for(let a=0;a<Math.PI*2;a+=step)lx.fillRect(Math.round(cx+Math.cos(a)*rx),Math.round(cy+Math.sin(a)*ry),RES,RES);}
 function pxLine(x0,y0,x1,y1,col){lx.fillStyle=col;const n=Math.max(Math.abs(x1-x0),Math.abs(y1-y0));for(let i=0;i<=n;i++)lx.fillRect(Math.round(x0+(x1-x0)*i/n),Math.round(y0+(y1-y0)*i/n),RES,RES);}
-let CSHA=0;/* Stärke des Figurenschattens im aktuellen Bild */
+let CSHA=0,DSHA=0;/* Stärke des Figuren- und des Ausstattungsschattens im aktuellen Bild */
+/* Rev 96: Ausstattung (Fässer, Kisten, Möbel, Truhen, Felsbrocken …) wirft wie die Figuren einen schrägen Schatten nach rechts unten.
+   Die Schattenform wird je Sprite einmal im Hauptspeicher angelegt, pro Bild kostet es nur ein drawImage. */
+const DECOFLAT={rug:1,wreck:1,nest:1};
+function decoShade(sp,x,y,a){if(DSHA<=0||a<.5)return;if(!sp.sh){const k=document.createElement('canvas');k.width=sp.c.width;k.height=sp.c.height;const g=k.getContext('2d',{willReadFrequently:true});
+    g.drawImage(sp.c,0,0);g.globalCompositeOperation='source-in';g.fillStyle='#0a0814';g.fillRect(0,0,k.width,k.height);sp.sh=k;}
+  lx.save();lx.translate(Math.round(x),Math.round(y));lx.transform(1,0,-.7,-.3,0,0);lx.globalAlpha=DSHA*a;lx.drawImage(sp.sh,-sp.ax,-sp.ay);lx.restore();}
 function shadowOf(e){if(!e.k){const k=document.createElement('canvas');k.width=e.c.width;k.height=e.c.height;const g=k.getContext('2d');g.drawImage(e.c,0,0);
   g.globalCompositeOperation='source-in';g.fillStyle='#0a0814';g.fillRect(0,0,k.width,k.height);e.k=k;}return e.k;}
 function drawChar(key,x,y,f,face,alpha,flash){
@@ -3606,14 +3613,15 @@ function shipSprite(){return spriteOnce('shipwreck2',170,150,P=>{const K=1.55,cx
  },85,120,{seed:83});}
 function drawDeco(x,y,cut,t){if(!DECOK)buildDeco();const d=DECO.get(y*W+x);if(!d)return;const q=iso(x,y);
   if(d.k==='boulder'||d.k==='gate'||d.k==='runegate'||d.k==='tablet'||d.k==='nest'){const o=OBST.get(y*W+x);if(o&&d.k!=='tablet'&&obs()[o.i]&&d.k!=='nest')return;
-    const sp=decoSprite(d.k,d.k==='nest'&&o&&obs()[o.i]?'e':d.o);let yy=q.y;if(d.k==='nest')yy-=elev(x,y);lx.globalAlpha=cut&&d.k!=='nest'?.5:1;lx.drawImage(sp.c,q.x-sp.ax,yy-sp.ay);lx.globalAlpha=1;
+    const sp=decoSprite(d.k,d.k==='nest'&&o&&obs()[o.i]?'e':d.o);let yy=q.y;if(d.k==='nest')yy-=elev(x,y);if(!DECOFLAT[d.k])decoShade(sp,q.x,yy,cut?.5:1);lx.globalAlpha=cut&&d.k!=='nest'?.5:1;lx.drawImage(sp.c,q.x-sp.ax,yy-sp.ay);lx.globalAlpha=1;
     if(d.k==='runegate'&&!RM){lx.fillStyle=`rgba(127,224,255,${(.25+.2*Math.sin(t*2+x)).toFixed(3)})`;lx.fillRect(Math.round(q.x-6*RES),Math.round(q.y-22*RES),12*RES,2*RES);}return;}
   if(d.k==='tchest'){const c=CHESTS[d.ci];if(!c)return;if(c.t==='boss'&&!bossDown(c.boss))return;if(c.t==='mimic'&&chs()[d.ci])return;
-    const sp=decoSprite('tchest',(c.t==='boss'?'boss':c.t==='wood'?'wood':'locked')+(chs()[d.ci]?'_o':''));lx.globalAlpha=cut?.55:1;lx.drawImage(sp.c,q.x-sp.ax,q.y-sp.ay);lx.globalAlpha=1;
+    const sp=decoSprite('tchest',(c.t==='boss'?'boss':c.t==='wood'?'wood':'locked')+(chs()[d.ci]?'_o':''));decoShade(sp,q.x,q.y,cut?.55:1);lx.globalAlpha=cut?.55:1;lx.drawImage(sp.c,q.x-sp.ax,q.y-sp.ay);lx.globalAlpha=1;
     if(!chs()[d.ci]&&((c.t==='trap'&&(skL('trap')>=1||hasT('auge')))||(c.t==='mimic'&&hasT('auge')))){const mx=q.x,my=q.y-16*RES;lx.fillStyle=c.t==='mimic'?'#ffe040':'#e02818';lx.fillRect(Math.round(mx-RES),Math.round(my-5*RES),2*RES,4*RES);lx.fillRect(Math.round(mx-RES),Math.round(my),2*RES,1.5*RES);}
     return;}
   if(d.k==='shipwreck'){const sp=shipSprite(),bob=RM?0:Math.round(Math.sin(t*.9)*.6*RES);lx.drawImage(sp.c,q.x-sp.ax,q.y-sp.ay+bob);return;}
   const sp=decoSprite(d.k,d.o);
+  if(!DECOFLAT[d.k])decoShade(sp,q.x,q.y,cut&&DECOTALL[d.k]?.4:1);
   lx.globalAlpha=cut&&DECOTALL[d.k]?.4:1;lx.drawImage(sp.c,q.x-sp.ax,q.y-sp.ay);lx.globalAlpha=1;
   if(d.k==='candela'||d.k==='lantern'){glows.push(['D',x,y,d.k]);const fl=RM?0:Math.floor(t*9+x*3+y)%2;
     if(d.k==='candela')for(const dx of[-6,0,6]){const fx=q.x+dx*RES,fy=q.y-26*RES;lx.fillStyle=fl?'#ffd060':'#ff9a30';lx.fillRect(fx-RES*.5,fy-RES,RES*1.5,2*RES);lx.fillStyle='#fff4c0';lx.fillRect(fx,fy,RES*.6,RES*.6);}
@@ -3688,6 +3696,11 @@ function drawObject(x,y,t,cut){
     const a=ALT[altarAt(x,y)];if(a&&!F()['shard_'+a.el]){const b=RM?0:Math.round(Math.sin(t*2)*1.5*RES),sy=q.y-24*RES+b,col=ITEMS['shard_'+a.el].col;
       lx.fillStyle=col;for(let i=0;i<14;i++){const w=i<6?i:13-i;lx.fillRect(q.x-w,sy+i,w*2+1,1);}lx.fillStyle='#ffffff';lx.fillRect(q.x-2,sy+4,2,4);}}
 }
+/* Rev 96: Farbstimmung je Gebiet – eine dünne Farbschicht über dem Bild, die beim Gebietswechsel weich überblendet. Eine Fläche pro Bild. */
+const MOOD={grau:[40,56,84,.08],mist:[56,92,58,.11],embers:[130,40,12,.1],snow:[170,195,235,.07],dust:[160,112,48,.08],cave:[52,30,86,.12]};let MOODC=null;
+function moodTint(inI,dt){const w=inI?[70,44,20,.06]:MOOD[ZD().amb]||MOOD.grau;if(!MOODC)MOODC=w.slice();const k=Math.min(1,(dt||.016)*1.2);
+  for(let i=0;i<4;i++)MOODC[i]+=(w[i]-MOODC[i])*k;if(MOODC[3]<.005)return;
+  lx.fillStyle=`rgba(${MOODC[0]|0},${MOODC[1]|0},${MOODC[2]|0},${MOODC[3].toFixed(3)})`;lx.fillRect(0,0,LW,LH);}
 function ambient(dl,dt){
   const k=ZD().amb,want={};
   if(k==='grau'){want.fly=Math.round(30*(1-dl));want.ash=Math.round(14*dl);}
@@ -3954,7 +3967,7 @@ function draw0(t,now,dt){
   ens().forEach(e=>{if(e.dead){const dd=now-(e.deadAt||0);if(dd<0||dd>=600)return;}if(e.x<x0-1||e.x>x1+1||e.y<y0-1||e.y>y1+1)return;add(e.rx,e.ry,()=>drawFigure(e,e.k,now,t));});
   add(p.rx,p.ry,()=>drawFigure(p,'player',now,t));
   const pd=p.x+p.y,pc=p.x-p.y,II=WORLD.interior,inI=p.x>=II[0]&&p.x<=II[2]&&p.y>=II[1]&&p.y<=II[3];
-  {const dl0=daylight(),zn=ZD();CSHA=zn.cave||zn.dark||inI?0:Math.max(0,(dl0-.3)/.7)*.38;}
+  {const dl0=daylight(),zn=ZD();CSHA=zn.cave||zn.dark||inI?0:Math.max(0,(dl0-.3)/.7)*.5;DSHA=zn.cave||zn.dark?0:inI?.25:CSHA*1.2;}
   const TGT=G.target&&ens().find(e=>e.id===G.target&&!e.dead);
   const cutAt=(x,y)=>{const d=x+y;return d>pd&&(inI?(x>=II[0]-1&&x<=II[2]+1&&y>=II[1]-1&&y<=II[3]+1):(d-pd<=4&&Math.abs((x-y)-pc)<=3));};
   for(let d=x0+y0;d<=x1+y1;d++)for(let x=Math.max(x0,d-y1);x<=Math.min(x1,d-y0);x++){const y=d-x;if(!vis(x,y))continue;
@@ -3980,7 +3993,7 @@ function draw0(t,now,dt){
   const scr=(x,y)=>{const q=iso(x,y);return[q.x+offX,q.y+offY];};
   const[psx,psy0]=scr(p.rx,p.ry),psy=psy0-12*RES-elev(p.rx,p.ry),dl=daylight(),ZN=ZD();
   if(!ZN.cave&&dl<1){lx.fillStyle=`rgba(16,22,56,${.2*(1-dl)})`;lx.fillRect(0,0,LW,LH);}
-  let rad=(170+330*dl)*RES,oa=.74-.5*dl;if(ZN.cave){rad=230*RES;oa=.66;}if(ZN.dark){rad=150*RES;oa=.9;}if(inI){rad=120*RES;oa=.86;}if((ZN.cave||ZN.dark||inI)&&S.inv.includes('lotsenlampe'))rad*=1.6;
+  let rad=(170+330*dl)*RES,oa=.84-.5*dl;/* Rev 96: Bildrand draußen etwas dunkler (vorher .74 − .5 × Tageslicht) */if(ZN.cave){rad=230*RES;oa=.66;}if(ZN.dark){rad=150*RES;oa=.9;}if(inI){rad=120*RES;oa=.86;}if((ZN.cave||ZN.dark||inI)&&S.inv.includes('lotsenlampe'))rad*=1.6;
   /* Rev 62: Lichtkarte statt einfachem Kreis. Lampen, Leuchter, Feuer, Lava, Altäre und Wegsteine schneiden Licht in die
      Dunkelheit – nachts sind Städte und Innenräume durch ihre Lampen erhellt. Die Karte ist 24-mal kleiner als das Bild. */
   {const nl=(1-dl)*.6+(ZN.cave||ZN.dark||inI?.4:0),L=[];
@@ -4001,6 +4014,7 @@ function draw0(t,now,dt){
     else if(c==='R')glow(sx,sy-16*RES,34*RES,`rgba(127,200,192,${.06+.06*shardCount()})`);});
   const fl=RM?1:.9+.1*Math.sin(t*9)*Math.sin(t*5.3);glow(psx,psy,60*RES*fl,'rgba(220,150,70,.12)');
   lx.globalCompositeOperation='source-over';
+  moodTint(inI,dt);
   ambient(dl,dt);
   const ha=1-(now-G.hurt)/450;if(ha>0){lx.fillStyle=`rgba(160,30,15,${.25*ha})`;lx.fillRect(0,0,LW,LH);}
   if(G.noGround){G.noGround=false;G.fade=now;}

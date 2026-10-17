@@ -1,6 +1,6 @@
 # Grauufer – Fahrplan
 
-**Revision 07**, Stand: Spiel-Rev 94. Reihenfolge der Umsetzung mit Claude Code im GitHub-Repo „grauufer“ (TypeScript + Vite), für 2 Entwickler parallel.
+**Revision 08**, Stand: Spiel-Rev 96. Reihenfolge der Umsetzung mit Claude Code im GitHub-Repo „grauufer“ (TypeScript + Vite), für 2 Entwickler parallel.
 
 Die verbindliche Zuständigkeitsaufteilung und der Branch-Ablauf stehen in der CLAUDE.md. Die Spuren unten sind eine Empfehlung dazu.
 
@@ -124,9 +124,9 @@ Grobe Schätzung aus der Technikentscheidung: 8 bis 15 Arbeitssitzungen.
 - Umgesetzte Vorschläge in den Dokumenten von „Geplant“ auf „Im Spiel“ umstellen, Revision erhöhen.
 - Jede Lieferung bekommt eine neue Spiel-Revision.
 
-## 3b. Im Prototyp bereits vorweggenommen (Spiel-Rev 42–94)
+## 3b. Im Prototyp bereits vorweggenommen (Spiel-Rev 42–96)
 
-Grafik-Stufenplan (Rev 58–63), Vulkan und Portale (64–67), Lava-Tod (69), Ansicht verschieben (73/74), Story Stufen 1–4 mit Fraktionen, Büchern und Enden (79–82), Angeln (81), Tagebuch (84), Pergament-Fenster (87), Schatztruhen und Schätze (89), Charakterentwicklung mit Fertigkeiten und Talentbaum (90), Endgegner-Phase für Nhal und halbiertes Truhengold (91), Ausstattungssuche während des Titelbilds (92), Testknopf entfernt sowie Repo mit Tests und GitHub Action (93), Fehlerbehebungen aus dem Dokumentenprüfbericht (94). Diese Punkte fallen in den Stufen 3–8 weg bzw. werden zur Übernahme.
+Grafik-Stufenplan (Rev 58–63), Vulkan und Portale (64–67), Lava-Tod (69), Ansicht verschieben (73/74), Story Stufen 1–4 mit Fraktionen, Büchern und Enden (79–82), Angeln (81), Tagebuch (84), Pergament-Fenster (87), Schatztruhen und Schätze (89), Charakterentwicklung mit Fertigkeiten und Talentbaum (90), Endgegner-Phase für Nhal und halbiertes Truhengold (91), Ausstattungssuche während des Titelbilds (92), Testknopf entfernt sowie Repo mit Tests und GitHub Action (93), Fehlerbehebungen aus dem Dokumentenprüfbericht (94), Symbol für Lesezeichen (95), kräftigere Schatten, Schatten der Ausstattung und Farbstimmung je Gebiet (96). Diese Punkte fallen in den Stufen 3–8 weg bzw. werden zur Übernahme.
 
 ## 4. Offene Entscheidungen
 
