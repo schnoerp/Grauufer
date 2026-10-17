@@ -19,7 +19,7 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 
 ## 3. Revisionen
 
-- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **101**).
+- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **102**).
 - Die Revision steht an zwei Stellen in `index.html`: im `<title>` („Rollenspiel-Prototyp (Rev NN)“) und im Titeldialog („Revision NN“). Beide anpassen.
 - Commit-Nachricht beginnt mit `Rev NN:` und beschreibt die Änderung auf Deutsch.
 
@@ -46,7 +46,7 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 ## 6. Stil der Bedienoberfläche
 
 - Fenster im Stil „Pergament auf Holzrollen“, Schließen als rotes Wachssiegel, immer zentriert.
-- Fußzeile einzeilig, alle Elemente gleich hoch.
+- Fußzeile einzeilig, alle Elemente gleich hoch. Ausnahme: Leben und Mana als Kugeln (90 Punkte) in den unteren Ecken, außerhalb der Fußzeile (seit Spiel-Rev 102).
 - Texte im Spiel: Deutsch, Du-Form, keine Anglizismen, wenn ein deutsches Wort passt.
 
 ## 7. Zusammenarbeit (2 Entwickler)

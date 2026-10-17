@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 12**, Stand: Spiel-Rev 100. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 13**, Stand: Spiel-Rev 102. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -93,6 +93,7 @@ Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus
 
 ### Weitere Grafik (Im Spiel seit Spiel-Rev 64–90)
 - Vulkan mit Rauch und Lavasee, Portale mit wirbelndem Licht, animiertes Meer (Wellenkämme, Brandung, seit Spiel-Rev 80), Schiffswrack (Rev 83), Truhen offen/zu, Mimik, Lesepulte, Runentafeln, Felsbrocken, Gittertore, Runentore, Vogelnester.
+- Kugeln für Leben und Mana (seit Spiel-Rev 102): je 36 × 36 Spielpixel, gerastert auf 90 Punkte vergrößert; Eisenring mit acht Nieten, dunkle Glaskugel, kugelförmig schattierte Flüssigkeit (Leben #d83420 auf #5a0c06, Mana #3a8ad0 auf #0a1a48) mit Bayer-Dithering, heller Oberflächenstreifen und Glanzbogen links oben. Neu gezeichnet nur bei Wertänderung.
 - Fenster im Stil „Pergament auf Holzrollen“ mit prozeduraler Pergament-Textur, rotes Wachssiegel zum Schließen (seit Spiel-Rev 87).
 - Schrift „Pixelify Sans“ eingebettet (SIL Open Font License 1.1, seit Spiel-Rev 78).
 - Symbol für Browser-Reiter und Lesezeichen (seit Spiel-Rev 95): Wappen der Siegelwächter als Pixelgrafik 16 × 16, goldenes Kreuz (#f2b13c) auf blauem Schild (#2e4e8a) mit dunklem Riss durch das Kreuz, auf dunkelbraunem Grund (#241610); als SVG direkt in `index.html` eingebettet, keine externe Datei. Die Leistenfarbe des Browsers (theme-color) ist ebenfalls #241610.

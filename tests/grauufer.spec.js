@@ -229,3 +229,17 @@ test('Rev 101: Story-Baum zeigt erreichten Stand, Künftiges verborgen', async (
   expect(r2).toEqual(['done', 'av', 'hid', 1, 'sn rej|sn done|sn done']);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 102: Leben und Mana als Kugeln, Fußzeile frei', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    S.p.hp = Math.round(S.p.maxHp / 2); updateHUD();
+    const hp = document.querySelector('#orbHp'), mp = document.querySelector('#orbMp'), H = hp.getBoundingClientRect(), M = mp.getBoundingClientRect();
+    const knoepfe = [...document.querySelectorAll('#bottom button')].filter(b => b.offsetParent).map(b => b.getBoundingClientRect());
+    const ueberlappt = knoepfe.some(k => k.left < H.right || k.right > M.left);
+    const px = hp.querySelector('canvas').getContext('2d').getImageData(18, 30, 1, 1).data;
+    return [Math.round(H.width), document.querySelector('#hpt').textContent === S.p.hp + '/' + S.p.maxHp, ueberlappt, px[0] > px[2], !!document.querySelector('#bottom .bar')];
+  });
+  expect(r).toEqual([90, true, false, true, false]);
+  expect(fehler).toEqual([]);
+});

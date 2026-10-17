@@ -22,10 +22,10 @@ Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_Rev15.md`.
 
 ## Tests
 
-Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 19 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität, Story-Baum).
+Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 20 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität, Story-Baum, Kugeln für Leben und Mana).
 
 Lokal: `npm install`, `npx playwright install chromium`, dann `npm test`.
 
 ## Stand
 
-Spiel-Revision **101**. Alle Dokumente in `docs/` sind geprüft; die Kopfzeile nennt den Spielstand ihrer letzten Änderung.
+Spiel-Revision **102**. Alle Dokumente in `docs/` sind geprüft; die Kopfzeile nennt den Spielstand ihrer letzten Änderung.
