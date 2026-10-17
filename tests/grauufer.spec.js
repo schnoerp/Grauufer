@@ -165,3 +165,31 @@ test('Rev 96: Schatten für Ausstattung und Farbstimmung je Gebiet', async ({ pa
   expect(r).toEqual([true, true, true, true, true]);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 97: Südküste schwingt, Startstrand unverändert, Migration setzt aufs Land', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const wat = []; for (let x = 120; x < 560; x++) { let y = 222; while (y < 240 && map[y][x] !== '~') y++; wat.push(y); }
+    const versch = new Set(wat).size;
+    const strand = [map[228][89], map[227][88], map[227][90], map[231][87], map[227][91]];
+    let wx = 0; for (let x = 120; x < 560; x++) if (map[229][x] !== '~' && map[228][x] === 's') { wx = x; break; }
+    S.p.x = S.p.rx = 300; S.p.y = S.p.ry = 236; migrate();
+    return [versch, strand.join(''), WALK.has(map[S.p.y][S.p.x])];
+  });
+  expect(r[0]).toBeGreaterThanOrEqual(4);
+  expect(r[1]).toBe('sss~~');
+  expect(r[2]).toBe(true);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 98: Feine Bodenzeichnung glättet Stufen an Übergängen', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => GB && GB.done, null, { timeout: 30000 });
+  const r = await page.evaluate(() => {
+    const m = cornerMask(0, 0, 1), g = m.getContext('2d'), a = g.getImageData(0, 0, m.width, m.height).data;
+    let voll = 0; for (let i = 3; i < a.length; i += 4) if (a[i] > 200) voll++;
+    return [CORNC.size > 0, voll > 0, voll < m.width * m.height / 2, FINEK.has('cobble')];
+  });
+  expect(r).toEqual([true, true, true, false]);
+  expect(fehler).toEqual([]);
+});

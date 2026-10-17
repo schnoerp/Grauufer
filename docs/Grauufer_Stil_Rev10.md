@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 09**, Stand: Spiel-Rev 96. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 10**, Stand: Spiel-Rev 98. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -55,6 +55,14 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 | Licht | 62 | Schlagschatten von Mauern und Bäumen nach rechts unten, Figurenschatten, Lichtkarte mit Lampen in Höhlen und dunklen Orten |
 | Schatten und Stimmung | 96 | siehe Abschnitt „Schatten und Farbstimmung“ unten |
 | Dünne Hauswände | 63 | Wandscheiben (¼ Kachel) mit Eckpfosten statt Vollblöcken; Stadtmauern bleiben massiv |
+
+### Feine Bodenzeichnung (Im Spiel seit Spiel-Rev 98)
+
+- Übergänge zwischen natürlichen Böden (Wasser, Eis, Schlamm, Düne, Sand, Erde, Wiese, Fels, Schnee, Asche) folgten bisher den Feldkanten. An Stufen, etwa an der Küste, entstanden eckige Treppen.
+- Jetzt wird an jeder inneren Ecke einer Stufe, also dort, wo zwei gleiche, höherrangige Nachbarn an einer Ecke zusammenstoßen und die Diagonale nicht zum eigenen Boden gehört, ein rundes Eckstück (Radius 0,7 Feld, leicht gewellt) eingesetzt. Aus der Treppe wird so eine schräge, natürlich wirkende Kante in Viertelfeld-Feinheit.
+- Pflaster, Schiefer, Dielen und Höhlenboden bleiben kantig, damit Gebäude und Wege gerade wirken.
+- Die Spiellogik bleibt beim bisherigen Raster (680 × 248 Felder); nur die Zeichnung ist feiner.
+- Leistung: Die Eckstücke werden beim Aufbau des Bodenpuffers einmal mitgezeichnet und liegen in einem begrenzten Vorrat im Hauptspeicher (höchstens 500). Pro Bild entstehen keine Kosten. Messung der Bodenmischung über 11 500 Küstenfelder: 56 ms vorher, 59 ms nachher.
 
 ### Schatten und Farbstimmung (Im Spiel seit Spiel-Rev 96)
 

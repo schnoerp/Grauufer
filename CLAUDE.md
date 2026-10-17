@@ -15,11 +15,11 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 2. **Nie schwarzer Boden.** Grafikspeicher-Haushalt aus Spiel-Rev 53 beibehalten: nur Spielfläche und zwei Bodenpuffer auf der Grafikkarte, alle Texturen und Sprites im Hauptspeicher (`willReadFrequently`), Notboden und Wächterstufen bei Grafikverlust.
 3. **Alles prozedural.** Keine externen Bilder, Skripte oder Schriften laden. Grafiken werden im Code gezeichnet. Die Schrift „Pixelify Sans“ ist eingebettet (SIL OFL 1.1). Das Spiel muss offline als Einzeldatei laufen.
 4. **Pixel-Look** (Spiel-Rev 59): Texturen und Sprites gerastert, Palette mit 16 Stufen je Kanal, Bayer-Dithering, keine Glättung, ganzzahlige Zoomstufen.
-5. **Spielstand** im Browser (`localStorage`, Schlüssel `grauufer-save-v10`). Ändert sich das Format, eine Migration in `migrate()` ergänzen – bestehende Spielstände dürfen nicht kaputtgehen.
+5. **Spielstand** im Browser (`localStorage`, Schlüssel `grauufer-save-v10`). Alte Spielstände müssen **nicht** mehr übernommen werden, sofern der Auftraggeber nichts anderes vorgibt. Bricht eine Änderung alte Spielstände, den Schlüssel hochzählen (z. B. `grauufer-save-v11`), damit ein alter Stand nicht fehlerhaft geladen wird, und es in der Commit-Nachricht vermerken. Eine Migration in `migrate()` nur auf ausdrücklichen Wunsch.
 
 ## 3. Revisionen
 
-- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **96**).
+- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **98**).
 - Die Revision steht an zwei Stellen in `index.html`: im `<title>` („Rollenspiel-Prototyp (Rev NN)“) und im Titeldialog („Revision NN“). Beide anpassen.
 - Commit-Nachricht beginnt mit `Rev NN:` und beschreibt die Änderung auf Deutsch.
 
