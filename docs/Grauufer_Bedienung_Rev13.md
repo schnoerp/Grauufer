@@ -1,6 +1,6 @@
 # Grauufer – Bedienung
 
-**Revision 12**, Stand: Spiel-Rev 95. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 13**, Stand: Spiel-Rev 100. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Zielgeräte (Im Spiel)
 
@@ -56,7 +56,7 @@
 - Kein Zoom mit dem Mausrad allein, nur mit Strg (seit Spiel-Rev 74).
 - Maßstab (seit Spiel-Rev 31): Bei 100 % ist ein Feld etwa 1/22 der kürzeren Bildschirmseite breit (32 bis 66 Punkte); vorher 1/16 (44 bis 90 Punkte). Die Oberfläche (Schrift, Leiste, Fenster) bleibt davon unberührt.
 - Beenden-Knopf vorhanden.
-- Grafikstufen: Hoch, Mittel, Niedrig, Automatisch (Auflösung 100 %, 80 %, 65 %); Auswahl wird gespeichert.
+- Kein Knopf für die Grafik mehr (seit Spiel-Rev 100): Die Bildqualität regelt sich automatisch (volle Auflösung, bei Ruckeln 80 % bzw. 65 %), siehe Grauufer_Stil_RevXX.md, Abschnitt 5. Vorher: Knopf „Grafik“ mit Hoch, Mittel, Niedrig, Automatisch.
 - Ton ein und aus, Auswahl wird gespeichert.
 - Rucksack als Ledertasche gestaltet, mit Ausrüstungsplätzen und Fächern; in der Mitte steht die eigene Spielfigur mit ihrem Aussehen und der angelegten Ausrüstung (seit Spiel-Rev 33).
 

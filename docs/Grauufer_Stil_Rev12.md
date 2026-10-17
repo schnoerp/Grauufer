@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 11**, Stand: Spiel-Rev 99. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 12**, Stand: Spiel-Rev 100. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -117,11 +117,11 @@ Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus
 - Ziel 60 Bilder pro Sekunde auf dem Android-Tablet.
 - Boden wird im Hintergrund vorgezeichnet, Spielstand gedrosselt gespeichert.
 - Die Suche nach Möbeln, Truhen, Nischen und anderer Ausstattung (`buildDeco`) läuft schon während des Titelbilds, damit der erste Schritt im Spiel nicht hakt (seit Spiel-Rev 92).
-- Grafikstufen senken die Auflösung bei Bedarf.
+- Bildqualität fest auf „Automatisch“ (seit Spiel-Rev 100): volle Auflösung; liegt die Bildzeit im Mittel über 30 ms, senkt das Spiel die Auflösung stufenweise auf 80 % und 65 %. Bis Spiel-Rev 99 gab es dafür den Knopf „Grafik“ mit Hoch, Mittel, Niedrig und Automatisch.
 
 ### Grafikspeicher (Im Spiel seit Spiel-Rev 53)
 - Nur Spielfläche und zwei Bodenpuffer liegen auf der Grafikkarte, alle Texturen und Sprites im Hauptspeicher.
-- Bei Verlust: Notboden (¼-Auflösung), verteilter Neubau, danach stufenweise weniger Auflösung (100 → 80 → 65 → 50 %), zuletzt Notbetrieb. Veralteter Notbetrieb aus Rev 51/52 wird einmalig zurückgesetzt (Rev 70).
+- Bei Verlust: Notboden (¼-Auflösung), verteilter Neubau, danach stufenweise weniger Auflösung (100 → 80 → 65 → 50 %), zuletzt Notbetrieb. Veralteter Notbetrieb aus Rev 51/52 wird einmalig zurückgesetzt (Rev 70). Seit Spiel-Rev 100 gelten diese Notstufen nur bis zum nächsten Start des Spiels und werden dann zurückgesetzt.
 
 ## 6. Geplanter Ausbau
 

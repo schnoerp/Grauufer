@@ -206,3 +206,11 @@ test('Rev 99: Bäume unterschiedlich hoch und verschiedene Arten', async ({ page
   expect(r[2]).toBe('fir'); expect(r[3]).toBe('palm');
   expect(fehler).toEqual([]);
 });
+
+test('Rev 100: Kein Knopf „Grafik“, Bildqualität automatisch, Notstufen beim Start zurückgesetzt', async ({ page }) => {
+  await page.addInitScript(() => { try { localStorage.setItem('grauufer-gpucap', '0.65'); localStorage.setItem('grauufer-soft', '1'); } catch (e) {} });
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => [!!document.querySelector('#bGfx'), GFX, GPUCAP, SOFT, localStorage.getItem('grauufer-gpucap')]);
+  expect(r).toEqual([false, 'auto', 1, false, null]);
+  expect(fehler).toEqual([]);
+});

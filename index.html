@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer – Rollenspiel-Prototyp (Rev 99)</title>
+<title>Grauufer – Rollenspiel-Prototyp (Rev 100)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -275,7 +275,6 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom{display:none}
   <div class="box px"><div id="time"></div><div id="gold"></div></div>
   <div class="zoom"><button id="bZo" aria-label="Herauszoomen">−</button><span id="zpct" class="box px" aria-live="polite">100 %</span><button id="bZi" aria-label="Hineinzoomen">+</button></div>
   <div class="zoom"><button id="bSnd">Ton an</button><button id="bQuit">Beenden</button></div>
-  <button id="bGfx" title="Grafikqualität umschalten">Grafik: Hoch</button>
   <button id="bEgo" hidden title="Ego-Sicht (Test, nur in Höhlen)">Ego-Sicht</button>
 </div>
 <div id="log" class="px" aria-live="polite"></div>
@@ -646,8 +645,9 @@ const $=s=>document.querySelector(s);
    und sie belegen keinen Grafikspeicher mehr (vorher: Sprites ab 128×129 Pixel wurden vom Browser auf die GPU gelegt).
    Jede Zeichenfläche ist Hauptspeicher, außer sie wurde vor dem ersten getContext mit gpuCanvas() markiert.
    SOFT = Notbetrieb: auch die Spielfläche im Hauptspeicher (nur wenn der Grafikspeicher dauerhaft versagt). */
-let SOFT=false;try{if(localStorage.getItem('grauufer-gfxv')!=='70'){localStorage.removeItem('grauufer-soft');localStorage.removeItem('grauufer-gpucap');localStorage.setItem('grauufer-gfxv','70');}
-  SOFT=localStorage.getItem('grauufer-soft')==='1';}catch(e){}/* Rev 70: veralteten Notbetrieb einmalig zurücksetzen */
+/* Rev 100: Notstufen nach Grafikverlust (Auflösung 80/65/50 %, Notbetrieb) gelten nur bis zum nächsten Start des Spiels.
+   Vorher wurden sie dauerhaft gespeichert und ließen sich nur über den Knopf „Grafik“ zurücksetzen, den es nicht mehr gibt. */
+let SOFT=false;try{['grauufer-soft','grauufer-gpucap','grauufer-gfx','grauufer-gfxv'].forEach(k=>localStorage.removeItem(k));}catch(e){}
 {const gc=HTMLCanvasElement.prototype.getContext;
  HTMLCanvasElement.prototype.getContext=function(t,o){if(t==='2d'&&(SOFT||!this.__gpu))o=Object.assign({willReadFrequently:true},o||{});return gc.call(this,t,o);};}
 const gpuCanvas=c=>{c.__gpu=true;return c;};
@@ -804,7 +804,7 @@ setInterval(()=>{if(document.hidden)audioPause();},1000);
 function toggleSound(){AU.on=!AU.on;audioInit();if(AU.m)AU.m.gain.setTargetAtTime(AU.on?.6:0,AU.c.currentTime,.05);
   try{localStorage.setItem('grauufer-snd',AU.on?'1':'0');}catch(e){}$('#bSnd').textContent=AU.on?'Ton an':'Ton aus';}
 $('#bSnd').onclick=toggleSound;
-$('#bGfx').onclick=()=>cycleGfx();
+
 $('#bQuit').onclick=()=>{if(!S||S.over)return;save(true);overlay(`<h1>Grauufer</h1><div class="sub px">Spiel beenden?</div><p class="px">Dein Fortschritt ist gespeichert. Beim nächsten Start kannst du mit „Weiterspielen“ genau hier fortfahren.</p>`,[['Zum Titelbildschirm',()=>{save();stopAmbient();setTimeout(audioPause,450);showSplash(true);},true],['Weiterspielen',closeOverlay]]);};$('#bSnd').textContent=AU.on?'Ton an':'Ton aus';
 
 /* ==========================================================
@@ -1915,7 +1915,7 @@ let LOSTN=0,LOSTT=0,LOSTALL=0,SOFTBUF=SOFT,FRESH=0;
       auf ca. 1,2 Megapixel begrenzt, damit der Prozessor das Bild flüssig schafft). Grafik-Knopf setzt alles zurück. */
 let GPUCAP=1;try{const v=+localStorage.getItem('grauufer-gpucap');if([.8,.65,.5].includes(v))GPUCAP=v;}catch(e){}
 function gpuShrink(why){const st=[1,.8,.65,.5],i=st.indexOf(GPUCAP);if(i<0||i>=st.length-1)return false;GPUCAP=st[i+1];
-  try{localStorage.setItem('grauufer-gpucap',GPUCAP);}catch(e){}resize();updateGfxBtn();
+  try{localStorage.setItem('grauufer-gpucap',GPUCAP);}catch(e){}resize();
   log(`Grafikspeicher knapp (${why}) – Auflösung auf ${Math.round(GPUCAP*100)} % gesenkt.`,'q');return true;}
 function noteLoss(now,what){LOSTALL++;LOSTN=now-LOSTT<120000?LOSTN+1:1;LOSTT=now;if(LOSTN>=2)G.pendShrink=what;}
 /* wird zu Beginn eines Bildes ausgeführt, nie mitten im Zeichnen */
@@ -1931,11 +1931,7 @@ function ctxWatch(now){const lost=lostCtx(ctx);
   else if(now-G.lostAt>3000)freshCanvas(now);
   return true;}
 function goSoft(){if(SOFT)return;SOFT=true;try{localStorage.setItem('grauufer-soft','1');}catch(e){}
-  SOFTBUF=true;for(const c of BUFC){c.width=c.height=0;}BUFC.length=0;GB=null;NB=null;CZ=-1;FRESH=0;freshCanvas(performance.now());updateGfxBtn();}
-function resetGpuMode(){const wasSoft=SOFT,was=SOFT||GPUCAP<1;SOFT=false;GPUCAP=1;FRESH=0;LOSTN=0;G.pendShrink=null;try{localStorage.removeItem('grauufer-soft');localStorage.removeItem('grauufer-gpucap');}catch(e){}
-  if(SOFTBUF){SOFTBUF=false;for(const c of BUFC){c.width=c.height=0;}BUFC.length=0;GB=null;NB=null;CZ=-1;}
-  if(wasSoft)freshCanvas(performance.now());if(was)log('Grafikspeicher-Notmodus zurückgesetzt.','q');}
-function updateGfxBtn(){const b=$('#bGfx');if(b)b.textContent='Grafik: '+(GFXL[GFX]||GFXL.hoch)[0]+(SOFT?' ✓':GPUCAP<1?' '+Math.round(GPUCAP*100)+'%':'');}
+  SOFTBUF=true;for(const c of BUFC){c.width=c.height=0;}BUFC.length=0;GB=null;NB=null;CZ=-1;FRESH=0;freshCanvas(performance.now());}
 function bufLost(now,what){if(GB&&GB.lo)LASTLO={c:GB.lo,x:GB.x,y:GB.y,w:GB.w,h:GB.h};if(GB)dropBuf(GB.c);/* verlorene Fläche nie wiederverwenden */noteLoss(now,what);flushGfx();gbTrim();}
 function gfxProbe(now,left){if(ctxWatch(now))return;if(!GB)return;
   if(lostCtx(GB.g)){bufLost(now,'Boden');return;}
@@ -3445,7 +3441,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer</h1><div class="sub px">Ein Rollenspiel-Prototyp von schnoerp-media, Revision 99</div>
+  overlay(`<h1>Grauufer</h1><div class="sub px">Ein Rollenspiel-Prototyp von schnoerp-media, Revision 100</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -3852,10 +3848,9 @@ function loopBody(now){
 }
 /* Leistungsanpassung nur in eine Richtung, mit Bestätigung über mehrere Messfenster, damit nichts hin- und herspringt */
 let SLOW=0,ADAPT_T=0;
-let GFX='hoch';try{GFX=localStorage.getItem('grauufer-gfx')||'hoch';}catch(e){}
+/* Rev 100: Bildqualität fest auf „Automatisch“: volle Auflösung, bei Ruckeln (Bildzeit im Mittel über 30 ms) stufenweise 80 % und 65 %. Der Knopf „Grafik“ entfällt. */
+const GFX='auto';
 const GFXL={hoch:['Hoch',1,'high'],mittel:['Mittel',.8,'medium'],niedrig:['Niedrig',.65,'low'],auto:['Automatisch',1,'medium']};
-function applyGfx(){const g=GFXL[GFX]||GFXL.hoch;RSC=GFX==='auto'?RSC:g[1];updateGfxBtn();resize();}
-function cycleGfx(){const o=['hoch','mittel','niedrig','auto'];GFX=o[(o.indexOf(GFX)+1)%o.length];try{localStorage.setItem('grauufer-gfx',GFX);}catch(e){}if(GFX!=='auto')RSC=GFXL[GFX][1];else RSC=1;resetGpuMode();applyGfx();log(`Grafikqualität: ${GFXL[GFX][0]}.`);}
 function adapt(ms){if(GFX!=='auto')return;FT.push(ms);if(FT.length<90)return;const a=FT.slice().sort((x,y)=>x-y)[FT.length>>1];FT=[];
   if(performance.now()-ADAPT_T<8000)return;
   const base=Math.min(3,devicePixelRatio||1),lv=[1,.8,.65].filter(v=>base*v>=1||v===1);let i=lv.indexOf(RSC);if(i<0)i=0;
@@ -4098,7 +4093,7 @@ function showSplash(replay){const sp=$('#splash');sp.hidden=false;sp.classList.r
 function splashGo(){if(!READY||SPGO)return;SPGO=true;audioInit();jingle();const sp=$('#splash');sp.classList.add('go');
   setTimeout(()=>{sp.classList.add('out');intro();},RM?300:2600);setTimeout(()=>{sp.hidden=true;},RM?900:3500);}
 $('#splash').addEventListener('click',splashGo);addEventListener('keydown',e=>{if(!$('#splash').hidden&&!SPGO&&READY&&(e.key==='Enter'||e.key===' ')){e.preventDefault();splashGo();}},true);
-RSC=(GFXL[GFX]||GFXL.hoch)[1];resize();showZoom();showSplash();updateGfxBtn();
+RSC=(GFXL[GFX]||GFXL.hoch)[1];resize();showZoom();showSplash();
 function prewarm(){try{initMtn();wildPool();['moor','frost','wueste','nebel'].forEach(z=>zonePool(z));['player','wolf','bandit','gerold','lene','odo','wache1','wache2'].forEach(k=>{for(let f=0;f<5;f++)charSprite(k,f);});
   ['wild','sonnwacht','grau','moor'].forEach(z=>{for(let v=0;v<TREEV;v++)treeSprite(v,z);});
   if(!DECOK)buildDeco();/* Rev 92: Möbel, Truhen, Nischen usw. schon während des Titelbilds suchen */
