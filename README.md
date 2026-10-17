@@ -15,15 +15,15 @@ Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = 
 | Pfad | Inhalt |
 |---|---|
 | `index.html` | das komplette Spiel (HTML, CSS, JavaScript, eingebettete Schrift) |
-| `werkstatt/` | Grafik-Werkstatt: 3D-Modelle im Code, mit three.js gerendert (`npm run grafik`, Vorschaubilder in `werkstatt/vorschau/`) |
+| `werkstatt/` | Grafik-Werkstatt: 3D-Modelle im Code, mit three.js gerendert (`npm run grafik`, Vorschaubilder in `werkstatt/vorschau/`); **Haus-Baukasten** `werkstatt/baukasten.html` (über GitHub Pages unter `…/werkstatt/baukasten.html`) |
 | `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze …) |
 | `CLAUDE.md` | Arbeitsregeln für Claude Code |
 
-Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_RevXX.md` (aktuell Rev 19).
+Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_RevXX.md` (aktuell Rev 20).
 
 ## Tests
 
-Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 26 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität, Story-Baum, Kugeln für Leben und Mana, Spieltitel, Logo, Die Tiefe mit Gegnern, Tafeln, Truhen, Thronhüter und Ring, Notgrund gegen schwarzen Boden).
+Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 27 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität, Story-Baum, Kugeln für Leben und Mana, Spieltitel, Logo, Die Tiefe mit Gegnern, Tafeln, Truhen, Thronhüter und Ring, Notgrund gegen schwarzen Boden).
 
 Lokal: `npm install`, `npx playwright install chromium`, dann `npm test`.
 

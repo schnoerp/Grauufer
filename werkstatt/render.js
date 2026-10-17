@@ -3,7 +3,7 @@
 const { chromium } = require('@playwright/test');
 const fs = require('fs'), path = require('path');
 const DIR = __dirname, OUT = path.join(DIR, 'vorschau');
-const THREE_JS = path.join(DIR, '..', 'node_modules', 'three', 'build', 'three.min.js');
+const THREE_JS = path.join(DIR, 'lib', 'three.min.js'); // three.js 0.149.0 (MIT), auch vom Baukasten genutzt
 const GL = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--no-sandbox'];
 
 // Hilfsfunktionen im Browser: Bilder zusammensetzen und wie im Spiel rastern (pxl aus index.html, Spiel-Rev 59)
@@ -51,14 +51,20 @@ const speichere = (name, url) => fs.writeFileSync(path.join(OUT, name), Buffer.f
     speichere('skelettkrieger_bewegungen.png', await p.evaluate(z => window.bogen(z, 118, 175, [69, 292]), z));
     alleFehler.push(...p.fehler); await p.close();
   }
-  // 2. Haus außen und innen, innen zusätzlich wie im Spiel gerastert (ein Feld etwa 160 px breit)
-  {
-    const p = await seite(b, 'haus.js', 1000, 760);
-    for (const m of ['aussen', 'innen']) speichere(`haus_${m}.png`, await p.evaluate(m => window.render(m), m));
-    speichere('haus_innen_pixel.png', await p.evaluate(async () => {
-      const i = await ladeBild(window.render('innen')); const c = document.createElement('canvas'); c.width = i.width; c.height = i.height;
+  // 2. Häuser aus werkstatt/haeuser/*.json (Haus-Baukasten): außen, innen und innen wie im Spiel gerastert
+  for (const datei of fs.readdirSync(path.join(DIR, 'haeuser')).filter(f => f.endsWith('.json')).sort()) {
+    const spec = JSON.parse(fs.readFileSync(path.join(DIR, 'haeuser', datei), 'utf8')), name = datei.replace(/\.json$/, '');
+    const p = await seite(b, 'hausbau.js', 1200, 900);
+    const bild = (innen, K) => p.evaluate(([spec, innen, K]) => {
+      const c = document.createElement('canvas'), s = Hausbau.Szene(c), [w, h] = s.groesse(spec, innen, K);
+      s.renderer.setSize(w, h); s.zeige(spec, innen, 0, K); return c.toDataURL('image/png');
+    }, [spec, innen, K]);
+    speichere(`haus_${name}_aussen.png`, await bild(false, 46));
+    const innenBild = await bild(true, 46); speichere(`haus_${name}_innen.png`, innenBild);
+    speichere(`haus_${name}_innen_pixel.png`, await p.evaluate(async url => {
+      const i = await ladeBild(url); const c = document.createElement('canvas'); c.width = i.width; c.height = i.height;
       c.getContext('2d').drawImage(i, 0, 0); return raster(c, 160 / 137 / 2).toDataURL();
-    }));
+    }, innenBild));
     alleFehler.push(...p.fehler); await p.close();
   }
   // 3. Gegenstände: einzeln auf den sichtbaren Teil zugeschnitten (128 x 128) und als Bogen
@@ -78,7 +84,7 @@ const speichere = (name, url) => fs.writeFileSync(path.join(OUT, name), Buffer.f
   }
   // 4. Rucksack-Entwurf wie in Ultima VIII: Pagan (Seite aus rucksack.js, Bildschirm 1250 x 650)
   {
-    const html = require('./rucksack.js')(symbole, path.join(DIR, 'vorschau', 'haus_innen.png'));
+    const html = require('./rucksack.js')(symbole, path.join(DIR, 'vorschau', 'haus_fischerhaus_innen.png'));
     const p = await b.newPage({ viewport: { width: 1250, height: 650 } });
     await p.setContent(html); await p.waitForTimeout(300);
     await p.screenshot({ path: path.join(OUT, 'rucksack_entwurf.png') }); await p.close();

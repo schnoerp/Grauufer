@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 01**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 02**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -20,12 +20,15 @@ Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Ein
 |---|---|---|
 | Ablauf | `werkstatt/render.js` | startet Chromium (Playwright), rendert alle Modelle, setzt Bögen zusammen, rastert wie im Spiel |
 | Skelettkrieger | `werkstatt/modelle/skelettkrieger.js` | Figur aus Grundformen mit Gelenken; Stehen, Laufen (8 Bilder), Angriff (6), Sterben (5), 8 Blickrichtungen |
-| Haus | `werkstatt/modelle/haus.js` | Haus 5 × 4 Felder: Bruchsteinsockel, Fachwerk mit Putz, durchhängendes Schieferdach, Schornstein; außen mit Dach, innen ohne Dach und mit niedrigen Vorderwänden; Einrichtung |
+| Hausbau | `werkstatt/modelle/hausbau.js` | erzeugt Häuser aus einer Beschreibung (JSON): Wandart, Dachdeckung, First, Öffnungen, Einrichtung, Verwitterung; außen mit Dach, innen ohne Dach und mit den zwei Wänden zur Kamera niedrig (1,1 m) |
+| Haus-Baukasten | `werkstatt/baukasten.html` | Bedienseite zum Selbstbauen (Abschnitt 4) |
+| Häuser | `werkstatt/haeuser/*.json` | gebaute Häuser; jedes wird von `npm run grafik` gerendert (außen, innen, innen gerastert) |
+| three.js | `werkstatt/lib/three.min.js` | three.js 0.149.0 (MIT-Lizenz, `three-LICENSE.txt`), nur für Werkstatt und Baukasten, nicht im Spiel |
 | Gegenstände | `werkstatt/modelle/gegenstaende.js` | 14 Gegenstände: Schwert, Schild, Heiltrank, Manatrank, Brot, Apfel, Schlüssel, Kerze, Buch, Gold, Becher, Schriftrolle, Dolch, Edelstein |
 | Rucksack-Entwurf | `werkstatt/rucksack.js` | Entwurfsseite im Pergament-Stil (1250 × 650) mit den gerenderten Gegenständen |
 | Vorschaubilder | `werkstatt/vorschau/` | Ergebnis von `npm run grafik` |
 
-Aufruf: `npm run grafik` (benötigt `npm install`; three.js 0.149.0 als Entwicklungsabhängigkeit).
+Aufruf: `npm run grafik` (benötigt `npm install` für Playwright).
 
 ## 3. Stilregeln (aus dem Werkstatt-Code)
 
@@ -40,14 +43,32 @@ Aufruf: `npm run grafik` (benötigt `npm install`; three.js 0.149.0 als Entwickl
 | Verwitterung | Schmutzflecken, Laufspuren, Spritzwasserrand, abgeplatzter Putz, Risse, Moos, fehlende Schieferplatten, schiefe Holzteile, durchhängendes Dach, Unkraut, Stroh, Spinnweben, Ruß |
 | Blickrichtungen | Figuren 8, Wände und Möbel bei Bedarf 4 (Nord, Ost, Süd, West), stehende Objekte 1 |
 
-## 4. Haus wie in Pagan (Probe)
+## 4. Haus-Baukasten (vorhanden, noch nicht im Spiel)
 
-- **Außen:** Fass, Kiste, Bank, Brennholzstapel, schief hängender Fensterladen, zerbrochene Scheibe, mit Brettern geflicktes Dach, ausgetretener Dreck vor der Tür.
-- **Innen, feste Möbel:** Kamin mit Feuer, Bett mit zerwühlter Decke, Truhe, Schrank, Bücherregal, Tisch mit zwei Bänken, Teppich, zwei Fässer, Säcke, Hocker, Wandbrett mit Geschirr, Schwert und Schild an der Wand, umgekippter Stuhl.
+**Aufruf:** `werkstatt/baukasten.html` im Browser öffnen – lokal oder über GitHub Pages unter `…/werkstatt/baukasten.html`. Die Seite ist für Tablet (1280 × 800) und Rechner ausgelegt.
+
+| Bereich | Bedienung |
+|---|---|
+| Haus | Breite und Tiefe 2–9 Felder; Wände: Fachwerk auf Bruchstein, Bruchstein, Holzbohlen; Dachdeckung: Schiefer, Holzschindeln, Reet; First entlang der Breite oder der Tiefe; Verwitterung in 5 Stufen (neu, gepflegt, gebraucht, verwittert, verfallen); Schornstein ein/aus (steht über dem Kamin, falls einer gesetzt ist) |
+| Grundriss | von oben, oben = hinten, unten = vorn (zur Kamera); ein Feldrand um das Haus für Dinge im Freien |
+| Fenster/Tür | auf eine Wand tippen schaltet weiter: Wand → Fenster → Tür → kaputtes Fenster → vernageltes Fenster → Wand |
+| Einrichtung | 17 Teile: Bett, Truhe, Schrank, Bücherregal, Kamin, Wandbrett, Waffen an der Wand, Tisch mit Bänken, Fässer, Kiste, Säcke, Hocker, Teppich, Kessel, Stuhl (umgekippt), Besen, Brennholz; Wandteile drehen sich beim Setzen zur nächsten Wand; Werkzeuge „Drehen“ und „Entfernen“ wirken auf das zuletzt gesetzte Teil eines Feldes |
+| Vorschau | Spielsicht (45°/30°), Außen- oder Innenansicht, in 90°-Schritten drehbar |
+| Speichern | im Browser (Liste „Gespeicherte Häuser“); „Herunterladen“ erzeugt eine JSON-Datei für `werkstatt/haeuser/`; „Datei laden“ öffnet eine solche Datei |
+
+**Verwitterung je Stufe:** mehr Schmutz, Laufspuren, abgeplatzter Putz, Risse und Moos auf den Oberflächen; durchhängendes Dach und schiefe Holzteile; ab „gebraucht“ Spinnweben, ab „verwittert“ Putzbrocken, geflicktes Dach und schief hängende Fensterläden; mehr Stroh innen und Unkraut außen.
+
+**Beschreibung eines Hauses (JSON):** `name`, `breite`, `tiefe`, `wand`, `dach`, `first`, `verwitterung` (0–1), `schornstein`, `oeffnungen` (Liste aus `seite` = hinten/vorn/links/rechts, `feld`, `art`), `einrichtung` (Liste aus `art`, `x`, `z`, `dreh` 0–3; 0 = Rückseite zur hinteren Wand). Beispiel: `werkstatt/haeuser/fischerhaus.json`.
+
+## 5. Haus wie in Pagan (Probe „Fischerhaus“)
+
+- 5 × 4 Felder, Fachwerk auf Bruchstein, Schieferdach, Verwitterung „verwittert“ (0,75), Schornstein über dem Kamin; Beschreibung in `werkstatt/haeuser/fischerhaus.json`.
+- **Außen:** Kiste, Fässer, Brennholzstapel, schief hängende Fensterläden, kaputtes Fenster, mit Brettern geflicktes Dach, ausgetretener Dreck vor der Tür, Unkraut am Sockel.
+- **Innen, feste Möbel:** Kamin mit Feuer, Kessel, Bett mit zerwühlter Decke, Truhe, Schrank, Bücherregal, Wandbrett mit Geschirr, Tisch mit zwei Bänken, Teppich, Fässer, Säcke, Kiste, Hocker, Besen, umgekippter Stuhl.
 - **Innen, bewegliche Dinge (Geplant: aufheben und verschieben):** Brot, Äpfel, Becher, Kerze, Kessel.
 - Bedingung für das Spiel: Häuser bleiben **feldweise** aufgebaut (Mauerstück je Feld, Dach als eigenes Bild), damit Betreten, abnehmbares Dach und Durchsicht wie heute funktionieren.
 
-## 5. Rucksack wie in Pagan (Entwurf, Geplant)
+## 6. Rucksack wie in Pagan (Entwurf, Geplant)
 
 - Links **Ausrüstung**: Plätze für Kopf, Brust, Waffe, Schild, Ring, Amulett, Füße um die Figur; beim Ziehen über die Figur **Wertevorschau** (z. B. Rüstung alt → neu).
 - Rechts **Ledertasche**: Gegenstände liegen frei und dürfen sich überlappen; Taschen in Taschen; Truhen und Schränke öffnen sich als eigene Fenster.
@@ -55,17 +76,17 @@ Aufruf: `npm run grafik` (benötigt `npm install`; three.js 0.149.0 als Entwickl
 - Fensterstil bleibt „Pergament auf Holzrollen“ mit Wachssiegel.
 - Jeder Gegenstand hat **ein** 3D-Modell, aus dem das Bild am Boden und das Bild im Rucksack entstehen.
 
-## 6. Fahrplan (Geplant)
+## 7. Fahrplan (Geplant)
 
 1. **Werkstatt und Stilregeln** – erledigt als Probe (dieses Dokument).
-2. **Haus-Baukasten im Browser:** Grundriss, Mauern (Stein, Fachwerk, Holz), Dachform und -deckung, Fenster, Türen, Schornstein und Verwitterungsgrad selbst zusammenstellen; 3D-Vorschau aus Spielsicht; Ergebnis wird gespeichert und von der Werkstatt gerendert.
+2. **Haus-Baukasten im Browser** – erledigt (Abschnitt 4): Grundriss, Mauern (Stein, Fachwerk, Holz), Dachform und -deckung, Fenster, Türen, Schornstein und Verwitterungsgrad selbst zusammenstellen; 3D-Vorschau aus Spielsicht; Ergebnis wird gespeichert und von der Werkstatt gerendert.
 3. **Pilot A – Startgebiet Grauufer:** Bäume (per Code gewachsen, 10–20 Exemplare je Art), Felsen, Häuser aus dem Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut, auf dem Tablet gemessen.
 4. **Pilot B – Die Tiefe:** Ruheloser, Steinwächter, Echo, Skelettkrieger, Thronhüter.
 5. Spielerfiguren (3 Klassen mit fester Ausrüstung je Klasse).
 6. Restliche Oberwelt Gebiet für Gebiet, restliche Gegner und Gesprächspartner.
 7. Rucksack- und Bodenbilder aller Gegenstände; Weltgegenstände-System (aufheben, ablegen, Behälter).
 
-## 7. Offene Punkte und Grenzen (Schätzwerte)
+## 8. Offene Punkte und Grenzen (Schätzwerte)
 
 | Punkt | Einschätzung | Lösungsweg |
 |---|---|---|

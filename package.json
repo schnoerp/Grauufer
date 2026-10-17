@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",
-    "acorn": "8.14.0",
-    "three": "0.149.0"
+    "acorn": "8.14.0"
   }
 }
