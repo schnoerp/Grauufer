@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0 (Rev 104)</title>
+<title>Grauufer 1.0 (Rev 105)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -405,6 +405,22 @@ function buildSonnwacht(){const m=grid(30,23,',',',');
   m.hut(2,2);m.hut(5,2);m.hut(23,2);m.hut(26,2);m.hut(2,15);m.hut(6,15);m.hut(21,15);m.hut(25,15);
   m.rect(12,9,17,13,',');m.set(14,11,'Q');m.list([[3,8],[26,8],[4,12],[25,12],[10,18],[19,18]],'T');m.list([[1,9],[28,13]],'.');
   return m.g;}
+/* Rev 105: Die Tiefe – uralte Hallen der Titanen unter Morvenn. 64 × 44 Felder: vier Flügel (Erde NW, Luft NO, Wasser SW, Feuer SO)
+   mit je einer Treppe nach oben, in der Mitte die Halle der Vier; Gänge verbinden die Flügel untereinander und mit der Halle. */
+function buildTiefe(){const m=grid(64,44,'#','#'),fill=(x0,y0,x1,y1,c)=>{for(let y=y0;y<=y1;y++)for(let x=x0;x<=x1;x++)m.set(x,y,c);};
+  const tun=(a,b)=>{let[x,y]=a;const dig=(x,y)=>{for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++)if(m.get(x+dx,y+dy)==='#')m.set(x+dx,y+dy,'r');};
+    while(x!==b[0]){dig(x,y);x+=Math.sign(b[0]-x);}while(y!==b[1]){dig(x,y);y+=Math.sign(b[1]-y);}dig(x,y);};
+  fill(3,3,16,13,'_');fill(47,3,60,13,'_');fill(3,30,16,40,'_');fill(47,30,60,40,'_');fill(24,15,39,28,'_');
+  tun([16,8],[47,8]);tun([16,35],[47,35]);tun([9,13],[9,30]);tun([54,13],[54,30]);
+  tun([16,11],[22,11]);tun([22,11],[22,18]);tun([22,18],[24,18]);tun([47,11],[41,11]);tun([41,11],[41,18]);tun([41,18],[39,18]);
+  tun([16,32],[22,32]);tun([22,32],[22,25]);tun([22,25],[24,25]);tun([47,32],[41,32]);tun([41,32],[41,25]);tun([41,25],[39,25]);
+  for(const[x,y]of[[6,6],[13,6],[6,10],[13,10],[50,6],[57,6],[50,10],[57,10],[6,33],[13,33],[6,37],[13,37],[50,33],[57,33],[50,37],[57,37],[26,17],[37,17],[26,26],[37,26]])m.set(x,y,'U');
+  fill(8,34,11,36,'~');for(let y=31;y<=39;y++)for(let x=48;x<=59;x++)if(m.get(x,y)==='_'&&hash(x*3+1,y*7)>.45)m.set(x,y,'k');
+  for(let y=4;y<=12;y++)for(let x=4;x<=15;x++)if(m.get(x,y)==='_'&&hash(x*5+2,y*3)>.7)m.set(x,y,'r');
+  for(const[x,y]of[[29,20],[34,20],[29,23],[34,23]])m.set(x,y,'o');
+  for(let y=1;y<43;y++)for(let x=1;x<63;x++)if(m.get(x,y)==='r'&&hash(x*11+4,y*13+2)>.93)m.set(x,y,'B');
+  for(const[x,y]of[[4,4],[59,4],[4,39],[59,39]])m.set(x,y,'E');
+  return m.g;}
 function buildKristall(){const m=grid(16,12,'#','#'),cv=(cx,cy,r)=>{for(let y=cy-r;y<=cy+r;y++)for(let x=cx-r;x<=cx+r;x++)if((x-cx)**2+(y-cy)**2<=r*r+1&&x>0&&y>0&&x<15&&y<11)m.set(x,y,'r');};
   const tun=(a,b)=>{let[x,y]=a;while(x!==b[0]){cv(x,y,1);x+=Math.sign(b[0]-x);}while(y!==b[1]){cv(x,y,1);y+=Math.sign(b[1]-y);}};
   const R={A:[8,8,2],B:[4,6,2],C:[11,4,2],D:[6,3,2]};Object.values(R).forEach(r=>cv(...r));[['A','B'],['A','C'],['B','D'],['D','C']].forEach(([a,b])=>tun(R[a],R[b]));
@@ -431,7 +447,7 @@ function buildOst(){const m=grid(26,14,'.','.');m.rect(16,6,22,11,'G');m.set(19,
   for(let y=3;y<=7;y++)for(let x=3;x<=9;x++)m.set(x,y,(y===3||y===7||x===3||x===9)?'#':'_');
   m.hut(13,2);m.hut(4,10);m.rect(12,0,12,8,',');m.rect(10,8,16,8,',');m.list([[0,0],[25,0],[24,4],[1,8],[23,2]],'T');m.list([[2,13],[9,13],[15,13],[24,13]],'B');return m.g;}
 function buildMira(){const m=grid(7,7,'.','.');m.hut(2,1);return m.g;}
-const WALK=new Set(['Y','.',',','s','_','f','d','k','r','p','b','M','S','y','i','V','h','H','O','G']);
+const WALK=new Set(['Y','E','.',',','s','_','f','d','k','r','p','b','M','S','y','i','V','h','H','O','G']);
 const LOWC='Vq',isBr=c=>c==='h'||c==='H';
 function edgeOK(g,ax,ay,bx,by){const a=g[ay][ax],b=g[by][bx];return!((isBr(a)&&LOWC.includes(b))||(isBr(b)&&LOWC.includes(a)));}
 /* Gebiete und ihre Lage in der offenen Welt */
@@ -469,6 +485,7 @@ const REGIONS={
     enemies:[],ground:[],altar:null},
   kristall:{at:[54,40],build:buildKristall,npcs:[],enemies:[['ks1','spider',4,6],['ks2','skeleton',6,3],['ks3','spider',8,8],['kg1','crystalgolem',11,4]],
     ground:[['kristall',3,7],['kristall',7,2],['gold',5,6],['stormstaff',12,4],['kristall',12,5]],altar:null},
+  tiefe:{nw:1,at:[40,268],build:buildTiefe,npcs:[],enemies:[],ground:[],altar:null},
   mira:{at:[176,46],build:buildMira,huts:[[2,1]],npcs:[{id:'mira',name:'Mira',x:3,y:2}],enemies:[],ground:[['kraut',1,5],['kraut',5,5]],altar:null}
 };
 const ZDEF={
@@ -543,14 +560,19 @@ function buildOld(){
   return m.g;
 }
 /* Rev 34: Morvenn auf 680 × 248 Felder vergrößert. Das bisherige Land liegt im Südwesten, neu sind Brachfeld, Titanenrücken, Glimmerseen, Rotsteinschluchten und Klippenküste. */
-const OY=124,NWW=680,NHH=248;
+const OY=124,NWW=680,NHH=316,MORVH=248,TIX=40,TIY=268;/* Rev 105: unter Morvenn (Reihe 0–247) liegt abgetrennt Die Tiefe (ab Reihe 268) */
 const VOLC={x:652,y:177};
 /* Rev 79 – Story „Das Schweigen der Titanen“, Stufe 1:
    Neuer Start am Strand von Grauufer mit Wrack und zerbrochenem Amulett, Traumfetzen beim Rasten,
    Erinnerungen an den Altären, Mareths Enthüllung nach drei Splittern mit erster Entscheidung (vergeben/verstoßen). */
 const SHORE={start:[89,228],wreck:[88,227],amulet:[90,227],ship:[87,231]};/* Rev 83: großes Wrack in der Brandung */
 /* Rev 66: Magische Portale – Sonnwacht (Marktplatz) ⇄ Aschenhorn (Fuß des Vulkans). Drauftreten genügt. */
-const PORTALS=[{x:108,y:191,to:1,name:'Portal zum Aschenhorn'},{x:639,y:191,to:0,name:'Portal nach Sonnwacht'}];
+const PORTALS=[{x:108,y:191,to:1,name:'Portal zum Aschenhorn'},{x:639,y:191,to:0,name:'Portal nach Sonnwacht'},
+  /* Rev 105: Treppen in Die Tiefe (Kartenzeichen E) und zurück */
+  {x:84,y:208,to:3,stair:1,name:'Abstieg in die Tiefe',title:'Die Tiefe – Flügel der Erde'},{x:TIX+4,y:TIY+4,to:2,stair:1,name:'Aufstieg zur Gruft',title:'Gruft von Grauufer'},
+  {x:27,y:203,to:5,stair:1,name:'Abstieg in die Tiefe',title:'Die Tiefe – Flügel des Wassers'},{x:TIX+4,y:TIY+39,to:4,stair:1,name:'Aufstieg zum Tränensee',title:'Tränensee'},
+  {x:252,y:197,to:7,stair:1,name:'Abstieg in die Tiefe',title:'Die Tiefe – Flügel der Luft'},{x:TIX+59,y:TIY+4,to:6,stair:1,name:'Aufstieg zum Tempel',title:'Versunkener Tempel'},
+  {x:643,y:195,to:9,stair:1,name:'Abstieg in die Tiefe',title:'Die Tiefe – Flügel des Feuers'},{x:TIX+59,y:TIY+39,to:8,stair:1,name:'Aufstieg zum Aschenhorn',title:'Aschenhorn'}];
 function buildWorld(){
   const old=buildOld();
   for(const id in REGIONS){if(REGIONS[id].nw)continue;const a=REGIONS[id].at;REGIONS[id].at=[a[0],a[1]+OY];}
@@ -568,6 +590,7 @@ function buildWorld(){
     titan:{name:'Titanenrücken',amb:'snow',mat:'ruin',ground:'rock',biome:1,rect:[227,1,452,123]},
     glimmer:{name:'Glimmerseen',amb:'mist',mat:'stone',ground:'swamp',biome:1,rect:[453,1,678,123]},
     rot:{name:'Rotsteinschluchten',amb:'dust',mat:'basalt',ground:'rock',biome:1,rect:[339,124,559,246]},
+    tiefe:{name:'Die Tiefe',amb:'cave',mat:'ruin',ground:'cave',cave:1,dark:1,rect:[TIX,TIY,TIX+63,TIY+43]},
     klippe:{name:'Klippenküste',amb:'grau',mat:'stone',ground:'mixed',biome:1,rect:[560,124,678,246]}});
   const wild=ZDEF.wild;delete ZDEF.wild;ZDEF.wild=wild;
   const m=grid(NWW,NHH,'.','T');
@@ -584,6 +607,7 @@ function buildWorld(){
   for(let y=1;y<NHH-1;y++)for(let x=1;x<NWW-1;x++)if(y<=OY||x>=339)gen(x,y);
   for(let y=1;y<old.length;y++)for(let x=0;x<339;x++)m.set(x,y+OY,old[y][x]);
   for(let x=339;x<NWW;x++)for(let y=227;y<NHH;y++)m.set(x,y,y<=228?'s':'~');
+  for(let y=MORVH;y<NHH;y++)for(let x=0;x<NWW;x++)m.set(x,y,'v');/* Rev 105: unter dem Kartenrand nur Leere, darin später Die Tiefe */
   const clr=(x,y)=>{if(x>0&&y>0&&x<NWW-1&&y<NHH-1&&'TB~M'.includes(m.get(x,y)))m.set(x,y,(y<=OY&&x>=227&&x<453)||(x>=339&&x<560)?'r':'.');};
   const newA=(x,y)=>y<OY||(x>=341&&y<225);
   for(let i=0,gx=10;gx<NWW;gx+=20,i++)for(let y=1;y<225;y++){const x=gx+Math.round(3*Math.sin(y/7+i));if(newA(x,y)){clr(x,y);clr(x+1,y);}}
@@ -609,13 +633,13 @@ function buildWorld(){
     /* Pfad: zwei Felder breit, leicht geschwungen, vom Fuß im Südwesten bis zum Kraterrand */
     for(let s=0;s<=1;s+=.004){const r=19-s*14.8,a=2.35+Math.sin(s*5)*.22,x=Math.round(VX+Math.cos(a)*r),y=Math.round(VY+Math.sin(a)*r);
       for(const[dx,dy]of[[0,0],[1,0],[0,1],[1,1]]){const c=m.get(x+dx,y+dy);if(c==='B'||c==='T')m.set(x+dx,y+dy,'k');}}}
-  PORTALS.forEach(P=>{for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const c=m.get(P.x+dx,P.y+dy);if('TBM~qVk'.includes(c))m.set(P.x+dx,P.y+dy,'.');}m.set(P.x,P.y,'Y');});
+  PORTALS.forEach(P=>{if(P.stair){m.set(P.x,P.y,'E');return;}for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const c=m.get(P.x+dx,P.y+dy);if('TBM~qVk'.includes(c))m.set(P.x+dx,P.y+dy,'.');}m.set(P.x,P.y,'Y');});
   const NEWW=[['Brachfeld',110,61],['Titanenrücken',340,91],['Glimmerseen',561,60],['Rotsteinschluchten',421,182],['Klippenküste',620,206],['Aschenhorn',VOLC.x-16,VOLC.y+16]];
   NEWW.forEach(([n,x,y])=>{WAYDEF.push([n,x,y]);for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const c=m.get(x+dx,y+dy);if('TBM~qV'.includes(c))m.set(x+dx,y+dy,'.');}m.set(x,y,'W');});
   /* Rev 97: Die Südküste war eine gerade Linie (Sand in Reihe 227/228, ab 229 Meer). Jetzt schwingt sie je Spalte um −2 bis +3 Felder,
      der Sandstreifen ist 2 oder 3 Felder breit. Nur natürliche Felder werden verändert; Orte nahe der Küste (darunter der von Hand
      gestaltete Startstrand von Grauufer mit Bucht, Fundstücken und Wrack) bleiben genau wie vorher, zu ihnen hin läuft die Welle weich aus. */
-  {const NAT='.TBrsy~cp',keep=[];for(const k in ZDEF){const z=ZDEF[k],r=z.rect;if(r&&!z.biome&&r[3]>=218)keep.push([r[0],r[2]]);}
+  {const NAT='.TBrsy~cp',keep=[];for(const k in ZDEF){const z=ZDEF[k],r=z.rect;if(r&&!z.biome&&r[3]>=218&&r[1]<MORVH)keep.push([r[0],r[2]]);}
     /* Spalten, deren Küste schon von Hand gestaltet ist (nicht Sand, Sand, Meer, Meer in Reihe 227–230), bleiben ebenfalls */
     for(let x=1;x<NWW-1;x++)if(!(m.get(x,227)==='s'&&m.get(x,228)==='s'&&m.get(x,229)==='~'&&m.get(x,230)==='~'))keep.push([x,x]);
     const fade=x=>{let f=1;for(const[a,b]of keep){const d=x<a?a-x:x>b?x-b:0;f=Math.min(f,d>=8?1:d/8);}return f;};
@@ -2088,7 +2112,7 @@ addEventListener('pageshow',()=>{if(typeof G!=='undefined')G.gbAt=0;});
 function gbTrim(){for(let i=BUFC.length-1;i>=0&&BUFC.length>2;i--){const c=BUFC[i];if(c!==(GB&&GB.c)&&c!==(NB&&NB.c)){c.width=c.height=0;BUFC.splice(i,1);}}
   for(let i=LOC.length-1;i>=0&&LOC.length>3;i--){const c=LOC[i];if(c!==(GB&&GB.lo)&&c!==(NB&&NB.lo)&&c!==(LASTLO&&LASTLO.c)){c.width=c.height=0;LOC.splice(i,1);}}}addEventListener('pagehide',()=>save(true));
 function saveNow(){try{if(!S.over){S.seen=encSeen();localStorage.setItem(KEY,JSON.stringify(S,(k,v)=>k==='flash'||k==='lg'||k==='deadAt'||k==='re'||k==='rx'||k==='ry'?undefined:v));}}catch(e){}}
-const MAPCOL={'Y':'#c070ff','~':'#22344c','b':'#7a5a34',',':'#a89474','s':'#8e7a52','T':'#1c2c16','B':'#6a6670','#':'#8e3c22','w':'#8e3c22','D':'#5e3a1c',
+const MAPCOL={'Y':'#c070ff','E':'#d8c8ff','~':'#22344c','b':'#7a5a34',',':'#a89474','s':'#8e7a52','T':'#1c2c16','B':'#6a6670','#':'#8e3c22','w':'#8e3c22','D':'#5e3a1c',
   'L':'#ff7a20','k':'#3e3430','M':'#8a8494','r':'#7a7a84','p':'#a8acb8','v':'#050407','S':'#c8d0e0','_':'#585c7c','f':'#6c4626','+':'#7c7682','o':'#8a8690','A':'#e0c060','R':'#7fc8c0','F':'#ff9a28','n':'#3a3a40','W':'#7fe8f0','U':'#8e909e','G':'#9a7040','Q':'#2e5274','O':'#0a0608','K':'#b48ae0','y':'#c8a868','V':'#46562e','q':'#2a5070','h':'#9a7040','H':'#9a7040','i':'#a8d8f0','c':'#4a7a3a'};
 let mapFull=false;
 /* ---------- Weltkarte: drehbarer Globus von Vharos (Rev 30) ---------- */
@@ -2186,27 +2210,29 @@ function openGlobe(){
 
 function openMap(){
   if(S.over)return;
+  /* Rev 105: In der Tiefe zeigt die Karte nur die Tiefe, sonst nur Morvenn (Reihe 0–247) */
+  const inT=S.p.y>=MORVH,ya=inT?MORVH:0,yb=inT?H:MORVH;
   let u0=1e9,u1=-1e9,v0=1e9,v1=-1e9;
-  if(mapFull){u0=-H;u1=W;v0=0;v1=W+H;}
-  else for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(SEEN[y*W+x]){const u=x-y,v=x+y;if(u<u0)u0=u;if(u>u1)u1=u;if(v<v0)v0=v;if(v>v1)v1=v;}
+  if(mapFull&&!inT){u0=-MORVH;u1=W;v0=0;v1=W+MORVH;}
+  else for(let y=ya;y<yb;y++)for(let x=0;x<W;x++)if(SEEN[y*W+x]){const u=x-y,v=x+y;if(u<u0)u0=u;if(u>u1)u1=u;if(v<v0)v0=v;if(v>v1)v1=v;}
   if(u0>u1){u0=S.p.x-S.p.y-20;u1=u0+40;v0=S.p.x+S.p.y-20;v1=v0+40;}
   const pad=10;u0-=pad;u1+=pad;v0-=pad;v1+=pad;
   const CW=1100,CHh=700,k=clamp(Math.min(CW/((u1-u0)/2+1),CHh/((v1-v0)/4+1)),2,26),cvm=document.createElement('canvas');
   cvm.width=Math.ceil(((u1-u0)/2+1)*k);cvm.height=Math.ceil(((v1-v0)/4+1)*k);const m=cvm.getContext('2d');
   m.fillStyle='#1a120a';m.fillRect(0,0,cvm.width,cvm.height);
   const P=(x,y)=>[(x-y-u0)/2*k,(x+y-v0)/4*k];
-  for(let y=0;y<H;y++)for(let x=0;x<W;x++){if(!SEEN[y*W+x])continue;const c=map[y][x],[X,Y]=P(x,y);
+  for(let y=ya;y<yb;y++)for(let x=0;x<W;x++){if(!SEEN[y*W+x])continue;const c=map[y][x],[X,Y]=P(x,y);
     const zz=zoneAt(x,y);m.fillStyle=MAPCOL[c]||(zz==='traenen'||zz==='moor'||zz==='mira'?'#34402a':zz==='glut'?'#3e3430':zz==='grotte'?'#3a3438':'#4a4a2c');
     m.beginPath();m.moveTo(X,Y-k/4);m.lineTo(X+k/2+.5,Y);m.lineTo(X,Y+k/4+.5);m.lineTo(X-k/2-.5,Y);m.closePath();m.fill();}
   WAYS.forEach(w=>{if(S.ways.includes(w.id)){const[X,Y]=P(w.x,w.y);m.fillStyle='#7fe8f0';m.beginPath();m.moveTo(X,Y-7);m.lineTo(X+5,Y);m.lineTo(X,Y+7);m.lineTo(X-5,Y);m.closePath();m.fill();m.strokeStyle='#000';m.stroke();}});
   ALT.forEach(a=>{if(SEEN[a.y*W+a.x]){const[X,Y]=P(a.x,a.y);m.fillStyle=ITEMS['shard_'+a.el].col;m.fillRect(X-5,Y-5,10,10);m.strokeStyle='#000';m.strokeRect(X-5,Y-5,10,10);}});
   NPCS.forEach(n=>{if(SEEN[n.y*W+n.x]){const[X,Y]=P(n.x,n.y);m.fillStyle='#e0d2b4';m.beginPath();m.arc(X,Y,4,0,7);m.fill();}});
   m.font='bold 18px "Pixelify Sans",monospace';m.textAlign='center';
-  for(const z in ZDEF){const r=ZDEF[z].rect;if(!r)continue;let seen=false;
+  for(const z in ZDEF){const r=ZDEF[z].rect;if(!r||(r[1]>=MORVH)!==inT)continue;let seen=false;
     for(let y=r[1];y<=r[3]&&!seen;y+=2)for(let x=r[0];x<=r[2];x+=2)if(SEEN[y*W+x]){seen=true;break;}
     if(seen){const[X,Y]=P((r[0]+r[2])/2,(r[1]+r[3])/2);m.fillStyle='#000';m.fillText(ZDEF[z].name,X+2,Y+2);m.fillStyle='#f2b13c';m.fillText(ZDEF[z].name,X,Y);}}
   const[X,Y]=P(S.p.x,S.p.y);m.fillStyle='#fff';m.beginPath();m.arc(X,Y,8,0,7);m.fill();m.fillStyle='#d02010';m.beginPath();m.arc(X,Y,5.5,0,7);m.fill();
-  const el=openPanel(`<div class="title px">Karte von Morvenn</div><div class="meta">${mapFull?'Die ganze Welt, erkundete Gebiete sind eingezeichnet.':'Dein erkundetes Gebiet.'} Der rote Punkt bist du, weiße Punkte sind Bewohner, Quadrate sind Altäre.</div><div id="mapwrap"></div><div class="row"></div>`);
+  const el=openPanel(`<div class="title px">${inT?'Karte der Tiefe':'Karte von Morvenn'}</div><div class="meta">${mapFull?'Die ganze Welt, erkundete Gebiete sind eingezeichnet.':'Dein erkundetes Gebiet.'} Der rote Punkt bist du, weiße Punkte sind Bewohner, Quadrate sind Altäre.</div><div id="mapwrap"></div><div class="row"></div>`);
   cvm.style.width='100%';cvm.style.height='auto';cvm.style.display='block';cvm.style.border='2px solid #7a5230';el.querySelector('#mapwrap').appendChild(cvm);
   const row=el.querySelector('.row');btn(row,'Schließen',closePanel).focus();
   btn(row,mapFull?'Nur Erkundetes':'Ganze Welt',()=>{mapFull=!mapFull;openMap();});
@@ -3521,7 +3547,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 104</div>
+  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 105</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -3545,7 +3571,7 @@ addEventListener('resize',()=>{resize();if(S)try{const n=performance.now();draw0
 function groundKey(x,y,c){
   if((c==='w'||c==='#'||c==='D')&&isThin(x,y))return'slate';
   const g=ZDEF[zoneAt(x,y)].ground;
-  if(c==='Y')return'slate';if(c==='O'||c==='K')return'cavef';if(c==='G'||c==='U'||c==='Q')return'cobble';if(c==='y'||c==='c')return'dune';if(c==='i')return'ice';if(g==='cave'&&(c==='r'||c==='.'))return'cavef';
+  if(c==='Y'||c==='E')return'slate';if(c==='O'||c==='K')return'cavef';if(c==='G'||c==='U'||c==='Q')return'cobble';if(c==='y'||c==='c')return'dune';if(c==='i')return'ice';if(g==='cave'&&(c==='r'||c==='.'))return'cavef';
   if(g==='frost'&&(c==='p'||c==='.'))return vnoise(x/4,y/4,7)>.3?'snow':'rs';if(g==='desert'&&c==='.')return'dune';
   if(c==='~')return'water';if(c==='L')return'lava';if(c==='b')return'bridge';if(c==='v')return'void';
   if(c===',')return g==='ash'?'ash':'cobble';if(c==='s')return'sand';if(c==='f')return'wood';
@@ -3806,6 +3832,11 @@ function drawObject(x,y,t,cut){
       lx.fillStyle=gr;lx.beginPath();lx.moveTo(bx-w2*R2,by);lx.lineTo(bx-w2*.4*R2,by-h2*R2);lx.lineTo(bx+w2*.4*R2,by-h2*R2*1.08);lx.lineTo(bx+w2*R2,by);lx.closePath();lx.fill();}
     glows.push(['K',x,y]);}
   else if(c==='W'){const on=S.ways.includes(WAYS[wayAt(x,y)].id),sp=waySprite(on);lx.drawImage(sp.c,q.x-sp.ax,q.y-sp.ay);if(on)glows.push(['W',x,y]);}
+  else if(c==='E'){/* Rev 105: Treppe in die Tiefe bzw. hinauf – dunkler Schacht mit drei Stufen und Steinrahmen */const R2=RES,hw=TW/2,hh=TH/2;
+    lx.fillStyle='#4a4652';lx.beginPath();lx.moveTo(q.x,q.y-hh*.9);lx.lineTo(q.x+hw*.9,q.y);lx.lineTo(q.x,q.y+hh*.9);lx.lineTo(q.x-hw*.9,q.y);lx.closePath();lx.fill();
+    lx.fillStyle='#0a0608';lx.beginPath();lx.moveTo(q.x,q.y-hh*.62);lx.lineTo(q.x+hw*.62,q.y);lx.lineTo(q.x,q.y+hh*.62);lx.lineTo(q.x-hw*.62,q.y);lx.closePath();lx.fill();
+    for(let i=0;i<3;i++){const f=.55-i*.17;lx.fillStyle=['#6e6878','#4e4a58','#34303c'][i];lx.fillRect(Math.round(q.x-hw*f),Math.round(q.y-hh*.35+i*4*R2),Math.round(hw*f*1.25),Math.round(2*R2));}
+    lx.fillStyle='#8a8494';lx.fillRect(Math.round(q.x-hw*.9),Math.round(q.y-R2),Math.round(3*R2),Math.round(2*R2));lx.fillRect(Math.round(q.x+hw*.9-3*R2),Math.round(q.y-R2),Math.round(3*R2),Math.round(2*R2));}
   else if(c==='Y'){const R2=RES,cy=q.y-22*R2;pxEll(q.x,q.y,18*R2,8*R2,'#3e3a46');pxEll(q.x,q.y-R2,15*R2,6.5*R2,'#5e5868');
     pxEll(q.x,cy,11*R2,20*R2,'#14081c');
     for(let i=0;i<3;i++){const r=1-i*.27,ph=RM?i:t*(1.4+i*.6)*(i%2?-1:1);lx.fillStyle=i===1?'rgba(255,150,60,.9)':'rgba(200,120,255,.9)';
@@ -3879,10 +3910,11 @@ function diag(now){if(!TESTFREE||now-(loop.dg||0)<1000)return;loop.dg=now;const 
    Jede Bombe zielt auf ein Feld beim Spieler; der Einschlagort glüht 1,4 s vorher rot auf – Ausweichen ist möglich.
    Treffer: 6–10 Schaden (Rüstung zählt). Im Testmodus („Gegner aus“) richten die Bomben keinen Schaden an. */
 const VB=[];
-function portalTick(now){if(!S||S.over||uiOpen)return;const p=S.p;if(T(p.x,p.y)!=='Y'||now-(G.ptT||0)<1500)return;
+function portalTick(now){if(!S||S.over||uiOpen)return;const p=S.p;const pc=T(p.x,p.y);if((pc!=='Y'&&pc!=='E')||now-(G.ptT||0)<1500)return;
   const P=PORTALS.find(q=>q.x===p.x&&q.y===p.y);if(!P)return;const toCrater=P.to===1&&shardCount()===4&&F().reveal,D=toCrater?{x:VOLC.x-4,y:VOLC.y}:PORTALS[P.to];let spot=null;
   for(const[dx,dy]of(toCrater?[[0,0],[0,1],[1,0],[-1,0],[0,-1]]:[[0,1],[1,0],[-1,0],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]])){if(playerPass(D.x+dx,D.y+dy)){spot=[D.x+dx,D.y+dy];break;}}
   if(!spot)return;G.ptT=now;G.path=[];G.pending=null;p.x=p.rx=spot[0];p.y=p.ry=spot[1];initRender();G.fade=now;
+  if(P.stair){G.title={text:P.title,t:now};sfx('stone');log(D.stair&&D.y>=MORVH?'Du steigst die ausgetretenen Stufen hinab. Kalte, uralte Luft schlägt dir entgegen.':'Du steigst die Stufen hinauf ins Freie.','magic');updateHUD();save();return;}
   G.title={text:toCrater?'Krater des Aschenhorns':P.to?'Aschenhorn':'Sonnwacht',t:now};sfx('zap');log(toCrater?'Das Portal brennt rot. Es reißt dich nicht an den Fuß des Berges, sondern direkt an den Kraterrand.':P.to?'Das Portal wirbelt dich durch Licht und Hitze – du stehst am Fuß des Aschenhorns.':'Das Portal bringt dich zurück nach Sonnwacht.','magic');updateHUD();save();}
 function volcTick(now){portalTick(now);if(!S||S.over)return;const p=S.p,near=cheb(p.x,p.y,VOLC.x,VOLC.y)<=22;
   if(!G.vNext||G.vNext<now-120000)G.vNext=now+12000;
@@ -4085,7 +4117,7 @@ function draw0(t,now,dt){
      else if(now-(G.gbAt||0)>30000)NB=newBuf(vl,vt,0,0);}}
   if(GB)lx.drawImage(GB.c,GB.x,GB.y,GB.w,GB.h);else if(LASTLO)lx.drawImage(LASTLO.c,LASTLO.x,LASTLO.y,LASTLO.w,LASTLO.h);
   for(let d=x0+y0;d<=x1+y1;d++)for(let x=Math.max(x0,d-y1);x<=Math.min(x1,d-y0);x++){const y=d-x,c=map[y][x];
-    if(ANIM(c)){if(vis(x,y)&&!inCrater(x,y))drawGroundTile(x,y,t);}else if(c==='A'||c==='R'||c==='F')glows.push([c,x,y]);
+    if(ANIM(c)){if(vis(x,y)&&!inCrater(x,y))drawGroundTile(x,y,t);}else if(c==='A'||c==='R'||c==='F'||c==='E')glows.push([c,x,y]);
     else if((c==='~'||c==='q')&&!RM){const h1=hash(x*3,y*5),ph=(t*.6+h1*7)%3;if(ph<.9){const q=iso(x,y),a=Math.sin(ph/.9*Math.PI)*.5;if(c==='q')q.y+=VD+3*RES;
       lx.fillStyle=`rgba(170,200,225,${a})`;lx.fillRect(q.x-12*RES+h1*14*RES+ph*4*RES,q.y-3*RES+h1*5*RES,7*RES,.9*RES);lx.fillRect(q.x-4*RES+h1*9*RES-ph*3*RES,q.y+2*RES-h1*4*RES,4*RES,.8*RES);}}}
   ALT.forEach(a=>{if(vis(a.x,a.y))drawDecal(a,t);});
@@ -4133,7 +4165,7 @@ function draw0(t,now,dt){
     glows.forEach(([c,x,y,k])=>{const[sx,sy]=scr(x,y);
       if(c==='D')L.push([sx,sy-24*RES,(k==='lantern'?95:70)*RES,.95]);else if(c==='F')L.push([sx,sy-8*RES,110*RES,.95]);
       else if(c==='L')L.push([sx,sy,40*RES,.5]);else if(c==='A')L.push([sx,sy-8*RES,60*RES,.8]);else if(c==='K')L.push([sx,sy-14*RES,70*RES,.8]);
-      else if(c==='W'||c==='R')L.push([sx,sy-16*RES,55*RES,.7]);});
+      else if(c==='W'||c==='R')L.push([sx,sy-16*RES,55*RES,.7]);else if(c==='E')L.push([sx,sy,60*RES,.75]);});
     lightMap(psx,psy,rad,oa,nl>.05?L:[]);}
   lx.globalCompositeOperation='lighter';
   const glow=(x,y,r,col)=>{const gg=lx.createRadialGradient(x,y,0,x,y,r);gg.addColorStop(0,col);gg.addColorStop(1,'rgba(0,0,0,0)');lx.fillStyle=gg;lx.fillRect(x-r,y-r,r*2,r*2);};

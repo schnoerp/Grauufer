@@ -266,3 +266,20 @@ test('Rev 104: Logo im Titelbild als Pixelgrafik', async ({ page }) => {
   expect(r).toEqual([48, true, true, 0]);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 105: Die Tiefe – vier Treppen hinab und wieder hinauf', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const out = [];
+    for (const i of [2, 4, 6, 8]) {
+      const P = PORTALS[i], D = PORTALS[P.to];
+      S.p.x = S.p.rx = P.x; S.p.y = S.p.ry = P.y; G.ptT = 0; portalTick(performance.now());
+      const unten = ZD().name, imBereich = S.p.y >= MORVH && cheb(S.p.x, S.p.y, D.x, D.y) <= 1;
+      S.p.x = S.p.rx = D.x; S.p.y = S.p.ry = D.y; G.ptT = 0; portalTick(performance.now());
+      out.push(unten === 'Die Tiefe' && imBereich && S.p.y < MORVH && cheb(S.p.x, S.p.y, P.x, P.y) <= 1);
+    }
+    return [out, map[MORVH + 5][10], H];
+  });
+  expect(r).toEqual([[true, true, true, true], 'v', 316]);
+  expect(fehler).toEqual([]);
+});

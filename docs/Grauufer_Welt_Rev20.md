@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 19**, Stand: Spiel-Rev 97. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 20**, Stand: Spiel-Rev 105. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -211,6 +211,33 @@ Die Karte (Taste M) bekommt zwei Ebenen:
 
 **Stil:** gealtertes Pergament mit verblassten Rändern, passend zum Pagan-Ton; Meer dunkel mit angedeuteten Wellen.
 
+
+## 7b. Die Tiefe (Im Spiel seit Spiel-Rev 105, Ausbau geplant)
+
+Uralte Hallen der Titanen unter Morvenn, ein optionaler Nebenweg (Hintergrund: Grauufer_Story_RevXX.md). Technisch ist die Karte nach unten erweitert: Reihe 0–247 ist Morvenn, Reihe 248–315 Leere, darin Die Tiefe als abgetrenntes Gebiet. Koordinaten von Morvenn und alle Fundorte bleiben dabei unverändert.
+
+| Teil | Felder | Inhalt |
+|---|---|---|
+| Die Tiefe gesamt | 40,268 – 103,311 | dunkel (Lichtkarte wie in Höhlen), Wände aus Ruinenstein, Farbstimmung Höhle |
+| Flügel der Erde (NW) | 43,271 – 56,281 | Hallenpflaster, Steinstaub, vier Säulen; Treppe 44,272 |
+| Flügel der Luft (NO) | 87,271 – 100,281 | Hallenpflaster, vier Säulen; Treppe 99,272 |
+| Flügel des Wassers (SW) | 43,298 – 56,308 | Hallenpflaster, Becken mit Wasser 48–51,302–304, vier Säulen; Treppe 44,307 |
+| Flügel des Feuers (SO) | 87,298 – 100,308 | Hallenpflaster und Asche, vier Säulen; Treppe 99,307 |
+| Halle der Vier (Mitte) | 64,283 – 79,296 | vier Säulen, vier Throne (vorerst als Steinmale) |
+| Gänge | – | drei Felder breit: Erde–Luft oben, Wasser–Feuer unten, Erde–Wasser links, Luft–Feuer rechts, dazu je ein Gang von jedem Flügel in die Halle der Vier; vereinzelt Geröll |
+
+**Zugänge** (Kartenzeichen E, Treppe mit schwachem Licht, Beschriftung in der Nähe):
+
+| Oben in Morvenn | Feld | führt zu |
+|---|---|---|
+| Gruft von Grauufer, hinter dem Altar | 84,208 | Flügel der Erde |
+| Insel im Tränensee | 27,203 | Flügel des Wassers |
+| Versunkener Tempel | 252,197 | Flügel der Luft |
+| Aschenhorn, am Fuß beim Wegstein | 643,195 | Flügel des Feuers |
+
+Alle Zugänge sind von Anfang an offen. Da die Flügel unten verbunden sind, ist Die Tiefe auch eine Abkürzung quer durch Morvenn. Die Karte (Taste M) zeigt in der Tiefe nur die Tiefe, sonst nur Morvenn.
+
+**Geplant (nächste Schritte):** Gegner (Steinwächter, Echo, Ruhelose; Endgegner Thronhüter in der Halle der Vier), Schriften und Wandbilder, zwei bis drei Truhen, Belohnung „Ring der Tiefe“; Schwierigkeit für Stufe 4–5.
 
 ## 8. Neu seit Spiel-Rev 41 (Im Spiel)
 
