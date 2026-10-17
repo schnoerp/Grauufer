@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer – Rollenspiel-Prototyp (Rev 99)</title>
+<title>Grauufer – Rollenspiel-Prototyp (Rev 101)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -228,7 +228,9 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom{display:none}
 #panel.bag .q{margin:0;padding:6px 8px}#panel.bag .q h4{font-size:13px;margin:0 0 2px}#panel.bag .q div{font-size:12px}#panel.bag .q.done{padding:3px 8px}
 @media (max-width:760px){#panel.bag .clist,#panel.bag .qlist{grid-template-columns:1fr}#panel.bag .baggrid{grid-template-columns:1fr}#panel.bag .pgrid{grid-template-columns:repeat(auto-fill,var(--s))}}
 /* Rev 84: Tagebuch */
-#panel.jour{width:min(640px,96vw)}.jgoal{background:rgba(60,36,14,.6);border:1px solid rgba(200,150,80,.4);border-radius:6px;padding:6px 10px;margin:6px 0 8px;font-size:14px}
+#panel.jour{width:min(640px,96vw)}
+#panel.storyp{width:min(980px,96vw)}#story svg{display:block;width:100%;height:auto;max-height:calc(100dvh - 210px)}#story .sinfo{min-height:44px;margin-top:4px;font-size:14px;line-height:1.35}#story .sinfo b{color:#6a2a0a}
+#story .sn{cursor:pointer}#story .sn text{font:500 13px 'Pixelify Sans',monospace;fill:#3a2010}#story .sn.hid text{fill:#8a7a62}#story .sn.rej text{text-decoration:line-through;fill:#8a7a62}.jgoal{background:rgba(60,36,14,.6);border:1px solid rgba(200,150,80,.4);border-radius:6px;padding:6px 10px;margin:6px 0 8px;font-size:14px}
 .jgoal small{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;color:#c9a777}
 .jf{margin:0 0 6px}.jf button{min-height:30px;font-size:12.5px;padding:0 8px}
 .jlist{max-height:min(52vh,460px);overflow:auto;padding-right:4px}.jrow{display:grid;grid-template-columns:62px 1fr;gap:8px;padding:6px 0;border-bottom:1px solid rgba(160,110,60,.2);font-size:14px;line-height:1.4}
@@ -275,14 +277,13 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom{display:none}
   <div class="box px"><div id="time"></div><div id="gold"></div></div>
   <div class="zoom"><button id="bZo" aria-label="Herauszoomen">−</button><span id="zpct" class="box px" aria-live="polite">100 %</span><button id="bZi" aria-label="Hineinzoomen">+</button></div>
   <div class="zoom"><button id="bSnd">Ton an</button><button id="bQuit">Beenden</button></div>
-  <button id="bGfx" title="Grafikqualität umschalten">Grafik: Hoch</button>
   <button id="bEgo" hidden title="Ego-Sicht (Test, nur in Höhlen)">Ego-Sicht</button>
 </div>
 <div id="log" class="px" aria-live="polite"></div>
 <div id="bottom">
   <div class="bar hp px"><i id="hpb"></i><span>Leben</span><b id="hpt"></b></div>
   <div id="hotbar" role="toolbar" aria-label="Schnellzugriff"></div>
-  <nav id="actions"><button id="bInv" class="bagbtn" aria-label="Rucksack"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 14c0-7 20-7 20 0" fill="none" stroke="#3a2410" stroke-width="4"/><path d="M12 24c0-8 6-12 20-12s20 4 20 12v28c0 5-4 8-9 8H21c-5 0-9-3-9-8z" fill="#8a5a2e" stroke="#2a1608" stroke-width="2.5"/><path d="M12 24c0-8 6-12 20-12s20 4 20 12v6c-6 4-14 6-20 6s-14-2-20-6z" fill="#a8703a" stroke="#2a1608" stroke-width="2.5"/><rect x="28" y="30" width="8" height="9" rx="1.5" fill="#d8b050" stroke="#2a1608" stroke-width="2"/><rect x="18" y="42" width="28" height="12" rx="3" fill="#7a4e26" stroke="#2a1608" stroke-width="2"/><path d="M16 26c3 2 6 3 9 3.5M48 26c-3 2-6 3-9 3.5" stroke="#e8c890" stroke-width="1" stroke-dasharray="2 2" fill="none"/></svg><span>Rucksack</span></button><button id="bSpell" hidden>Zauber</button><button id="bChar">Charakter</button><button id="bMap">Karte</button><button id="bJour">Tagebuch</button><button id="bWait">Rasten</button></nav>
+  <nav id="actions"><button id="bInv" class="bagbtn" aria-label="Rucksack"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M22 14c0-7 20-7 20 0" fill="none" stroke="#3a2410" stroke-width="4"/><path d="M12 24c0-8 6-12 20-12s20 4 20 12v28c0 5-4 8-9 8H21c-5 0-9-3-9-8z" fill="#8a5a2e" stroke="#2a1608" stroke-width="2.5"/><path d="M12 24c0-8 6-12 20-12s20 4 20 12v6c-6 4-14 6-20 6s-14-2-20-6z" fill="#a8703a" stroke="#2a1608" stroke-width="2.5"/><rect x="28" y="30" width="8" height="9" rx="1.5" fill="#d8b050" stroke="#2a1608" stroke-width="2"/><rect x="18" y="42" width="28" height="12" rx="3" fill="#7a4e26" stroke="#2a1608" stroke-width="2"/><path d="M16 26c3 2 6 3 9 3.5M48 26c-3 2-6 3-9 3.5" stroke="#e8c890" stroke-width="1" stroke-dasharray="2 2" fill="none"/></svg><span>Rucksack</span></button><button id="bSpell" hidden>Zauber</button><button id="bChar">Charakter</button><button id="bMap">Karte</button><button id="bJour">Tagebuch</button><button id="bStory">Geschichte</button><button id="bWait">Rasten</button></nav>
   <div class="bar mp px"><i id="mpb"></i><span>Mana</span><b id="mpt"></b></div>
 </div>
 <div id="egoPad" style="display:none"><button id="eL" aria-label="links drehen">⟲</button><button id="eF" aria-label="vorwärts">▲</button><button id="eR" aria-label="rechts drehen">⟳</button><span></span><button id="eB" aria-label="zurück">▼</button><span></span></div>
@@ -646,8 +647,9 @@ const $=s=>document.querySelector(s);
    und sie belegen keinen Grafikspeicher mehr (vorher: Sprites ab 128×129 Pixel wurden vom Browser auf die GPU gelegt).
    Jede Zeichenfläche ist Hauptspeicher, außer sie wurde vor dem ersten getContext mit gpuCanvas() markiert.
    SOFT = Notbetrieb: auch die Spielfläche im Hauptspeicher (nur wenn der Grafikspeicher dauerhaft versagt). */
-let SOFT=false;try{if(localStorage.getItem('grauufer-gfxv')!=='70'){localStorage.removeItem('grauufer-soft');localStorage.removeItem('grauufer-gpucap');localStorage.setItem('grauufer-gfxv','70');}
-  SOFT=localStorage.getItem('grauufer-soft')==='1';}catch(e){}/* Rev 70: veralteten Notbetrieb einmalig zurücksetzen */
+/* Rev 100: Notstufen nach Grafikverlust (Auflösung 80/65/50 %, Notbetrieb) gelten nur bis zum nächsten Start des Spiels.
+   Vorher wurden sie dauerhaft gespeichert und ließen sich nur über den Knopf „Grafik“ zurücksetzen, den es nicht mehr gibt. */
+let SOFT=false;try{['grauufer-soft','grauufer-gpucap','grauufer-gfx','grauufer-gfxv'].forEach(k=>localStorage.removeItem(k));}catch(e){}
 {const gc=HTMLCanvasElement.prototype.getContext;
  HTMLCanvasElement.prototype.getContext=function(t,o){if(t==='2d'&&(SOFT||!this.__gpu))o=Object.assign({willReadFrequently:true},o||{});return gc.call(this,t,o);};}
 const gpuCanvas=c=>{c.__gpu=true;return c;};
@@ -804,7 +806,7 @@ setInterval(()=>{if(document.hidden)audioPause();},1000);
 function toggleSound(){AU.on=!AU.on;audioInit();if(AU.m)AU.m.gain.setTargetAtTime(AU.on?.6:0,AU.c.currentTime,.05);
   try{localStorage.setItem('grauufer-snd',AU.on?'1':'0');}catch(e){}$('#bSnd').textContent=AU.on?'Ton an':'Ton aus';}
 $('#bSnd').onclick=toggleSound;
-$('#bGfx').onclick=()=>cycleGfx();
+
 $('#bQuit').onclick=()=>{if(!S||S.over)return;save(true);overlay(`<h1>Grauufer</h1><div class="sub px">Spiel beenden?</div><p class="px">Dein Fortschritt ist gespeichert. Beim nächsten Start kannst du mit „Weiterspielen“ genau hier fortfahren.</p>`,[['Zum Titelbildschirm',()=>{save();stopAmbient();setTimeout(audioPause,450);showSplash(true);},true],['Weiterspielen',closeOverlay]]);};$('#bSnd').textContent=AU.on?'Ton an':'Ton aus';
 
 /* ==========================================================
@@ -1915,7 +1917,7 @@ let LOSTN=0,LOSTT=0,LOSTALL=0,SOFTBUF=SOFT,FRESH=0;
       auf ca. 1,2 Megapixel begrenzt, damit der Prozessor das Bild flüssig schafft). Grafik-Knopf setzt alles zurück. */
 let GPUCAP=1;try{const v=+localStorage.getItem('grauufer-gpucap');if([.8,.65,.5].includes(v))GPUCAP=v;}catch(e){}
 function gpuShrink(why){const st=[1,.8,.65,.5],i=st.indexOf(GPUCAP);if(i<0||i>=st.length-1)return false;GPUCAP=st[i+1];
-  try{localStorage.setItem('grauufer-gpucap',GPUCAP);}catch(e){}resize();updateGfxBtn();
+  try{localStorage.setItem('grauufer-gpucap',GPUCAP);}catch(e){}resize();
   log(`Grafikspeicher knapp (${why}) – Auflösung auf ${Math.round(GPUCAP*100)} % gesenkt.`,'q');return true;}
 function noteLoss(now,what){LOSTALL++;LOSTN=now-LOSTT<120000?LOSTN+1:1;LOSTT=now;if(LOSTN>=2)G.pendShrink=what;}
 /* wird zu Beginn eines Bildes ausgeführt, nie mitten im Zeichnen */
@@ -1931,11 +1933,7 @@ function ctxWatch(now){const lost=lostCtx(ctx);
   else if(now-G.lostAt>3000)freshCanvas(now);
   return true;}
 function goSoft(){if(SOFT)return;SOFT=true;try{localStorage.setItem('grauufer-soft','1');}catch(e){}
-  SOFTBUF=true;for(const c of BUFC){c.width=c.height=0;}BUFC.length=0;GB=null;NB=null;CZ=-1;FRESH=0;freshCanvas(performance.now());updateGfxBtn();}
-function resetGpuMode(){const wasSoft=SOFT,was=SOFT||GPUCAP<1;SOFT=false;GPUCAP=1;FRESH=0;LOSTN=0;G.pendShrink=null;try{localStorage.removeItem('grauufer-soft');localStorage.removeItem('grauufer-gpucap');}catch(e){}
-  if(SOFTBUF){SOFTBUF=false;for(const c of BUFC){c.width=c.height=0;}BUFC.length=0;GB=null;NB=null;CZ=-1;}
-  if(wasSoft)freshCanvas(performance.now());if(was)log('Grafikspeicher-Notmodus zurückgesetzt.','q');}
-function updateGfxBtn(){const b=$('#bGfx');if(b)b.textContent='Grafik: '+(GFXL[GFX]||GFXL.hoch)[0]+(SOFT?' ✓':GPUCAP<1?' '+Math.round(GPUCAP*100)+'%':'');}
+  SOFTBUF=true;for(const c of BUFC){c.width=c.height=0;}BUFC.length=0;GB=null;NB=null;CZ=-1;FRESH=0;freshCanvas(performance.now());}
 function bufLost(now,what){if(GB&&GB.lo)LASTLO={c:GB.lo,x:GB.x,y:GB.y,w:GB.w,h:GB.h};if(GB)dropBuf(GB.c);/* verlorene Fläche nie wiederverwenden */noteLoss(now,what);flushGfx();gbTrim();}
 function gfxProbe(now,left){if(ctxWatch(now))return;if(!GB)return;
   if(lostCtx(GB.g)){bufLost(now,'Boden');return;}
@@ -2515,6 +2513,59 @@ function renderJournal(){const box=$('#jour');if(!box)return;const J=(S.journal|
     <div class="jlist">${rows||'<p class="hint">Noch keine Einträge.</p>'}</div>`;
   box.querySelectorAll('[data-jf]').forEach(b=>b.onclick=()=>{jFilter=b.dataset.jf;renderJournal();});
   box.querySelectorAll('[data-jr]').forEach(b=>b.onclick=()=>{const e=S.journal[+b.dataset.jr];if(!e)return;closePanel();storyCard(e.title||JCAT[e.c],(e.h||'')+(e.m!=null?mapImg(e.m):''),()=>openJournal());});}
+/* ---------- Rev 101: Story-Baum (Knopf „Geschichte“, Taste G) ----------
+   Zeigt die Hauptgeschichte als Baum mit dem erreichten Stand. Erreichte Stationen golden mit Häkchen, mögliche nächste hell
+   umrandet mit Hinweis, künftige verborgen („???“), abgewählte Entscheidungen verblasst und durchgestrichen.
+   Alle Angaben kommen aus den Spielmerkern; gezeichnet wird nur beim Öffnen (keine Kosten pro Bild). */
+const SF=()=>S.flags,fac=el=>SF()['fac_'+el]||0;
+const STN=[
+  {id:'strand',x:50,lab:'d',y:160,n:'Erwachen am Strand',done:()=>true,t:'Du bist am Strand südlich von Grauufer erwacht, ohne Erinnerung.'},
+  {id:'amulett',x:135,lab:'u',y:160,n:'Das Amulett',from:'strand',done:()=>!!SF().amulet||has('amulet'),av:()=>true,t:'Du hast das zerbrochene Amulett im Sand gefunden.',h:'Etwas glänzt im Sand neben dem Wrack.'},
+  {id:'graeber',x:220,lab:'d',y:160,n:'Das Gräberfeld',from:'amulett',done:()=>!!SF().key,av:()=>!!SF().quest||S.kills>0,t:'Die Ghule auf dem Gräberfeld sind vertrieben, Oswin gab dir den Gruftschlüssel.',h:'Sprich mit Mareth in Grauufer und vertreibe die Ghule vom Gräberfeld.'},
+  {id:'gruft',x:305,lab:'u',y:160,n:'Die Gruft',from:'graeber',done:()=>!!SF().doorOpen||!!SF().shard_erde,av:()=>!!SF().key,t:'Du hast die Gruft von Grauufer geöffnet.',h:'Öffne mit dem Gruftschlüssel die Gruft.'},
+  {id:'erde',x:390,lab:'d',y:160,n:'Splitter der Erde',from:'gruft',done:()=>!!SF().shard_erde,av:()=>!!SF().doorOpen,t:'Der Gruftwächter ist zerbrochen, der Splitter der Erde gehört dir.',h:'Besiege den Gruftwächter am Altar in der Gruft.'},
+  {id:'wasser',x:500,lab:'u',y:80,n:'Splitter des Wassers',from:'erde',done:()=>!!SF().shard_wasser,av:()=>!!SF().shard_erde,t:'Der Tiefenwächter ist zerflossen, der Splitter des Wassers gehört dir.',h:'Auf der Insel im Tränensee wacht der Tiefenwächter.'},
+  {id:'feuer',x:500,lab:'u',y:160,n:'Splitter des Feuers',from:'erde',done:()=>!!SF().shard_feuer,av:()=>!!SF().shard_erde,t:'Der Glutfürst ist erloschen, der Splitter des Feuers gehört dir.',h:'Im Glutschlund hütet der Glutfürst den Splitter.'},
+  {id:'luft',x:500,lab:'d',y:240,n:'Splitter der Luft',from:'erde',done:()=>!!SF().shard_luft,av:()=>!!SF().shard_erde,t:'Der Sturmherr ist zerrissen, der Splitter der Luft gehört dir.',h:'Auf der Sturmspitze im Norden wartet der Sturmherr.'},
+  {id:'reveal',x:615,lab:'d',y:160,n:'Mareths Enthüllung',from:['wasser','feuer','luft'],done:()=>!!SF().reveal,av:()=>shardCount()>=3,t:'Mareth hat dir die Wahrheit gesagt: Du warst einer der vier Siegelwächter.',h:'Kehre mit drei Splittern zu Mareth nach Grauufer zurück.'},
+  {id:'finale',x:715,lab:'u',y:160,n:'Das Finale',from:'reveal',done:()=>!!SF().ending||!!SF().krater,av:()=>shardCount()>=4&&!!SF().reveal,t:'Mit allen vier Splittern stehst du vor der letzten Wahl.',h:'Mit allen vier Splittern: der Steinkreis in Grauufer oder das Portal in Sonnwacht zum Krater.'},
+  {id:'kreis',x:810,lab:'u',y:80,n:'Der Steinkreis',from:'finale',done:()=>['a','d'].includes(SF().ending),av:()=>shardCount()>=4&&!!SF().reveal,t:'Du hast die Splitter in den Steinkreis gelegt.',h:'Der alte Steinkreis von Grauufer.'},
+  {id:'krater',x:810,lab:'d',y:240,n:'Der Krater',from:'finale',done:()=>!!SF().krater,av:()=>shardCount()>=4&&!!SF().reveal,t:'Du bist Nhal am Kraterrand des Aschenhorns begegnet.',h:'Das Portal in Sonnwacht führt an den Kraterrand des Aschenhorns.'},
+  {id:'endA',x:905,y:45,n:'Das neue Siegel',from:'kreis',end:'a',done:()=>SF().ending==='a',av:()=>shardCount()>=4&&!!SF().reveal,t:'Du bist selbst zum Siegel geworden.',h:'Werde selbst zum Siegel.'},
+  {id:'endD',x:905,y:115,n:'Der freie Wächter',from:'kreis',end:'d',done:()=>SF().ending==='d',av:()=>shardCount()>=4&&!!SF().reveal&&hasT('siegel'),t:'Du hast das Siegel aus den Splittern allein geknüpft.',h:'Mit dem Talent Siegelkunde gibt es einen zweiten Weg.'},
+  {id:'endB',x:905,y:205,n:'Der Erlöser',from:'krater',end:'b',done:()=>SF().ending==='b',av:()=>!!SF().krater&&!!(S.eq.weapon&&S.eq.weapon.k==='titanblade'),t:'Du hast Nhal mit dem Titanenbrecher besiegt.',h:'Nur der Titanenbrecher verwundet Nhal.'},
+  {id:'endC',x:905,y:275,n:'Der Hungernde',from:'krater',end:'c',done:()=>SF().ending==='c',av:()=>!!SF().krater,t:'Du hast Nhal die Splitter übergeben.',h:'Nhal bietet dir einen Handel an.'},
+  /* Entscheidungen: je Gabel zwei Äste; Wert 1 = linker, −1 = rechter Ast */
+  {id:'dM',x:110,y:370,n:'Mareth',dec:()=>SF().mareth||0,av:()=>!!SF().reveal,h:'Nach der Enthüllung entscheidest du über Mareth.',a:['vergeben','verstoßen']},
+  {id:'dE',x:290,y:370,n:'Die Stillen',dec:()=>fac('erde'),av:()=>!!SF().shard_erde,h:'Oswin in Grauufer hütet ein Geheimnis.',a:['schweigen','aufdecken']},
+  {id:'dW',x:470,y:370,n:'Die Seelotsen',dec:()=>fac('wasser'),av:()=>!!SF().shard_wasser,h:'Tobe am Tränensee weiß, was in jener Nacht geschah.',a:['vergeben','verurteilen']},
+  {id:'dF',x:650,y:370,n:'Die Glutschmiede',dec:()=>fac('feuer'),av:()=>!!SF().reveal,h:'Hagen im Glutschlund kennt eine Waffe gegen Nhal.',a:['schmieden','befreien']},
+  {id:'dL',x:830,y:370,n:'Die Sturmbrüder',dec:()=>fac('luft'),av:()=>!!SF().shard_luft,h:'Bruder Aldo in Steinwacht sah alles voraus.',a:['Eid leisten','ablehnen']}];
+function stState(N){if(N.dec)return N.dec()?'done':N.av()?'av':'hid';if(N.done())return'done';const E=SF().ending;if(N.end&&E)return'rej';return N.av&&N.av()?'av':'hid';}
+function openStory(){if(!S||S.over)return;const el=openPanel('<div id="story"></div>');el.classList.add('storyp');renderStory();}
+function renderStory(sel){const box=$('#story');if(!box)return;const byId={};STN.forEach(N=>byId[N.id]=N);const ST={};STN.forEach(N=>ST[N.id]=stState(N));
+  const INK='#4a2e16',seal=(x,y,st,r=13)=>st==='done'?`<circle cx="${x}" cy="${y}" r="${r}" fill="#b8862a" stroke="#5a3a10" stroke-width="2"/><path d="M${x-5} ${y} l4 4 l7 -8" fill="none" stroke="#fff4d0" stroke-width="2.6"/>`
+    :st==='av'?`<circle cx="${x}" cy="${y}" r="${r}" fill="#f4e6c4" stroke="#9a2418" stroke-width="2.4" stroke-dasharray="4 3"/>`
+    :st==='rej'?`<circle cx="${x}" cy="${y}" r="${r}" fill="#d8ccb0" stroke="#8a7a62" stroke-width="1.5" opacity=".6"/>`
+    :`<circle cx="${x}" cy="${y}" r="${r}" fill="#cbbd9e" stroke="#9a8a6e" stroke-width="1.5"/><text x="${x}" y="${y+4.5}" text-anchor="middle" style="font-size:13px;fill:#7a6a52">?</text>`;
+  let ed='',nd='';
+  STN.forEach(N=>{if(N.dec){const d=N.dec(),st=ST[N.id];
+      [[-48,0],[48,1]].forEach(([dx,i])=>{const lx2=N.x+dx,ly=N.y+52,lst=st==='hid'?'hid':d===0?(st==='av'?'av':'hid'):((d>0)===(i===0)?'done':'rej');
+        ed+=`<line x1="${N.x}" y1="${N.y}" x2="${lx2}" y2="${ly}" stroke="${lst==='hid'?'#b0a284':INK}" stroke-width="2" ${lst==='hid'||lst==='av'?'stroke-dasharray="5 4"':''} opacity="${lst==='rej'?.4:1}"/>`;
+        nd+=`<g class="sn ${lst}" data-sn="${N.id}">${seal(lx2,ly,lst,10)}<text x="${lx2}" y="${ly+25}" text-anchor="middle">${lst==='hid'?'???':N.a[i]}</text></g>`;});
+      nd+=`<g class="sn ${st}" data-sn="${N.id}">${seal(N.x,N.y,st)}<text x="${N.x}" y="${N.y-20}" text-anchor="middle">${st==='hid'?'???':N.n}</text></g>`;return;}
+    const fr=N.from?[].concat(N.from):[];fr.forEach(f=>{const A=byId[f],st=ST[N.id],ok=ST[f]==='done'&&st!=='hid';
+      ed+=`<line x1="${A.x}" y1="${A.y}" x2="${N.x}" y2="${N.y}" stroke="${ok?INK:'#b0a284'}" stroke-width="${ST[f]==='done'&&st==='done'?3:2}" ${st==='done'?'':'stroke-dasharray="5 4"'} opacity="${st==='rej'?.4:1}"/>`;});
+    const st=ST[N.id];nd+=`<g class="sn ${st}" data-sn="${N.id}">${seal(N.x,N.y,st)}<text x="${N.x}" y="${N.y+(N.lab==='u'?-20:30)}" text-anchor="middle">${st==='hid'?'???':N.n}</text></g>`;});
+  const done=STN.filter(N=>!N.dec&&ST[N.id]==='done').length,main=STN.filter(N=>!N.dec&&!N.end).length;
+  const N0=sel&&byId[sel],st0=N0&&ST[N0.id];
+  const info=!N0?'<span class="hint">Tippe auf eine Station. Golden = erreicht, rot gestrichelt = als Nächstes möglich, ??? = noch verborgen.</span>'
+    :st0==='hid'?`<b>???</b> Diese Station ist noch verborgen.`:N0.dec?`<b>${N0.n}:</b> ${N0.dec()?'Entschieden: '+N0.a[N0.dec()>0?0:1]+'.':N0.h}`
+    :st0==='done'?`<b>${N0.n}:</b> ${N0.t}`:st0==='rej'?`<b>${N0.n}:</b> Dieser Weg wurde nicht gegangen.`:`<b>${N0.n}:</b> ${N0.h}`;
+  box.innerHTML=`<div class="title px">Geschichte</div><div class="meta">Erreicht: ${Math.min(done,main)} von ${main} Stationen der Hauptgeschichte${SF().ending?' · Ende erreicht':''}</div>
+    <svg viewBox="0 0 960 470" role="img" aria-label="Story-Baum">${ed}<line x1="40" y1="312" x2="920" y2="312" stroke="${INK}" stroke-width="1" opacity=".35"/>
+    <text x="40" y="332" style="font:500 13px 'Pixelify Sans',monospace;fill:#6a2a0a">Entscheidungen</text>${nd}</svg><div class="sinfo">${info}</div>`;
+  box.querySelectorAll('[data-sn]').forEach(g=>g.onclick=()=>renderStory(g.dataset.sn));}
 /* ---------- Story: Erzählkarten ---------- */
 function storyCard(title,html,after){overlay(`<h1>${title}</h1><div class="story">${html}</div>`,[['Weiter',()=>{closeOverlay();if(after)after();},true]]);}
 /* Traumfetzen beim Rasten: nach 3 ungestörten Rastrunden, je Splitterstand einmal */
@@ -2694,6 +2745,7 @@ addEventListener('keydown',e=>{
   if(KM[e.key]){e.preventDefault();tryStep(...KM[e.key]);}
   else if(e.key===' '){e.preventDefault();waitTurn();}
   else if(e.key==='t')openJournal();
+  else if(e.key==='g')openStory();
   else if(e.key==='k')openChar();
   else if(/^[1-9]$/.test(e.key))hotUse(+e.key-1);
   else if(e.key==='f'&&G.target){const tg=ens().find(x=>x.id===G.target&&!x.dead);if(tg){if(cheb(tg.x,tg.y,S.p.x,S.p.y)<=wRange())attack(tg);else log('Das Ziel ist außer Reichweite.');}}
@@ -2705,7 +2757,7 @@ addEventListener('keydown',e=>{
 });
 $('#bWait').onclick=waitTurn;$('#bInv').onclick=()=>openInv();
 $('#bSpell').onclick=()=>{if(G.cast){G.cast=null;log('Zauber abgebrochen.');updateHUD();}else openSpells();};
-$('#bMap').onclick=()=>openMap();$('#bChar').onclick=()=>openChar();$('#bJour').onclick=()=>openJournal();$('#bZi').onclick=()=>zoom(1);$('#bZo').onclick=()=>zoom(-1);
+$('#bMap').onclick=()=>openMap();$('#bChar').onclick=()=>openChar();$('#bJour').onclick=()=>openJournal();$('#bStory').onclick=()=>openStory();$('#bZi').onclick=()=>zoom(1);$('#bZo').onclick=()=>zoom(-1);
 
 /* ---------- Fenster ---------- */
 /* Rev 87: Pergament-Textur (prozedural, einmalig) */
@@ -3168,7 +3220,7 @@ function addFactionDialogs(){
 /* ---------- Nhal im Aschenhorn: Begegnung am Kraterrand ---------- */
 let NHALCD=0;
 function nhalTick(now){if(!S||S.over||uiOpen||F().ending)return;const p=S.p,near=cheb(p.x,p.y,VOLC.x,VOLC.y)<=6;
-  if(!near){G.nhalSeen=0;return;}if(shardCount()<4||G.nhalSeen||now<NHALCD)return;G.nhalSeen=1;
+  if(!near){G.nhalSeen=0;return;}if(shardCount()<4||G.nhalSeen||now<NHALCD)return;G.nhalSeen=1;F().krater=1;
   const blade=S.eq.weapon&&S.eq.weapon.k==='titanblade',alive=S.enemies.some(e=>e.k==='nhal'&&!e.dead);if(alive)return;
   const B=[['Die Splitter übergeben',()=>{closeOverlay();ending('c');},false]];
   if(blade)B.push(['Nhal herausfordern',()=>{closeOverlay();spawnNhal();},true]);
@@ -3445,7 +3497,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer</h1><div class="sub px">Ein Rollenspiel-Prototyp von schnoerp-media, Revision 99</div>
+  overlay(`<h1>Grauufer</h1><div class="sub px">Ein Rollenspiel-Prototyp von schnoerp-media, Revision 101</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -3852,10 +3904,9 @@ function loopBody(now){
 }
 /* Leistungsanpassung nur in eine Richtung, mit Bestätigung über mehrere Messfenster, damit nichts hin- und herspringt */
 let SLOW=0,ADAPT_T=0;
-let GFX='hoch';try{GFX=localStorage.getItem('grauufer-gfx')||'hoch';}catch(e){}
+/* Rev 100: Bildqualität fest auf „Automatisch“: volle Auflösung, bei Ruckeln (Bildzeit im Mittel über 30 ms) stufenweise 80 % und 65 %. Der Knopf „Grafik“ entfällt. */
+const GFX='auto';
 const GFXL={hoch:['Hoch',1,'high'],mittel:['Mittel',.8,'medium'],niedrig:['Niedrig',.65,'low'],auto:['Automatisch',1,'medium']};
-function applyGfx(){const g=GFXL[GFX]||GFXL.hoch;RSC=GFX==='auto'?RSC:g[1];updateGfxBtn();resize();}
-function cycleGfx(){const o=['hoch','mittel','niedrig','auto'];GFX=o[(o.indexOf(GFX)+1)%o.length];try{localStorage.setItem('grauufer-gfx',GFX);}catch(e){}if(GFX!=='auto')RSC=GFXL[GFX][1];else RSC=1;resetGpuMode();applyGfx();log(`Grafikqualität: ${GFXL[GFX][0]}.`);}
 function adapt(ms){if(GFX!=='auto')return;FT.push(ms);if(FT.length<90)return;const a=FT.slice().sort((x,y)=>x-y)[FT.length>>1];FT=[];
   if(performance.now()-ADAPT_T<8000)return;
   const base=Math.min(3,devicePixelRatio||1),lv=[1,.8,.65].filter(v=>base*v>=1||v===1);let i=lv.indexOf(RSC);if(i<0)i=0;
@@ -4098,7 +4149,7 @@ function showSplash(replay){const sp=$('#splash');sp.hidden=false;sp.classList.r
 function splashGo(){if(!READY||SPGO)return;SPGO=true;audioInit();jingle();const sp=$('#splash');sp.classList.add('go');
   setTimeout(()=>{sp.classList.add('out');intro();},RM?300:2600);setTimeout(()=>{sp.hidden=true;},RM?900:3500);}
 $('#splash').addEventListener('click',splashGo);addEventListener('keydown',e=>{if(!$('#splash').hidden&&!SPGO&&READY&&(e.key==='Enter'||e.key===' ')){e.preventDefault();splashGo();}},true);
-RSC=(GFXL[GFX]||GFXL.hoch)[1];resize();showZoom();showSplash();updateGfxBtn();
+RSC=(GFXL[GFX]||GFXL.hoch)[1];resize();showZoom();showSplash();
 function prewarm(){try{initMtn();wildPool();['moor','frost','wueste','nebel'].forEach(z=>zonePool(z));['player','wolf','bandit','gerold','lene','odo','wache1','wache2'].forEach(k=>{for(let f=0;f<5;f++)charSprite(k,f);});
   ['wild','sonnwacht','grau','moor'].forEach(z=>{for(let v=0;v<TREEV;v++)treeSprite(v,z);});
   if(!DECOK)buildDeco();/* Rev 92: Möbel, Truhen, Nischen usw. schon während des Titelbilds suchen */
