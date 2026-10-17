@@ -1,6 +1,6 @@
 # Grauufer – Gesprächspartner
 
-**Revision 12**, Stand: Spiel-Rev 90. Abschnitt A beschreibt den Ist-Stand im Spiel, Abschnitt B die geplanten Erweiterungen aus der Grauufer_Waffenliste_RevXX.md, Abschnitt C Vorschläge für neue Figuren.
+**Revision 13**, Stand: Spiel-Rev 94. Abschnitt A beschreibt den Ist-Stand im Spiel, Abschnitt B die geplanten Erweiterungen aus der Grauufer_Waffenliste_RevXX.md, Abschnitt C Vorschläge für neue Figuren.
 
 ## A) Vorhandene Gesprächspartner
 
@@ -143,11 +143,11 @@ Orte ohne Bewohner bekommen eine Figur, die Hinweise, Handel oder Aufgaben biete
 | Wendel | Sonnwacht, Turmplattform | Ballonbauer | verträumt, tüftelnd, schwärmt vom Himmel über Vharos | Ballonfahrten zu den Landeplätzen, 20 Gold | „Der erste Aufstieg“: Spinnenseide und Glutkristalle → Ballonfahrt |
 | Grim | wandernd zwischen Wegsteinen | fahrender Händler | rätselhaft, taucht an wechselnden Orten auf | seltene Waren (Blutklinge, Splittertopf) | – |
 
-**Mit den Vorschlägen:** 24 Gesprächspartner.
+**Mit den Vorschlägen:** 34 Gesprächspartner (25 vorhandene + 9 vorgeschlagene).
 
 ## D) Regeln für Dialoge
 
-- Alle Texte auf Deutsch, düster, knapp, atmosphärisch; keine Gedankenstriche, Kommas oder Punkte stattdessen.
+- Alle Texte auf Deutsch, düster, knapp, atmosphärisch; Gedankenstriche sparsam, lieber Kommas oder Punkte. Einige vorhandene Dialoge (z. B. Mareths Enthüllung) enthalten Gedankenstriche; das ist geduldet (siehe Grauufer_Stil_RevXX.md, Abschnitt 4).
 - Spieler wird geschlechtsabhängig angesprochen („Fremder“ / „Fremde“).
 - Jede Figur hat einen erkennbaren eigenen Ton (siehe Spalte Charakter).
 - Antworten passen sich dem Spielfortschritt an (vorher, während und nach einer Aufgabe).

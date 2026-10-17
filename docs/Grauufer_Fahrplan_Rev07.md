@@ -1,6 +1,6 @@
 # Grauufer – Fahrplan
 
-**Revision 06**, Stand: Spiel-Rev 90. Reihenfolge der Umsetzung mit Claude Code im GitHub-Repo „grauufer“ (TypeScript + Vite), für 2 Entwickler parallel.
+**Revision 07**, Stand: Spiel-Rev 94. Reihenfolge der Umsetzung mit Claude Code im GitHub-Repo „grauufer“ (TypeScript + Vite), für 2 Entwickler parallel.
 
 Die verbindliche Zuständigkeitsaufteilung und der Branch-Ablauf stehen in der CLAUDE.md. Die Spuren unten sind eine Empfehlung dazu.
 
@@ -15,35 +15,36 @@ Grundsatz: Spur A baut Systeme, Spur B füllt sie mit Daten unter `data/`. So ko
 
 ## 2. Stufen
 
-### Stufe 0: Grundgerüst
+### Stufe 0: Grundgerüst ✓ (erledigt mit Spiel-Rev 93)
+
+| Aufgabe | Spur | Stand |
+|---|---|---|
+| Startpaket ins Repo (CLAUDE.md, README, .gitignore, Rev 29 unter `reference/`) | A | ✓ erledigt; **offen:** Ordner `reference/` mit Rev 29 fehlt noch |
+| Vite-Projekt, Ordnerstruktur, Testumgebung | A | ✓ Testumgebung: `npm test` (scripts/check.js + Playwright-Tests in tests/grauufer.spec.js), GitHub Action bei jedem Push; Vite-Projekt wandert in Stufe 1 |
+| Alle Konzeptdokumente unter `docs/` | B | ✓ erledigt |
+
+**Fertig, wenn:** leeres Spiel startet im Browser, Tests laufen. Erfüllt: Das Spiel startet als `index.html`, Tests laufen lokal und auf GitHub.
+
+### Stufe 1: Migration auf den aktuellen Stand des Prototyps (vorher Rev 29)
+
+> Hinweis: Der HTML-Prototyp liegt im Repo als `index.html` (aktuell Spiel-Rev 94). Grundlage der Migration ist der jeweils aktuelle Stand von `index.html`, nicht mehr Rev 29. Zuerst das Vite-Projekt mit Ordnerstruktur anlegen (aus Stufe 0 verschoben).
+
 
 | Aufgabe | Spur |
 |---|---|
-| Startpaket ins Repo (CLAUDE.md, README, .gitignore, Rev 29 unter `reference/`) | A |
-| Vite-Projekt, Ordnerstruktur, Testumgebung | A |
-| Alle Konzeptdokumente unter `docs/` | B |
-
-**Fertig, wenn:** leeres Spiel startet im Browser, Tests laufen.
-
-### Stufe 1: Migration auf den Stand von Rev 90 (vorher Rev 29)
-
-> Hinweis: Der HTML-Prototyp ist inzwischen bei Rev 90. Grundlage der Migration ist damit Grauufer_Rev90.html, nicht mehr Rev 29.
-
-
-| Aufgabe | Spur |
-|---|---|
+| Vite-Projekt und Ordnerstruktur (aus Stufe 0) | A |
 | Spielschleife, Zugablauf, Karte, Darstellung, Bedienung, Speichern | A |
-| Alle Daten aus Rev 29 in `data/` übertragen (Gegner, Gegenstände, Zauber, Figuren, Dialoge, Quests) | B |
+| Alle Daten aus `index.html` in `data/` übertragen (Gegner, Gegenstände, Zauber, Figuren, Dialoge, Quests) | B |
 | Kampfformeln in `src/combat/` mit Tests | A + B |
 
-**Fertig, wenn:** das neue Spiel sich genau wie Rev 29 spielt, flüssig auf dem Tablet.
+**Fertig, wenn:** das neue Spiel sich genau wie der Prototyp spielt, flüssig auf dem Tablet, und alle Tests aus tests/grauufer.spec.js bestehen.
 Grobe Schätzung aus der Technikentscheidung: 8 bis 15 Arbeitssitzungen.
 
 ### Stufe 2: Korrekturen und Balancing-Basis
 
 | Aufgabe | Spur |
 |---|---|
-| Prüfpunkte aus Kampfsystem Abschnitt 13 entscheiden und umsetzen (Stufenangriff, Eislanze, Sturmherr) | B |
+| Prüfpunkte aus Kampfsystem Abschnitt 13 entscheiden und umsetzen (Stufenangriff, Sturmherr; Eislanze erledigt in Spiel-Rev 94) | B |
 | Ausgleich laut Fortschritt Abschnitt 5 (EP-Kurve, Endgegner, Goldausgaben) | B |
 | Balancing-Rechnung als automatischer Test | A |
 
@@ -123,9 +124,9 @@ Grobe Schätzung aus der Technikentscheidung: 8 bis 15 Arbeitssitzungen.
 - Umgesetzte Vorschläge in den Dokumenten von „Geplant“ auf „Im Spiel“ umstellen, Revision erhöhen.
 - Jede Lieferung bekommt eine neue Spiel-Revision.
 
-## 3b. Im Prototyp bereits vorweggenommen (Spiel-Rev 42–90)
+## 3b. Im Prototyp bereits vorweggenommen (Spiel-Rev 42–94)
 
-Grafik-Stufenplan (Rev 58–63), Vulkan und Portale (64–67), Lava-Tod (69), Ansicht verschieben (73/74), Story Stufen 1–4 mit Fraktionen, Büchern und Enden (79–82), Angeln (81), Tagebuch (84), Pergament-Fenster (87), Schatztruhen und Schätze (89), Charakterentwicklung mit Fertigkeiten und Talentbaum (90). Diese Punkte fallen in den Stufen 3–8 weg bzw. werden zur Übernahme.
+Grafik-Stufenplan (Rev 58–63), Vulkan und Portale (64–67), Lava-Tod (69), Ansicht verschieben (73/74), Story Stufen 1–4 mit Fraktionen, Büchern und Enden (79–82), Angeln (81), Tagebuch (84), Pergament-Fenster (87), Schatztruhen und Schätze (89), Charakterentwicklung mit Fertigkeiten und Talentbaum (90), Endgegner-Phase für Nhal und halbiertes Truhengold (91), Ausstattungssuche während des Titelbilds (92), Testknopf entfernt sowie Repo mit Tests und GitHub Action (93), Fehlerbehebungen aus dem Dokumentenprüfbericht (94). Diese Punkte fallen in den Stufen 3–8 weg bzw. werden zur Übernahme.
 
 ## 4. Offene Entscheidungen
 

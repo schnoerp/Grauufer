@@ -1,6 +1,6 @@
 # Grauufer – Bedienung
 
-**Revision 10**, Stand: Spiel-Rev 93. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 11**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Zielgeräte (Im Spiel)
 
@@ -43,12 +43,13 @@
 
 | Element | Lage | Inhalt |
 |---|---|---|
-| Untere Leiste | unten, eine Reihe | Leben links, Schnellzugriff, Knöpfe Rucksack, Charakter, Zauber, Karte, Tagebuch, Rasten, Mana rechts; alle gleich hoch (50 px, seit Spiel-Rev 71) |
+| Untere Leiste | unten, eine Reihe | Leben links, Schnellzugriff, Knöpfe Rucksack, Charakter, Zauber, Karte, Tagebuch, Rasten, Mana rechts; alle gleich hoch (seit Spiel-Rev 71): 50 px, bei Bildschirmbreite bis 980 px 44 px, bei Bildschirmhöhe bis 520 px 42 px |
 | Kompass | am Rand | Nordpfeil und Pfeil zur aktuellen Quest |
 | Zoomanzeige | oben rechts | Zoomstufe in %, Start immer bei 100 %; Bereich 50–250 % in Schritten von 10 % |
 | Karte | Taste M | große Karte von Morvenn (keine Minikarte); Knopf „Weltkarte“ öffnet den drehbaren Globus von Vharos |
 | Meldungen | Textprotokoll | Kampf, Funde, Gespräche |
 | Fenster | **immer zentriert** (seit Spiel-Rev 86) | Rucksack, Charakter, Tagebuch, Aufgaben, Herstellen, Zauber, Karte, Händler, Gespräch; Stil „Pergament auf Holzrollen“, Schließen als rotes Wachssiegel (seit Spiel-Rev 87); der Rucksack passt ohne Scrollen auf den Bildschirm (seit Spiel-Rev 85/90) |
+| Ego-Sicht | oben rechts, nur in Höhlen | Knopf „Ego-Sicht“ schaltet in Höhlen auf eine Sicht aus Augenhöhe mit Steuerkreuz, „Iso-Sicht“ schaltet zurück; Auswahl wird gespeichert (Testfunktion seit Spiel-Rev 44) |
 | Testknöpfe | – | entfernt: „zur Höhle“ seit Spiel-Rev 88, „Test: Gegner an/aus“ samt Diagnosezeile seit Spiel-Rev 93 |
 
 **Regeln**
@@ -61,7 +62,7 @@
 
 ## 5. Spielstart (Im Spiel)
 
-1. Intro mit Titel „Grauufer“, Jingle und „schnoerp-media“
+1. Intro mit Titel „Grauufer“, Jingle und „schnoerp-media“; danach Titeldialog mit „Weiterspielen“ (nur wenn ein Spielstand vorhanden ist, dann vorausgewählt) und „Neues Spiel“
 2. Charakter-Editor: Name, Geschlecht, Klasse, Werte, Aussehen; Charaktere speicherbar. Kompakt in drei Spalten (seit Spiel-Rev 65/72), Start mit Glatze und Karohemd, Kleidung auch „Weißes T-Shirt“
 3. Start am Strand südlich von Grauufer mit Erzählkarte „Am Ufer“ (seit Spiel-Rev 79)
 4. Spielstand wird automatisch im Browserspeicher gespeichert (localStorage, Schlüssel grauufer-save-v10), beim Tod gelöscht. Neues Spiel nur noch über Beenden → Titelbildschirm (der Knopf im Rucksack entfällt seit Spiel-Rev 90)

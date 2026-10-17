@@ -1,6 +1,6 @@
 # Grauufer – Quests
 
-**Revision 12**, Stand: Spiel-Rev 90. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 13**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Hintergrund zu den Quests: Grauufer_Story_RevXX.md. Auftraggeber: Grauufer_Gespraechspartner_RevXX.md.
 
@@ -99,7 +99,7 @@ Schmuck und Fertigkeiten: Grauufer_Gegenstaende_RevXX.md, Abschnitt 8.
 |---|---|---|
 | Die Stillen (Oswin) | nach Splitter der Erde | schweigen: Großer Heiltrank / aufdecken |
 | Die Seelotsen (Tobe) | nach Splitter des Wassers | vergeben: Leuchtfisch / verurteilen |
-| Der Titanenbrecher (Hagen) | nach der Enthüllung; 3 Eisenerz + 1 Glutkristall | Titanenbrecher (Angriff 9), Hagens Laden schließt / Glutgeister befreien: 2 Glutkristalle |
+| Der Titanenbrecher (Hagen) | nach der Enthüllung; 3 Eisenerz + 1 Glutkristall | Titanenbrecher (Angriff 9, immer meisterlich, effektiv 11), Hagens Laden schließt / Glutgeister befreien: 2 Glutkristalle |
 | Die Sturmbrüder (Aldo) | nach Splitter der Luft | Eid: +2 Mana / ablehnen |
 | Die Truhe der „Morgenwind“ | Testament des Kapitäns lesen (Sandhafen), mit Schaufel graben | Ring des Kapitäns, 2 Edelsteine, 80 Gold |
 | Flaschenpost | beim Angeln (8 %, mit Angeln 5: 16 %) | je eine von 4 Schatzkarten |

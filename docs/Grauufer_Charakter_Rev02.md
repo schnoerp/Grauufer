@@ -1,6 +1,6 @@
 # Grauufer – Charakter
 
-**Revision 01**, Stand: Spiel-Rev 90. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 02**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Grundsatz: Attribute, Fertigkeiten und Talente verändern nicht nur Zahlen, sondern **eröffnen neue Handlungen in der Spielwelt**. Ohne nötige Fähigkeit gibt es immer einen klaren Hinweis, z. B. „Der Brocken rührt sich nicht. (Talent Kraftakt oder Stärke 16)“.
 
@@ -18,7 +18,7 @@ Grundsatz: Attribute, Fertigkeiten und Talente verändern nicht nur Zahlen, sond
 | Intelligenz | Mana (+2 je Punkt), Zauberkraft, lernt Sprachen schneller (ab 14 doppelt) | 14: einfache Runentafeln ohne Alte Sprachen lesen; Gelehrten-Talente 10/12/13/14/16 |
 
 - Pro Stufenaufstieg **2 Attributpunkte** und **1 Talentpunkt** (zusätzlich zu den bisherigen Stufenboni).
-- Bestehende Spielstände erhalten einmalig 2 Attributpunkte und 1 Talentpunkt je bisheriger Stufe.
+- Bestehende Spielstände erhalten einmalig 2 Attributpunkte und 1 Talentpunkt je bereits erreichtem Stufenaufstieg, also (Stufe − 1) × 2 bzw. (Stufe − 1).
 
 ## 3. Fertigkeiten (Im Spiel)
 
@@ -33,7 +33,7 @@ Stufe 0–5, steigen **durch Benutzen**. Benötigte Übung je Stufe: 3, 8, 15, 2
 | Kräuterkunde | Kräuter pflücken, Tränke herstellen | Kräuter glitzern (14 Felder) | Tränke +15 % | Tränke +30 % | 35 % doppelte Kräuter | Gift von Fallen wirkungslos |
 | Schmieden | Ausrüstung herstellen | bessere Gütechancen je Stufe (fein +7 %, meisterlich +5 %, Zusatzeigenschaft +7 %) | | | | |
 | Feilschen | Kaufen und Verkaufen | −5 % | Fang +25 % | −10 % | Ausrüstung +20 % | −15 % |
-| Schleichen | Bewegen in der Nähe ahnungsloser Gegner | Aggro −0,6 Felder je Stufe | | Überraschungsangriff (doppelter Schaden auf Unverletzte) | | |
+| Schleichen | Bewegen in der Nähe ahnungsloser Gegner | Aggro −0,6 Felder je Stufe, auf ganze Felder gerundet: Stufe 1–5 = −1/−1/−2/−2/−3, mit Leise Sohlen (+2) bis −4; Aggro mindestens 1 Feld | | Überraschungsangriff (doppelter Schaden auf Unverletzte) | | |
 
 ## 4. Talentbaum (Im Spiel)
 
@@ -45,7 +45,7 @@ Drei Äste mit je fünf Talenten. Bedingung: vorheriges Talent im Ast und Attrib
 | 2 | **Schulterstoß**: Gittertore sprengen | **Kletterer**: Vogelnester auf Gipfeln erreichen | **Elementarsinn**: leuchtende Kristalle in Höhlen abbauen (Glutkristall) |
 | 3 | **Schildwall**: Lavabomben und Fallen halber Schaden | **Leise Sohlen**: +2 Schleichen | **Bannkreis**: Untote greifen nicht von selbst an |
 | 4 | **Unbeugsam**: Klettern ohne Mühe, Rasten heilt doppelt | **Scharfes Auge**: Mimiken (gelb) und Fallen (rot) von weitem erkennen | **Glutbindung**: Lavabomben treffen nicht |
-| 5 | **Titanenblut**: +10 Leben; Lava kostet 20 Leben statt das Leben | **Tierfreund**: Wölfe, Frostwölfe, Höllenhunde greifen nicht von selbst an | **Siegelkunde**: viertes Ende „Der freie Wächter“ am Steinkreis |
+| 5 | **Titanenblut**: +10 Leben; Lava kostet 20 Leben statt das Leben | **Tierfreund**: Wölfe, Frostwölfe, Aschenhunde greifen nicht von selbst an (Talenttext im Spiel bis Spiel-Rev 93: „Höllenhunde“) | **Siegelkunde**: viertes Ende „Der freie Wächter“ am Steinkreis |
 
 ## 5. Geplanter Ausbau
 

@@ -1,6 +1,6 @@
 # Grauufer – Fortschritt
 
-**Revision 07**, Stand: Spiel-Rev 91 (Nhal verstärkt). Formeln: Grauufer_Kampfsystem_RevXX.md. Gegnerwerte: Grauufer_Gegner_RevXX.md.
+**Revision 08**, Stand: Spiel-Rev 94. Formeln: Grauufer_Kampfsystem_RevXX.md. Gegnerwerte: Grauufer_Gegner_RevXX.md.
 
 ## 1. Erfahrungskurve (Im Spiel)
 
@@ -21,7 +21,7 @@
 
 ## 2. Verfügbare Erfahrung (Im Spiel, Spiel-Rev 90)
 
-Aus dem Code ausgelesen (242 Gegner beim Spielstart).
+Aus dem Code ausgelesen: 240–252 Gegner beim Spielstart (212 fest platziert, dazu 28–40 zufällig verteilte Wölfe und Banditen in der Wildnis; die Rechnung unten nutzt einen Spielstart mit 242).
 
 | Quelle | EP | erreichte Stufe (kumuliert) |
 |---|---|---|
@@ -107,4 +107,4 @@ Talente (z. B. Schildwall), Truhen-Ausrüstung mit höherer Güte und Fische als
 | Lavabomben, Fallen | 64/89 | neue Schadensquellen |
 | Fische als Heilung | 81 | billige Heilquelle |
 
-Alle Punkte sind in den Abschnitten 2 bis 5 dieser Revision und in der Wirtschaft (Rev 09) eingerechnet.
+Alle Punkte sind in den Abschnitten 2 bis 5 dieser Revision und in Grauufer_Wirtschaft_RevXX.md eingerechnet.

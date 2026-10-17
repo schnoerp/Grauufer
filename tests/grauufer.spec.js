@@ -125,3 +125,21 @@ test('Story: Nhal, Phase 2 und Ende „Der Erlöser“', async ({ page }) => {
   expect(await page.evaluate(() => document.querySelector('#overlay h1').textContent)).toBe('Der Erlöser');
   expect(fehler).toEqual([]);
 });
+
+test('Rev 94: Titanenbrecher-Name, Holzkisten, Eislanze, keine Wiederbelebung von Glutgeist und Mimik', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const name = eqName(mkEq('titanblade', 3));
+    let herb = false, kraut = false;
+    for (let i = 0; i < 400; i++) lootFor({ t: 'wood' }).items.forEach(k => { if (k === 'herb') herb = true; if (k === 'kraut') kraut = true; });
+    const g = { id: 'gg0_1', k: 'glutgeist', x: S.p.x + 15, y: S.p.y, rx: S.p.x + 15, ry: S.p.y, hx: S.p.x + 15, hy: S.p.y, hp: 0, maxHp: 22, dead: true, deadTurn: 0, face: -1 };
+    const m = { ...g, id: 'mim0', k: 'mimic', maxHp: 38 };
+    S.enemies.push(g, m); S.turn = 1000; worldTick();
+    return [name, herb, kraut, SPELLS.eis.d, g.dead && m.dead];
+  });
+  expect(r[0]).toBe('Meisterlicher Titanenbrecher');
+  expect(r[1]).toBe(false); expect(r[2]).toBe(true);
+  expect(r[3]).toContain('3 Züge');
+  expect(r[4]).toBe(true);
+  expect(fehler).toEqual([]);
+});

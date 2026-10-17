@@ -1,6 +1,6 @@
 # Grauufer – Waffenliste
 
-**Revision 05**, Stand: Spiel-Rev 90 (Konzept mit Erdbohrer, Wasserkerker, Wasserkugel und exotischen Waffen). ✓ = bereits im Spiel, alle anderen Einträge sind geplant.
+**Revision 06**, Stand: Spiel-Rev 94. ✓ = bereits im Spiel, alle anderen Einträge sind geplant.
 
 ## A) Waffen zum Ausrüsten
 
@@ -10,16 +10,16 @@
 | 2 | Kurzschwert | Schwert | 3 | 1 | – | Startausrüstung, Strand | ✓ |
 | 3 | Knüppel | Hammer | 3 | 1 | stumpf | Beute bei Banditen | |
 | 4 | Kurzbogen | Bogen | 3 | 6 | Geschick erhöht den Schaden | Lene (Sonnwacht) | |
-| 5 | Blitzstab | Stab | 3 | 5 | Blitz | Start Magier, Bram, Svea, Herstellen | ✓ |
+| 5 | Blitzstab | Stab | 3 | 5 | Blitz | Start Magier (abgenutzt), Lene, Bram, Svea (je 55 Gold), Ole (56), Brakk (58), Ilka (60), Herstellen, Beute | ✓ |
 | 6 | Schattendolch | Dolch | 4 | 1 | 20 % kritische Treffer | Beute bei Banditen | |
 | 7 | Jagdspeer | Speer | 4 | 2 | – | Svea (Frosthain) | |
 | 8 | Glutstab | Stab | 4 | 5 | Feuer, Brand über 3 Züge | Glutschlund | |
 | 9 | Froststab | Stab | 4 | 5 | Eis, Ziel erstarrt 1 Zug | Frosthain | |
 | 10 | Erdstab | Stab | 4 | 4 | Erde, Rückstoß | Kristallhöhle | |
-| 11 | Eisenschwert | Schwert | 5 | 1 | – | Bram, Lene, Herstellen | ✓ |
+| 11 | Eisenschwert | Schwert | 5 | 1 | – | Lene, Yasmin, Svea, Bram, Hagen (je 40 Gold), Brakk (38), Jost (42), Herstellen, Beute; einmal fest in der Alten Feste (36,149) | ✓ |
 | 12 | Holzfälleraxt | Axt | 5 | 1 | −10 % Treffer | Birger (Frosthain) | |
 | 13 | Langbogen | Bogen | 5 | 7 | – | Yasmin (Sandhafen) | |
-| 14 | Sturmzepter | Stab | 6 | 6 | Blitz, leuchtet | Kristallhöhle (Kristallwächter) | ✓ |
+| 14 | Sturmzepter | Stab | 6 | 6 | Blitz, leuchtet | Bodenfund in der Kristallhöhle (66,168), sonst Beute | ✓ |
 | 15 | Säbel des Bandenführers | Schwert | 6 | 1 | Gegner lassen mehr Gold fallen | Alte Feste (Endgegner) | |
 | 16 | Glutklinge | Schwert | 7 | 1 | Feuer, leuchtet | Glutschlund | ✓ |
 | 17 | Kriegshammer | Hammer | 7 | 1 | +50 % gegen Golems und Skelette | Herstellen mit Schmiedehammer | |
@@ -36,8 +36,8 @@
 
 | Waffe | Gattung | Angriff | Besonderheit | Herkunft | |
 |---|---|---|---|---|---|
-| Titanenbrecher | Schwert | 9 | einzige Waffe, die Nhal verletzt; wird nur einmal geschmiedet | Hagen, Fraktionsentscheidung | ✓ |
-| Mareths Wächterdolch | Dolch | 6 | Unikat mit Siegelwächter-Kreuz, ohne Gütestufe | Fallen-Truhe in der Gruft | ✓ |
+| Titanenbrecher | Schwert | 9 (meisterlich, effektiv 11) | einzige Waffe, die Nhal verletzt; wird nur einmal geschmiedet, immer meisterlich | Hagen, Fraktionsentscheidung | ✓ |
+| Mareths Wächterdolch | Dolch | 6 (fein, effektiv 7) | Unikat mit Siegelwächter-Kreuz; Name ohne Gütewort, liegt aber in feiner Güte (+1) in der Truhe | Fallen-Truhe in der Gruft | ✓ |
 
 ### Gattungen
 

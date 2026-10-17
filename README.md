@@ -18,14 +18,14 @@ Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = 
 | `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze …) |
 | `CLAUDE.md` | Arbeitsregeln für Claude Code |
 
-Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_Rev14.md`.
+Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_Rev15.md`.
 
 ## Tests
 
-Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 11 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden).
+Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 12 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94).
 
 Lokal: `npm install`, `npx playwright install chromium`, dann `npm test`.
 
 ## Stand
 
-Spiel-Revision **93**. Alle Dokumente sind auf diesem Stand.
+Spiel-Revision **94**. Alle Dokumente in `docs/` sind auf diesem Stand (Kopfzeile „Stand: Spiel-Rev 94“).
