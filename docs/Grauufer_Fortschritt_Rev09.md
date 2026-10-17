@@ -1,6 +1,6 @@
 # Grauufer – Fortschritt
 
-**Revision 08**, Stand: Spiel-Rev 94. Formeln: Grauufer_Kampfsystem_RevXX.md. Gegnerwerte: Grauufer_Gegner_RevXX.md.
+**Revision 09**, Stand: Spiel-Rev 108. Formeln: Grauufer_Kampfsystem_RevXX.md. Gegnerwerte: Grauufer_Gegner_RevXX.md.
 
 ## 1. Erfahrungskurve (Im Spiel)
 
@@ -28,10 +28,11 @@ Aus dem Code ausgelesen: 240–252 Gegner beim Spielstart (212 fest platziert, d
 | 9 Altar- und Questendgegner | 775 | Stufe 7 |
 | 32 feste normale Gegner in den Gebieten | 735 | mit Endgegnern 1510: Stufe 10 |
 | Nhal (400) und 2 Mimiken (je 45) | 490 | **2000: Stufe 12** |
-| 200 Gegner in Biomen und Wildnis (Startbestand) | 4120 | alles zusammen 6120: **Stufe 20** |
+| Die Tiefe (seit Spiel-Rev 106/107): 7 Ruhelose (je 34), 5 Echos (je 38), 4 Steinwächter (je 42), 5 Skelettkrieger (je 32), Thronhüter (180) | 936 | mit allem davor 2936: Stufe 14 |
+| 200 Gegner in Biomen und Wildnis (Startbestand) | 4120 | alles zusammen 7056: **Stufe 22** |
 | Wiederkehrende Gegner | unbegrenzt, Rückkehr nach 320 Zügen | – |
 
-Typischer Durchgang (alle Endgegner, feste Gebiete, etwa ein Drittel der Wildnis): etwa 3400 EP, also **Stufe 15**.
+Typischer Durchgang (alle Endgegner, feste Gebiete, etwa ein Drittel der Wildnis): etwa 3400 EP, also **Stufe 15**; mit der Tiefe (seit Spiel-Rev 106/107) etwa 4340 EP, also **Stufe 17**.
 
 ## 3. Richtstufen der Endgegner (berechnet, Spiel-Rev 90)
 
@@ -51,6 +52,7 @@ Typischer Durchgang (alle Endgegner, feste Gebiete, etwa ein Drittel der Wildnis
 | Knochenkönig | Versunkener Tempel | 5 | 4 |
 | **Nhal** (Rev 91: 320 Leben, 9–14, Phase 2 mit 2 Glutgeistern) | Aschenhorn | 17 | 12 |
 | Nhal (bis Spiel-Rev 90: 150 Leben, 6–10) | Aschenhorn | 5 | 4 |
+| Thronhüter (seit Spiel-Rev 107: 140 Leben, 7–11) | Die Tiefe | 4–5 (Auslegung, nicht nach obiger Rechnung ermittelt) | 4–5 |
 
 Talente (z. B. Schildwall), Truhen-Ausrüstung mit höherer Güte und Fische als billige Heilung senken die Richtstufen weiter.
 

@@ -18,7 +18,7 @@ Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = 
 | `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze …) |
 | `CLAUDE.md` | Arbeitsregeln für Claude Code |
 
-Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_Rev15.md`.
+Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_RevXX.md` (aktuell Rev 18).
 
 ## Tests
 
