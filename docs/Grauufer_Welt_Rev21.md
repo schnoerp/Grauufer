@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 20**, Stand: Spiel-Rev 105. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 21**, Stand: Spiel-Rev 106. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -237,7 +237,9 @@ Uralte Hallen der Titanen unter Morvenn, ein optionaler Nebenweg (Hintergrund: G
 
 Alle Zugänge sind von Anfang an offen. Da die Flügel unten verbunden sind, ist Die Tiefe auch eine Abkürzung quer durch Morvenn. Die Karte (Taste M) zeigt in der Tiefe nur die Tiefe, sonst nur Morvenn.
 
-**Geplant (nächste Schritte):** Gegner (Steinwächter, Echo, Ruhelose; Endgegner Thronhüter in der Halle der Vier), Schriften und Wandbilder, zwei bis drei Truhen, Belohnung „Ring der Tiefe“; Schwierigkeit für Stufe 4–5.
+**Im Spiel seit Spiel-Rev 106:** 21 Gegner (Ruhelose, Echos, Steinwächter, Skelettkrieger; Werte in Grauufer_Gegner_RevXX.md), vier Tafeln (Erde 50,272; Wasser 50,307; Luft 93,272; Feuer 93,307), drei Truhen (55,272; 55,307; 88,307), Tränke am Boden (Großer Heiltrank 71,277; Manatrank 71,302; Heiltrank 49,289 und 94,289, jeweils mit leichter Streuung beim Spielstart).
+
+**Geplant (nächster Schritt):** Endgegner Thronhüter in der Halle der Vier, Belohnung „Ring der Tiefe“, Hinweise von Mareth, Oswin, Tobe und Hagen; Schwierigkeit für Stufe 4–5.
 
 ## 8. Neu seit Spiel-Rev 41 (Im Spiel)
 

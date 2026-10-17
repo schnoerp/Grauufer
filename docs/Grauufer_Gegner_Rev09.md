@@ -1,6 +1,6 @@
 # Grauufer – Gegner
 
-**Revision 08**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 09**, Stand: Spiel-Rev 106. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Diese Datei ist die **einzige Quelle für Gegnerwerte**. Formeln und Regeln (Treffer, Schaden, Aggro, Wiederbelebung) stehen in Grauufer_Kampfsystem_RevXX.md.
 
@@ -40,6 +40,16 @@ Diese Datei ist die **einzige Quelle für Gegnerwerte**. Formeln und Regeln (Tre
 
 Endgegner werden nicht wiederbelebt, lassen immer Ausrüstung fallen und werden vom Sturmstoß nicht zurückgestoßen. Seit Spiel-Rev 89 erscheint nach dem Sieg über einen Altarwächter zusätzlich eine **Bosstruhe** neben dem Altar.
 
+### Gegner der Tiefe (Im Spiel seit Spiel-Rev 106, für Stufe 4–5)
+
+| Gegner | Leben | Angriff | Treffer | Aggro | EP | Gold | Art |
+|---|---|---|---|---|---|---|---|
+| Ruheloser | 28 | 4–7 | 80 % | 6 | 34 | 4–10 | untot; Tote, die seit dem gebrochenen Siegel aus der Tiefe aufsteigen |
+| Steinwächter | 36 | 5–8 | 78 % | 5 | 42 | 0–6 | Golem; Wächter der Titanen ohne Herrn |
+| Echo | 22 | 5–8 | 86 % | 7 | 38 | 2–8 | Schatten einer Titanenstimme, durchscheinend |
+
+Beute wie bei allen normalen Gegnern (14 % Ausrüstung, bei diesen EP aus der höchsten Stufe). Sie werden wie Gegner fester Gebiete nach 320 Zügen in der Nähe ihres Platzes wiederbelebt.
+
 ### Neue Gegner (Im Spiel seit Spiel-Rev 89)
 
 | Gegner | Leben | Angriff | Treffer | Aggro | EP | Gold | Art |
@@ -58,6 +68,7 @@ Endgegner werden nicht wiederbelebt, lassen immer Ausrüstung fallen und werden 
 | Sturmspitze | 4 Harpyien | Sturmherr | Splitter der Luft |
 | Alte Feste | 4 Banditen | Bandenführer | Quest von Bram |
 | Kristallhöhle | 2 Riesenspinnen, 1 Skelettkrieger | Kristallwächter | Sturmzepter |
+| Die Tiefe (seit Spiel-Rev 106) | 21: 6 Ruhelose, 5 Echos, 5 Steinwächter, 5 Skelettkrieger (2 im Flügel der Luft unter dem Versunkenen Tempel, je 1 in den Flügeln des Wassers und des Feuers und im oberen Gang) | Thronhüter (geplant) | Ring der Tiefe (geplant) |
 | Spinnengrotte | 5 Riesenspinnen | Spinnenkönigin | Quest von Svea |
 | Gefrorener See | 2 Frostwölfe | Eisgolem | Quest von Birger |
 | Versunkener Tempel | 4 Skelettkrieger | Knochenkönig | Quest von Yasmin |
@@ -113,6 +124,9 @@ Alle Gegner sind selbst gezeichnet (Canvas), ohne Fremdgrafiken. Grundformen: Me
 | Nhal, der Hungernde | Golem, riesig (1,75-fach) | fast schwarzes Gestein mit orange glühenden Rissen, rote Augen |
 | Glutgeist | Hund | rotbraun glühend mit gelborangen Rissen, gelbe Augen |
 | Mimik | eigene Form (Truhe, 40 × 32) | Truhe mit Zahnreihe, Zunge und gelbem Auge; der Kiefer klappt auf und zu |
+| Ruheloser | Mensch, Kapuze | graubrauner Umhang, fahlgrüne Haut, gelbe Augen |
+| Steinwächter | Golem, etwas kleiner (0,9) | grauer Stein mit violetten Rissen, fliederfarbene Augen |
+| Echo | Mensch, Kapuze, durchscheinend | blassblauer Umhang, eisblaue Augen; flackert zwischen 42 % und 67 % Deckkraft |
 
 ## 4. Beute (Im Spiel)
 

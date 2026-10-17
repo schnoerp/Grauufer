@@ -1,6 +1,6 @@
 # Grauufer – Die Geschichte
 
-**Revision 09**, Stand: Spiel-Rev 105. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 10**, Stand: Spiel-Rev 106. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Kurzfassung
 
@@ -197,7 +197,9 @@ Nach den hellen Enden folgt ein **Epilog** je nach Entscheidungen (Mareth, Still
 
 **Im Spiel (seit Spiel-Rev 105):** Unter Morvenn liegen die Hallen, die die vier Titanen einst bauten. Von hier aus hielten sie das Siegel, hier schliefen sie, bevor sie verstummten. Vier Treppen führen hinab: aus der Gruft von Grauufer, von der Insel im Tränensee, aus dem Versunkenen Tempel und am Fuß des Aschenhorns. Jeder Flügel trägt das Zeichen eines Titanen, in der Mitte stehen in der Halle der Vier vier leere Throne.
 
-**Geplant:** Seit der Fremde das Siegel gelöst hat, sind die Hallen erwacht: Steinwächter ohne Herren, Echos der Titanen und Ruhelose, die durch die offenen Tore heraufziehen. Schriften und Wandbilder erklären, wie das Siegel gebaut wurde und warum es einen Wächter braucht. In der Halle der Vier wacht der Thronhüter; wer ihn bezwingt, erhält den Ring der Tiefe. Mareth, Oswin, Tobe und Hagen erwähnen „die Hallen unter uns“. Die Hauptgeschichte bleibt unverändert, Die Tiefe ist ein Nebenweg.
+**Im Spiel (seit Spiel-Rev 106):** Seit der Fremde das Siegel gelöst hat, sind die Hallen erwacht: Steinwächter ohne Herren, Echos der Titanen, Ruhelose, die durch die offenen Tore heraufziehen, und Skelette, die vom Versunkenen Tempel herabgestiegen sind. Vier Tafeln erklären, wie das Siegel gebaut wurde: Die Vier legten den Fünften in Ketten und riefen die Wächter aus Tharos, damit eine Hand die Ketten hält (Erde); die Toten von Vharos sanken einst in die Tiefe und wurden still, mit dem offenen Siegel steigen sie wieder auf (Wasser); die Stimmen der Titanen sind die Splitter, wer sie vereint, kann binden oder lösen (Luft); der Fünfte nährt sich vom Wunsch (Feuer).
+
+**Geplant:** In der Halle der Vier wacht der Thronhüter; wer ihn bezwingt, erhält den Ring der Tiefe. Mareth, Oswin, Tobe und Hagen erwähnen „die Hallen unter uns“. Die Hauptgeschichte bleibt unverändert, Die Tiefe ist ein Nebenweg.
 
 ## 12. Hinweis zu Ortsnamen
 
@@ -221,3 +223,4 @@ Lesepulte und Tafeln erzählen die Vorgeschichte (Fundorte: Grauufer_Schaetze_Re
 | Kinderreim aus Kornwacht | Kornwacht | Reim über die fünf Titanen |
 | Testament des Kapitäns | Sandhafen | Kapitän Haldor vergibt dem Wächter, Schatzkarte |
 | 7 Runentafeln, 3 Titanentafeln | Ruinen und Wildnis | kurze Sprüche; Titanentafeln verraten Schätze |
+| Tafel der Erde, des Wassers, der Luft, des Feuers (seit Spiel-Rev 106) | Die Tiefe, je ein Flügel | Bau des Siegels, die Wächter aus Tharos, die aufsteigenden Toten, die Splitter als Stimmen der Titanen, der Fünfte nährt sich vom Wunsch |
