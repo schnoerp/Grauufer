@@ -1,6 +1,6 @@
 # Grauufer – Gegenstände
 
-**Revision 08**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 09**, Stand: Spiel-Rev 107. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Waffen, Wurfgeschosse und Werkzeuge stehen in Grauufer_Waffenliste_RevXX.md. Diese Datei deckt alles andere ab.
 
@@ -75,6 +75,7 @@ Waffen, Wurfgeschosse und Werkzeuge stehen in Grauufer_Waffenliste_RevXX.md. Die
 | Edelstein | Verkauf | Truhen, Schätze, Vogelnester |
 | Ring des Kapitäns | +2 Rüstung, solange im Rucksack | Truhe der „Morgenwind“ |
 | Seelotsen-Laterne | Licht in Höhlen und dunklen Orten 60 % weiter | Schatz am Tränensee |
+| Ring der Tiefe (seit Spiel-Rev 107) | +10 Leben (einmalig beim Erhalt), Licht in Höhlen und dunklen Orten 35 % weiter (mit der Seelotsen-Laterne zusammen 2,16-fach) | Belohnung für den ersten Sieg über den Thronhüter in der Tiefe |
 | Mareths Wächterdolch | Waffe, Angriff 6, in feiner Güte effektiv 7 (Unikat, Name ohne Gütewort) | Fallen-Truhe in der Gruft |
 | Titanenbrecher | Waffe, Angriff 9, immer meisterlich, effektiv 11; einzige Waffe gegen Nhal; heißt im Spiel „Meisterlicher Titanenbrecher“ (Namensfehler behoben in Spiel-Rev 94) | Hagen (Fraktionsentscheidung) |
 

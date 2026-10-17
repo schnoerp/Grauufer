@@ -1,6 +1,6 @@
 # Grauufer – Gegner
 
-**Revision 09**, Stand: Spiel-Rev 106. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 10**, Stand: Spiel-Rev 107. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Diese Datei ist die **einzige Quelle für Gegnerwerte**. Formeln und Regeln (Treffer, Schaden, Aggro, Wiederbelebung) stehen in Grauufer_Kampfsystem_RevXX.md.
 
@@ -35,6 +35,7 @@ Diese Datei ist die **einzige Quelle für Gegnerwerte**. Formeln und Regeln (Tre
 | Kristallwächter | 95 | 6–9 | 82 % | 6 | 130 | 60–80 | Golem |
 | Eisgolem | 100 | 7–10 | 80 % | 6 | 140 | 70–90 | Golem |
 | Knochenkönig | 110 | 7–10 | 82 % | 7 | 150 | 90–120 | untot |
+| **Thronhüter** (seit Spiel-Rev 107) | 140 | 7–11 | 82 % | 6 | 180 | 80–110 | Golem; wacht in der Halle der Vier der Tiefe (71,289); beim ersten Sieg erhält man den Ring der Tiefe |
 | **Nhal, der Hungernde** (seit Spiel-Rev 82, verstärkt in Rev 91) | 320 | 9–14 | 80 % | 9 | 400 | – | fünfter Titan, Golem aus Glut und Asche; nur mit Titanenbrecher verwundbar, erscheint nur auf Wunsch am Kraterrand. **Phase 2** (unter 50 % Leben): ruft 2 Glutgeister |
 | Glutgeist (seit Spiel-Rev 91) | 22 | 4–7 | 82 % | 12 | 0 | – | nur in Nhals Phase 2, glühender Hund aus Lava; kein Endgegner, wird aber seit Spiel-Rev 94 nicht wiederbelebt (vorher nach 320 Zügen neben seinem Erscheinungsort) |
 
@@ -68,7 +69,7 @@ Beute wie bei allen normalen Gegnern (14 % Ausrüstung, bei diesen EP aus der h�
 | Sturmspitze | 4 Harpyien | Sturmherr | Splitter der Luft |
 | Alte Feste | 4 Banditen | Bandenführer | Quest von Bram |
 | Kristallhöhle | 2 Riesenspinnen, 1 Skelettkrieger | Kristallwächter | Sturmzepter |
-| Die Tiefe (seit Spiel-Rev 106) | 21: 6 Ruhelose, 5 Echos, 5 Steinwächter, 5 Skelettkrieger (2 im Flügel der Luft unter dem Versunkenen Tempel, je 1 in den Flügeln des Wassers und des Feuers und im oberen Gang) | Thronhüter (geplant) | Ring der Tiefe (geplant) |
+| Die Tiefe (seit Spiel-Rev 106) | 21: 6 Ruhelose, 5 Echos, 5 Steinwächter, 5 Skelettkrieger (2 im Flügel der Luft unter dem Versunkenen Tempel, je 1 in den Flügeln des Wassers und des Feuers und im oberen Gang) | Thronhüter (seit Spiel-Rev 107) | Ring der Tiefe |
 | Spinnengrotte | 5 Riesenspinnen | Spinnenkönigin | Quest von Svea |
 | Gefrorener See | 2 Frostwölfe | Eisgolem | Quest von Birger |
 | Versunkener Tempel | 4 Skelettkrieger | Knochenkönig | Quest von Yasmin |
@@ -121,6 +122,7 @@ Alle Gegner sind selbst gezeichnet (Canvas), ohne Fremdgrafiken. Grundformen: Me
 | Sturmherr | Harpyie, groß | silbergraue Flügel, weißes Haar, eisblaue Augen |
 | Spinnenkönigin | Spinne, sehr groß | dunkelviolett mit roter Zeichnung, pinke Augen |
 | Knochenkönig | Mensch, sehr groß | Knochen, goldene Rüstung, violette Augen |
+| Thronhüter | Golem, sehr groß (1,5) | fast schwarzer Stein mit violett glühenden Rissen und violetten Augen |
 | Nhal, der Hungernde | Golem, riesig (1,75-fach) | fast schwarzes Gestein mit orange glühenden Rissen, rote Augen |
 | Glutgeist | Hund | rotbraun glühend mit gelborangen Rissen, gelbe Augen |
 | Mimik | eigene Form (Truhe, 40 × 32) | Truhe mit Zahnreihe, Zunge und gelbem Auge; der Kiefer klappt auf und zu |

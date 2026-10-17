@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0 (Rev 106)</title>
+<title>Grauufer 1.0 (Rev 107)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -489,7 +489,7 @@ const REGIONS={
     enemies:[['te1','steinwaechter',10,8],['te2','ruhelos',14,11],['te3','echo',7,12],['tl1','echo',53,8],['tl2','steinwaechter',57,11],['tl3','ruhelos',50,5],
       ['tw1','ruhelos',14,32],['tw2','echo',6,39],['tw3','ruhelos',13,38],['tf1','steinwaechter',53,34],['tf2','echo',57,38],['tf3','ruhelos',50,31],
       ['tg1','ruhelos',31,8],['tg2','steinwaechter',31,35],['tg3','echo',9,21],['tg4','ruhelos',54,21],
-      ['ts1','skeleton',49,12],['ts2','skeleton',58,8],['ts3','skeleton',10,31],['ts4','skeleton',49,38],['ts5','skeleton',40,8]]},
+      ['ts1','skeleton',49,12],['ts2','skeleton',58,8],['ts3','skeleton',10,31],['ts4','skeleton',49,38],['ts5','skeleton',40,8],['tt1','thronhueter',31,21]]},
   mira:{at:[176,46],build:buildMira,huts:[[2,1]],npcs:[{id:'mira',name:'Mira',x:3,y:2}],enemies:[],ground:[['kraut',1,5],['kraut',5,5]],altar:null}
 };
 const ZDEF={
@@ -721,6 +721,7 @@ const KINDS={
   spider:{name:'Riesenspinne',acc:'die Riesenspinne',hp:20,atk:[3,6],xp:28,gold:[0,4],aggro:6,hit:.8},
   spiderqueen:{name:'Spinnenkönigin',acc:'die Spinnenkönigin',hp:90,atk:[6,9],xp:120,gold:[60,80],aggro:7,hit:.82,boss:1,die:'Die Spinnenkönigin zuckt ein letztes Mal. Die Grotte verstummt.'},
   /* Rev 106: Gegner der Tiefe (für Stufe 4–5) */
+  thronhueter:{name:'Thronhüter',acc:'den Thronhüter',hp:140,atk:[7,11],xp:180,gold:[80,110],aggro:6,hit:.82,boss:1,die:'Der Thronhüter sinkt vor den vier Thronen auf die Knie und zerfällt zu Staub.'},
   ruhelos:{name:'Ruheloser',acc:'den Ruhelosen',hp:28,atk:[4,7],xp:34,gold:[4,10],aggro:6,hit:.8,undead:1,die:'Der Ruhelose sinkt zusammen und findet endlich Ruhe.'},
   steinwaechter:{name:'Steinwächter',acc:'den Steinwächter',hp:36,atk:[5,8],xp:42,gold:[0,6],aggro:5,hit:.78,die:'Der Steinwächter zerfällt zu Geröll. Er hat keinem Herrn mehr gedient.'},
   echo:{name:'Echo',acc:'das Echo',hp:22,atk:[5,8],xp:38,gold:[2,8],aggro:7,hit:.86,die:'Das Echo verhallt in den Gewölben.'},
@@ -746,7 +747,7 @@ const ITEMS={
   potion:{n:'Heiltrank',type:'use'},mana:{n:'Manatrank',type:'use'},bigpotion:{n:'Großer Heiltrank',type:'use'},gold:{n:'Goldbeutel'},
   kraut:{n:'Heilkraut',mat:1},pilz:{n:'Glimmpilz',mat:1},erz:{n:'Eisenerz',mat:1},fell:{n:'Wolfsfell',mat:1},kristall:{n:'Glutkristall',mat:1},seide:{n:'Spinnenseide',mat:1},hammer:{n:'Schmiedehammer'},
   herb:{n:'Nachtwurz'},key:{n:'Gruftschlüssel'},amulet:{n:'Zerbrochenes Amulett'},rod:{n:'Angelrute'},lockpick:{n:'Dietrich'},shovel:{n:'Schaufel'},gem:{n:'Edelstein',price:15},
-  kapring:{n:'Ring des Kapitäns'},lotsenlampe:{n:'Seelotsen-Laterne'},
+  kapring:{n:'Ring des Kapitäns'},lotsenlampe:{n:'Seelotsen-Laterne'},tiefring:{n:'Ring der Tiefe'},
   fish_hering:{n:'Hering',acc:'den Hering',type:'use',heal:6,price:3},fish_makrele:{n:'Makrele',acc:'die Makrele',type:'use',heal:8,price:5},fish_barsch:{n:'Barsch',acc:'den Barsch',type:'use',heal:8,price:4},
   fish_aal:{n:'Aal',acc:'den Aal',type:'use',heal:12,price:8},fish_leucht:{n:'Leuchtfisch',acc:'den Leuchtfisch',type:'use',heal:20,mana:6,price:28},boot:{n:'Alter Stiefel',price:1},
   shard_erde:{n:'Splitter der Erde',col:'#e04030'},shard_wasser:{n:'Splitter des Wassers',col:'#60b8f0'},
@@ -1104,6 +1105,7 @@ const CH={
   guardian:{t:'golem',c1:'#6a6474',c2:'#504a5a',eye:'#8ff0e8'},
   mimic:{t:'mimic'},
   ruhelos:{t:'human',cloak:'#4a4640',hood:'#34302c',head:'hood',skin:'#9aa08a',eyes:'#f0e070',legs:'#2e2a26',trim:'#6a6050'},
+  thronhueter:{t:'golem',s:1.5,c1:'#3a3644',c2:'#24202c',eye:'#c080ff',crack:'#9a60e0'},
   steinwaechter:{t:'golem',s:.9,c1:'#7a7468',c2:'#5a554c',eye:'#d8c8ff',crack:'#8a7ab0'},
   echo:{t:'human',cloak:'#6a7e9a',hood:'#4e607a',head:'hood',skin:'#c8d8f0',eyes:'#9ff4ff',legs:'#4e607a',ghost:1},
   nhal:{t:'golem',s:1.75,c1:'#1e1614',c2:'#0e0a08',eye:'#ff3a18',crack:'#ff8a30'},
@@ -1591,6 +1593,8 @@ function iconHD(k){
     path(()=>{g.moveTo(34,38);g.lineTo(46,30);g.lineTo(56,46);g.lineTo(50,56);g.lineTo(40,52);g.closePath();},lin(30,30,56,56,[[0,'#c8c8d0'],[1,'#6a6a74']]),1.4);}
   else if(k==='gem'){path(()=>{g.moveTo(32,10);g.lineTo(50,24);g.lineTo(44,52);g.lineTo(20,52);g.lineTo(14,24);g.closePath();},lin(14,10,50,52,[[0,'#ffb0d0'],[.5,'#d02a6a'],[1,'#6a0a2a']]),1.4);
     g.strokeStyle='rgba(255,230,240,.7)';g.lineWidth=1.2;g.beginPath();g.moveTo(14,24);g.lineTo(50,24);g.moveTo(32,10);g.lineTo(26,24);g.lineTo(32,52);g.lineTo(38,24);g.lineTo(32,10);g.stroke();}
+  else if(k==='tiefring'){/* Rev 107: dunkler Eisenring mit violettem Stein */g.strokeStyle='#5a5662';g.lineWidth=6;g.beginPath();g.ellipse(32,40,14,12,0,0,7);g.stroke();g.strokeStyle='#2a2630';g.lineWidth=1.5;g.beginPath();g.ellipse(32,40,17,15,0,0,7);g.stroke();
+    g.shadowColor='#c080ff';g.shadowBlur=12;path(()=>{g.moveTo(32,16);g.lineTo(41,26);g.lineTo(32,34);g.lineTo(23,26);g.closePath();},'#9a60e0',1.6);g.shadowBlur=0;g.fillStyle='rgba(255,255,255,.6)';g.fillRect(28,22,3,4);}
   else if(k==='kapring'){g.strokeStyle='#d8b040';g.lineWidth=6;g.beginPath();g.ellipse(32,38,14,12,0,0,7);g.stroke();g.strokeStyle='#8a6418';g.lineWidth=1.5;g.beginPath();g.ellipse(32,38,17,15,0,0,7);g.stroke();
     path(()=>{g.ellipse(32,22,9,7,0,0,7);},lin(22,15,42,30,[[0,'#7ab0ff'],[1,'#1a3a8a']]),1.4);g.fillStyle='#d8c070';g.fillRect(31,17,2,10);g.fillRect(27,21,10,2);}
   else if(k==='lotsenlampe'){g.shadowColor='#ffd070';g.shadowBlur=12;path(()=>{g.rect(22,20,20,26);},'#ffd070',1.4);g.shadowBlur=0;g.strokeStyle='#2a2a30';g.lineWidth=3;g.strokeRect(22,20,20,26);
@@ -2441,6 +2445,8 @@ function kill(e){if(G.target===e.id)G.target=null;
   if(e.k==='ghoul'){S.kills++;log(S.kills<3?`Der Ghul sinkt zurück in die Erde (${S.kills}/3).`:'Der letzte Ghul zerfällt. Das Gräberfeld schweigt.','q');}
   else log(K.die||`${K.name} fällt.`,'q');
   if(e.k==='nhal'){setTimeout(()=>ending('b'),900);}
+  if(e.k==='thronhueter'&&!F().tiefring){F().tiefring=1;give('tiefring');S.p.maxHp+=10;S.p.hp=Math.min(S.p.maxHp,S.p.hp+10);/* Rev 107: Belohnung der Tiefe */
+    setTimeout(()=>{log('Zwischen dem Staub liegt ein Ring mit violettem Stein: der Ring der Tiefe. (+10 Leben, mehr Licht im Dunkeln)','q');jAdd('quest','In der Halle der Vier habe ich den Thronhüter bezwungen und den Ring der Tiefe gefunden.',{key:'tiefring'});updateHUD();save();},700);}
   if(K.boss&&e.k!=='nhal'){F()['bch_'+e.id]=1;if([...BCHT.values()].includes(e.id))setTimeout(()=>log('Neben dem Altar steht plötzlich eine verzierte Truhe.','q'),800);}
   const g=rand(K.gold[0],K.gold[1]);if(g>0){S.gold+=g;floatAt(e.x,e.y,`+${g} Gold`,'#f0cc62',350);setTimeout(()=>sfx('coin'),350);}
   e.deadTurn=S.turn;if(e.k==='wolf')S.wolfKills=(S.wolfKills||0)+1;if(e.k==='harpy')S.harpyKills=(S.harpyKills||0)+1;if(e.k==='drowned')S.drownKills=(S.drownKills||0)+1;if(e.k==='scorpion')S.scorpKills=(S.scorpKills||0)+1;if(e.k==='bandit')S.banditKills=(S.banditKills||0)+1;dropLoot(e);
@@ -3098,7 +3104,7 @@ function renderInv(){
       if(t==='e:'){o=S.eq[v];k=o&&o.k;acts='<span class="hint">angelegt</span>';}
       else if(t==='u:'){o=S.inv.find(i=>typeof i==='object'&&i.uid===v);k=o&&o.k;if(o){const cur=S.eq[ITEMS[o.k].type],d=eqScore(o)-(cur?eqScore(cur):0);acts=`<span class="hint" style="color:${d>0?'#8fe08a':d<0?'#f08a70':'#e0caa4'}">${d>0?'▲ besser':d<0?'▼ schwächer':'gleichwertig'}</span><button data-eq="${o.uid}">Anlegen</button>`;}}
       else{k=v;n=cnt[k]||0;const it=ITEMS[k];if(it&&it.type==='use')acts=`<button data-use="${k}">${it.heal?'Essen':'Trinken'}</button>`;}
-      if(k){const it=ITEMS[k],info=o?eqInfo(o):it.mat?'Material zum Herstellen':k==='hammer'?'Werkzeug zum Schmieden':it.heal?`essbar: +${it.heal} Leben${it.mana?`, +${it.mana} Mana`:''}`:k==='rod'?'Tippe aufs Wasser in deiner Nähe, um zu angeln':k==='lockpick'?'öffnet verschlossene Truhen und entschärft Fallen – kann dabei brechen':k==='shovel'?'gräbt dort, wo eine Schatzkarte ein X zeigt':k==='gem'?'wertvoll – beim Händler verkaufen':k==='kapring'?'+2 Rüstung, solange du ihn bei dir trägst':k==='lotsenlampe'?'erhellt Höhlen und dunkle Orte deutlich weiter':k==='boot'?'Ein nasser, alter Stiefel. Wertlos.':it.type==='use'?(k==='mana'?'stellt 8 Mana her':k==='bigpotion'?'heilt 35 Leben':'heilt 15 Leben'):k.startsWith('shard')?'Einer der vier Splitter':'';
+      if(k){const it=ITEMS[k],info=o?eqInfo(o):it.mat?'Material zum Herstellen':k==='hammer'?'Werkzeug zum Schmieden':it.heal?`essbar: +${it.heal} Leben${it.mana?`, +${it.mana} Mana`:''}`:k==='rod'?'Tippe aufs Wasser in deiner Nähe, um zu angeln':k==='lockpick'?'öffnet verschlossene Truhen und entschärft Fallen – kann dabei brechen':k==='shovel'?'gräbt dort, wo eine Schatzkarte ein X zeigt':k==='gem'?'wertvoll – beim Händler verkaufen':k==='kapring'?'+2 Rüstung, solange du ihn bei dir trägst':k==='tiefring'?'+10 Leben (einmalig), größerer Lichtkreis in Höhlen und dunklen Orten':k==='lotsenlampe'?'erhellt Höhlen und dunkle Orte deutlich weiter':k==='boot'?'Ein nasser, alter Stiefel. Wertlos.':it.type==='use'?(k==='mana'?'stellt 8 Mana her':k==='bigpotion'?'heilt 35 Leben':'heilt 15 Leben'):k.startsWith('shard')?'Einer der vier Splitter':'';
         det=`<img alt="" src="${iconURL(k)}"><div><div class="dn" style="color:${o?QCOL[o.q]:'#f2e2c0'}">${o?eqName(o):it.n}${n>1?' ×'+n:''}</div><small>${info}</small></div><div class="dact">${acts}</div>`;}}
     body=`<div class="baggrid"><div class="paper"><h4>Ausrüstung</h4><div class="doll">
         ${playerPortrait()?`<img class="sil" alt="" src="${playerPortrait()}">`:`<svg class="sil" viewBox="0 0 60 120" aria-hidden="true"><circle cx="30" cy="16" r="11" fill="#c8a070"/><path d="M14 34c4-6 28-6 32 0l4 40h-8l-2 44h-8l-2-36-2 36h-8l-2-44h-8z" fill="#c8a070"/></svg>`}
@@ -3281,6 +3287,13 @@ function addFactionDialogs(){
         {l:'Ich komme wieder.'}]},
     by:{t:'Da. Fühl, wie sie zittert. Sie will zu ihm. Meine Esse ist kalt – ich werde nie wieder schmieden. Mach, dass es das wert war.',o:[{l:'Leb wohl.'}]},
     bn:{t:'Hörst du sie singen? Hundert Jahre gebunden, und jetzt fliegen sie heim. Nimm die Kristalle, die sie zurücklassen. Und such dir einen anderen Weg gegen den Hungernden.',o:[{l:'Leb wohl.'}]}});
+  /* Rev 107: Hinweise auf Die Tiefe */
+  const TIEFE={mareth:'Unter Morvenn liegen Hallen, älter als jedes Dorf. Die Titanen haben sie gebaut, als sie noch sprachen. Hinter dem Altar in der Gruft führt eine Treppe hinab. Geh nicht hinunter, bevor du stark genug bist.',
+    oswin:'Wir Stillen kennen die Treppe hinter dem Altar. Wir haben sie nie benutzt. Seit der Riss kam, steigt von dort eine Kälte herauf, und manchmal hört man Schritte, die nicht von Menschen sind.',
+    tobe:'Auf der Insel, neben dem Schrein, geht es hinab. Von dort sind die Ertrunkenen heraufgekommen. Unten soll ein Becken sein, schwarz wie der See bei Nacht.',
+    hagen:'Am Fuß des Aschenhorns, beim Wegstein, führt eine Treppe in alte Schmieden der Titanen. Die Glut dort ist kalt. In der Mitte, heißt es, wacht etwas auf vier leeren Thronen.'};
+  for(const id in TIEFE){const D=DLG[id];if(!D||!D.start||!Array.isArray(D.start.o))continue;D.tiefe={t:TIEFE[id],o:[{l:'Zurück.',go:'start'},{l:'Leb wohl.'}]};
+    const o=D.start.o,i=o.findIndex(x=>x.l==='Leb wohl.');o.splice(i<0?o.length:i,0,{l:'Was liegt unter uns?',go:'tiefe'});}
 }
 
 /* ---------- Nhal im Aschenhorn: Begegnung am Kraterrand ---------- */
@@ -3365,7 +3378,7 @@ function lootCard(title,intro,loot,after){const nm=it=>typeof it==='object'?eqNa
   overlay(`<h1>${title}</h1><div class="story">${intro?`<p>${intro}</p>`:''}${rows}${loot.gold?`<div class="item"><span class="nm" style="color:#ffd870">${loot.gold} Gold</span></div>`:''}</div>`,
     [['Alles nehmen',()=>{loot.items.forEach(it=>{if(typeof it==='object')giveEq(it);else give(it);if(UNIQ[typeof it==='object'?it.k:it])jAdd('quest',`Gefunden: ${nm(it)}. ${UNIQ[typeof it==='object'?it.k:it]}`,{key:'u_'+(typeof it==='object'?it.k:it)});});
       S.gold+=loot.gold;sfx('coin');log(`Du nimmst alles an dich${loot.gold?` (+${loot.gold} Gold)`:''}.`);closeOverlay();updateHUD();save();if(after)after();},true]]);}
-const UNIQ={wdagger:'Ein schmaler Dolch mit Siegelwächter-Kreuz. Mareth muss ihn hier verborgen haben.',lotsenlampe:'Die Laterne der Seelotsen. Sie erhellt Höhlen und dunkle Orte deutlich weiter.',kapring:'Der Siegelring des Kapitäns der „Morgenwind“. Er schützt dich (+2 Rüstung).'};
+const UNIQ={tiefring:'Der Ring der Tiefe. Der violette Stein glimmt im Dunkeln.',wdagger:'Ein schmaler Dolch mit Siegelwächter-Kreuz. Mareth muss ihn hier verborgen haben.',lotsenlampe:'Die Laterne der Seelotsen. Sie erhellt Höhlen und dunkle Orte deutlich weiter.',kapring:'Der Siegelring des Kapitäns der „Morgenwind“. Er schützt dich (+2 Rüstung).'};
 function chestsOpened(){return Object.keys(chs()).length;}
 function openChest(ci){const c=CHESTS[ci],p=S.p;if(!c)return;if(chs()[ci]){log('Die Truhe ist leer.');return;}setFace(p,c.x-p.x,c.y-p.y);
   const done=()=>{chs()[ci]=1;sfx('door');burst(c.x,c.y,['#ffd870','#fff2c0'],14,1);const loot=lootFor(c);
@@ -3566,7 +3579,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 106</div>
+  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 107</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -4177,7 +4190,7 @@ function draw0(t,now,dt){
   const scr=(x,y)=>{const q=iso(x,y);return[q.x+offX,q.y+offY];};
   const[psx,psy0]=scr(p.rx,p.ry),psy=psy0-12*RES-elev(p.rx,p.ry),dl=daylight(),ZN=ZD();
   if(!ZN.cave&&dl<1){lx.fillStyle=`rgba(16,22,56,${.2*(1-dl)})`;lx.fillRect(0,0,LW,LH);}
-  let rad=(170+330*dl)*RES,oa=.84-.5*dl;/* Rev 96: Bildrand draußen etwas dunkler (vorher .74 − .5 × Tageslicht) */if(ZN.cave){rad=230*RES;oa=.66;}if(ZN.dark){rad=150*RES;oa=.9;}if(inI){rad=120*RES;oa=.86;}if((ZN.cave||ZN.dark||inI)&&S.inv.includes('lotsenlampe'))rad*=1.6;
+  let rad=(170+330*dl)*RES,oa=.84-.5*dl;/* Rev 96: Bildrand draußen etwas dunkler (vorher .74 − .5 × Tageslicht) */if(ZN.cave){rad=230*RES;oa=.66;}if(ZN.dark){rad=150*RES;oa=.9;}if(inI){rad=120*RES;oa=.86;}if((ZN.cave||ZN.dark||inI)&&S.inv.includes('lotsenlampe'))rad*=1.6;if((ZN.cave||ZN.dark)&&S.inv.includes('tiefring'))rad*=1.35;/* Rev 107 */
   /* Rev 62: Lichtkarte statt einfachem Kreis. Lampen, Leuchter, Feuer, Lava, Altäre und Wegsteine schneiden Licht in die
      Dunkelheit – nachts sind Städte und Innenräume durch ihre Lampen erhellt. Die Karte ist 24-mal kleiner als das Bild. */
   {const nl=(1-dl)*.6+(ZN.cave||ZN.dark||inI?.4:0),L=[];

@@ -298,3 +298,16 @@ test('Rev 106: Die Tiefe – Gegner, Tafeln und Truhen', async ({ page }) => {
   expect(r).toEqual([21, 'echo,ruhelos,skeleton,steinwaechter', 'Tafel der Erde|Tafel der Luft|Tafel des Feuers|Tafel des Wassers', 'locked,locked,trap', true]);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 107: Thronhüter, Ring der Tiefe und Hinweise der Figuren', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const b = S.enemies.find(e => e.k === 'thronhueter'); KINDS.thronhueter.xp = 0; const hp0 = S.p.maxHp; /* ohne Stufenaufstieg, damit nur der Ring zählt */
+    damage(b, b.hp + 5, '#fff');
+    openDialog('mareth'); const hinweis = DLG.mareth.start.o.some(o => o.go === 'tiefe') && ['oswin', 'tobe', 'hagen'].every(id => DLG[id].tiefe);
+    return [b.x, b.y, b.dead, S.inv.includes('tiefring'), S.p.maxHp - hp0, hinweis];
+  });
+  await page.waitForTimeout(900);
+  expect(r).toEqual([71, 289, true, true, 10, true]);
+  expect(fehler).toEqual([]);
+});
