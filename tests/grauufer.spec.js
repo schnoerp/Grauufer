@@ -87,6 +87,8 @@ test('Charakter: Stufenaufstieg, Attribut, Talent', async ({ page }) => {
 test('Angeln: Biss und Fang', async ({ page }) => {
   const fehler = await frisch(page);
   const r = await page.evaluate(() => {
+    /* Alle Schatzkarten gelten als gefunden, sonst zieht der Haken mit 8 % eine Flaschenpost statt eines Fischs */
+    if (!DECOK) buildDeco(); F().tmaps = Object.fromEntries(DIGS.map(d => [d.i, 1]));
     give('rod'); startFish(S.p.x, S.p.y + 2); G.fish.ph = 'bite'; G.fish.bt = performance.now(); const n0 = S.inv.length; reelIn();
     return S.inv.length > n0;
   });
