@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 10**, Stand: Spiel-Rev 98. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 11**, Stand: Spiel-Rev 99. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -19,6 +19,22 @@
 | Bodendetails (seit Rev 31) | Grashalme und Blüten, Kiesel, Risse, Schlammpfützen mit Schilf, Sandrippel, Schneeglitzer, Glut in der Asche, Moos zwischen Pflastersteinen, Kristalle in Höhlen, Eisschlieren, Holzmaserung; einmal pro Kachel vorgezeichnet, daher ohne Leistungskosten beim Spielen |
 | Leuchtende Dinge | Glutklinge, Sturmzepter, Splitter, aktive Wegsteine, Kristalle, Augen der Gegner |
 | Licht | immer Tag (seit Spiel-Rev 41 kein Tag-Nacht-Wechsel); Höhlen und dunkle Zonen dunkel; Bildrand draußen leicht abgedunkelt (Randdunkel 0,34, seit Spiel-Rev 96, vorher 0,24) |
+
+### Bäume (Im Spiel seit Spiel-Rev 99)
+
+Bisher gab es je Gebiet eine Baumart in 4 fast gleich hohen Spielarten. Jetzt gibt es je Gebiet 8 Spielarten aus Baumart und Größe. Welche auf einem Feld steht, ist fest nach dem Feld bestimmt, also in jedem Spiel gleich. Kleine Bäume haben eine kleinere Leinwand und kosten pro Bild weniger Fläche.
+
+| Gebiet | Baumarten (Größe als Faktor der bisherigen Baumhöhe) |
+|---|---|
+| Wildnis, Grauufer, Sonnwacht, Brachfeld und übrige grüne Gebiete | Laubbaum (1,0 und 0,86), breite Eiche (1,22), Tanne (1,32 und 1,12), Birke mit weißem Stamm (1,05 und 0,92), junger Baum (0,66) |
+| Nebelwald | dunkle Tannen (0,72–1,12), dunkle Eichen (1,25–1,38), dunkle Laubbäume (0,8–1,05) |
+| Tränensee | kahle Bäume, Trauerbäume mit hängenden Zweigen, Tannen |
+| Fahlmoor, Miras Kate | kahle Bäume, Birken, Tannen |
+| Frostmark, Frosthain, Gefrorener See | verschneite Tannen (0,72–1,38), vereinzelt kahle Bäume |
+| Sengende Ödnis, Sandhafen, Tempel | Palmen mit 8 bis 10 Stammringen, vereinzelt kahle Bäume |
+| Sturmspitze | kahle Bäume in allen Größen |
+
+Bildzeit (Waldgebiete Wildnis, Nebelwald, Frostmark, Fahlmoor, CPU 4-fach gedrosselt, je zwei Läufe): Summe 83,7 ms vorher, 85,4 ms nachher, also im Messrauschen.
 
 ### Figurengrößen in Bildpunkten
 
