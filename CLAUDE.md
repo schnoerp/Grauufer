@@ -6,14 +6,14 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 
 - Privates Browser-Rollenspiel **„Grauufer 1.0“** von **schnoerp-media** im Stil von **Ultima VIII: Pagan**.
 - Das Spiel ist **eine einzige Datei**: `index.html` (HTML + CSS + JavaScript, Canvas 2D, isometrisch).
-- Konzeptdokumente liegen in `docs/` (16 Markdown-Dateien). Einstieg: `docs/Grauufer_Uebersicht_RevXX.md`.
+- Konzeptdokumente liegen in `docs/` (17 Markdown-Dateien). Einstieg: `docs/Grauufer_Uebersicht_RevXX.md`.
 - Sprache in Spiel, Dokumenten, Commit-Nachrichten und Antworten: **Deutsch**.
 
 ## 2. Unverrückbare Anforderungen
 
 1. **Kein Ruckeln.** Testgerät ist ein Android-Tablet mit Chrome. Pro Bild keine teuren Neuberechnungen; Aufwendiges einmalig vorberechnen (Bodenpuffer, Sprite-Cache) oder über mehrere Bilder verteilen.
 2. **Nie schwarzer Boden.** Grafikspeicher-Haushalt aus Spiel-Rev 53 beibehalten: nur Spielfläche und zwei Bodenpuffer auf der Grafikkarte, alle Texturen und Sprites im Hauptspeicher (`willReadFrequently`), Notboden und Wächterstufen bei Grafikverlust.
-3. **Alles prozedural.** Keine externen Bilder, Skripte oder Schriften laden. Grafiken werden im Code gezeichnet. Die Schrift „Pixelify Sans“ ist eingebettet (SIL OFL 1.1). Das Spiel muss offline als Einzeldatei laufen.
+3. **Alles prozedural.** Keine externen Bilder, Skripte oder Schriften laden. Alle Grafiken entstehen aus unserem eigenen Code: direkt im Spiel gezeichnet oder in der Grafik-Werkstatt (`werkstatt/`, `npm run grafik`) vorgerendert und eingebettet. Fremde Grafiken werden nicht verwendet. Stilregeln: `docs/Grauufer_Grafik_RevXX.md`. Die Schrift „Pixelify Sans“ ist eingebettet (SIL OFL 1.1). Das Spiel muss offline als Einzeldatei laufen.
 4. **Pixel-Look** (Spiel-Rev 59): Texturen und Sprites gerastert, Palette mit 16 Stufen je Kanal, Bayer-Dithering, keine Glättung, ganzzahlige Zoomstufen.
 5. **Spielstand** im Browser (`localStorage`, Schlüssel `grauufer-save-v10`). Alte Spielstände müssen **nicht** mehr übernommen werden, sofern der Auftraggeber nichts anderes vorgibt. Bricht eine Änderung alte Spielstände, den Schlüssel hochzählen (z. B. `grauufer-save-v11`), damit ein alter Stand nicht fehlerhaft geladen wird, und es in der Commit-Nachricht vermerken. Eine Migration in `migrate()` nur auf ausdrücklichen Wunsch.
 

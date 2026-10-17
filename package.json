@@ -4,10 +4,12 @@
   "description": "Browser-Rollenspiel Grauufer 1.0 – Prüfungen und Browser-Tests",
   "scripts": {
     "check": "node scripts/check.js",
-    "test": "node scripts/check.js && playwright test"
+    "test": "node scripts/check.js && playwright test",
+    "grafik": "node werkstatt/render.js"
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",
-    "acorn": "8.14.0"
+    "acorn": "8.14.0",
+    "three": "0.149.0"
   }
 }

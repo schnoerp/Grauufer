@@ -15,10 +15,11 @@ Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = 
 | Pfad | Inhalt |
 |---|---|
 | `index.html` | das komplette Spiel (HTML, CSS, JavaScript, eingebettete Schrift) |
+| `werkstatt/` | Grafik-Werkstatt: 3D-Modelle im Code, mit three.js gerendert (`npm run grafik`, Vorschaubilder in `werkstatt/vorschau/`) |
 | `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze …) |
 | `CLAUDE.md` | Arbeitsregeln für Claude Code |
 
-Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_RevXX.md` (aktuell Rev 18).
+Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_RevXX.md` (aktuell Rev 19).
 
 ## Tests
 
