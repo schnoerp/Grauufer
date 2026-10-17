@@ -1,6 +1,6 @@
 # Grauufer – Die Geschichte
 
-**Revision 08**, Stand: Spiel-Rev 101. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 09**, Stand: Spiel-Rev 105. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Kurzfassung
 
@@ -192,6 +192,12 @@ Nach den hellen Enden folgt ein **Epilog** je nach Entscheidungen (Mareth, Still
 - Ilsabes Herkunft
 - Die Leere als Gegenspieler und Endkampf in einer Fortsetzung
 - Weitere Fremde aus dem Riss, die überlebt haben: Verbündete oder Rivalen
+
+## 11b. Die Tiefe
+
+**Im Spiel (seit Spiel-Rev 105):** Unter Morvenn liegen die Hallen, die die vier Titanen einst bauten. Von hier aus hielten sie das Siegel, hier schliefen sie, bevor sie verstummten. Vier Treppen führen hinab: aus der Gruft von Grauufer, von der Insel im Tränensee, aus dem Versunkenen Tempel und am Fuß des Aschenhorns. Jeder Flügel trägt das Zeichen eines Titanen, in der Mitte stehen in der Halle der Vier vier leere Throne.
+
+**Geplant:** Seit der Fremde das Siegel gelöst hat, sind die Hallen erwacht: Steinwächter ohne Herren, Echos der Titanen und Ruhelose, die durch die offenen Tore heraufziehen. Schriften und Wandbilder erklären, wie das Siegel gebaut wurde und warum es einen Wächter braucht. In der Halle der Vier wacht der Thronhüter; wer ihn bezwingt, erhält den Ring der Tiefe. Mareth, Oswin, Tobe und Hagen erwähnen „die Hallen unter uns“. Die Hauptgeschichte bleibt unverändert, Die Tiefe ist ein Nebenweg.
 
 ## 12. Hinweis zu Ortsnamen
 

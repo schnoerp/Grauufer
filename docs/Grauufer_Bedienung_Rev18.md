@@ -1,6 +1,6 @@
 # Grauufer – Bedienung
 
-**Revision 17**, Stand: Spiel-Rev 104. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 18**, Stand: Spiel-Rev 105. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Zielgeräte (Im Spiel)
 
@@ -48,7 +48,7 @@
 | Kugeln Leben und Mana | links unten (Leben, rot), rechts unten (Mana, blau), außerhalb der Fußzeile | seit Spiel-Rev 102, vorher Balken in der Fußzeile: 90 Punkte Durchmesser, Eisenring mit acht Nieten, Glaskugel; die Füllhöhe zeigt den Anteil, die Zahl (z. B. „30/30“) steht immer in der Mitte; ruhig, ohne Bewegung |
 | Kompass | am Rand | Nordpfeil und Pfeil zur aktuellen Quest |
 | Zoomanzeige | oben rechts | Zoomstufe in %, Start immer bei 100 %; Bereich 50–250 % in Schritten von 10 % |
-| Karte | Taste M | große Karte von Morvenn (keine Minikarte); Knopf „Weltkarte“ öffnet den drehbaren Globus von Vharos |
+| Karte | Taste M | große Karte von Morvenn (keine Minikarte), in der Tiefe stattdessen „Karte der Tiefe“ (seit Spiel-Rev 105); Knopf „Weltkarte“ öffnet den drehbaren Globus von Vharos |
 | Meldungen | Textprotokoll | Kampf, Funde, Gespräche |
 | Fenster | **immer zentriert** (seit Spiel-Rev 86) | Rucksack, Charakter, Tagebuch, Aufgaben, Herstellen, Zauber, Karte, Händler, Gespräch; Stil „Pergament auf Holzrollen“, Schließen als rotes Wachssiegel (seit Spiel-Rev 87); der Rucksack passt ohne Scrollen auf den Bildschirm (seit Spiel-Rev 85/90) |
 | Ego-Sicht | oben rechts, nur in Höhlen | Knopf „Ego-Sicht“ schaltet in Höhlen auf eine Sicht aus Augenhöhe mit Steuerkreuz, „Iso-Sicht“ schaltet zurück; Auswahl wird gespeichert (Testfunktion seit Spiel-Rev 44) |

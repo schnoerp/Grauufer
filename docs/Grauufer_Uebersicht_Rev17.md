@@ -1,6 +1,6 @@
 # Grauufer – Übersicht
 
-**Revision 16**, Stand: Spiel-Rev 103. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
+**Revision 17**, Stand: Spiel-Rev 105. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
 
 **Spieltitel:** „Grauufer 1.0“ (seit Spiel-Rev 103). So steht er im Browser-Reiter („Grauufer 1.0 (Rev NN)“), im Titelbild, im Titeldialog („Ein Rollenspiel von schnoerp-media, Revision NN“) und im Beenden-Dialog. „Grauufer“ allein bleibt der Name des Fischerdorfs in der Spielwelt; die Dokumente behalten ihre Dateinamen `Grauufer_<Thema>_RevXX.md`.
 
@@ -64,6 +64,7 @@ Spielcode und Technik: CLAUDE.md und README.md im Repo.
 
 Sonnwacht, Grauufer, Tränensee, Glutschlund, Sturmspitze, Nordpass, Alte Feste, Kristallhöhle, Fahlmoor, Miras Kate, Spinnengrotte, Frostmark, Frosthain, Gefrorener See, Sengende Ödnis, Sandhafen, Versunkener Tempel, Nebelwald, Küstenstraße, Wegkreuz, Wildnis von Vharos.
 Neu seit Spiel-Rev 34: Brachfeld, Titanenrücken, Glimmerseen, Rotsteinschluchten, Klippenküste; Orte Kornwacht, Steinwacht, Schilfrode, Erzhall, Ostwacht.
+Neu seit Spiel-Rev 105: Die Tiefe (uralte Hallen unter Morvenn) mit Flügel der Erde, des Wassers, der Luft, des Feuers und der Halle der Vier.
 
 ### Figuren (Schreibweise)
 
