@@ -1,6 +1,6 @@
 # Grauufer – Wirtschaft
 
-**Revision 11**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 12**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Diese Datei ist die **einzige Quelle für Preise**. Nennen andere Dokumente einen Preis und weicht er ab, gilt diese Datei. Gold von Gegnern steht in Grauufer_Gegner_RevXX.md, Questbelohnungen in Grauufer_Quests_RevXX.md.
 
@@ -91,9 +91,10 @@ Durchschnittswerte für einen vollständigen Durchgang, einmalige Quellen, ohne 
 | Questbelohnungen (10 Nebenquests mit Gold) | 590 | 290 |
 | **Truhen** (20 Holzkisten, 13 verschlossene, 8 Fallen-, 4 Bosstruhen; seit Spiel-Rev 91 halbiert) | etwa 525 | – |
 | **Schätze** (5 Grabstellen) | 260 | – |
+| **Die Tiefe** (seit Spiel-Rev 106/107): 21 Gegner etwa 130, Thronhüter 80–110 (etwa 95), 3 Truhen (2 verschlossene, 1 Fallentruhe) etwa 45 | etwa 270 | – |
 | **Vogelnester** (5) und **Mimiken** (2) | etwa 130 | – |
 | **Edelsteine** (etwa 24 aus Truhen, Schätzen, Nestern, je 15) | etwa 360 | – |
-| **Summe einmalig** | **etwa 3655** (Rev 90: etwa 4535) | **etwa 1590** |
+| **Summe einmalig** | **etwa 3925** mit der Tiefe (bis Spiel-Rev 105: etwa 3655; Rev 90: etwa 4535) | **etwa 1590** |
 | Verkauf von Beute-Ausrüstung | zusätzlich: allein die Truhen-Ausrüstung bringt etwa 950 (13 × 28, 7 × 50, 4 × 65) | mehrere hundert |
 | **Angeln** | unbegrenzt, etwa 4–5 Gold je Fang (ohne Leuchtfische), mit Feilschen 2 +25 % | – |
 | Wiederkehrende Gegner (nach 320 Zügen) | unbegrenzt | unbegrenzt |

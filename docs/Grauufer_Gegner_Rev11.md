@@ -1,6 +1,6 @@
 # Grauufer – Gegner
 
-**Revision 10**, Stand: Spiel-Rev 107. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 11**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Diese Datei ist die **einzige Quelle für Gegnerwerte**. Formeln und Regeln (Treffer, Schaden, Aggro, Wiederbelebung) stehen in Grauufer_Kampfsystem_RevXX.md.
 
@@ -69,7 +69,7 @@ Beute wie bei allen normalen Gegnern (14 % Ausrüstung, bei diesen EP aus der h�
 | Sturmspitze | 4 Harpyien | Sturmherr | Splitter der Luft |
 | Alte Feste | 4 Banditen | Bandenführer | Quest von Bram |
 | Kristallhöhle | 2 Riesenspinnen, 1 Skelettkrieger | Kristallwächter | Sturmzepter |
-| Die Tiefe (seit Spiel-Rev 106) | 21: 6 Ruhelose, 5 Echos, 5 Steinwächter, 5 Skelettkrieger (2 im Flügel der Luft unter dem Versunkenen Tempel, je 1 in den Flügeln des Wassers und des Feuers und im oberen Gang) | Thronhüter (seit Spiel-Rev 107) | Ring der Tiefe |
+| Die Tiefe (seit Spiel-Rev 106) | 21: 7 Ruhelose, 5 Echos, 4 Steinwächter, 5 Skelettkrieger (2 im Flügel der Luft unter dem Versunkenen Tempel, je 1 in den Flügeln des Wassers und des Feuers und im oberen Gang) | Thronhüter (seit Spiel-Rev 107) | Ring der Tiefe |
 | Spinnengrotte | 5 Riesenspinnen | Spinnenkönigin | Quest von Svea |
 | Gefrorener See | 2 Frostwölfe | Eisgolem | Quest von Birger |
 | Versunkener Tempel | 4 Skelettkrieger | Knochenkönig | Quest von Yasmin |
