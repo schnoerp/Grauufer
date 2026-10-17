@@ -193,3 +193,16 @@ test('Rev 98: Feine Bodenzeichnung glättet Stufen an Übergängen', async ({ pa
   expect(r).toEqual([true, true, true, false]);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 99: Bäume unterschiedlich hoch und verschiedene Arten', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const hoehen = new Set(), arten = new Set();
+    for (let v = 0; v < TREEV; v++) { hoehen.add(treeSprite(v, 'wild').c.height); arten.add(treeKind(v, 'wild').t); }
+    return [hoehen.size, [...arten].sort().join(','), treeKind(0, 'frost').t, treeKind(0, 'wueste').t];
+  });
+  expect(r[0]).toBeGreaterThanOrEqual(5);
+  expect(r[1]).toBe('birch,fir,leaf,oak,young');
+  expect(r[2]).toBe('fir'); expect(r[3]).toBe('palm');
+  expect(fehler).toEqual([]);
+});
