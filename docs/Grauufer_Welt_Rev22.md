@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 21**, Stand: Spiel-Rev 106. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 22**, Stand: Spiel-Rev 107. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -212,7 +212,7 @@ Die Karte (Taste M) bekommt zwei Ebenen:
 **Stil:** gealtertes Pergament mit verblassten Rändern, passend zum Pagan-Ton; Meer dunkel mit angedeuteten Wellen.
 
 
-## 7b. Die Tiefe (Im Spiel seit Spiel-Rev 105, Ausbau geplant)
+## 7b. Die Tiefe (Im Spiel seit Spiel-Rev 105–107)
 
 Uralte Hallen der Titanen unter Morvenn, ein optionaler Nebenweg (Hintergrund: Grauufer_Story_RevXX.md). Technisch ist die Karte nach unten erweitert: Reihe 0–247 ist Morvenn, Reihe 248–315 Leere, darin Die Tiefe als abgetrenntes Gebiet. Koordinaten von Morvenn und alle Fundorte bleiben dabei unverändert.
 
@@ -239,7 +239,7 @@ Alle Zugänge sind von Anfang an offen. Da die Flügel unten verbunden sind, ist
 
 **Im Spiel seit Spiel-Rev 106:** 21 Gegner (Ruhelose, Echos, Steinwächter, Skelettkrieger; Werte in Grauufer_Gegner_RevXX.md), vier Tafeln (Erde 50,272; Wasser 50,307; Luft 93,272; Feuer 93,307), drei Truhen (55,272; 55,307; 88,307), Tränke am Boden (Großer Heiltrank 71,277; Manatrank 71,302; Heiltrank 49,289 und 94,289, jeweils mit leichter Streuung beim Spielstart).
 
-**Geplant (nächster Schritt):** Endgegner Thronhüter in der Halle der Vier, Belohnung „Ring der Tiefe“, Hinweise von Mareth, Oswin, Tobe und Hagen; Schwierigkeit für Stufe 4–5.
+**Im Spiel seit Spiel-Rev 107:** Endgegner Thronhüter in der Halle der Vier (71,289), Belohnung „Ring der Tiefe“, Hinweise von Mareth, Oswin, Tobe und Hagen. Damit ist Die Tiefe vollständig; ausgelegt für Stufe 4–5.
 
 ## 8. Neu seit Spiel-Rev 41 (Im Spiel)
 

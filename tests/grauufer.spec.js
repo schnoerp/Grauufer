@@ -295,6 +295,32 @@ test('Rev 106: Die Tiefe – Gegner, Tafeln und Truhen', async ({ page }) => {
     readBook(LECT.find(l => l.y >= MORVH).i); closeOverlay();
     return [g.length, arten, tafeln, truhen, CHESTS.length - 3 === 47];
   });
-  expect(r).toEqual([21, 'echo,ruhelos,skeleton,steinwaechter', 'Tafel der Erde|Tafel der Luft|Tafel des Feuers|Tafel des Wassers', 'locked,locked,trap', true]);
+  expect(r).toEqual([22, 'echo,ruhelos,skeleton,steinwaechter,thronhueter', 'Tafel der Erde|Tafel der Luft|Tafel des Feuers|Tafel des Wassers', 'locked,locked,trap', true]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 107: Thronhüter, Ring der Tiefe und Hinweise der Figuren', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const b = S.enemies.find(e => e.k === 'thronhueter'); KINDS.thronhueter.xp = 0; const hp0 = S.p.maxHp; /* ohne Stufenaufstieg, damit nur der Ring zählt */
+    damage(b, b.hp + 5, '#fff');
+    openDialog('mareth'); const hinweis = DLG.mareth.start.o.some(o => o.go === 'tiefe') && ['oswin', 'tobe', 'hagen'].every(id => DLG[id].tiefe);
+    return [b.x, b.y, b.dead, S.inv.includes('tiefring'), S.p.maxHp - hp0, hinweis];
+  });
+  await page.waitForTimeout(900);
+  expect(r).toEqual([71, 289, true, true, 10, true]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 108: Notgrund füllt Lücken, solange der Bodenpuffer nicht alles bedeckt', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => GB && GB.done, null, { timeout: 30000 });
+  await page.evaluate(() => { window.stepBuf = function () {}; ZOOM = .6; resize(); });
+  await page.waitForTimeout(400);
+  const r = await page.evaluate(() => {
+    const d = GRUND && GRUND.getContext('2d').getImageData(SHORE.ship[0], SHORE.ship[1], 1, 1).data;
+    return [!!GRUND, GRUND && GRUND.width === W && GRUND.height === H, d && [d[0], d[1], d[2]].join(',')];
+  });
+  expect(r).toEqual([true, true, '34,52,76']);
   expect(fehler).toEqual([]);
 });

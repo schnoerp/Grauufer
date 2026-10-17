@@ -1,6 +1,6 @@
 # Grauufer – Die Geschichte
 
-**Revision 10**, Stand: Spiel-Rev 106. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 11**, Stand: Spiel-Rev 107. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Kurzfassung
 
@@ -199,7 +199,7 @@ Nach den hellen Enden folgt ein **Epilog** je nach Entscheidungen (Mareth, Still
 
 **Im Spiel (seit Spiel-Rev 106):** Seit der Fremde das Siegel gelöst hat, sind die Hallen erwacht: Steinwächter ohne Herren, Echos der Titanen, Ruhelose, die durch die offenen Tore heraufziehen, und Skelette, die vom Versunkenen Tempel herabgestiegen sind. Vier Tafeln erklären, wie das Siegel gebaut wurde: Die Vier legten den Fünften in Ketten und riefen die Wächter aus Tharos, damit eine Hand die Ketten hält (Erde); die Toten von Vharos sanken einst in die Tiefe und wurden still, mit dem offenen Siegel steigen sie wieder auf (Wasser); die Stimmen der Titanen sind die Splitter, wer sie vereint, kann binden oder lösen (Luft); der Fünfte nährt sich vom Wunsch (Feuer).
 
-**Geplant:** In der Halle der Vier wacht der Thronhüter; wer ihn bezwingt, erhält den Ring der Tiefe. Mareth, Oswin, Tobe und Hagen erwähnen „die Hallen unter uns“. Die Hauptgeschichte bleibt unverändert, Die Tiefe ist ein Nebenweg.
+**Im Spiel (seit Spiel-Rev 107):** In der Halle der Vier wacht der Thronhüter. Wer ihn bezwingt, findet im Staub den Ring der Tiefe. Mareth, Oswin, Tobe und Hagen erwähnen „die Hallen unter uns“ und verraten je einen Zugang. Die Hauptgeschichte bleibt unverändert, Die Tiefe ist ein Nebenweg.
 
 ## 12. Hinweis zu Ortsnamen
 

@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 14**, Stand: Spiel-Rev 104. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 15**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -128,6 +128,8 @@ Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus
 - Bildqualität fest auf „Automatisch“ (seit Spiel-Rev 100): volle Auflösung; liegt die Bildzeit im Mittel über 30 ms, senkt das Spiel die Auflösung stufenweise auf 80 % und 65 %. Bis Spiel-Rev 99 gab es dafür den Knopf „Grafik“ mit Hoch, Mittel, Niedrig und Automatisch.
 
 ### Grafikspeicher (Im Spiel seit Spiel-Rev 53)
+- **Notgrund (seit Spiel-Rev 108):** Solange der Bodenpuffer das Bild nicht ganz bedeckt (beim Laufen, Zoomen oder kurz nach Treppen und Portalen, besonders auf großen Bildschirmen in voller Auflösung), wird darunter ein grober Kartenboden gezeichnet: ein Feld = ein Bildpunkt in der Geländefarbe (Meer #22344c, Wald #24361e, Fels #4a4648, Wüste und Sand #8e7a52, Wiese #3e4a26 usw.), mit einer einzigen schrägen Abbildung auf die Rauten gelegt. Die Leinwand (680 × 316) liegt im Hauptspeicher und wird einmal angelegt; gezeichnet wird sie nur, solange eine Lücke besteht. Vorher blieben solche Lücken schwarz.
+- **Schneller nachbauen (seit Spiel-Rev 108):** Deckt der alte Bodenpuffer das Bild nicht ganz, bekommt der Neubau 14 ms pro Bild statt 6 ms.
 - Nur Spielfläche und zwei Bodenpuffer liegen auf der Grafikkarte, alle Texturen und Sprites im Hauptspeicher.
 - Bei Verlust: Notboden (¼-Auflösung), verteilter Neubau, danach stufenweise weniger Auflösung (100 → 80 → 65 → 50 %), zuletzt Notbetrieb. Veralteter Notbetrieb aus Rev 51/52 wird einmalig zurückgesetzt (Rev 70). Seit Spiel-Rev 100 gelten diese Notstufen nur bis zum nächsten Start des Spiels und werden dann zurückgesetzt.
 

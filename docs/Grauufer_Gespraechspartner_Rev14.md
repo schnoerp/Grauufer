@@ -1,6 +1,6 @@
 # Grauufer – Gesprächspartner
 
-**Revision 13**, Stand: Spiel-Rev 94. Abschnitt A beschreibt den Ist-Stand im Spiel, Abschnitt B die geplanten Erweiterungen aus der Grauufer_Waffenliste_RevXX.md, Abschnitt C Vorschläge für neue Figuren.
+**Revision 14**, Stand: Spiel-Rev 107. Abschnitt A beschreibt den Ist-Stand im Spiel, Abschnitt B die geplanten Erweiterungen aus der Grauufer_Waffenliste_RevXX.md, Abschnitt C Vorschläge für neue Figuren.
 
 ## A) Vorhandene Gesprächspartner
 
@@ -92,6 +92,17 @@ Preise aller Waren und Dienste: Grauufer_Wirtschaft_RevXX.md.
 | Ilka | Händlerin | spöttisch, geschäftstüchtig | Laden: Heiltrank, Großer Heiltrank, Manatrank, Lederwams, Kettenhemd, Blitzstab | – | Strandgut |
 
 **Gesamt vorhanden:** 25 Gesprächspartner (23 mit Namen, 2 Wachen), 10 Händler, 5 Lehrer bzw. Heiler, 14 Aufgaben.
+
+### Hinweise auf Die Tiefe (Im Spiel seit Spiel-Rev 107)
+
+Mareth, Oswin, Tobe und Hagen haben das neue Gesprächsthema **„Was liegt unter uns?“** (vor „Leb wohl.“):
+
+| Figur | Hinweis |
+|---|---|
+| Mareth | Hallen der Titanen unter Morvenn; Treppe hinter dem Altar in der Gruft; erst hinab, wenn man stark genug ist |
+| Oswin | Die Stillen kennen die Treppe, haben sie nie benutzt; seit dem Riss steigt Kälte herauf, Schritte, die nicht von Menschen sind |
+| Tobe | Abstieg auf der Insel neben dem Schrein, von dort kamen die Ertrunkenen; unten ein schwarzes Becken |
+| Hagen | Treppe am Fuß des Aschenhorns beim Wegstein, alte Schmieden der Titanen; in der Mitte wacht etwas auf vier leeren Thronen |
 
 ### Neu seit Spiel-Rev 79–90 (Im Spiel)
 
