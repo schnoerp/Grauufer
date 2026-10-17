@@ -1,6 +1,6 @@
 # Grauufer – Bedienung
 
-**Revision 11**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 12**, Stand: Spiel-Rev 95. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Zielgeräte (Im Spiel)
 
@@ -68,6 +68,8 @@
 4. Spielstand wird automatisch im Browserspeicher gespeichert (localStorage, Schlüssel grauufer-save-v10), beim Tod gelöscht. Neues Spiel nur noch über Beenden → Titelbildschirm (der Knopf im Rucksack entfällt seit Spiel-Rev 90)
 5. Ton verstummt, sobald das Spiel nicht sichtbar ist oder beendet wird (seit Spiel-Rev 68)
 6. Schrift „Pixelify Sans“ ist eingebettet, das Spiel läuft ohne Internet (seit Spiel-Rev 78)
+7. Eigenes Symbol im Browser-Reiter und bei Lesezeichen: Wappen der Siegelwächter (seit Spiel-Rev 95, Aussehen siehe Grauufer_Stil_RevXX.md)
+8. Online spielbar über GitHub Pages aus dem Zweig `main` (Adresse unter *Settings → Pages* im Repo)
 
 ## 5b. Tagebuch (Im Spiel seit Spiel-Rev 84)
 

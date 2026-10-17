@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 07**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 08**, Stand: Spiel-Rev 95. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -59,6 +59,7 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 - Vulkan mit Rauch und Lavasee, Portale mit wirbelndem Licht, animiertes Meer (Wellenkämme, Brandung, seit Spiel-Rev 80), Schiffswrack (Rev 83), Truhen offen/zu, Mimik, Lesepulte, Runentafeln, Felsbrocken, Gittertore, Runentore, Vogelnester.
 - Fenster im Stil „Pergament auf Holzrollen“ mit prozeduraler Pergament-Textur, rotes Wachssiegel zum Schließen (seit Spiel-Rev 87).
 - Schrift „Pixelify Sans“ eingebettet (SIL Open Font License 1.1, seit Spiel-Rev 78).
+- Symbol für Browser-Reiter und Lesezeichen (seit Spiel-Rev 95): Wappen der Siegelwächter als Pixelgrafik 16 × 16, goldenes Kreuz (#f2b13c) auf blauem Schild (#2e4e8a) mit dunklem Riss durch das Kreuz, auf dunkelbraunem Grund (#241610); als SVG direkt in `index.html` eingebettet, keine externe Datei. Die Leistenfarbe des Browsers (theme-color) ist ebenfalls #241610.
 
 ## 3. Klang (Im Spiel)
 

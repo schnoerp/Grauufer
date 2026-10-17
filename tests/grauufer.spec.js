@@ -143,3 +143,14 @@ test('Rev 94: Titanenbrecher-Name, Holzkisten, Eislanze, keine Wiederbelebung vo
   expect(r[4]).toBe(true);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 95: Symbol für Reiter und Lesezeichen ist eingebettet', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => new Promise(res => {
+    const l = document.querySelector('link[rel="icon"]');
+    if (!l) return res(null);
+    const img = new Image(); img.onload = () => res([l.href.slice(0, 18), img.naturalWidth > 0]); img.onerror = () => res([l.href.slice(0, 18), false]); img.src = l.href;
+  }));
+  expect(r).toEqual(['data:image/svg+xml', true]);
+  expect(fehler).toEqual([]);
+});
