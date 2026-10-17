@@ -325,19 +325,19 @@ test('Rev 108: Notgrund füllt Lücken, solange der Bodenpuffer nicht alles bede
   expect(fehler).toEqual([]);
 });
 
-test('Werkstatt: Hausbau erzeugt Häuser aus der Beschreibung (alle Wand- und Dacharten)', async ({ page }) => {
+test('Werkstatt: Hausbau erzeugt Häuser aus der Beschreibung (alle Wand-, Dach- und Dachformen)', async ({ page }) => {
   const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
   await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'baukasten.html'));
   await page.waitForFunction(() => window.Hausbau && window.THREE, null, { timeout: 30000 });
   const r = await page.evaluate(() => {
     const zaehle = g => { let n = 0; g.traverse(o => { if (o.isMesh) n++; }); return n; };
     const ergebnis = [];
-    for (const wand of ['fachwerk', 'stein', 'holz']) for (const dach of ['schiefer', 'schindeln', 'reet']) for (const first of ['x', 'z']) {
-      const spec = Object.assign(JSON.parse(JSON.stringify(Hausbau.BEISPIEL)), { wand, dach, first });
+    for (const wand of ['fachwerk', 'stein', 'holz']) for (const dach of ['schiefer', 'schindeln', 'reet']) for (const first of ['x', 'z']) for (const dachform of ['sattel', 'walm']) {
+      const spec = Object.assign(JSON.parse(JSON.stringify(Hausbau.BEISPIEL)), { wand, dach, first, dachform });
       ergebnis.push(zaehle(Hausbau.Bau(spec, false)) > 100 && zaehle(Hausbau.Bau(spec, true, 2)) > 200);
     }
     return [ergebnis.every(Boolean), ergebnis.length, Object.keys(Hausbau.KATALOG).length];
   });
-  expect(r).toEqual([true, 18, 17]);
+  expect(r).toEqual([true, 36, 17]);
   expect(fehler).toEqual([]);
 });

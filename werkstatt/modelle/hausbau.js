@@ -53,8 +53,13 @@ function texturen(v){const key=Math.round(v*4);if(CACHE[key])return CACHE[key];c
   schindeln:tex(256,256,(g,w,h)=>{g.fillStyle='#2a1c12';g.fillRect(0,0,w,h);const rh=18;for(let r=0;r*rh<h;r++){let x=(r%2)*10-10;while(x<w){const sw=14+rnd()*10;
     if(rnd()<.06*V){x+=sw;continue;}g.fillStyle=sh(rnd()<.2?'#6a5038':'#5a4430',.6+rnd()*.5);g.fillRect(x+1,r*rh+(rnd()-.5)*2*V,sw-2,rh-2);g.fillStyle='rgba(0,0,0,.25)';g.fillRect(x+1,r*rh+rh-5,sw-2,3);x+=sw;}}
     moss(g,w,h,35*V);grime(g,w,h,25*V,.4);}),
-  reet:tex(256,256,(g,w,h)=>{g.fillStyle='#6a5a36';g.fillRect(0,0,w,h);for(let i=0;i<2600;i++){g.strokeStyle=sh(rnd()<.5?'#a08a52':'#8a7440',.6+rnd()*.5);g.lineWidth=1+rnd();const x=rnd()*w,y=rnd()*h;g.beginPath();g.moveTo(x,y);g.lineTo(x+(rnd()-.5)*3,y+10+rnd()*14);g.stroke();}
-    for(let r=0;r<h;r+=32){g.fillStyle='rgba(30,22,10,.35)';g.fillRect(0,r,w,3);}moss(g,w,h,40*V);grime(g,w,h,30*V,.5);}),
+  reet:tex(256,256,(g,w,h)=>{g.fillStyle=V<.4?'#8a7444':'#6a5c3e';g.fillRect(0,0,w,h);
+    for(let i=0;i<5200;i++){const x=rnd()*w,y=rnd()*h,l=8+rnd()*22,c=rnd();g.strokeStyle=sh(c<.4?'#b49a5a':c<.75?'#9a8250':'#6e5e3c',.65+rnd()*.5-.25*V);g.lineWidth=.8+rnd()*.9;
+      g.beginPath();g.moveTo(x,y);g.lineTo(x+(rnd()-.5)*2.5,y-l);g.stroke();}
+    for(let i=0;i<40;i++){const x=rnd()*w,y=rnd()*h,gr=g.createRadialGradient(x,y,0,x,y,20+rnd()*30);gr.addColorStop(0,`rgba(${rnd()<.5?40:90},${rnd()<.5?34:80},20,.18)`);gr.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=gr;g.fillRect(x-50,y-50,100,100);}
+    moss(g,w,h,40*V,1);grime(g,w,h,25*V,.35);}),
+  reetRand:tex(128,64,(g,w,h)=>{g.fillStyle='#4a3e26';g.fillRect(0,0,w,h);for(let i=0;i<1400;i++){g.fillStyle=sh(rnd()<.5?'#a08a52':'#7a6840',.6+rnd()*.5-.2*V);g.beginPath();g.arc(rnd()*w,rnd()*h,.8+rnd()*1.2,0,7);g.fill();}
+    const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.45)');g.fillStyle=gr;g.fillRect(0,0,w,h);}),
   stoff:tex(64,64,(g,w,h)=>{g.fillStyle='#5e3028';g.fillRect(0,0,w,h);g.fillStyle='#7a4a34';for(let i=0;i<w;i+=16)g.fillRect(i,0,6,h);g.fillStyle='rgba(0,0,0,.2)';for(let j=0;j<h;j+=16)g.fillRect(0,j,w,4);}),
   teppich:tex(128,128,(g,w,h)=>{g.fillStyle='#5c3a2a';g.fillRect(0,0,w,h);g.strokeStyle='#c8a050';g.lineWidth=6;g.strokeRect(10,10,w-20,h-20);g.strokeStyle='#8a3024';g.lineWidth=10;g.strokeRect(26,26,w-52,h-52);g.fillStyle='#c8a050';g.beginPath();g.moveTo(w/2,40);g.lineTo(w-40,h/2);g.lineTo(w/2,h-40);g.lineTo(40,h/2);g.fill();grime(g,w,h,20*V,.5);}),
   wiese:tex(256,256,(g,w,h)=>{g.fillStyle='#646c3a';g.fillRect(0,0,w,h);for(let i=0;i<3000;i++){g.fillStyle=sh(rnd()<.5?'#5c6a30':'#8a9450',.8+rnd()*.4);g.fillRect(rnd()*w,rnd()*h,2,3+rnd()*4);}})};
@@ -117,24 +122,53 @@ function Bau(spec,innen,drehung=0){
     if(typ==='holz')box(.3,h,.3,mHolz,x,h/2,z);else uv(box(.42,h,.42,mStein,x,h/2,z),[.3,h/2.3]);});
   uv(box(HX,.12,HZ,M({map:tx.dielen}),HX/2,.06,HZ/2),[B/2,D/2]);
 
-  // Dach (First entlang x oder z), Giebel, Schornstein
+  // Dach (First entlang x oder z): Sattel- oder Walmdach aus gekrümmten Flächen mit sichtbarer Dicke an der Traufe;
+  // Reet: dick, weich gerundet, Firstwulst, standardmäßig als Walmdach. Giebel nur beim Satteldach.
   const kamin=(spec.einrichtung||[]).find(e=>e.art==='kamin'&&e.x>=0&&e.x<B&&e.z>=0&&e.z<D);
   if(!innen){const g=new THREE.Group();haus.add(g);const lx=spec.first==='z'?HZ:HX,sp=spec.first==='z'?HX:HZ;g.position.set(HX/2,WH,HZ/2);if(spec.first==='z')g.rotation.y=PI/2;
     const art=['schiefer','reet','schindeln'].includes(spec.dach)?spec.dach:'schiefer',reet=art==='reet';
-    const ov=reet?.7:.5,rh=sp*(reet?.45:.31),L=lx+2*ov,half=sp/2+ov,sl=Math.hypot(half,rh),dk=reet?.4:.14;
-    for(const s of[-1,1]){const geo=new THREE.BoxGeometry(L,dk,sl,30,1,14),pa=geo.attributes.position;
-      for(let i=0;i<pa.count;i++){const u=pa.getX(i)/L+.5,w=pa.getZ(i)/sl+.5;pa.setY(i,pa.getY(i)-(.06+.22*v)*Math.sin(PI*u)*Math.sin(PI*Math.min(1,w*1.2))+(rnd()-.5)*.04*v);}
-      geo.computeVertexNormals();const p=new THREE.Mesh(geo,mt(tx[art],L/3,sl/3,{roughness:reet?1:.7}));p.position.set(0,rh/2+(reet?.1:0),s*half/2);p.rotation.x=s*Math.atan2(rh,half);p.castShadow=p.receiveShadow=true;g.add(p);
-      if(s>0&&v>.5&&!reet){for(const[du,dw,ww,dd,ry]of[[.18,.55,1.3,1.0,.12],[.21,.5,.9,.7,-.2]]){const pt=box(ww,.05,dd,mHolz,lx*du,rh*(1-dw)+.02,half*dw,g);pt.rotation.x=Math.atan2(rh,half);pt.rotation.y=ry;}}}
-    if(!reet){const r=box(L+.1,.22,.3,mHolz,0,rh-.12+(1-v)*.05,0,g);r.rotation.z=.015*v;}else{const r=cyl(.28,.28,L,mt(tx.reet,L/3,1,{roughness:1}),0,rh+.12,0,g,10);r.rotation.z=PI/2;}
-    const mG=typ==='fachwerk'?mPutz:typ==='holz'?mHolz:mStein;
-    for(const x of[-lx/2,lx/2]){const shp=new THREE.Shape();shp.moveTo(-sp/2,0);shp.lineTo(sp/2,0);shp.lineTo(0,rh);shp.lineTo(-sp/2,0);
-      const gm=new THREE.Mesh(new THREE.ShapeGeometry(shp),mG);gm.position.set(x+(x>0?.001:-.001),0,0);gm.rotation.y=x>0?PI/2:-PI/2;gm.castShadow=true;g.add(gm);
-      if(typ==='fachwerk'){const b1=box(.14,.14,Math.hypot(sp/2,rh)+.2,mHolz,x,rh/2,-sp/4,g);b1.rotation.x=-Math.atan2(rh,sp/2);
-        const b2=box(.14,.14,Math.hypot(sp/2,rh)+.2,mHolz,x,rh/2,sp/4,g);b2.rotation.x=Math.atan2(rh,sp/2);box(.14,rh,.14,mHolz,x,rh/2,0,g);}}
+    const walm=(spec.dachform||(reet?'walm':'sattel'))==='walm';
+    const k=reet?1.0:.62,ov=reet?.55:.5,ovG=walm?ov:(reet?.35:.4),dick=reet?.34:.12,rh=sp/2*k,ye=-ov*k,ex=lx/2+ovG,ez=sp/2+ov,rx=walm?Math.max(0,ex-ez):ex;
+    const mDach=M({map:tx[art],roughness:reet?1:.7}),mRand=reet?M({map:tx.reetRand,roughness:1}):mHolz;
+    // Fläche aus Traufkante A–B und Firstkante D–C (Dreieck, wenn D = C), unterteilt, durchhängend und uneben
+    const flaechen=[];
+    function flaeche(A,Bp,C,Dp,frei){const N=18,Mz=10,pos=[],uvs=[],idx=[],nrm=new THREE.Vector3(),e1=new THREE.Vector3(),e2=new THREE.Vector3();
+      e1.subVectors(Bp,A);e2.subVectors(Dp,A);nrm.crossVectors(e1,e2).normalize();if(nrm.y<0)nrm.negate();
+      const lenE=A.distanceTo(Bp),lenS=A.distanceTo(new THREE.Vector3().lerpVectors(Dp,C,.5).setY(Dp.y))||1,slope=Math.hypot(rh-ye,ez);
+      const P=(s,w)=>{const p=new THREE.Vector3().lerpVectors(A,Bp,s),q=new THREE.Vector3().lerpVectors(Dp,C,s);p.lerp(q,w);
+        let d=-(.05+.2*v)*Math.sin(PI*s)*Math.sin(PI*Math.min(1,w*1.15))+(rnd()-.5)*(reet?.08:.035)*(.3+v);
+        if(reet)d+=.16*Math.sin(PI*w);return p.addScaledVector(nrm,d);};
+      const grid=[];for(let j=0;j<=Mz;j++){grid.push([]);for(let i=0;i<=N;i++){const p=P(i/N,j/Mz);grid[j].push(p);pos.push(p.x,p.y,p.z);
+        const breite=lenE*(1-j/Mz)+A.distanceTo(Bp)*0+(Dp.distanceTo(C))*(j/Mz);uvs.push(((i/N)-.5)*breite/3,(j/Mz)*slope/3);}}
+      for(let j=0;j<Mz;j++)for(let i=0;i<N;i++){const a=j*(N+1)+i,b2=a+1,c=a+N+1,d=c+1;idx.push(a,b2,d,a,d,c);}
+      const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));geo.setAttribute('uv',new THREE.Float32BufferAttribute(uvs,2));geo.setIndex(idx);geo.computeVertexNormals();
+      const m=new THREE.Mesh(geo,mDach);m.castShadow=m.receiveShadow=true;g.add(m);
+      // sichtbare Dicke: Band unter der Traufkante (und unter freien Ortgängen beim Satteldach)
+      const band=kante=>{const bp=[],bu=[],bi=[];kante.forEach((p,i)=>{const q=p.clone();q.y-=dick;const ins=new THREE.Vector3(-p.x,0,-p.z).normalize().multiplyScalar(dick*.35);q.add(ins);
+          bp.push(p.x,p.y,p.z,q.x,q.y,q.z);bu.push(i/3,0,i/3,dick*2);if(i){const o=(i-1)*2;bi.push(o,o+1,o+3,o,o+3,o+2);}});
+        const bg=new THREE.BufferGeometry();bg.setAttribute('position',new THREE.Float32BufferAttribute(bp,3));bg.setAttribute('uv',new THREE.Float32BufferAttribute(bu,2));bg.setIndex(bi);bg.computeVertexNormals();
+        const bm=new THREE.Mesh(bg,mRand);bm.material.side=THREE.DoubleSide;bm.castShadow=true;g.add(bm);};
+      band(grid[0]);if(frei){band(grid.map(r=>r[0]));band(grid.map(r=>r[N]));}
+      flaechen.push({P,nrm});}
+    const V=(x,y,z)=>new THREE.Vector3(x,y,z);
+    flaeche(V(-ex,ye,ez),V(ex,ye,ez),V(rx,rh,0),V(-rx,rh,0),!walm);
+    flaeche(V(ex,ye,-ez),V(-ex,ye,-ez),V(-rx,rh,0),V(rx,rh,0),!walm);
+    if(walm){flaeche(V(ex,ye,ez),V(ex,ye,-ez),V(rx,rh,0),V(rx,rh,0),false);flaeche(V(-ex,ye,-ez),V(-ex,ye,ez),V(-rx,rh,0),V(-rx,rh,0),false);}
+    // First und Grate
+    const linie=(p,q,r,m)=>{const l=p.distanceTo(q);if(l<.05)return;const c=cyl(r,r,l,m,0,0,0,g,10);c.position.lerpVectors(p,q,.5);c.quaternion.setFromUnitVectors(V(0,1,0),q.clone().sub(p).normalize());};
+    const mFirst=reet?M({map:tx.reet,roughness:1,color:0xb0a890}):mHolz,rF=reet?.24:.1;
+    const fe=walm?0:.2;linie(V(-rx+fe,rh+.04,0),V(rx-fe,rh+.04,0),rF,mFirst);
+    if(walm)for(const sx of[-1,1])for(const sz of[-1,1])linie(V(sx*rx,rh-.02,0),V(sx*ex,ye+.02,sz*ez),reet?.11:.07,mFirst);
+    if(!reet&&v>.5){const F=flaechen[0];for(const[s0,w0,s1,w1]of[[.6,.35,.7,.55],[.64,.3,.72,.44]]){const pg=new THREE.BufferGeometry(),pp=[];
+      for(const[s,w]of[[s0,w0],[s1,w0],[s1,w1],[s0,w0],[s1,w1],[s0,w1]]){const p=F.P(s,w).addScaledVector(F.nrm,.05);pp.push(p.x,p.y,p.z);}
+      pg.setAttribute('position',new THREE.Float32BufferAttribute(pp,3));pg.computeVertexNormals();const pm=new THREE.Mesh(pg,mHolz);pm.material.side=THREE.DoubleSide;g.add(pm);}}
+    if(!walm){const mG=typ==='fachwerk'?mPutz:typ==='holz'?mHolz:mStein;
+      for(const x of[-lx/2,lx/2]){const shp=new THREE.Shape();shp.moveTo(-sp/2,0);shp.lineTo(sp/2,0);shp.lineTo(0,rh);shp.lineTo(-sp/2,0);
+        const gm=new THREE.Mesh(new THREE.ShapeGeometry(shp),mG);gm.position.set(x+(x>0?.001:-.001),0,0);gm.rotation.y=x>0?PI/2:-PI/2;gm.castShadow=true;g.add(gm);
+        if(typ==='fachwerk'){const b1=box(.14,.14,Math.hypot(sp/2,rh)+.2,mHolz,x,rh/2,-sp/4,g);b1.rotation.x=-Math.atan2(rh,sp/2);
+          const b2=box(.14,.14,Math.hypot(sp/2,rh)+.2,mHolz,x,rh/2,sp/4,g);b2.rotation.x=Math.atan2(rh,sp/2);box(.14,rh,.14,mHolz,x,rh/2,0,g);}}}
     if(spec.schornstein){let cx=1.2,cz=1.4;if(kamin){const d=kamin.dreh&3,o=T/2-.55;cx=(kamin.x+.5)*T+(d===1?-o:d===3?o:0);cz=(kamin.z+.5)*T+(d===0?-o:d===2?o:0);}
       const hc=rh+1.4;uv(box(.8,hc,.8,mStein,cx,WH+hc/2,cz),[.5,hc/2]);box(.95,.15,.95,mStein,cx,WH+hc,cz).rotation.z=.06*v;if(v>.5)box(.3,.25,.3,mStein,cx+.15,WH+hc+.15,cz-.15).rotation.y=.4;}}
-
   // Einrichtung: jedes Teil im eigenen Feld, Rückseite bei dreh 0 zur hinteren Wand (−z)
   const B2=T/2,hinten=-B2+WT/2+.02;
   const TEILE={
@@ -182,7 +216,7 @@ function Bau(spec,innen,drehung=0){
     for(let i=0;i<180*v;i++){const s=rnd(),a=.2+rnd()*.35;let x,z;if(s<.3){x=rnd()*HX;z=HZ+a;}else if(s<.6){x=HX+a;z=rnd()*HZ;}else if(s<.8){x=-a;z=rnd()*HZ;}else{x=rnd()*HX;z=-a;}
       const c=new THREE.Mesh(new THREE.ConeGeometry(.05+rnd()*.07,.25+rnd()*.45,5),mUnkraut[rnd()<.5?0:1]);c.position.set(x,.15,z);c.rotation.set((rnd()-.5)*.5,0,(rnd()-.5)*.5);c.castShadow=true;haus.add(c);}}
   const wiese=new THREE.Mesh(new THREE.PlaneGeometry(120,120),mt(tx.wiese,18,18,{roughness:1}));wiese.rotation.x=-PI/2;wiese.receiveShadow=true;root.add(wiese);
-  root.userData={HX,HZ,hoehe:innen?WH:WH+(spec.first==='z'?HX:HZ)*.45+1.5};
+  root.userData={HX,HZ,hoehe:innen?WH:WH+(spec.first==='z'?HX:HZ)*.48+1.5};
   return root;}
 
 // ---------- Szene mit Spielkamera (45° seitlich, 30° von oben), Licht wie in der Werkstatt ----------

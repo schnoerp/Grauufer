@@ -45,6 +45,7 @@ input[type=range]{width:100%}
   <label>Tiefe (Felder)</label><div class="zahl"><button data-z="tiefe:-1">−</button><b id="tiefe"></b><button data-z="tiefe:1">+</button></div>
   <label>Wände</label><select id="wand"><option value="fachwerk">Fachwerk auf Bruchstein</option><option value="stein">Bruchstein</option><option value="holz">Holzbohlen</option></select>
   <label>Dachdeckung</label><select id="dach"><option value="schiefer">Schiefer</option><option value="schindeln">Holzschindeln</option><option value="reet">Reet</option></select>
+  <label>Dachform</label><select id="dachform"><option value="sattel">Satteldach (mit Giebeln)</option><option value="walm">Walmdach (rundum geneigt)</option></select>
   <label>First</label><select id="first"><option value="x">entlang der Breite</option><option value="z">entlang der Tiefe</option></select>
   <label>Verwitterung: <span id="vw"></span></label><input id="verwitterung" type="range" min="0" max="1" step="0.25">
   <label class="reihe"><span>Schornstein</span><input id="schornstein" type="checkbox" style="flex:0 0 22px;height:22px"></label>
@@ -125,13 +126,13 @@ try{szene=HB.Szene(ansicht);}catch(e){ansicht.insertAdjacentHTML('afterend','<p 
 function rendere(){if(!szene)return;const r=ansicht.getBoundingClientRect();szene.renderer.setPixelRatio(1);szene.renderer.setSize(Math.max(200,r.width|0),Math.max(200,r.height|0),false);szene.zeige(spec,innen,drehung);}
 function geaendert(){try{localStorage.setItem(SPEICHER+'-zuletzt',JSON.stringify(spec));}catch(e){}felder();zeichnePlan();clearTimeout(warte);warte=setTimeout(rendere,120);}
 function felder(){$('name').value=spec.name||'';$('breite').textContent=spec.breite;$('tiefe').textContent=spec.tiefe;$('wand').value=spec.wand;$('dach').value=spec.dach;
-  $('first').value=spec.first||'x';$('verwitterung').value=spec.verwitterung;$('vw').textContent=['neu','gepflegt','gebraucht','verwittert','verfallen'][Math.round(spec.verwitterung*4)];
+  $('first').value=spec.first||'x';$('dachform').value=spec.dachform||(spec.dach==='reet'?'walm':'sattel');$('verwitterung').value=spec.verwitterung;$('vw').textContent=['neu','gepflegt','gebraucht','verwittert','verfallen'][Math.round(spec.verwitterung*4)];
   $('schornstein').checked=!!spec.schornstein;$('aussen').className=innen?'':'an';$('innen').className=innen?'an':'';
   const l=lies();$('liste').innerHTML='<option value="">Gespeicherte Häuser …</option>'+Object.keys(l).sort().map(n=>`<option>${n.replace(/</g,'&lt;')}</option>`).join('');}
 document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{const[k,d]=b.dataset.z.split(':');spec[k]=Math.max(2,Math.min(9,spec[k]+ +d));
   spec.oeffnungen=spec.oeffnungen.filter(o=>o.feld<((o.seite==='hinten'||o.seite==='vorn')?spec.breite:spec.tiefe));
   spec.einrichtung=spec.einrichtung.filter(e=>e.x<=spec.breite&&e.z<=spec.tiefe);geaendert();});
-['wand','dach','first'].forEach(k=>$(k).onchange=()=>{spec[k]=$(k).value;geaendert();});
+['wand','dach','first','dachform'].forEach(k=>$(k).onchange=()=>{spec[k]=$(k).value;if(k==='dach')delete spec.dachform;geaendert();});
 $('verwitterung').oninput=()=>{spec.verwitterung=+$('verwitterung').value;geaendert();};
 $('schornstein').onchange=()=>{spec.schornstein=$('schornstein').checked;geaendert();};
 $('name').onchange=()=>{spec.name=$('name').value.trim()||'Haus';geaendert();};

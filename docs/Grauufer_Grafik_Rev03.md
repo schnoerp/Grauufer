@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 02**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 03**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -49,7 +49,7 @@ Aufruf: `npm run grafik` (benötigt `npm install` für Playwright).
 
 | Bereich | Bedienung |
 |---|---|
-| Haus | Breite und Tiefe 2–9 Felder; Wände: Fachwerk auf Bruchstein, Bruchstein, Holzbohlen; Dachdeckung: Schiefer, Holzschindeln, Reet; First entlang der Breite oder der Tiefe; Verwitterung in 5 Stufen (neu, gepflegt, gebraucht, verwittert, verfallen); Schornstein ein/aus (steht über dem Kamin, falls einer gesetzt ist) |
+| Haus | Breite und Tiefe 2–9 Felder; Wände: Fachwerk auf Bruchstein, Bruchstein, Holzbohlen; Dachdeckung: Schiefer, Holzschindeln, Reet; Dachform: Satteldach (mit Giebeln) oder Walmdach (rundum geneigt), Reet standardmäßig als Walmdach; First entlang der Breite oder der Tiefe; Verwitterung in 5 Stufen (neu, gepflegt, gebraucht, verwittert, verfallen); Schornstein ein/aus (steht über dem Kamin, falls einer gesetzt ist) |
 | Grundriss | von oben, oben = hinten, unten = vorn (zur Kamera); ein Feldrand um das Haus für Dinge im Freien |
 | Fenster/Tür | auf eine Wand tippen schaltet weiter: Wand → Fenster → Tür → kaputtes Fenster → vernageltes Fenster → Wand |
 | Einrichtung | 17 Teile: Bett, Truhe, Schrank, Bücherregal, Kamin, Wandbrett, Waffen an der Wand, Tisch mit Bänken, Fässer, Kiste, Säcke, Hocker, Teppich, Kessel, Stuhl (umgekippt), Besen, Brennholz; Wandteile drehen sich beim Setzen zur nächsten Wand; Werkzeuge „Drehen“ und „Entfernen“ wirken auf das zuletzt gesetzte Teil eines Feldes |
@@ -58,7 +58,9 @@ Aufruf: `npm run grafik` (benötigt `npm install` für Playwright).
 
 **Verwitterung je Stufe:** mehr Schmutz, Laufspuren, abgeplatzter Putz, Risse und Moos auf den Oberflächen; durchhängendes Dach und schiefe Holzteile; ab „gebraucht“ Spinnweben, ab „verwittert“ Putzbrocken, geflicktes Dach und schief hängende Fensterläden; mehr Stroh innen und Unkraut außen.
 
-**Beschreibung eines Hauses (JSON):** `name`, `breite`, `tiefe`, `wand`, `dach`, `first`, `verwitterung` (0–1), `schornstein`, `oeffnungen` (Liste aus `seite` = hinten/vorn/links/rechts, `feld`, `art`), `einrichtung` (Liste aus `art`, `x`, `z`, `dreh` 0–3; 0 = Rückseite zur hinteren Wand). Beispiel: `werkstatt/haeuser/fischerhaus.json`.
+**Dächer:** gekrümmte, leicht durchhängende Flächen mit sichtbarer Dicke an der Traufe. Reet: etwa 45° steil, 0,34 m dick, weich gewölbt, mit Firstwulst und Graten, Halme quer zur Traufe; Schiefer und Schindeln: etwa 32° steil, Holzkante an der Traufe und an den Ortgängen, ab „verwittert“ mit Brettern geflickt.
+
+**Beschreibung eines Hauses (JSON):** `name`, `breite`, `tiefe`, `wand`, `dach`, `dachform` (sattel/walm, optional), `first`, `verwitterung` (0–1), `schornstein`, `oeffnungen` (Liste aus `seite` = hinten/vorn/links/rechts, `feld`, `art`), `einrichtung` (Liste aus `art`, `x`, `z`, `dreh` 0–3; 0 = Rückseite zur hinteren Wand). Beispiele: `werkstatt/haeuser/fischerhaus.json` (Fachwerk, Schiefer-Satteldach), `werkstatt/haeuser/reetkate.json` (Holzbohlen, Reet-Walmdach).
 
 ## 5. Haus wie in Pagan (Probe „Fischerhaus“)
 
