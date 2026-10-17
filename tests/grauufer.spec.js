@@ -311,3 +311,16 @@ test('Rev 107: Thronhüter, Ring der Tiefe und Hinweise der Figuren', async ({ p
   expect(r).toEqual([71, 289, true, true, 10, true]);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 108: Notgrund füllt Lücken, solange der Bodenpuffer nicht alles bedeckt', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => GB && GB.done, null, { timeout: 30000 });
+  await page.evaluate(() => { window.stepBuf = function () {}; ZOOM = .6; resize(); });
+  await page.waitForTimeout(400);
+  const r = await page.evaluate(() => {
+    const d = GRUND && GRUND.getContext('2d').getImageData(SHORE.ship[0], SHORE.ship[1], 1, 1).data;
+    return [!!GRUND, GRUND && GRUND.width === W && GRUND.height === H, d && [d[0], d[1], d[2]].join(',')];
+  });
+  expect(r).toEqual([true, true, '34,52,76']);
+  expect(fehler).toEqual([]);
+});

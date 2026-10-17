@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0 (Rev 107)</title>
+<title>Grauufer 1.0 (Rev 108)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -1981,6 +1981,18 @@ function ctxWatch(now){const lost=lostCtx(ctx);
   return true;}
 function goSoft(){if(SOFT)return;SOFT=true;try{localStorage.setItem('grauufer-soft','1');}catch(e){}
   SOFTBUF=true;for(const c of BUFC){c.width=c.height=0;}BUFC.length=0;GB=null;NB=null;CZ=-1;FRESH=0;freshCanvas(performance.now());}
+/* Rev 108: Notgrund. Solange der Bodenpuffer das Bild nicht ganz bedeckt (beim Laufen, Zoomen, nach Treppen und Portalen), wird
+   darunter ein grober Kartenboden gezeichnet: ein Feld = ein Bildpunkt in der Farbe des Geländes, mit einer einzigen
+   schrägen Abbildung auf die Rauten gelegt. Die Leinwand (680 × 316) liegt im Hauptspeicher und wird einmal angelegt. */
+let GRUND=null;
+function grundCol(x,y){const c=map[y][x];if(c==='v')return'#08060a';if(c==='~')return'#22344c';if(c==='L')return'#c04a10';if(c==='M')return'#4a4648';if(c==='T')return'#24361e';
+  const z=ZDEF[zc(x,y)]||{},g=z.ground;if(c==='s'||c==='y'||c==='c')return'#8e7a52';if(c===','||c==='_'||c==='Y'||c==='E'||c==='G'||c==='Q'||c==='d')return'#6a6258';
+  if(c==='k')return'#3e3430';if(c==='#'||c==='w'||c==='D'||c==='U')return'#3a3430';if(c==='i')return'#9ab0c0';
+  return g==='cave'?'#2c2830':g==='frost'?'#c8ccd4':g==='desert'?'#8e7a52':g==='ash'?'#3e3430':g==='swamp'?'#3a4428':g==='rock'?'#5a564e':'#3e4a26';}
+function drawGrund(){if(!GRUND){const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d'),im=g.createImageData(W,H),D=im.data;const cache={};
+    for(let y=0;y<H;y++)for(let x=0;x<W;x++){const h=grundCol(x,y),v=cache[h]||(cache[h]=[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)]),i=(y*W+x)*4;D[i]=v[0];D[i+1]=v[1];D[i+2]=v[2];D[i+3]=255;}
+    g.putImageData(im,0,0);GRUND=c;}
+  lx.save();lx.imageSmoothingEnabled=false;lx.transform(TW/2,TH/2,-TW/2,TH/2,0,-TH/2);lx.drawImage(GRUND,0,0);lx.restore();}
 function bufLost(now,what){if(GB&&GB.lo)LASTLO={c:GB.lo,x:GB.x,y:GB.y,w:GB.w,h:GB.h};if(GB)dropBuf(GB.c);/* verlorene Fläche nie wiederverwenden */noteLoss(now,what);flushGfx();gbTrim();}
 function gfxProbe(now,left){if(ctxWatch(now))return;if(!GB)return;
   if(lostCtx(GB.g)){bufLost(now,'Boden');return;}
@@ -3579,7 +3591,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 107</div>
+  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 108</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -4142,11 +4154,12 @@ function draw0(t,now,dt){
    if(NB&&NB.done&&inside(NB)){GB=NB;NB=null;G.gbAt=now;LASTLO={c:GB.lo,x:GB.x,y:GB.y,w:GB.w,h:GB.h};gbTrim();}
    if(!inside(GB)){
      if(!(NB&&NB.z===PXd&&NB.cw===cv.width&&NB.ch===cv.height&&vl>=NB.x&&vt>=NB.y&&vr<=NB.x+NB.w&&vb<=NB.y+NB.h)){NB=null;NB=newBuf(vl,vt,0,0);}
-     stepBuf(NB,6);if(NB.done){GB=NB;NB=null;G.gbAt=now;LASTLO={c:GB.lo,x:GB.x,y:GB.y,w:GB.w,h:GB.h};gbTrim();}
+     stepBuf(NB,covers(GB)&&vl>=GB.x&&vt>=GB.y&&vr<=GB.x+GB.w&&vb<=GB.y+GB.h?6:14);/* Rev 108: deckt der alte Boden das Bild nicht ganz, schneller nachbauen */if(NB.done){GB=NB;NB=null;G.gbAt=now;LASTLO={c:GB.lo,x:GB.x,y:GB.y,w:GB.w,h:GB.h};gbTrim();}
      if(!covers(GB)){GB=null;G.noGround=!loOk;}}
    else if(!NB){const m=BM/PXd*.5;if(vl-GB.x<m||vt-GB.y<m||GB.x+GB.w-vr<m||GB.y+GB.h-vb<m){const cx0=GB.x+BM/PXd,cy0=GB.y+BM/PXd;NB=newBuf(vl,vt,vl-cx0,vt-cy0);}
      /* Rev 45: Selbstheilung – Boden alle 10 s still im Hintergrund neu aufbauen und tauschen */
      else if(now-(G.gbAt||0)>30000)NB=newBuf(vl,vt,0,0);}}
+  if(!(GB&&GB.done!==false&&vl>=GB.x&&vt>=GB.y&&vr<=GB.x+GB.w&&vb<=GB.y+GB.h))drawGrund();/* Rev 108: Lücken nie schwarz */
   if(GB)lx.drawImage(GB.c,GB.x,GB.y,GB.w,GB.h);else if(LASTLO)lx.drawImage(LASTLO.c,LASTLO.x,LASTLO.y,LASTLO.w,LASTLO.h);
   for(let d=x0+y0;d<=x1+y1;d++)for(let x=Math.max(x0,d-y1);x<=Math.min(x1,d-y0);x++){const y=d-x,c=map[y][x];
     if(ANIM(c)){if(vis(x,y)&&!inCrater(x,y))drawGroundTile(x,y,t);}else if(c==='A'||c==='R'||c==='F'||c==='E')glows.push([c,x,y]);
