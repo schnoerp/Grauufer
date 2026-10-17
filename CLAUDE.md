@@ -19,7 +19,7 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 
 ## 3. Revisionen
 
-- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **97**).
+- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **98**).
 - Die Revision steht an zwei Stellen in `index.html`: im `<title>` („Rollenspiel-Prototyp (Rev NN)“) und im Titeldialog („Revision NN“). Beide anpassen.
 - Commit-Nachricht beginnt mit `Rev NN:` und beschreibt die Änderung auf Deutsch.
 

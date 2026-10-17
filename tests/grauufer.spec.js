@@ -181,3 +181,15 @@ test('Rev 97: Südküste schwingt, Startstrand unverändert, Migration setzt auf
   expect(r[2]).toBe(true);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 98: Feine Bodenzeichnung glättet Stufen an Übergängen', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => GB && GB.done, null, { timeout: 30000 });
+  const r = await page.evaluate(() => {
+    const m = cornerMask(0, 0, 1), g = m.getContext('2d'), a = g.getImageData(0, 0, m.width, m.height).data;
+    let voll = 0; for (let i = 3; i < a.length; i += 4) if (a[i] > 200) voll++;
+    return [CORNC.size > 0, voll > 0, voll < m.width * m.height / 2, FINEK.has('cobble')];
+  });
+  expect(r).toEqual([true, true, true, false]);
+  expect(fehler).toEqual([]);
+});
