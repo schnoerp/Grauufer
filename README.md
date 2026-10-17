@@ -20,6 +20,12 @@ Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = 
 
 Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_Rev14.md`.
 
+## Tests
+
+Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 11 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden).
+
+Lokal: `npm install`, `npx playwright install chromium`, dann `npm test`.
+
 ## Stand
 
 Spiel-Revision **93**. Alle Dokumente sind auf diesem Stand.

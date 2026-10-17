@@ -34,6 +34,9 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 
 ## 5. Prüfen vor jedem Commit
 
+- **`npm test`** führt alles aus: `scripts/check.js` (Syntax, Revision an beiden Stellen gleich, keine externen Dateien) und die Browser-Tests in `tests/grauufer.spec.js`. Dieselben Prüfungen laufen bei jedem Push als GitHub Action (`.github/workflows/tests.yml`).
+- Neue Funktionen bekommen einen eigenen Test in `tests/grauufer.spec.js`.
+
 - JavaScript-Syntax prüfen (z. B. Skript aus `index.html` extrahieren und mit Node parsen).
 - Statische Prüfung mit ESLint (Regeln: `no-undef`, `no-redeclare`, `no-dupe-keys`, `no-unreachable` u. a.) – **0 Fehler**.
 - Im echten Browser (Playwright/Chromium) mindestens: Spielstart, Charakterwahl, Laufen, alle Fenster öffnen, NPC-Dialog, Speichern und Neuladen. Konsole ohne Fehler.

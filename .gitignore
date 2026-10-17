@@ -1,0 +1,11 @@
+# System- und Editordateien
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+# Node / Tests (für später)
+node_modules/
+test-results/
+playwright-report/
+package-lock.json
