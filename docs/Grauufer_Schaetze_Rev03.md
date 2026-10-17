@@ -1,6 +1,6 @@
 # Grauufer – Schätze
 
-**Revision 02**, Stand: Spiel-Rev 91 (Truhengold halbiert). **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 03**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Alle Fundorte werden beim Start fest aus der Karte bestimmt und sind in jedem Spielstand gleich. Koordinaten als Feld (x,y). Öffnen per Antippen oder Dagegenlaufen; geöffnete Truhen bleiben offen und leer. Das Tagebuch zählt Truhen und Schätze.
 
@@ -8,7 +8,7 @@ Alle Fundorte werden beim Start fest aus der Karte bestimmt und sind in jedem Sp
 
 | Art | Öffnen | Inhalt |
 |---|---|---|
-| Holzkiste | antippen | 2–7 Gold, 1–2 Tränke oder Materialien, 10 % Edelstein |
+| Holzkiste | antippen | 2–7 Gold, 1 Gegenstand, mit 50 % ein zweiter (gleich wahrscheinlich aus Heiltrank, Heiltrank, Manatrank, Heilkraut, Eisenerz, Glutkristall, Spinnenseide), 10 % Edelstein. Bis Spiel-Rev 93 lag versehentlich Nachtwurz statt Heilkraut darin |
 | Verschlossene Truhe | Dietrich; Chance 0,45 + 0,03 × Geschick + 0,06 × Schlösser-Stufe (max. 97 %, bei Geschick 10 also 75 %); Dietrich verbiegt sich mit 35 % − 7 % je Stufe, bricht bei Fehlschlag | 8–18 Gold, Ausrüstung mindestens normal, 50 % Heiltrank, 25 % Edelstein |
 | Fallen-Truhe | Fallenkunde 3 / Dietrich entschärfen, mit Gewalt (5–9 Schaden) oder lassen | 12–28 Gold, Ausrüstung mindestens fein, Edelstein, 50 % Großer Heiltrank |
 | Bosstruhe | erscheint nach dem Sieg über den Altarwächter | meisterliches Stück mit Zusatzeigenschaft, Großer Heiltrank, 20–35 Gold |

@@ -1,6 +1,6 @@
 # Grauufer – Die Geschichte
 
-**Revision 06**, Stand: Spiel-Rev 91. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 07**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Kurzfassung
 
@@ -55,6 +55,12 @@
 | **Frostmark** | Das Eis frisst die Wälder. Im Dorf Frosthain leben Jäger und Händler, am Gefrorenen See erwachte ein Eisgolem. |
 | **Sengende Ödnis** | Wüste im Südosten mit der Hafenstadt Sandhafen und dem Versunkenen Tempel. |
 | **Nebelwald** | Dunkler Urwald ganz im Osten, kaum erforscht. |
+| **Kornwacht** (Brachfeld) | Bauerndorf im Norden. Die Felder liegen brach, die Mühle steht still, und die Vogelscheuchen stehen nachts anders als am Tag. |
+| **Steinwacht** (Titanenrücken) | Kloster der Sturmbrüder auf dem Titanenrücken, dem erstarrten Leib eines Titanen. Harpyien kreisen über den Mauern. |
+| **Schilfrode** (Glimmerseen) | Fischerort am Seeufer. Nachts waten Ertrunkene ans Ufer, Boote fahren keine mehr. |
+| **Erzhall** (Rotsteinschluchten) | Bergbaustadt vor einer Felswand. Sandskorpione haben die Stollen besetzt; Brakk, Hagens früherer Lehrling, schmiedet hier. |
+| **Ostwacht** (Klippenküste) | Signalfeuer an der Klippe. Die Schiffe nach Tharos kehren nicht mehr zurück, Strandräuber plündern die Küste. |
+| **Aschenhorn** (Klippenküste) | Vulkan im Südosten. Unter ihm liegt Nhal, der Hungernde, gebunden; seine Ausbrüche werden mit jedem Splitter heftiger. |
 
 **Geplant (Hintergründe)**
 - **Versunkener Tempel:** Einst Sitz eines Priesterkönigs, der versuchte, den ersten Riss mit verbotener Magie zu schließen. Er scheiterte und wurde zum **Knochenkönig**.
@@ -82,7 +88,7 @@
 Nach dem **dritten Splitter** führt der Kompass zurück zu Mareth. Er gesteht in drei Gesprächsteilen: Siegelwächter aus Tharos, Nhal unter dem Siegel, Nhals Versprechen. **Entscheidung 1:** Mareth vergeben oder verstoßen.
 
 ### Die vier Fraktionen (Im Spiel seit Spiel-Rev 82)
-Jede Fraktion wird nach dem Splitter ihres Elements ansprechbar. Jede hat eine Grauzone und eine Entscheidung, die den Epilog verändert:
+Die Stillen, Seelotsen und Sturmbrüder werden nach dem Splitter ihres Elements ansprechbar, die Glutschmiede (Hagen) erst nach Mareths Enthüllung, unabhängig vom Splitter des Feuers. Jede hat eine Grauzone und eine Entscheidung, die den Epilog verändert:
 
 | Element | Fraktion | Anführer | Grauzone | Entscheidung |
 |---|---|---|---|---|
@@ -126,6 +132,11 @@ Nach den hellen Enden folgt ein **Epilog** je nach Entscheidungen (Mareth, Still
 | Das Eis erwacht | Birger | Ein Eisgolem zerschmettert alles am Gefrorenen See. | Im Spiel |
 | Die Spinnenkönigin | Svea | Die Spinnen haben Sveas Bruder geholt. | Im Spiel |
 | Seide für Mira | Mira | Die Einsiedlerin formt aus Kälte eine Lanze. | Im Spiel |
+| Felle für Kornwacht | Hanne | Kornwacht braucht Wolfsfelle für den Winter, die Felder geben nichts mehr her. | Im Spiel |
+| Harpyien über Steinwacht | Bruder Aldo | Harpyien greifen die Brüder auf dem Titanenrücken an. | Im Spiel |
+| Die Toten im See | Maren | Ertrunkene waten nachts ans Ufer von Schilfrode. | Im Spiel |
+| Skorpione im Stollen | Gunda | Sandskorpione haben die Stollen von Erzhall besetzt. | Im Spiel |
+| Strandräuber | Gerwin | Banditen plündern, was die See an die Klippenküste spült. | Im Spiel |
 | Die Perle des Tiefenwächters | Tobe | Tobe will das Andenken an den Menschen, der einst der Tiefenwächter war. Es war sein Bruder. | Geplant |
 | Der Kern des Kristallwächters | Hagen | Hagen will einen Bohrer bauen, der durch jeden Fels kommt. | Geplant |
 | Die Totenglocke | Oswin | Oswin will die Glocke des alten Friedhofs zurück, um die Toten endlich ruhen zu lassen. | Geplant |
@@ -145,6 +156,12 @@ Nach den hellen Enden folgt ein **Epilog** je nach Entscheidungen (Mareth, Still
 | Yasmin | Stimme von Sandhafen. |
 | Birger, Svea | Jäger und Händlerin in Frosthain. Svea trauert um ihren Bruder. |
 | Mira | Einsiedlerin im Fahlmoor. Sammelt, was andere fürchten. |
+| Hanne, Jost | Dorfvorsteherin und Müller in Kornwacht. Jost glaubt an den „Riesen aus Stein“ im Titanenrücken. |
+| Bruder Aldo | Abt von Steinwacht und Anführer der Sturmbrüder. Sah die Tat des Fremden voraus und schwieg. |
+| Schwester Wenna | Heilerin und Händlerin im Kloster Steinwacht. |
+| Maren, Ole | Fischerin und Bootsbauer in Schilfrode. Ole baut keine Boote mehr, seit kaum noch jemand reist. |
+| Gunda, Brakk | Vorarbeiterin und Schmied in Erzhall. Hagen war Brakks Lehrmeister. |
+| Gerwin, Ilka | Leuchtfeuerwärter und Händlerin in Ostwacht. Gerwin wartet auf die Schiffe aus Tharos. |
 
 ## 9. Das große Rätsel
 

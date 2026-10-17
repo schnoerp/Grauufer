@@ -1,6 +1,6 @@
 # Grauufer – Kampfsystem
 
-**Revision 08**, Stand: Spiel-Rev 91. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 09**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Grundprinzip (Im Spiel)
 
@@ -30,9 +30,9 @@
 
 | Klasse | Stärke | Geschick | Intelligenz | Leben | Mana | Start |
 |---|---|---|---|---|---|---|
-| Krieger / Kriegerin | 13 | 10 | 7 | +8 | −3 | Kurzschwert, Lederwams |
-| Magier / Magierin | 8 | 9 | 13 | −4 | +6 | Flammenzeichen |
-| Waldläufer / Waldläuferin | 10 | 13 | 8 | +2 | ±0 | Kurzschwert, Heiltränke, Heilkraut |
+| Krieger / Kriegerin | 13 | 10 | 7 | +8 | −3 | Kurzschwert, Lederwams (beide normale Güte) |
+| Magier / Magierin | 8 | 9 | 13 | −4 | +6 | Flammenzeichen, Blitzstab (abgenutzt), 2 Manatränke |
+| Waldläufer / Waldläuferin | 10 | 13 | 8 | +2 | ±0 | Kurzschwert (abgenutzt), 2 Heiltränke, 2 Heilkraut |
 
 Dazu 5 frei verteilbare Punkte im Charakter-Editor.
 
@@ -95,7 +95,7 @@ Dazu 5 frei verteilbare Punkte im Charakter-Editor.
 | Heilwasser | Wasser | 5 | selbst | heilt 12 + 2 × (Stufe − 1) + 2 × Zauberbonus |
 | Glutregen | Feuer | 6 | alle direkt benachbarten Gegner | 7–10 + (Stufe − 1) + Zauberbonus |
 | Sturmstoß | Luft | 5 | 1 Gegner, 4 Felder | 5–8 + (Stufe − 1) + Zauberbonus; Rückstoß bis 2 Felder |
-| Eislanze | Wasser | 6 | 1 Gegner, 5 Felder | 8–11 + (Stufe − 1) + Zauberbonus; Ziel erstarrt |
+| Eislanze | Wasser | 6 | 1 Gegner, 5 Felder | 8–11 + (Stufe − 1) + Zauberbonus; Ziel erstarrt 3 Züge |
 
 **Sonderregeln**
 - Zauber treffen immer, es gibt keinen Trefferwurf.
@@ -132,8 +132,8 @@ Jeder Gegner prüft in seinem Zug der Reihe nach:
 |---|---|
 | Natürliche Erholung | +1 Mana alle 3 Züge, +1 Leben alle 5 Züge |
 | Rasten (seit Spiel-Rev 40) | zusätzlich +1 Leben und +1 Mana pro Zug, nur wenn kein Gegner im Umkreis von 6 Feldern ist |
-| Heiltrank | +15 Leben |
-| Großer Heiltrank | +35 Leben |
+| Heiltrank | +15 Leben; mit Kräuterkunde 2 +15 % (17), ab Kräuterkunde 3 +30 % (20) |
+| Großer Heiltrank | +35 Leben; mit Kräuterkunde 2 +15 % (40), ab Kräuterkunde 3 +30 % (46) |
 | Manatrank | +8 Mana |
 | Heiler Odo (Sonnwacht) | Leben und Mana voll, 10 Gold |
 | Stufenaufstieg | Leben und Mana voll |
@@ -180,7 +180,7 @@ Alle Werte, Vorkommen, Aussehen und Beute der Gegner stehen in **Grauufer_Gegner
 | Nhal | nur mit dem Titanenbrecher verwundbar, sonst „unverwundbar“ (auch Zauber); Phase 2 unter 50 % Leben mit 2 Glutgeistern (seit Spiel-Rev 91) |
 | Überraschungsangriff | Schleichen 3 (inkl. Leise Sohlen +2): erster Treffer auf einen unverletzten, nicht aufgeschreckten Gegner doppelt |
 | Schleichen | verringert die Aggro-Reichweite um 0,6 je Stufe (mindestens 1) |
-| Tierfreund / Bannkreis | Wölfe, Frostwölfe, Höllenhunde bzw. Untote greifen nicht von selbst an, bis man sie angreift |
+| Tierfreund / Bannkreis | Wölfe, Frostwölfe, Aschenhunde bzw. Untote greifen nicht von selbst an, bis man sie angreift |
 | Ring des Kapitäns | +2 Rüstung, solange er im Rucksack ist |
 | Unbeugsam | Rasten heilt +2 statt +1 |
 
@@ -243,14 +243,14 @@ Alle Werte, Vorkommen, Aussehen und Beute der Gegner stehen in **Grauufer_Gegner
 
 - Wählbarer Schwierigkeitsgrad beim Start: **Hart** (wie bisher, dauerhafter Tod) oder **Normal** (Wiedererwachen in Sonnwacht, Verlust von 25 % Gold).
 
-## 13. Auffälligkeiten im Code von Rev 29 (zur Prüfung)
+## 13. Auffälligkeiten im Code (zuerst bei Spiel-Rev 29 gefunden, geprüft mit Spiel-Rev 94)
 
-Beim Auslesen sind mir drei Stellen aufgefallen. Bitte bei der Migration bewusst entscheiden:
+Beim Auslesen sind drei Stellen aufgefallen. Bitte bei der Migration bewusst entscheiden:
 
 | Stelle | Beobachtung | Empfehlung |
 |---|---|---|
 | Stufenangriff | Der Angriff steigt pro Stufe doppelt: einmal über den gespeicherten Stufenangriff (+1 je Aufstieg) und zusätzlich über (Stufe − 1) im Angriffsbonus. Effektiv +2 Angriff je Stufe. | Klären, ob gewollt; sonst einen der beiden Anteile streichen |
-| Eislanze | Beschreibung im Spiel: „2 Züge erstarrt“. Tatsächlich setzt der Gegner 3 Züge aus. | Beschreibung oder Wert angleichen |
+| Eislanze | Beschreibung im Spiel sagte „2 Züge erstarrt“, tatsächlich setzt der Gegner 3 Züge aus. | **Erledigt in Spiel-Rev 94:** Beschreibung auf „3 Züge“ angeglichen, Wert unverändert |
 | Sturmherr | gibt 0 EP und 0 Gold | gewollt, wenn das Spiel danach endet; sonst Werte ergänzen |
 
 ## 14. Hinweise für die Umsetzung

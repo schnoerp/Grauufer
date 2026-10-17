@@ -1,6 +1,6 @@
 # Grauufer – Wirtschaft
 
-**Revision 10**, Stand: Spiel-Rev 91 (Truhengold halbiert, Edelstein 15 Gold). **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 11**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Diese Datei ist die **einzige Quelle für Preise**. Nennen andere Dokumente einen Preis und weicht er ab, gilt diese Datei. Gold von Gegnern steht in Grauufer_Gegner_RevXX.md, Questbelohnungen in Grauufer_Quests_RevXX.md.
 

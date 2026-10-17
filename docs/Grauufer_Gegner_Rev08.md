@@ -1,6 +1,6 @@
 # Grauufer – Gegner
 
-**Revision 07**, Stand: Spiel-Rev 91. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 08**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Diese Datei ist die **einzige Quelle für Gegnerwerte**. Formeln und Regeln (Treffer, Schaden, Aggro, Wiederbelebung) stehen in Grauufer_Kampfsystem_RevXX.md.
 
@@ -36,7 +36,7 @@ Diese Datei ist die **einzige Quelle für Gegnerwerte**. Formeln und Regeln (Tre
 | Eisgolem | 100 | 7–10 | 80 % | 6 | 140 | 70–90 | Golem |
 | Knochenkönig | 110 | 7–10 | 82 % | 7 | 150 | 90–120 | untot |
 | **Nhal, der Hungernde** (seit Spiel-Rev 82, verstärkt in Rev 91) | 320 | 9–14 | 80 % | 9 | 400 | – | fünfter Titan, Golem aus Glut und Asche; nur mit Titanenbrecher verwundbar, erscheint nur auf Wunsch am Kraterrand. **Phase 2** (unter 50 % Leben): ruft 2 Glutgeister |
-| Glutgeist (seit Spiel-Rev 91) | 22 | 4–7 | 82 % | 12 | 0 | – | nur in Nhals Phase 2, glühender Hund aus Lava |
+| Glutgeist (seit Spiel-Rev 91) | 22 | 4–7 | 82 % | 12 | 0 | – | nur in Nhals Phase 2, glühender Hund aus Lava; kein Endgegner, wird aber seit Spiel-Rev 94 nicht wiederbelebt (vorher nach 320 Zügen neben seinem Erscheinungsort) |
 
 Endgegner werden nicht wiederbelebt, lassen immer Ausrüstung fallen und werden vom Sturmstoß nicht zurückgestoßen. Seit Spiel-Rev 89 erscheint nach dem Sieg über einen Altarwächter zusätzlich eine **Bosstruhe** neben dem Altar.
 
@@ -44,7 +44,7 @@ Endgegner werden nicht wiederbelebt, lassen immer Ausrüstung fallen und werden 
 
 | Gegner | Leben | Angriff | Treffer | Aggro | EP | Gold | Art |
 |---|---|---|---|---|---|---|---|
-| Mimik | 38 | 4–7 | 80 % | 4 | 45 | 25–45 | Truhe mit Zahnreihe, Zunge und gelbem Auge; 2 Stück (Kristallhöhle, Spinnengrotte), sieht aus wie eine verschlossene Truhe |
+| Mimik | 38 | 4–7 | 80 % | 4 | 45 | 25–45 | Truhe mit Zahnreihe, Zunge und gelbem Auge; 2 Stück (Kristallhöhle, Spinnengrotte), sieht aus wie eine verschlossene Truhe; wird seit Spiel-Rev 94 nicht wiederbelebt (vorher nach 320 Zügen als laufende Truhe) |
 
 ## 2. Vorkommen (Im Spiel)
 
@@ -110,6 +110,9 @@ Alle Gegner sind selbst gezeichnet (Canvas), ohne Fremdgrafiken. Grundformen: Me
 | Sturmherr | Harpyie, groß | silbergraue Flügel, weißes Haar, eisblaue Augen |
 | Spinnenkönigin | Spinne, sehr groß | dunkelviolett mit roter Zeichnung, pinke Augen |
 | Knochenkönig | Mensch, sehr groß | Knochen, goldene Rüstung, violette Augen |
+| Nhal, der Hungernde | Golem, riesig (1,75-fach) | fast schwarzes Gestein mit orange glühenden Rissen, rote Augen |
+| Glutgeist | Hund | rotbraun glühend mit gelborangen Rissen, gelbe Augen |
+| Mimik | eigene Form (Truhe, 40 × 32) | Truhe mit Zahnreihe, Zunge und gelbem Auge; der Kiefer klappt auf und zu |
 
 ## 4. Beute (Im Spiel)
 
@@ -120,8 +123,8 @@ Alle Gegner sind selbst gezeichnet (Canvas), ohne Fremdgrafiken. Grundformen: Me
 | Aschenhund | Glutkristall 50 % | 14 % |
 | Riesenspinne | Spinnenseide 60 % | 14 % |
 | Bandit | – | 25 % |
-| alle anderen normalen Gegner | – | 14 % |
-| alle Endgegner | – | 100 %, mindestens „fein“, 70 % mit Bonus |
+| alle anderen normalen Gegner (auch Glutgeist und Mimik) | – | 14 % |
+| alle Endgegner (auch Nhal, kurz vor dem Ende „Der Erlöser“) | – | 100 %, mindestens „fein“, 70 % mit Bonus |
 
 Ausrüstungsstufe und Güte nach Grauufer_Kampfsystem_RevXX.md, Abschnitt 10.
 

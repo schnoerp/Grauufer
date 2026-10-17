@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 06**, Stand: Spiel-Rev 90. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 07**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -14,7 +14,7 @@
 |---|---|
 | Ansicht | isometrisch, Feld 32 × 16 Bildpunkte |
 | Interne Auflösung der Figuren | fünffach (scharf auch beim Zoomen) |
-| Kanten | glatt, weiche Übergänge zwischen Geländearten |
+| Kanten | harte Pixelkanten ohne Glättung (seit Spiel-Rev 59, siehe Pixel-Look unten); Übergänge zwischen Geländearten gerastert und gedithert |
 | Kapuzen (seit Rev 32) | weicher, nach hinten fallender Kragen mit Falten und Überwurf auf den Schultern, offene Gesichtsöffnung mit Schatten von oben, leuchtende Augen bleiben sichtbar; gilt für alle Kapuzenträger und die Spielfigur |
 | Bodendetails (seit Rev 31) | Grashalme und Blüten, Kiesel, Risse, Schlammpfützen mit Schilf, Sandrippel, Schneeglitzer, Glut in der Asche, Moos zwischen Pflastersteinen, Kristalle in Höhlen, Eisschlieren, Holzmaserung; einmal pro Kachel vorgezeichnet, daher ohne Leistungskosten beim Spielen |
 | Leuchtende Dinge | Glutklinge, Sturmzepter, Splitter, aktive Wegsteine, Kristalle, Augen der Gegner |
@@ -72,13 +72,14 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 
 - Alle Texte auf Deutsch.
 - Ton: düster, knapp, viel Andeutung, wenig Pathos.
-- Keine Gedankenstriche in Dialogen, stattdessen Kommas oder Punkte.
+- Gedankenstriche in Dialogen sparsam verwenden, lieber Kommas oder Punkte. Im Spiel stehen noch einige Gedankenstriche in Dialogen (z. B. Siegel-Enthüllung, Nhal); sie sind geduldet.
 - Anrede je nach Geschlecht der Figur („Fremder“ / „Fremde“).
 
 ## 5. Leistung (Im Spiel)
 
 - Ziel 60 Bilder pro Sekunde auf dem Android-Tablet.
 - Boden wird im Hintergrund vorgezeichnet, Spielstand gedrosselt gespeichert.
+- Die Suche nach Möbeln, Truhen, Nischen und anderer Ausstattung (`buildDeco`) läuft schon während des Titelbilds, damit der erste Schritt im Spiel nicht hakt (seit Spiel-Rev 92).
 - Grafikstufen senken die Auflösung bei Bedarf.
 
 ### Grafikspeicher (Im Spiel seit Spiel-Rev 53)

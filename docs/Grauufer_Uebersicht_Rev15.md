@@ -1,6 +1,6 @@
 # Grauufer – Übersicht
 
-**Revision 14**, Stand: Spiel-Rev 90. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
+**Revision 15**, Stand: Spiel-Rev 94. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
 
 ## 1. Die Dokumente
 
@@ -22,6 +22,8 @@
 | Grauufer_Fahrplan_RevXX.md | Reihenfolge der Umsetzung, Aufteilung auf 2 Entwickler | Inhalte |
 | Grauufer_Charakter_RevXX.md | Attribute, Fertigkeiten, Talentbaum, Freischaltungen in der Welt (seit Spiel-Rev 90) | Kampfformeln |
 | Grauufer_Schaetze_RevXX.md | Truhen, Mimiken, Schatzkarten, Grabstellen, Lesepulte, Tafeln, Hindernisse mit Fundorten (seit Spiel-Rev 89/90) | Gegenstandswerte |
+
+Karte von Morvenn als Bild: `Morvenn_Karte_Rev34.png` (im Ordner `docs/`, Stand der Karte: Spiel-Rev 34; neuere Orte und Koordinaten stehen in Grauufer_Welt_RevXX.md).
 
 Spielcode und Technik: CLAUDE.md und README.md im Repo.
 
@@ -63,12 +65,12 @@ Neu seit Spiel-Rev 34: Brachfeld, Titanenrücken, Glimmerseen, Rotsteinschluchte
 
 ### Figuren (Schreibweise)
 
-Vorhanden: Gerold, Lene, Odo, Mareth, Oswin, Ilsabe, Bram, Tobe, Hagen, Yasmin, Birger, Svea, Mira, Hanne, Jost, Bruder Aldo, Schwester Wenna, Maren, Ole, Gunda, Brakk, Gerwin, Ilka.
+Vorhanden: Gerold, Lene, Odo, zwei Wachen (Sonnwacht), Mareth, Oswin, Ilsabe, Bram, Tobe, Hagen, Yasmin, Birger, Svea, Mira, Hanne, Jost, Bruder Aldo, Schwester Wenna, Maren, Ole, Gunda, Brakk, Gerwin, Ilka.
 Vorgeschlagen: Edda, Kalle, Rune, Jorek, Silas, Die Stimme, Fenna, Wendel, Grim.
 
 ### Gegner (Schreibweise)
 
-Ghul, Wolf, Ertrunkener, Aschenhund, Bandit, Harpyie, Riesenspinne, Moorleiche, Sandskorpion, Frostwolf, Skelettkrieger; Endgegner: Gruftwächter, Bandenführer, Tiefenwächter, Glutfürst, Sturmherr, Spinnenkönigin, Kristallwächter, Eisgolem, Knochenkönig.
+Ghul, Wolf, Ertrunkener, Aschenhund, Bandit, Harpyie, Riesenspinne, Moorleiche, Sandskorpion, Frostwolf, Skelettkrieger; Endgegner: Gruftwächter, Bandenführer, Tiefenwächter, Glutfürst, Sturmherr, Spinnenkönigin, Kristallwächter, Eisgolem, Knochenkönig, Nhal (der Hungernde); seit Spiel-Rev 89/91 außerdem Mimik und Glutgeist.
 
 ### Spielbegriffe
 
@@ -86,4 +88,4 @@ Ghul, Wolf, Ertrunkener, Aschenhund, Bandit, Harpyie, Riesenspinne, Moorleiche, 
 
 
 ### Neue Begriffe (seit Spiel-Rev 64–90)
-Aschenhorn, Nhal (der Hungernde), Siegelwächter, Morgenwind (Schiff), Haldor (Kapitän), Die Stillen, Die Seelotsen, Die Glutschmiede, Die Sturmbrüder, Titanenbrecher, Portal, Lesepult, Runentafel, Titanentafel, Runentor, Gittertor, Felsbrocken, Vogelnest, Mimik, Flaschenpost, Schatzkarte, Grabstelle, Fertigkeit, Talent, Attributpunkt, Talentpunkt, Tagebuch.
+Aschenhorn, Nhal (der Hungernde), Siegelwächter, Morgenwind (Schiff), Haldor (Kapitän), Die Stillen, Die Seelotsen, Die Glutschmiede, Die Sturmbrüder, Titanenbrecher, Portal, Lesepult, Runentafel, Titanentafel, Runentor, Gittertor, Felsbrocken, Vogelnest, Mimik, Glutgeist, Flaschenpost, Schatzkarte, Grabstelle, Fertigkeit, Talent, Attributpunkt, Talentpunkt, Tagebuch.

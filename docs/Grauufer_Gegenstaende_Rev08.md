@@ -1,6 +1,6 @@
 # Grauufer – Gegenstände
 
-**Revision 07**, Stand: Spiel-Rev 90. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 08**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Waffen, Wurfgeschosse und Werkzeuge stehen in Grauufer_Waffenliste_RevXX.md. Diese Datei deckt alles andere ab.
 
@@ -10,7 +10,7 @@ Waffen, Wurfgeschosse und Werkzeuge stehen in Grauufer_Waffenliste_RevXX.md. Die
 |---|---|---|
 | Lederwams | 1 | Start Krieger, Händler, Herstellen |
 | Kettenhemd | 2 | Händler, Herstellen, Beute |
-| Runenpanzer | 3 | Svea, Hagen, Herstellen, Beute; einmal fest platziert in der Welt |
+| Runenpanzer | 3 | Svea (90 Gold), Brakk (92), Hagen (95), Herstellen, Beute; einmal fest platziert in der Sturmspitze (70,146) |
 
 - Güte bei Rüstungen: abgenutzt und normal ±0, fein und meisterlich +1.
 - Boni wie bei Waffen (des Bären, der Weisheit, des Falken, des Steins, des Zorns).
@@ -75,8 +75,8 @@ Waffen, Wurfgeschosse und Werkzeuge stehen in Grauufer_Waffenliste_RevXX.md. Die
 | Edelstein | Verkauf | Truhen, Schätze, Vogelnester |
 | Ring des Kapitäns | +2 Rüstung, solange im Rucksack | Truhe der „Morgenwind“ |
 | Seelotsen-Laterne | Licht in Höhlen und dunklen Orten 60 % weiter | Schatz am Tränensee |
-| Mareths Wächterdolch | Waffe, Angriff 6 (Unikat, ohne Gütestufe) | Fallen-Truhe in der Gruft |
-| Titanenbrecher | Waffe, Angriff 9, einzige Waffe gegen Nhal | Hagen (Fraktionsentscheidung) |
+| Mareths Wächterdolch | Waffe, Angriff 6, in feiner Güte effektiv 7 (Unikat, Name ohne Gütewort) | Fallen-Truhe in der Gruft |
+| Titanenbrecher | Waffe, Angriff 9, immer meisterlich, effektiv 11; einzige Waffe gegen Nhal; heißt im Spiel „Meisterlicher Titanenbrecher“ (Namensfehler behoben in Spiel-Rev 94) | Hagen (Fraktionsentscheidung) |
 
 Tränke wirken mit Kräuterkunde 2/3 um 15/30 % stärker.
 

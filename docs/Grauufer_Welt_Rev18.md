@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 17**, Stand: Spiel-Rev 93. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 18**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
