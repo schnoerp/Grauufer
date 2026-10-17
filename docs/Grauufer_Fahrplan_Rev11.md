@@ -1,6 +1,6 @@
 # Grauufer – Fahrplan
 
-**Revision 10**, Stand: Spiel-Rev 108. Reihenfolge der Umsetzung mit Claude Code im GitHub-Repo „grauufer“ (TypeScript + Vite), für 2 Entwickler parallel.
+**Revision 11**, Stand: Spiel-Rev 108. Reihenfolge der Umsetzung mit Claude Code im GitHub-Repo „grauufer“ (TypeScript + Vite), für 2 Entwickler parallel.
 
 Die verbindliche Zuständigkeitsaufteilung und der Branch-Ablauf stehen in der CLAUDE.md. Die Spuren unten sind eine Empfehlung dazu.
 
@@ -146,3 +146,5 @@ Deshalb wurde zunächst die feine Bodenzeichnung umgesetzt (Spiel-Rev 98, siehe 
 | Erdbeben als Weltereignis ja oder nein | Stufe 4 |
 | Handy: Hoch- oder Querformat | Stufe 9 |
 | Namen der Kontinente | entschieden: Tharos, Splittmark, Nullwacht |
+| Neue Grafik: eigenes, vorgerendertes Grafikpaket aus der Grafik-Werkstatt | entschieden (Spiel-Rev 108); Fahrplan in Grauufer_Grafik_RevXX.md |
+| Einzeldatei oder mehrere Dateien, sobald die neue Grafik zu groß wird | nach den Piloten der neuen Grafik |

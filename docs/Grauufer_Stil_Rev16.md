@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 15**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 16**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -140,3 +140,4 @@ Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus
 - Effekte für neue Waffen und Zauber laut Waffenliste (Wasserwürfel, Erdrisse, Netz, Giftwolke).
 - Musik: leise, langsame Grundtöne je Gebiet, ebenfalls mit Web Audio erzeugt.
 - Neue Grafiken immer auf dem Tablet auf Ruckeln prüfen, bevor sie übernommen werden.
+- **Vorgerenderte 3D-Grafik** für Figuren, Häuser, Einrichtung und Gegenstände aus der Grafik-Werkstatt (`werkstatt/`), gebrauchter, verwitterter Look; Boden, Wasser und Lava bleiben Codegrafik. Stilregeln und Fahrplan: Grauufer_Grafik_RevXX.md.
