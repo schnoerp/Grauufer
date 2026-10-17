@@ -252,3 +252,17 @@ test('Rev 103: Spieltitel „Grauufer 1.0“', async ({ page }) => {
   expect(r).toEqual([true, 'Grauufer 1.0', 'Grauufer 1.0']);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 104: Logo im Titelbild als Pixelgrafik', async ({ page }) => {
+  const fehler = [];
+  page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto(URL);
+  await page.waitForFunction(() => document.querySelector('#spLogo').dataset.ok === '1', null, { timeout: 30000 });
+  const r = await page.evaluate(() => {
+    const c = document.querySelector('#spLogo'), d = c.getContext('2d').getImageData(0, 0, 48, 48).data;
+    let deckend = 0, stufen = true; for (let i = 0; i < d.length; i += 4) { if (d[i + 3] === 255) { deckend++; if (d[i] % 17 || d[i + 1] % 17 || d[i + 2] % 17) stufen = false; } }
+    return [c.width, deckend > 600, stufen, Math.round(c.getBoundingClientRect().width) % 48];
+  });
+  expect(r).toEqual([48, true, true, 0]);
+  expect(fehler).toEqual([]);
+});
