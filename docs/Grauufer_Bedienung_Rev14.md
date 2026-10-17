@@ -1,6 +1,6 @@
 # Grauufer – Bedienung
 
-**Revision 13**, Stand: Spiel-Rev 100. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 14**, Stand: Spiel-Rev 101. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Zielgeräte (Im Spiel)
 
@@ -33,6 +33,7 @@
 | J | Aufgabenbuch |
 | T | Tagebuch (seit Spiel-Rev 84) |
 | K | Charakter (seit Spiel-Rev 90) |
+| G | Geschichte, der Story-Baum (seit Spiel-Rev 101) |
 | C | Herstellen |
 | Z | Zauberbuch |
 | M | Karte |
@@ -43,7 +44,7 @@
 
 | Element | Lage | Inhalt |
 |---|---|---|
-| Untere Leiste | unten, eine Reihe | Leben links, Schnellzugriff, Knöpfe Rucksack, Charakter, Zauber, Karte, Tagebuch, Rasten, Mana rechts; alle gleich hoch (seit Spiel-Rev 71): 50 px, bei Bildschirmbreite bis 980 px 44 px, bei Bildschirmhöhe bis 520 px 42 px |
+| Untere Leiste | unten, eine Reihe | Leben links, Schnellzugriff, Knöpfe Rucksack, Charakter, Zauber, Karte, Tagebuch, Geschichte (seit Spiel-Rev 101), Rasten, Mana rechts; bleibt auch bei 962 Punkten Breite einzeilig; alle gleich hoch (seit Spiel-Rev 71): 50 px, bei Bildschirmbreite bis 980 px 44 px, bei Bildschirmhöhe bis 520 px 42 px |
 | Kompass | am Rand | Nordpfeil und Pfeil zur aktuellen Quest |
 | Zoomanzeige | oben rechts | Zoomstufe in %, Start immer bei 100 %; Bereich 50–250 % in Schritten von 10 % |
 | Karte | Taste M | große Karte von Morvenn (keine Minikarte); Knopf „Weltkarte“ öffnet den drehbaren Globus von Vharos |
@@ -75,6 +76,17 @@
 
 - Schreibt automatisch mit: Geschichte und Aufgaben, Entscheidungen, Träume und Erinnerungen (vollständig nachlesbar), Schriften und Schatzkarten, Entdeckungen.
 - Kopfzeile: Tag, Name, Schriften x/10, Truhen x/y, Schätze x/5; Kasten „Aktuelles Ziel“; Filter Alles / Geschichte / Träume & Erinnerungen / Schriften / Entdeckungen; „Nachlesen“ öffnet die Erzählkarte.
+
+## 5d. Geschichte: der Story-Baum (Im Spiel seit Spiel-Rev 101)
+
+Knopf „Geschichte“ in der Fußzeile oder Taste **G**. Ein Pergamentfenster zeigt die **Hauptgeschichte** als Baum (Nebenaufgaben nicht):
+
+- **Hauptlinie:** Erwachen am Strand → Das Amulett → Das Gräberfeld → Die Gruft → Splitter der Erde → Splitter des Wassers, des Feuers, der Luft (freie Reihenfolge) → Mareths Enthüllung → Das Finale → Der Steinkreis (Enden „Das neue Siegel“, „Der freie Wächter“) oder Der Krater (Enden „Der Erlöser“, „Der Hungernde“).
+- **Entscheidungen** als eigene Leiste darunter: Mareth (vergeben/verstoßen), Die Stillen (schweigen/aufdecken), Die Seelotsen (vergeben/verurteilen), Die Glutschmiede (schmieden/befreien), Die Sturmbrüder (Eid leisten/ablehnen).
+- **Darstellung:** erreicht = goldenes Siegel mit Häkchen; als Nächstes möglich = rot gestrichelter Kreis; noch verborgen = grauer Kreis mit „???“ (Name wird nicht verraten); nicht gewählter Ast = verblasst und durchgestrichen.
+- **Antippen einer Station** zeigt darunter, was geschehen ist, bzw. einen Hinweis, wie es weitergeht.
+- Kopfzeile: „Erreicht: x von 12 Stationen der Hauptgeschichte“.
+- Alle Angaben kommen aus den Spielmerkern. Neu ist nur der Merker `krater` (gesetzt, wenn man mit vier Splittern den Kraterrand erreicht). Das Fenster wird nur beim Öffnen gezeichnet und kostet pro Bild nichts.
 
 ## 5c. Charakterfenster (Im Spiel seit Spiel-Rev 90)
 

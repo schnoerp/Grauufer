@@ -8,7 +8,7 @@ Ein Spiel von **schnoerp-media**.
 - **Online:** über GitHub Pages (Adresse unter *Settings → Pages*, sobald eingeschaltet).
 - **Offline:** `index.html` herunterladen und im Browser öffnen. Das Spiel ist eine einzige Datei ohne externe Abhängigkeiten.
 
-Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = Ansicht verschieben · Taste **T** Tagebuch · **K** Charakter · **I** Rucksack.
+Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = Ansicht verschieben · Taste **T** Tagebuch · **K** Charakter · **I** Rucksack · **G** Geschichte.
 
 ## Aufbau
 
@@ -22,10 +22,10 @@ Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_Rev15.md`.
 
 ## Tests
 
-Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 18 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität).
+Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 19 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität, Story-Baum).
 
 Lokal: `npm install`, `npx playwright install chromium`, dann `npm test`.
 
 ## Stand
 
-Spiel-Revision **100**. Alle Dokumente in `docs/` sind geprüft; die Kopfzeile nennt den Spielstand ihrer letzten Änderung.
+Spiel-Revision **101**. Alle Dokumente in `docs/` sind geprüft; die Kopfzeile nennt den Spielstand ihrer letzten Änderung.

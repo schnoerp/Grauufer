@@ -1,6 +1,6 @@
 # Grauufer – Die Geschichte
 
-**Revision 07**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 08**, Stand: Spiel-Rev 101. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Kurzfassung
 
@@ -69,6 +69,8 @@
 - **Nebelwald:** Hier soll der Pakt einst geschlossen worden sein. Unter den ältesten Bäumen liegt ein vergessener Ort, an dem die vier Titanen zuletzt gesehen wurden.
 
 ## 6. Die Hauptgeschichte
+
+Im Spiel als Story-Baum einsehbar (Knopf „Geschichte“, Taste G, seit Spiel-Rev 101). Stationen und Darstellung: Grauufer_Bedienung_RevXX.md, Abschnitt 5d.
 
 ### Akt 1: Erwachen (Im Spiel)
 1. Der Fremde erwacht am Strand südlich von Grauufer und findet das zerbrochene Amulett.

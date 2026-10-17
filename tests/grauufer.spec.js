@@ -23,7 +23,7 @@ test('Spiel startet am Strand ohne Fehler', async ({ page }) => {
 
 test('Fenster öffnen sich zentriert und ohne Scrollen', async ({ page }) => {
   const fehler = await frisch(page);
-  for (const id of ['#bInv', '#bChar', '#bJour']) {
+  for (const id of ['#bInv', '#bChar', '#bJour', '#bStory']) {
     const r = await page.evaluate(sel => {
       if (!document.querySelector('#panel').hidden) closePanel();
       document.querySelector(sel).click();
@@ -212,5 +212,20 @@ test('Rev 100: Kein Knopf „Grafik“, Bildqualität automatisch, Notstufen bei
   const fehler = await frisch(page);
   const r = await page.evaluate(() => [!!document.querySelector('#bGfx'), GFX, GPUCAP, SOFT, localStorage.getItem('grauufer-gpucap')]);
   expect(r).toEqual([false, 'auto', 1, false, null]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 101: Story-Baum zeigt erreichten Stand, Künftiges verborgen', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.keyboard.press('g');
+  const r1 = await page.evaluate(() => [!document.querySelector('#panel').hidden, document.querySelectorAll('#story .sn.done').length, document.querySelectorAll('#story .sn.hid').length > 20]);
+  expect(r1).toEqual([true, 1, true]);
+  const r2 = await page.evaluate(() => {
+    closePanel(); const f = S.flags; f.amulet = 1; f.quest = 1; f.key = 1; f.doorOpen = 1; f.shard_erde = 1; f.fac_erde = -1; openStory();
+    const st = id => [...document.querySelectorAll(`#story [data-sn="${id}"]`)].map(g => g.getAttribute('class')).join('|');
+    return [stState(STN.find(n => n.id === 'erde')), stState(STN.find(n => n.id === 'wasser')), stState(STN.find(n => n.id === 'reveal')),
+            document.querySelectorAll('#story .sn.rej').length, st('dE')];
+  });
+  expect(r2).toEqual(['done', 'av', 'hid', 1, 'sn rej|sn done|sn done']);
   expect(fehler).toEqual([]);
 });
