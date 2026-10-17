@@ -243,3 +243,10 @@ test('Rev 102: Leben und Mana als Kugeln, Fußzeile frei', async ({ page }) => {
   expect(r).toEqual([90, true, false, true, false]);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 103: Spieltitel „Grauufer 1.0“', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => { intro(); return [document.title.startsWith('Grauufer 1.0 (Rev '), document.querySelector('#splash .sp-t').textContent.trim(), document.querySelector('#overlay h1').textContent]; });
+  expect(r).toEqual([true, 'Grauufer 1.0', 'Grauufer 1.0']);
+  expect(fehler).toEqual([]);
+});

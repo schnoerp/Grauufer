@@ -4,7 +4,7 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 
 ## 1. Projekt
 
-- Privates Browser-Rollenspiel „Grauufer“ von **schnoerp-media** im Stil von **Ultima VIII: Pagan**.
+- Privates Browser-Rollenspiel **„Grauufer 1.0“** von **schnoerp-media** im Stil von **Ultima VIII: Pagan**.
 - Das Spiel ist **eine einzige Datei**: `index.html` (HTML + CSS + JavaScript, Canvas 2D, isometrisch).
 - Konzeptdokumente liegen in `docs/` (16 Markdown-Dateien). Einstieg: `docs/Grauufer_Uebersicht_RevXX.md`.
 - Sprache in Spiel, Dokumenten, Commit-Nachrichten und Antworten: **Deutsch**.
@@ -19,8 +19,8 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 
 ## 3. Revisionen
 
-- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **102**).
-- Die Revision steht an zwei Stellen in `index.html`: im `<title>` („Rollenspiel-Prototyp (Rev NN)“) und im Titeldialog („Revision NN“). Beide anpassen.
+- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **103**).
+- Die Revision steht an zwei Stellen in `index.html`: im `<title>` („Grauufer 1.0 (Rev NN)“) und im Titeldialog („Revision NN“). Beide anpassen.
 - Commit-Nachricht beginnt mit `Rev NN:` und beschreibt die Änderung auf Deutsch.
 
 ## 4. Dokumente immer mitziehen
