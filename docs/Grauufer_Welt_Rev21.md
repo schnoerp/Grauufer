@@ -237,7 +237,7 @@ Uralte Hallen der Titanen unter Morvenn, ein optionaler Nebenweg (Hintergrund: G
 
 Alle Zugänge sind von Anfang an offen. Da die Flügel unten verbunden sind, ist Die Tiefe auch eine Abkürzung quer durch Morvenn. Die Karte (Taste M) zeigt in der Tiefe nur die Tiefe, sonst nur Morvenn.
 
-**Im Spiel seit Spiel-Rev 106:** 16 Gegner (Ruhelose, Echos, Steinwächter; Werte in Grauufer_Gegner_RevXX.md), vier Tafeln (Erde 50,272; Wasser 50,307; Luft 93,272; Feuer 93,307), drei Truhen (55,272; 55,307; 88,307), Tränke am Boden (Großer Heiltrank 71,277; Manatrank 71,302; Heiltrank 49,289 und 94,289, jeweils mit leichter Streuung beim Spielstart).
+**Im Spiel seit Spiel-Rev 106:** 21 Gegner (Ruhelose, Echos, Steinwächter, Skelettkrieger; Werte in Grauufer_Gegner_RevXX.md), vier Tafeln (Erde 50,272; Wasser 50,307; Luft 93,272; Feuer 93,307), drei Truhen (55,272; 55,307; 88,307), Tränke am Boden (Großer Heiltrank 71,277; Manatrank 71,302; Heiltrank 49,289 und 94,289, jeweils mit leichter Streuung beim Spielstart).
 
 **Geplant (nächster Schritt):** Endgegner Thronhüter in der Halle der Vier, Belohnung „Ring der Tiefe“, Hinweise von Mareth, Oswin, Tobe und Hagen; Schwierigkeit für Stufe 4–5.
 

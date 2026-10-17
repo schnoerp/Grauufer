@@ -68,7 +68,7 @@ Beute wie bei allen normalen Gegnern (14 % Ausrüstung, bei diesen EP aus der h�
 | Sturmspitze | 4 Harpyien | Sturmherr | Splitter der Luft |
 | Alte Feste | 4 Banditen | Bandenführer | Quest von Bram |
 | Kristallhöhle | 2 Riesenspinnen, 1 Skelettkrieger | Kristallwächter | Sturmzepter |
-| Die Tiefe (seit Spiel-Rev 106) | 16: 6 Ruhelose, 5 Echos, 5 Steinwächter, je 3 in jedem Flügel und 4 in den Gängen | Thronhüter (geplant) | Ring der Tiefe (geplant) |
+| Die Tiefe (seit Spiel-Rev 106) | 21: 6 Ruhelose, 5 Echos, 5 Steinwächter, 5 Skelettkrieger (2 im Flügel der Luft unter dem Versunkenen Tempel, je 1 in den Flügeln des Wassers und des Feuers und im oberen Gang) | Thronhüter (geplant) | Ring der Tiefe (geplant) |
 | Spinnengrotte | 5 Riesenspinnen | Spinnenkönigin | Quest von Svea |
 | Gefrorener See | 2 Frostwölfe | Eisgolem | Quest von Birger |
 | Versunkener Tempel | 4 Skelettkrieger | Knochenkönig | Quest von Yasmin |

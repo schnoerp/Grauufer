@@ -295,6 +295,6 @@ test('Rev 106: Die Tiefe – Gegner, Tafeln und Truhen', async ({ page }) => {
     readBook(LECT.find(l => l.y >= MORVH).i); closeOverlay();
     return [g.length, arten, tafeln, truhen, CHESTS.length - 3 === 47];
   });
-  expect(r).toEqual([16, 'echo,ruhelos,steinwaechter', 'Tafel der Erde|Tafel der Luft|Tafel des Feuers|Tafel des Wassers', 'locked,locked,trap', true]);
+  expect(r).toEqual([21, 'echo,ruhelos,skeleton,steinwaechter', 'Tafel der Erde|Tafel der Luft|Tafel des Feuers|Tafel des Wassers', 'locked,locked,trap', true]);
   expect(fehler).toEqual([]);
 });
