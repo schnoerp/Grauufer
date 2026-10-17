@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0 (Rev 105)</title>
+<title>Grauufer 1.0 (Rev 106)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -485,7 +485,10 @@ const REGIONS={
     enemies:[],ground:[],altar:null},
   kristall:{at:[54,40],build:buildKristall,npcs:[],enemies:[['ks1','spider',4,6],['ks2','skeleton',6,3],['ks3','spider',8,8],['kg1','crystalgolem',11,4]],
     ground:[['kristall',3,7],['kristall',7,2],['gold',5,6],['stormstaff',12,4],['kristall',12,5]],altar:null},
-  tiefe:{nw:1,at:[40,268],build:buildTiefe,npcs:[],enemies:[],ground:[],altar:null},
+  tiefe:{nw:1,at:[40,268],build:buildTiefe,npcs:[],ground:[['bigpotion',31,9],['mana',31,34],['potion',9,21],['potion',54,21]],altar:null,
+    enemies:[['te1','steinwaechter',10,8],['te2','ruhelos',14,11],['te3','echo',7,12],['tl1','echo',53,8],['tl2','steinwaechter',57,11],['tl3','ruhelos',50,5],
+      ['tw1','ruhelos',14,32],['tw2','echo',6,39],['tw3','ruhelos',13,38],['tf1','steinwaechter',53,34],['tf2','echo',57,38],['tf3','ruhelos',50,31],
+      ['tg1','ruhelos',31,8],['tg2','steinwaechter',31,35],['tg3','echo',9,21],['tg4','ruhelos',54,21]]},
   mira:{at:[176,46],build:buildMira,huts:[[2,1]],npcs:[{id:'mira',name:'Mira',x:3,y:2}],enemies:[],ground:[['kraut',1,5],['kraut',5,5]],altar:null}
 };
 const ZDEF={
@@ -716,6 +719,10 @@ const KINDS={
   wolf:{name:'Wolf',acc:'den Wolf',hp:12,atk:[2,4],xp:12,gold:[0,2],aggro:5,hit:.78},
   spider:{name:'Riesenspinne',acc:'die Riesenspinne',hp:20,atk:[3,6],xp:28,gold:[0,4],aggro:6,hit:.8},
   spiderqueen:{name:'Spinnenkönigin',acc:'die Spinnenkönigin',hp:90,atk:[6,9],xp:120,gold:[60,80],aggro:7,hit:.82,boss:1,die:'Die Spinnenkönigin zuckt ein letztes Mal. Die Grotte verstummt.'},
+  /* Rev 106: Gegner der Tiefe (für Stufe 4–5) */
+  ruhelos:{name:'Ruheloser',acc:'den Ruhelosen',hp:28,atk:[4,7],xp:34,gold:[4,10],aggro:6,hit:.8,undead:1,die:'Der Ruhelose sinkt zusammen und findet endlich Ruhe.'},
+  steinwaechter:{name:'Steinwächter',acc:'den Steinwächter',hp:36,atk:[5,8],xp:42,gold:[0,6],aggro:5,hit:.78,die:'Der Steinwächter zerfällt zu Geröll. Er hat keinem Herrn mehr gedient.'},
+  echo:{name:'Echo',acc:'das Echo',hp:22,atk:[5,8],xp:38,gold:[2,8],aggro:7,hit:.86,die:'Das Echo verhallt in den Gewölben.'},
   skeleton:{name:'Skelettkrieger',acc:'den Skelettkrieger',hp:24,atk:[4,7],xp:32,gold:[5,12],aggro:6,hit:.8,undead:1},
   boneking:{name:'Knochenkönig',acc:'den Knochenkönig',hp:110,atk:[7,10],xp:150,gold:[90,120],aggro:7,hit:.82,boss:1,undead:1,die:'Der Knochenkönig zerfällt. Sein Thron ist nur noch Staub.'},
   scorpion:{name:'Sandskorpion',acc:'den Sandskorpion',hp:22,atk:[4,6],xp:26,gold:[0,5],aggro:5,hit:.8},
@@ -1095,6 +1102,9 @@ const CH={
   chief:{t:'human',s:1.2,cloak:'#5a2a1a',hood:'#3a1a10',head:'hood',skin:'#c09070',legs:'#2a1a10',weapon:'#c8c8d0',trim:'#c0a040',armor:'#6a6a70'},
   guardian:{t:'golem',c1:'#6a6474',c2:'#504a5a',eye:'#8ff0e8'},
   mimic:{t:'mimic'},
+  ruhelos:{t:'human',cloak:'#4a4640',hood:'#34302c',head:'hood',skin:'#9aa08a',eyes:'#f0e070',legs:'#2e2a26',trim:'#6a6050'},
+  steinwaechter:{t:'golem',s:.9,c1:'#7a7468',c2:'#5a554c',eye:'#d8c8ff',crack:'#8a7ab0'},
+  echo:{t:'human',cloak:'#6a7e9a',hood:'#4e607a',head:'hood',skin:'#c8d8f0',eyes:'#9ff4ff',legs:'#4e607a',ghost:1},
   nhal:{t:'golem',s:1.75,c1:'#1e1614',c2:'#0e0a08',eye:'#ff3a18',crack:'#ff8a30'},
   glutfuerst:{t:'golem',s:1.25,c1:'#3e2c24',c2:'#2c1e18',eye:'#ffc050',crack:'#ff7a20'},
   glutgeist:{t:'hound',c1:'#6a2a10',c2:'#3a1408',eye:'#ffe060',crack:'#ffb020'},
@@ -3206,10 +3216,15 @@ const BOOKS=[
  {at:'gunda',t:'Bergmannsbuch von Erzhall',h:`<p>Seit dem Frühjahr singt das Erz. Tief unten, wo die Adern rot werden, hört man ein Summen, als würde etwas unter dem Gestein atmen. Die alten Hauer sagen: Das ist der Berg im Süden, der Hungernde, der sich dreht im Schlaf.</p>`},
  {at:'gerwin',t:'Logbuch der „Morgenwind“',h:`<p>Tag 31. Die Küste von Morvenn in Sicht, aber keine Leuchtfeuer. Der Wächter steht seit Stunden am Bug und spricht mit niemandem.</p><p>Tag 32. Feuer an Bord. Der Wächter sagt, er habe es gelegt, damit „ihm keiner folgt“. Wir gehen in die Boote.</p><p class="hint">Hier endet das Logbuch.</p>`},
  {way:'Aschenhorn',t:'Steintafel am Aschenhorn',h:`<p>In alten, tief gehauenen Zeichen:</p><p><i>HIER SCHLÄFT DER FÜNFTE.<br>WER DIE VIER ZUSAMMENBRINGT, KANN IHN BINDEN – ODER BEFREIEN.<br>DIE WAHL IST DIE LETZTE PRÜFUNG DES WÄCHTERS.</i></p>`},
- {at:'hanne',t:'Kinderreim aus Kornwacht',h:`<p><i>Erde schläft und Wasser fließt,<br>Feuer brennt und Wind, der bläst.<br>Doch wer den Fünften weckt im Berg,<br>dem wird sein liebster Wunsch zur Asche.</i></p>`}];
+ {at:'hanne',t:'Kinderreim aus Kornwacht',h:`<p><i>Erde schläft und Wasser fließt,<br>Feuer brennt und Wind, der bläst.<br>Doch wer den Fünften weckt im Berg,<br>dem wird sein liebster Wunsch zur Asche.</i></p>`},
+ /* Rev 106: Tafeln in der Tiefe (feste Felder) */
+ {pos:[50,272],t:'Tafel der Erde',h:`<p>In eine Säule gehauen, die Zeichen tief und kantig:</p><p><i>WIR, DIE VIER, LEGTEN DEN FÜNFTEN IN KETTEN AUS STEIN, WELLE, GLUT UND WIND. DOCH KETTEN BRAUCHEN EINE HAND, DIE SIE HÄLT. DARUM RIEFEN WIR DIE WÄCHTER AUS THAROS.</i></p>`},
+ {pos:[50,307],t:'Tafel des Wassers',h:`<p>Die Schrift ist von Wasser überronnen, aber lesbar:</p><p><i>JEDER, DER IN VHAROS STIRBT, SINKT HIERHER UND WIRD STILL. SO WAR ES, SOLANGE DAS SIEGEL HIELT. ÖFFNET ES SICH, STEIGEN DIE TOTEN WIEDER AUF UND SUCHEN, WAS SIE VERLOREN HABEN.</i></p>`},
+ {pos:[93,272],t:'Tafel der Luft',h:`<p>Zwischen den Säulen, wo es immer zieht:</p><p><i>WIR VERSTUMMEN, DAMIT DAS SIEGEL SPRICHT. UNSERE STIMMEN SIND DIE SPLITTER. WER SIE VEREINT, SPRICHT MIT UNSERER KRAFT, ZUM BINDEN ODER ZUM LÖSEN. WÄHLE WEISER ALS DER VOR DIR.</i></p>`},
+ {pos:[93,307],t:'Tafel des Feuers',h:`<p>Ruß hat die Zeichen geschwärzt:</p><p><i>DER FÜNFTE VERSPRICHT, WAS ER NICHT HALTEN KANN. ER NÄHRT SICH VOM WUNSCH. WER IHM EINEN WUNSCH SCHENKT, SCHENKT IHM ALLES. GIB IHM NICHTS.</i></p>`}];
 const LECT=[];/* {x,y,i} */
 function placeLecterns(busy,canBlock){LECT.length=0;
-  BOOKS.forEach((b,i)=>{let ax,ay;if(b.at){const n=WORLD.npcs.find(n=>n.id===b.at);if(!n)return;ax=n.x;ay=n.y;}else{const w=WORLD.ways.find(w=>w.name===b.way);if(!w)return;ax=w.x;ay=w.y;}
+  BOOKS.forEach((b,i)=>{if(b.pos){const[x,y]=b.pos;if(map[y]&&WALK.has(map[y][x])&&!DECO.has(y*W+x)){DECO.set(y*W+x,{k:'lectern',o:''});DECOB.add(y*W+x);LECT.push({x,y,i});}return;}let ax,ay;if(b.at){const n=WORLD.npcs.find(n=>n.id===b.at);if(!n)return;ax=n.x;ay=n.y;}else{const w=WORLD.ways.find(w=>w.name===b.way);if(!w)return;ax=w.x;ay=w.y;}
     for(let r=2;r<=6;r++){let done=false;for(let dy=-r;dy<=r&&!done;dy++)for(let dx=-r;dx<=r&&!done;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue;const x=ax+dx,y=ay+dy,c=map[y]&&map[y][x];
       if(!c||!WALK.has(c)||c==='M'||c==='Y'||busy.has(y*W+x)||DECO.has(y*W+x))continue;
       if(![[0,1],[1,0],[-1,0],[0,-1]].some(([a,b])=>REACH.has((x+a)+','+(y+b))))continue;
@@ -3329,6 +3344,9 @@ function placeChests(busy,canBlock){CHESTS.length=0;DIGS.length=0;CHT.clear();BC
   /* Grabstellen für Schatzkarten */
   DIGPLAN.forEach((d,di)=>{let L=[];d.z.forEach(z=>L=L.concat(sand[z]||[]));L.sort((a,b)=>a[2]-b[2]);
     const p=L.find(([x,y])=>far(x,y)&&REACH.has(x+','+y));if(p){DIGS.push({x:p[0],y:p[1],name:d.name,i:di});used.push([p[0],p[1]]);}});}
+/* Rev 106: Truhen in der Tiefe an festen Feldern; ganz zuletzt angelegt, damit sich die Nummern aller übrigen Truhen nicht verschieben */
+function placeTiefeChests(){for(const[x,y,t]of[[55,272,'locked'],[55,307,'locked'],[88,307,'trap']]){const i=y*W+x;if(!map[y]||!WALK.has(map[y][x])||DECO.has(i))continue;
+  const ci=CHESTS.length;CHESTS.push({x,y,t});DECO.set(i,{k:'tchest',o:t,ci});DECOB.add(i);CHT.set(i,ci);}}
 const bossDown=id=>!!(S&&S.enemies.find(e=>e.id===id&&e.dead))||!!F()['bch_'+id];
 function chestAt(x,y){if(!DECOK)buildDeco();const ci=CHT.get(y*W+x);if(ci===undefined)return -1;const c=CHESTS[ci];
   if(c.t==='boss'&&!bossDown(c.boss))return -1;if(c.t==='mimic'&&chs()[ci])return -1;return ci;}
@@ -3547,7 +3565,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 105</div>
+  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 106</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -3612,7 +3630,7 @@ function drawFigure(o,key,now,t){
     lx.beginPath();lx.ellipse(q.x,q.y,11*s,5*s,0,0,7);lx.stroke();lx.lineWidth=1*RES;lx.beginPath();lx.ellipse(q.x,q.y,14*s,6.5*s,0,0,7);lx.stroke();}
   let f=frameOf(o,now,mv),hov=0;
   if(d.t==='harpy'){f=f===4?4:Math.floor(now/140)%2;hov=Math.round((6+(RM?0:Math.sin(t*3)*2))*RES);}
-  drawChar(key,x,y-hov,f,o.face||1,al,flashOf(o,now));
+  const ga=d.ghost?(RM?.55:.42+.25*(.5+.5*Math.sin(t*2.3+(o.x||0))))/* Rev 106: Echos flackern durchscheinend */:1;drawChar(key,x,y-hov,f,o.face||1,al*ga,flashOf(o,now));
   if(isT){const z=SIZES[d.t],ty=y-hov-Math.round(z[3]*s)-12*RES-Math.abs(Math.sin(t*4))*4*RES;lx.fillStyle='#ff5a3a';lx.strokeStyle='#120804';lx.lineWidth=1.2*RES;
     lx.beginPath();lx.moveTo(x-6*RES,ty-8*RES);lx.lineTo(x+6*RES,ty-8*RES);lx.lineTo(x,ty);lx.closePath();lx.fill();lx.stroke();}
   if(!o.dead&&o.hp!==undefined&&o.maxHp&&(o.hp<o.maxHp||isT)&&key!=='player'){const z=SIZES[d.t],w=12*RES,top=y-hov-Math.round(z[3]*s)-3*RES;
@@ -3679,7 +3697,7 @@ function buildDeco(){DECOK=true;DECO.clear();DECOB.clear();
     const p=byHouse?.3:.12;if(h>=p)continue;const r=h2;
     put(x,y,r<.3?'barrel':r<.52?'crates':r<.68?'sacks':r<.84?'bench':'lantern',(wN||wS)?'x':'y',true);}
   {const[wx,wy]=SHORE.wreck;if(!busy.has(wy*W+wx)){DECO.set(wy*W+wx,{k:'wreck',o:''});DECOB.add(wy*W+wx);}}
-  placeLecterns(busy,canBlock);placeChests(busy,canBlock);placeObstacles(busy,canBlock);
+  placeLecterns(busy,canBlock);placeChests(busy,canBlock);placeObstacles(busy,canBlock);placeTiefeChests();
   {const[sx,sy]=SHORE.ship;DECO.set(sy*W+sx,{k:'shipwreck',o:''});}
 }
 function decoSprite(k,o){const key='deco|'+k+'|'+o;

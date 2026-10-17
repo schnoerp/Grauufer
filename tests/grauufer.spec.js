@@ -283,3 +283,18 @@ test('Rev 105: Die Tiefe – vier Treppen hinab und wieder hinauf', async ({ pag
   expect(r).toEqual([[true, true, true, true], 'v', 316]);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 106: Die Tiefe – Gegner, Tafeln und Truhen', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    if (!DECOK) buildDeco();
+    const g = S.enemies.filter(e => e.y >= MORVH);
+    const arten = [...new Set(g.map(e => e.k))].sort().join(',');
+    const tafeln = LECT.filter(l => l.y >= MORVH).map(l => BOOKS[l.i].t).sort().join('|');
+    const truhen = CHESTS.filter(c => c.y >= MORVH).map(c => c.t).join(',');
+    readBook(LECT.find(l => l.y >= MORVH).i); closeOverlay();
+    return [g.length, arten, tafeln, truhen, CHESTS.length - 3 === 47];
+  });
+  expect(r).toEqual([16, 'echo,ruhelos,steinwaechter', 'Tafel der Erde|Tafel der Luft|Tafel des Feuers|Tafel des Wassers', 'locked,locked,trap', true]);
+  expect(fehler).toEqual([]);
+});

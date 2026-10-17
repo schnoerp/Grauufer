@@ -1,6 +1,6 @@
 # Grauufer – Schätze
 
-**Revision 03**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 04**, Stand: Spiel-Rev 106. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Alle Fundorte werden beim Start fest aus der Karte bestimmt und sind in jedem Spielstand gleich. Koordinaten als Feld (x,y). Öffnen per Antippen oder Dagegenlaufen; geöffnete Truhen bleiben offen und leer. Das Tagebuch zählt Truhen und Schätze.
 
@@ -56,6 +56,10 @@ Gesamt: 47 Truhen (davon 16 hinter Hindernissen).
 | Bosstruhe | Sturmspitze | 1 |
 | Bosstruhe | Tränensee | 1 |
 | Fallen-Truhe mit Mareths Wächterdolch | Grauufer | 1 |
+| Verschlossene Truhe | Die Tiefe (Flügel der Erde 55,272; Flügel des Wassers 55,307) | 2 |
+| Fallen-Truhe | Die Tiefe (Flügel des Feuers 88,307) | 1 |
+
+Die drei Truhen der Tiefe (seit Spiel-Rev 106) stehen an festen Feldern und werden als letzte angelegt, die Nummern aller übrigen Truhen bleiben gleich. Gesamt jetzt 50 Truhen.
 
 ## 3. Schatzkarten und Grabstellen (Im Spiel seit Spiel-Rev 89)
 
@@ -85,6 +89,12 @@ Gesamt: 47 Truhen (davon 16 hinter Hindernissen).
 | Steintafel am Aschenhorn | Aschenhorn | 634,191 |
 | Kinderreim aus Kornwacht | Kornwacht | 105,49 |
 | Testament des Kapitäns | Sandhafen | 218,218 |
+| Tafel der Erde | Die Tiefe, Flügel der Erde | 50,272 |
+| Tafel des Wassers | Die Tiefe, Flügel des Wassers | 50,307 |
+| Tafel der Luft | Die Tiefe, Flügel der Luft | 93,272 |
+| Tafel des Feuers | Die Tiefe, Flügel des Feuers | 93,307 |
+
+Die vier Tafeln der Tiefe (seit Spiel-Rev 106) zählen als Schriften, das Tagebuch zählt jetzt bis 14.
 
 Inhalte der Schriften: Grauufer_Story_RevXX.md, Abschnitt 13. Lesen steigert Alte Sprachen.
 
