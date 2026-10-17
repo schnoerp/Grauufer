@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 18**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 19**, Stand: Spiel-Rev 97. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -12,7 +12,7 @@ Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet:
 | Kontinent | **Morvenn**, der erste Kontinent; weitere geplant (Abschnitt 7) |
 | Größe | 680 × 248 Felder (seit Spiel-Rev 34; vorher 340 × 124) |
 | Darstellung | isometrisch, ein Feld 32 × 16 Bildpunkte |
-| Süden | Strand, dahinter das Meer (Kartenrand), über die ganze Breite |
+| Süden | Strand, dahinter das Meer (Kartenrand), über die ganze Breite; Küstenlinie geschwungen (seit Spiel-Rev 97, siehe Abschnitt 8) |
 | Aufteilung | bisheriges Land im Südwesten (x 0–338, y 125–247), neue Gebiete im Norden und Osten |
 | Startpunkt | Strand südlich von Grauufer, Feld 89,228 (seit Spiel-Rev 79; vorher Sonnwacht) |
 | Wege | Netz aus gewundenen Pfaden etwa alle 16 bis 18 Felder, frei von Bäumen, Wasser und Bergen |
@@ -213,6 +213,13 @@ Die Karte (Taste M) bekommt zwei Ebenen:
 
 
 ## 8. Neu seit Spiel-Rev 41 (Im Spiel)
+
+### Südküste (seit Spiel-Rev 97)
+- Bis Spiel-Rev 96 war die Südküste über die ganze Kartenbreite eine gerade Linie: Sand in Reihe 227 und 228, ab Reihe 229 Meer.
+- Jetzt verschiebt sich die erste Meeresreihe je Spalte um −2 bis +3 Felder (Reihe 227 bis 232), der Sandstreifen davor ist 2 oder 3 Felder breit. Die Form ist fest im Code berechnet und in jedem Spiel gleich.
+- Unverändert bleiben: alle Orte, deren Gebiet bis an die Küste reicht (u. a. Grauufer mit Startstrand, Bucht, Flussmündung und Wrack, Sandhafen, Ostwacht), sowie alle Spalten mit von Hand gestalteter Küste (z. B. Wegstein Küstenstraße 45,227). Zu ihnen hin läuft die Welle über 8 Felder weich aus.
+- Truhen, Grabstellen, Lesepulte, Hindernisse, Wegsteine und Startfeld liegen genau wie vorher (beim Umbau geprüft).
+- Alte Spielstände: Steht die Figur oder liegt ein Gegenstand auf einem Feld, das jetzt Meer ist, wird es beim Laden auf das nächste begehbare Feld gesetzt.
 
 ### Strand von Grauufer (seit Spiel-Rev 79/83)
 - Startfeld 89,228; Wrackteil am Strand 88,227; zerbrochenes Amulett 90,227; Angelrute 84,227; Kurzschwert 86,228.
