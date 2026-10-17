@@ -1,6 +1,6 @@
 # Grauufer – Übersicht
 
-**Revision 19**, Stand: Spiel-Rev 108. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
+**Revision 20**, Stand: Spiel-Rev 108. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
 
 **Spieltitel:** „Grauufer 1.0“ (seit Spiel-Rev 103). So steht er im Browser-Reiter („Grauufer 1.0 (Rev NN)“), im Titelbild, im Titeldialog („Ein Rollenspiel von schnoerp-media, Revision NN“) und im Beenden-Dialog. „Grauufer“ allein bleibt der Name des Fischerdorfs in der Spielwelt; die Dokumente behalten ihre Dateinamen `Grauufer_<Thema>_RevXX.md`.
 
@@ -95,4 +95,4 @@ Ghul, Wolf, Ertrunkener, Aschenhund, Bandit, Harpyie, Riesenspinne, Moorleiche, 
 Aschenhorn, Nhal (der Hungernde), Siegelwächter, Morgenwind (Schiff), Haldor (Kapitän), Die Stillen, Die Seelotsen, Die Glutschmiede, Die Sturmbrüder, Titanenbrecher, Portal, Lesepult, Runentafel, Titanentafel, Runentor, Gittertor, Felsbrocken, Vogelnest, Mimik, Glutgeist, Flaschenpost, Schatzkarte, Grabstelle, Fertigkeit, Talent, Attributpunkt, Talentpunkt, Tagebuch.
 
 ### Neue Begriffe (seit Spiel-Rev 99–108)
-Grauufer 1.0 (Spieltitel), schnoerp-media, Story-Baum (Knopf „Geschichte“, Taste G), Lebenskugel, Manakugel, Die Tiefe, Treppe (Zugang zur Tiefe), Thronsaal, Ring der Tiefe, Notgrund (Ersatzboden, solange der Bodenpuffer aufgebaut wird), Grafik-Werkstatt (Ordner `werkstatt/`, rendert 3D-Modelle zu Spielbildern), Haus-Baukasten (Geplant).
+Grauufer 1.0 (Spieltitel), schnoerp-media, Story-Baum (Knopf „Geschichte“, Taste G), Lebenskugel, Manakugel, Die Tiefe, Treppe (Zugang zur Tiefe), Thronsaal, Ring der Tiefe, Notgrund (Ersatzboden, solange der Bodenpuffer aufgebaut wird), Grafik-Werkstatt (Ordner `werkstatt/`, rendert 3D-Modelle zu Spielbildern), Haus-Baukasten (`werkstatt/baukasten.html`, Häuser selbst zusammenstellen).
