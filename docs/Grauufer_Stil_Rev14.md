@@ -1,12 +1,19 @@
 # Grauufer – Stil
 
-**Revision 13**, Stand: Spiel-Rev 102. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 14**, Stand: Spiel-Rev 104. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
 - Vorbild: *Ultima VIII: Pagan*. Düster, karg, atmosphärisch.
 - Alle Grafiken und Töne sind **selbst erzeugt** (Canvas und Web Audio). Keine Fremdgrafiken, keine Tondateien.
 - Verfasser: **schnoerp-media**, steht auf der Titelseite.
+
+### Logo (Im Spiel seit Spiel-Rev 104)
+
+- **Motiv:** ein „G“ aus gemeißeltem grauem Stein mit Querbalken, Licht von oben links, feinen Rissen, einem tiefen Riss oben und Moos unten links. In der Mitte des „G“ ist das zerbrochene Amulett eingelassen: goldenes Kreuz auf Blau (Wappen der Siegelwächter), durch einen Zickzack-Riss in zwei leicht verschobene Hälften gespalten.
+- **Umsetzung:** als SVG im Code beschrieben (keine Bilddatei), beim Start auf 48 × 48 Spielpixel verkleinert und wie alle Grafiken auf 16 Stufen je Farbkanal mit Bayer-Dithering gerastert.
+- **Einsatz:** im Titelbild über dem Schriftzug „Grauufer 1.0“, ganzzahlig vergrößert: 192 Punkte (× 4), bei Bildschirmhöhe bis 620 Punkte 144 Punkte (× 3). Das Symbol im Browser-Reiter bleibt das Wappen der Siegelwächter, weil das Amulett bei 16 Punkten nicht erkennbar ist.
+- **Farben:** Stein #a49c90 → #3e3832, Moos #4e6a2e/#5e7e36, Amulett Blau #4a6ca8 → #1e3462, Gold #ffe08a → #c9861e, Umriss #16100c.
 
 ## 2. Grafik (Im Spiel)
 

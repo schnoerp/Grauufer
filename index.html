@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0 (Rev 103)</title>
+<title>Grauufer 1.0 (Rev 104)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -155,6 +155,9 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom,body.talk .orb{d
 #splash{position:fixed;inset:0;z-index:8;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 45%,#2a160a 0%,#0a0402 70%);cursor:pointer;transition:opacity .9s}
 #splash.out{opacity:0;pointer-events:none}#splash[hidden]{display:none}
 .sp-in{text-align:center;padding:24px}
+/* Rev 104: Logo „G aus Stein mit zerbrochenem Amulett“, 48 × 48 Spielpixel, ganzzahlig vergrößert (×4, auf niedrigen Bildschirmen ×3) */
+#spLogo{display:block;margin:0 auto 6px;width:192px;height:192px;image-rendering:pixelated;opacity:0;animation:spFade 1.4s ease-out .2s forwards}
+@media (max-height:620px){#spLogo{width:144px;height:144px}}
 .sp-v{font-size:.42em;letter-spacing:.06em;vertical-align:.9em}/* Rev 103: Spieltitel „Grauufer 1.0“ */
 .sp-t{font-weight:700;font-size:clamp(64px,17vw,150px);line-height:1;background:linear-gradient(#fff0a0,#f2a636 55%,#a8480f);-webkit-background-clip:text;background-clip:text;color:transparent;
   filter:drop-shadow(0 0 18px rgba(255,170,60,.35)) drop-shadow(4px 4px 0 #160a02);opacity:0;transform:scale(.92);letter-spacing:.12em;animation:spIn 2.2s ease-out .2s forwards}
@@ -265,7 +268,7 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom,body.talk .orb{d
 #bottom #actions button{height:var(--fh);min-height:var(--fh);box-sizing:border-box;padding-top:0;padding-bottom:0;display:inline-flex;align-items:center}
 #bottom #bInv.bagbtn svg{width:30px;height:30px}
 @media (max-height:520px){#bottom{--fh:42px}}
-@media (prefers-reduced-motion:reduce){.bar i{transition:none}.sp-t,.sp-s,.sp-a,.sp-h{animation:none!important;opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}.sp-t,.sp-s,.sp-a,.sp-h,#spLogo{animation:none!important;opacity:1;transform:none}}
 #egoPad{position:fixed;right:max(12px,env(safe-area-inset-right));bottom:calc(env(safe-area-inset-bottom,0px) + 86px);grid-template-columns:repeat(3,60px);gap:6px;z-index:6}
 #egoPad button{min-height:56px;font-size:24px;padding:0;border-radius:8px;opacity:.9}
 #bEgo{margin-top:6px}
@@ -296,7 +299,7 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom,body.talk .orb{d
 <div id="choices" hidden></div>
 <section id="panel" hidden></section>
 <div id="overlay" hidden></div>
-<div id="splash"><div class="sp-in"><div class="sp-t">Grauufer <span class="sp-v">1.0</span></div><div class="sp-s px">Ein Rollenspiel in der Welt Vharos</div><div class="sp-a px">ein Spiel von <b>schnoerp-media</b></div><div id="spHint" class="sp-h px">Lade Welt …</div></div></div>
+<div id="splash"><div class="sp-in"><canvas id="spLogo" width="48" height="48" aria-label="Grauufer-Logo"></canvas><div class="sp-t">Grauufer <span class="sp-v">1.0</span></div><div class="sp-s px">Ein Rollenspiel in der Welt Vharos</div><div class="sp-a px">ein Spiel von <b>schnoerp-media</b></div><div id="spHint" class="sp-h px">Lade Welt …</div></div></div>
 <script>
 //#MAPS-BEGIN
 const CANY=[];
@@ -3518,7 +3521,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 103</div>
+  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 104</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -4164,6 +4167,16 @@ function draw0(t,now,dt){
 }
 
 let READY=false,SPGO=false;
+/* Rev 104: Logo im Titelbild. Als SVG im Code beschrieben (keine Bilddatei), auf 48 × 48 Spielpixel verkleinert und wie alle
+   Grafiken auf 16 Stufen je Farbkanal mit Bayer-Dithering gerastert. Wird einmal beim Start gezeichnet. */
+const LOGO_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"> <defs> <linearGradient id="st" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a49c90"/><stop offset=".55" stop-color="#6e675e"/><stop offset="1" stop-color="#3e3832"/></linearGradient> <linearGradient id="bl" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a6ca8"/><stop offset="1" stop-color="#1e3462"/></linearGradient> <linearGradient id="au" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe08a"/><stop offset="1" stop-color="#c9861e"/></linearGradient> <clipPath id="gc"><path id="gp" d="M159.5 50.5 A80 80 0 1 0 180.0 104.0 L180.0 108 L120 108 L120 128 L145.7 128 L145.7 124.3 A50 50 0 1 1 137.2 70.5 Z"/></clipPath> </defs> <path d="M159.5 50.5 A80 80 0 1 0 180.0 104.0 L180.0 108 L120 108 L120 128 L145.7 128 L145.7 124.3 A50 50 0 1 1 137.2 70.5 Z" fill="url(#st)" stroke="#16100c" stroke-width="5" stroke-linejoin="round"/> <g clip-path="url(#gc)" stroke-linecap="round"> <path d="M30 60 L52 64 M24 104 L46 100 M40 150 L60 140 M96 26 L100 46 M150 150 L134 136 M70 172 L76 152" stroke="#3a342e" stroke-width="2.5" opacity=".7"/> <path d="M60 30 Q40 40 30 66" stroke="#d8d0c4" stroke-width="5" opacity=".55" fill="none"/> <ellipse cx="42" cy="150" rx="26" ry="16" fill="#4e6a2e"/><ellipse cx="56" cy="166" rx="18" ry="10" fill="#5e7e36"/><ellipse cx="30" cy="132" rx="10" ry="8" fill="#5e7e36"/> <circle cx="40" cy="146" r="2.5" fill="#8aa84a"/><circle cx="54" cy="160" r="2" fill="#8aa84a"/> <path d="M104 22 L98 36 L106 44 L96 58" stroke="#16100c" stroke-width="3.5" fill="none" stroke-linejoin="round"/> </g> <g transform="translate(100 104)"> <defs><clipPath id="hl"><path d="M-40 -40 L1 -40 L-3 -14 L3 -5 L-4 5 L2 14 L-1 40 L-40 40 Z"/></clipPath><clipPath id="hr"><path d="M40 -40 L1 -40 L-3 -14 L3 -5 L-4 5 L2 14 L-1 40 L40 40 Z"/></clipPath> <g id="am"><circle r="25" fill="url(#bl)" stroke="#16100c" stroke-width="3"/><path d="M0 -17 L0 17 M-14 -4 L14 -4" stroke="url(#au)" stroke-width="8"/><path d="M0 -17 L0 17 M-14 -4 L14 -4" stroke="#7a4a10" stroke-width="1.2" opacity=".5"/></g></defs> <g clip-path="url(#hl)" transform="translate(-2.5 1.5) rotate(-5)"><use href="#am"/></g> <g clip-path="url(#hr)" transform="translate(2.5 -1) rotate(4)"><use href="#am"/></g> <circle cx="-10" cy="-13" r="3" fill="#dfe8ff" opacity=".75"/> </g> </svg>`;
+function drawLogo(){const c=$('#spLogo');if(!c)return;const N=c.width,img=new Image();
+  img.onload=()=>{const g=c.getContext('2d');g.clearRect(0,0,N,N);g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';g.drawImage(img,0,0,N,N);
+    const d=g.getImageData(0,0,N,N),a=d.data;for(let y=0,i=0;y<N;y++)for(let x=0;x<N;x++,i+=4){const b=BAYER[(y&3)*4+(x&3)];if(a[i+3]<110){a[i+3]=0;continue;}a[i+3]=255;
+      const t=(b/16-.47)*12;for(let k=0;k<3;k++)a[i+k]=Math.max(0,Math.min(255,Math.round((a[i+k]+t)/PXSTEP)*PXSTEP));}
+    g.putImageData(d,0,0);c.dataset.ok='1';};
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(LOGO_SVG);}
+drawLogo();
 function showSplash(replay){const sp=$('#splash');sp.hidden=false;sp.classList.remove('out','go');$('#overlay').hidden=true;uiOpen=true;SPGO=false;
   if(replay){const t=sp.querySelector('.sp-t');t.style.animation='none';void t.offsetWidth;t.style.animation='';}
   $('#spHint').textContent=READY?'Tippe, um zu beginnen':'Lade Welt …';}
