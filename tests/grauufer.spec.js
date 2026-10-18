@@ -402,7 +402,7 @@ test('Werkstatt: zweigeschossiges Haus mit Treppe, Obergeschoss getrennt einrich
   const feld = async (x, z) => { await page.locator('#plan').scrollIntoViewIfNeeded(); const b = await page.locator('#plan').boundingBox(), c = b.width / await page.evaluate(() => spec.breite + 2);
     await page.mouse.click(b.x + (x + 1.5) * c, b.y + (z + 1.5) * c); };
   await page.getByRole('button', { name: 'Treppe (nach oben)' }).click(); await feld(1, 1);
-  await page.click('#og');
+  await page.locator('#ebenen').getByRole('button', { name: '1. Obergeschoss' }).click();
   const treppeOben = await page.getByRole('button', { name: 'Treppe (nach oben)' }).count();
   await page.getByRole('button', { name: 'Bett' }).click(); await feld(1, 1); await feld(2, 1);
   const r = await page.evaluate(() => {
@@ -412,5 +412,30 @@ test('Werkstatt: zweigeschossiges Haus mit Treppe, Obergeschoss getrennt einrich
   });
   expect(treppeOben).toBe(0);
   expect(r).toEqual([2, 'bett1:21,treppe0:11', 1, true, true]);
+  expect(fehler).toEqual([]);
+});
+
+test('Werkstatt: drei Geschosse und begehbarer Dachboden, je Ebene eine Treppe nach oben', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'baukasten.html'));
+  await page.waitForFunction(() => window.Hausbau && typeof spec === 'object', null, { timeout: 30000 });
+  await page.click('#neu');
+  await page.selectOption('#geschosse', '3'); await page.check('#dachboden');
+  const ebenen = await page.locator('#ebenen button').allTextContents();
+  const feld = async (x, z) => { await page.locator('#plan').scrollIntoViewIfNeeded(); const b = await page.locator('#plan').boundingBox(), c = b.width / await page.evaluate(() => spec.breite + 2);
+    await page.mouse.click(b.x + (x + 1.5) * c, b.y + (z + 1.5) * c); };
+  const treppe = page.getByRole('button', { name: 'Treppe (nach oben)' });
+  for (let i = 0; i < 3; i++) { await page.locator('#ebenen button').nth(i).click(); await treppe.click(); await feld(i, 1); }
+  await page.locator('#ebenen button').nth(3).click();
+  const dach = [await treppe.count(), await page.getByRole('button', { name: 'Fenster', exact: true }).count()];
+  await page.getByRole('button', { name: 'Kiste' }).click(); await feld(3, 1);
+  const r = await page.evaluate(() => {
+    const zaehle = g => { let n = 0; g.traverse(o => { if (o.isMesh) n++; }); return n; };
+    const db = Hausbau.Bau(spec, true, 0, 3), og2 = Hausbau.Bau(spec, true, 1, 2), aussen = Hausbau.Bau(spec, false);
+    return [spec.einrichtung.map(e => e.art + (e.geschoss | 0)).sort().join(','), db.userData.ebene, og2.userData.ebene, zaehle(db) > 50, aussen.userData.hoehe > 9];
+  });
+  expect(ebenen).toEqual(['Erdgeschoss', '1. Obergeschoss', '2. Obergeschoss', 'Dachboden']);
+  expect(dach).toEqual([0, 0]);
+  expect(r).toEqual(['kiste3,treppe0,treppe1,treppe2', 3, 2, true, true]);
   expect(fehler).toEqual([]);
 });
