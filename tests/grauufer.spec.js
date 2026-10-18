@@ -62,6 +62,26 @@ test('Rev 122: Fenster ohne Knopf „Schließen“, das Siegel oben rechts schli
   expect(fehler).toEqual([]);
 });
 
+test('Rev 125: Magier als feste Figur in 8 Richtungen mit flackerndem Leuchten', async ({ page }) => {
+  const fehler = [];
+  page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto(URL);
+  await page.waitForFunction(() => typeof READY !== 'undefined' && READY, null, { timeout: 30000 });
+  await page.evaluate(() => { document.querySelector('#splash').hidden = true; startNew({ name: 'Test', cls: 'magier', str: 8, dex: 9, int: 13, look: { ...DEFLOOK } }); });
+  await page.waitForTimeout(2200);
+  await page.evaluate(() => closeOverlay());
+  await page.waitForFunction(() => FIGBILD.magier_m.every(d => d.i.complete && d.i.naturalWidth > 0), null, { timeout: 15000 });
+  const r = await page.evaluate(() => {
+    const F = figurFuer(S.p), richt = [];
+    for (const [dx, dy] of [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]]) { setFace(S.p, dx, dy); richt.push(S.p.dir8); }
+    let gemalt = 0; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (...a) => { const ok = alt(...a); if (ok) gemalt++; return ok; };
+    const n = performance.now(); draw0(n / 1000, n, .016); window.drawFigurBild = drawFigurBild = alt;
+    return [F.length, F.every(d => d.licht.length === 2), new Set(richt).size, richt[0], gemalt, figurFuer({ cls: 'krieger', look: {} }) === null];
+  });
+  expect(r).toEqual([8, true, 8, 0, 1, true]);
+  expect(fehler).toEqual([]);
+});
+
 test('Gespräch mit Mareth', async ({ page }) => {
   const fehler = await frisch(page);
   const n = await page.evaluate(() => { openDialog('mareth'); return document.querySelectorAll('#choices button').length; });

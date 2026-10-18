@@ -1,6 +1,6 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 16**, Stand: Spiel-Rev 124. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 17**, Stand: Spiel-Rev 125. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
@@ -49,7 +49,7 @@
 | Erdbeben als Weltereignis ja oder nein | Grauufer_Fahrplan_RevXX.md |
 | Prüfpunkte im Kampfsystem, Ausgleichsmaßnahmen aus Fortschritt und Wirtschaft | Grauufer_Fahrplan_RevXX.md |
 | Einzeldatei oder mehrere Dateien, sobald die neue Grafik zu groß wird (nach den Piloten) | Grauufer_Grafik_RevXX.md |
-| **Weg vom Pixel-Look (Entscheidung des Auftraggebers, Spiel-Rev 121):** Startbild erledigt (Spiel-Rev 121). Geplant: 1. Raster abschaltbar machen (Schalter „Pixel / Fein“ zum Vergleich), 2. Werkstatt-Grafik in voller Auflösung, 3. Figuren und Texturen neu (Figuren-Baukasten), 4. Schrift und Oberfläche; Regel 2.4 in CLAUDE.md anpassen. Ziel-Stil entschieden: Typ A, vorgerendert und gemalt wie Pagan. Offen: Schrift; Probefigur Avatar freigegeben (Spiel-Rev 121), Avatar-Baukasten vorhanden (Spiel-Rev 122, Grauufer_Baukaesten_RevXX.md); Probe Formfeld (Spiel-Rev 123) nicht zufriedenstellend; Probe Querschnitte (Spiel-Rev 124) im Avatar-Baukasten; Avatar-Baukasten zurückgestellt; feste Figuren: Krieger, Magier, Waldläufer je als Mann und Frau (Entscheidung Spiel-Rev 124); Probe Magier nach Zielbild in Arbeit; danach Ausbau und Einbau ins Spiel mit 8 Richtungen | Grauufer_Grafik_RevXX.md |
+| **Weg vom Pixel-Look (Entscheidung des Auftraggebers, Spiel-Rev 121):** Startbild erledigt (Spiel-Rev 121). Geplant: 1. Raster abschaltbar machen (Schalter „Pixel / Fein“ zum Vergleich), 2. Werkstatt-Grafik in voller Auflösung, 3. Figuren und Texturen neu (Figuren-Baukasten), 4. Schrift und Oberfläche; Regel 2.4 in CLAUDE.md anpassen. Ziel-Stil entschieden: Typ A, vorgerendert und gemalt wie Pagan. Offen: Schrift; Probefigur Avatar freigegeben (Spiel-Rev 121), Avatar-Baukasten vorhanden (Spiel-Rev 122, Grauufer_Baukaesten_RevXX.md); Probe Formfeld (Spiel-Rev 123) nicht zufriedenstellend; Probe Querschnitte (Spiel-Rev 124) im Avatar-Baukasten; Avatar-Baukasten zurückgestellt; feste Figuren: Krieger, Magier, Waldläufer je als Mann und Frau (Entscheidung Spiel-Rev 124); Magier (Mann) im Spiel seit Spiel-Rev 125 mit 8 Richtungen und flackerndem Leuchten; als Nächstes Krieger und Waldläufer, dann die Frauen; danach Ausbau und Einbau ins Spiel mit 8 Richtungen | Grauufer_Grafik_RevXX.md |
 | Umfang des Anlagen-Baukastens (Vorschlag liegt vor) | Grauufer_Baukaesten_RevXX.md |
 | Aufbau des Figuren-Baukastens (Vorschlag liegt vor) | Grauufer_Baukaesten_RevXX.md |
 

@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 26**, Stand: Spiel-Rev 121. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 27**, Stand: Spiel-Rev 125. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -45,6 +45,16 @@ Bildzeit (Waldgebiete Wildnis, Nebelwald, Frostmark, Fahlmoor, CPU 4-fach gedros
 Endgegner werden 1,2- bis 1,6-fach vergrößert.
 
 **Seit Spiel-Rev 110** werden alle Figuren (Spielfigur, Gesprächspartner, Gegner) auf **75 %** dieser Maße verkleinert (`FIGF` in `index.html`), damit sie zu den Häusern aus der Grafik-Werkstatt passen: etwa 2,2 m bei einem Feld = 2,1 m, knapp über Türhöhe (2,4 m). Verkleinert wird einmal beim Anlegen des Bildes vor dem Rastern; der Pixel-Look bleibt gleich fein, die Bildzeit unverändert. Namen über den Figuren sitzen entsprechend tiefer; die Tippfläche zum Ansprechen und Angreifen bleibt so groß wie vorher.
+
+### Feste Spielfiguren im Ziel-Stil A (Im Spiel seit Spiel-Rev 125)
+
+- Entscheidung des Auftraggebers (Spiel-Rev 124): statt eines Avatar-Baukastens **feste Figuren** – Krieger, Magier, Waldläufer, je als Mann und Frau.
+- **Im Spiel:** **Magier (Mann)**. Vorgerendert in der Grafik-Werkstatt (`npm run figuren`, `werkstatt/figuren.js`, Modell `werkstatt/modelle/figur.js`) in **8 Blickrichtungen**, glatt ohne Pixel-Raster, 120 Bildpunkte je Meter (doppelte Spielauflösung, gezeichnet mit 60 Einheiten je Meter), als WebP eingebettet (zusammen etwa 68 KB). Licht der Werkstatt: Stimmung „nacht“ (warmes Hauptlicht von oben links, kalte Lichtkante, Faltenschatten).
+- **Blickrichtung:** folgt der letzten Bewegung (`dir8` aus dem Schritt, 0 = zur Kamera); die bisherigen Figuren werden weiter nur gespiegelt.
+- **Leuchten:** Stein am Stab und Kugel über der linken Hand flackern blau – das Spiel zeichnet in jedem Bild einen radialen, additiven Lichtschein (Radius etwa 13 Einheiten) mit unregelmäßigem Flackern darüber.
+- **Bewegung:** beim Laufen leichtes Auf und Ab (die Robe verdeckt die Beine), beim Angriff der bisherige Ausfallschritt, bei Treffern ein heller Blitz.
+- **Bildzeit** (1250 × 650, je 200 Bilder): 18,6 ms mit der bisherigen Figur (Krieger), 17,7 ms mit dem Magier – im Messrauschen.
+- **Geplant:** Magierin, Krieger und Waldläufer (je Mann und Frau) im selben Stil; Lauf- und Angriffsbilder über ein Skelett.
 
 ### Farbwelt je Gebiet
 
