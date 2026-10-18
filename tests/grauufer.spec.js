@@ -383,8 +383,12 @@ test('Rev 122: Avatar-Baukasten baut alle Varianten, zeigt die Figur und speiche
     const ab = JSON.parse(localStorage.getItem('grauufer-avatare') || '{}');
     return [voll > 2000, ab.Testfigur && ab.Testfigur.haare, JSON.parse(document.querySelector('#json').value).name, document.documentElement.scrollWidth <= innerWidth];
   });
+  await page.click('[data-bw=formfeld]');
+  await page.waitForFunction(() => /berechnet/.test(document.querySelector('#status').textContent), null, { timeout: 60000 });
+  const f = await page.evaluate(() => [document.querySelector('[data-a=walk]').disabled, !document.querySelector('#bwhinweis').hidden, localStorage.getItem('grauufer-avatare-bauweise')]);
   expect(r).toBe(64);
   expect(z).toEqual([true, 'lang', 'Testfigur', true]);
+  expect(f).toEqual([true, true, 'formfeld']);
   expect(fehler).toEqual([]);
 });
 
