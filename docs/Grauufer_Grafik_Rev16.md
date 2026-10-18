@@ -1,12 +1,13 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 15**, Stand: Spiel-Rev 112. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 16**, Stand: Spiel-Rev 113. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
 ## 1. Entscheidungen (Gespräch mit dem Auftraggeber, Spiel-Rev 108)
 
 - **Eigenes Grafikpaket statt fremder Pakete.** Alle Grafiken entstehen aus unserem eigenen Code; fremde Grafiken (z. B. Kenney, OpenGameArt, Kaufpakete) werden nicht verwendet. Grund: einheitlicher Stil, keine Lizenzfragen, öffentliches Repo.
+- **Ausnahmen (Festlegung des Auftraggebers, Spiel-Rev 113):** Die Regel „nur aus eigenem Code“ gilt, solange der Auftraggeber nicht ausdrücklich verlangt, für etwas ein Bild zu erzeugen oder ein von ihm selbst erstelltes Bild zu verwenden. Solche Vorlagen liegen in `werkstatt/` und werden wie alle Grafiken gerastert; erstes Beispiel ist das Logo (Grauufer_Stil_RevXX.md).
 - **Oberwelt und Unterwelt** werden gleichermaßen neu gestaltet, nicht nur die Tiefe.
 - **Häuser und Inventar wie in Ultima VIII: Pagan:** Häuser dicht eingerichtet, Rucksack als freie Fläche mit Ziehen und Ablegen.
 - **Möbel bleiben fest** (Tisch, Bett, Schrank, Regal), **kleine Dinge sind beweglich** (Becher, Kerze, Buch, Brot, Waffen).
@@ -24,7 +25,7 @@ Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Ein
 | Haus-Baukasten | `werkstatt/baukasten.html` | Bedienseite zum Selbstbauen (Grauufer_Baukaesten_RevXX.md) |
 | Häuser im Spiel | `werkstatt/spielhaeuser/*.json`, `werkstatt/spielhaeuser.js` | rendert die Häuser als Spielbilder und bettet sie in `index.html` ein (`npm run haeuser`, seit Spiel-Rev 109); Einzelheiten in Grauufer_Baukaesten_RevXX.md |
 | Häuser | `werkstatt/haeuser/*.json` | gebaute Häuser; jedes wird von `npm run grafik` gerendert (außen, innen, innen gerastert) |
-| Logo | `werkstatt/modelle/logo.js`, `werkstatt/logo.js` | Logo im Titelbild als 3D-Modell, eingebettet mit `npm run logo` (seit Spiel-Rev 112; Einzelheiten in Grauufer_Stil_RevXX.md) |
+| Logo | `werkstatt/logo/logo_vorlage.jpg`, `werkstatt/logo.js` | Logo im Titelbild nach der Vorlage des Auftraggebers (seit Spiel-Rev 113, vorher 3D-Modell), freigestellt, gerastert und eingebettet mit `npm run logo`; Einzelheiten in Grauufer_Stil_RevXX.md |
 | three.js | `werkstatt/lib/three.min.js` | three.js 0.149.0 (MIT-Lizenz, `three-LICENSE.txt`), nur für Werkstatt und Baukasten, nicht im Spiel |
 | Gegenstände | `werkstatt/modelle/gegenstaende.js` | 14 Gegenstände: Schwert, Schild, Heiltrank, Manatrank, Brot, Apfel, Schlüssel, Kerze, Buch, Gold, Becher, Schriftrolle, Dolch, Edelstein |
 | Rucksack-Entwurf | `werkstatt/rucksack.js` | Entwurfsseite im Pergament-Stil (1250 × 650) mit den gerenderten Gegenständen |
