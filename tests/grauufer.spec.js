@@ -255,18 +255,18 @@ test('Rev 112: Versionsnummer „Grauufer 1.0.Revision“ in Titel, Titelbild un
   expect(fehler).toEqual([]);
 });
 
-test('Rev 112: Logo aus der Werkstatt, gerastert und ganzzahlig scharf vergrößert', async ({ page }) => {
+test('Rev 113: Logo (Vorlage des Auftraggebers), gerastert und ganzzahlig scharf vergrößert', async ({ page }) => {
   const fehler = [];
   page.on('pageerror', e => fehler.push(String(e)));
   await page.goto(URL);
   await page.waitForFunction(() => document.querySelector('#spLogo').dataset.ok === '1', null, { timeout: 30000 });
   const r = await page.evaluate(() => {
-    const c = document.querySelector('#spLogo'), d = c.getContext('2d').getImageData(0, 0, 144, 144).data;
+    const c = document.querySelector('#spLogo'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
     let deckend = 0, stufen = true; for (let i = 0; i < d.length; i += 4) { if (d[i + 3] === 255) { deckend++; if (d[i] % 17 || d[i + 1] % 17 || d[i + 2] % 17) stufen = false; } }
     const punkte = c.getBoundingClientRect().width * devicePixelRatio;
-    return [c.width, deckend > 6000, stufen, Math.abs(punkte / 144 - Math.round(punkte / 144)) < 0.01, punkte >= 144];
+    return [c.width, deckend > 12000, stufen, Math.abs(punkte / c.width - Math.round(punkte / c.width)) < 0.01, punkte >= c.width];
   });
-  expect(r).toEqual([144, true, true, true, true]);
+  expect(r).toEqual([216, true, true, true, true]);
   expect(fehler).toEqual([]);
 });
 

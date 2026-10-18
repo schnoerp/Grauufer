@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 20**, Stand: Spiel-Rev 112. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 21**, Stand: Spiel-Rev 113. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -8,25 +8,12 @@
 - Alle Grafiken und Töne sind **selbst erzeugt** (Canvas und Web Audio). Keine Fremdgrafiken, keine Tondateien.
 - Verfasser: **schnoerp-media**, steht auf der Titelseite.
 
-### Logo (Im Spiel seit Spiel-Rev 104, neu gestaltet in Spiel-Rev 112)
+### Logo (Im Spiel seit Spiel-Rev 104, neue Vorlage seit Spiel-Rev 113)
 
-- **Motiv:** ein „G“ aus gemeißeltem grauem Stein mit Querbalken, Licht von oben links, feinen Rissen, einem tiefen Riss oben und Moos unten links. In der Mitte des „G“ ist das zerbrochene Amulett eingelassen: goldenes Kreuz auf Blau (Wappen der Siegelwächter) mit Goldrand, von einem Zickzack-Riss durchzogen.
-- **Umsetzung (seit Spiel-Rev 112):** 3D-Modell aus der Grafik-Werkstatt (`werkstatt/modelle/logo.js`: Steinring mit Fase, Steintextur mit Rissen und Moos, Amulett mit Goldrand, Kreuz und Riss), gerendert mit `npm run logo` (`werkstatt/logo.js`), auf **144 × 144 Pixel** mit 16 Stufen je Farbkanal und Bayer-Dithering gerastert und als PNG mit Farbtabelle in `index.html` eingebettet (etwa 8 KB). Bis Spiel-Rev 111: SVG, auf 48 × 48 Pixel gerastert.
-- **Einsatz:** im Titelbild über dem Schriftzug „Grauufer 1.0.NNN“. Die Anzeigegröße richtet sich nach der Bildschirmauflösung: jeder Logo-Pixel bedeckt genau eine ganze Zahl Bildschirmpunkte (dadurch scharf), höchstens 288 Punkte, höchstens 45 % der Bildschirmhöhe (z. B. 288 Punkte bei 1250 × 650, 216 Punkte auf einem Tablet mit 1000 × 594 Punkten und doppelter Auflösung). Das Symbol im Browser-Reiter bleibt das Wappen der Siegelwächter, weil das Amulett bei 16 Punkten nicht erkennbar ist.
-- **Farben (Grundfarben im Modell):** Stein #7c766c, Risse #1e1814, Moos #4e6a2e/#5e7e36, Amulett Blau #102a60, Gold #d8a038, Riss im Amulett #0c0806.
-
-## 2. Grafik (Im Spiel)
-
-| Vorgabe | Wert |
-|---|---|
-| Ansicht | isometrisch, Feld 32 × 16 Bildpunkte |
-| Interne Auflösung der Figuren | fünffach (scharf auch beim Zoomen) |
-| Kanten | harte Pixelkanten ohne Glättung (seit Spiel-Rev 59, siehe Pixel-Look unten); Übergänge zwischen Geländearten gerastert und gedithert |
-| Kapuzen (seit Rev 32) | weicher, nach hinten fallender Kragen mit Falten und Überwurf auf den Schultern, offene Gesichtsöffnung mit Schatten von oben, leuchtende Augen bleiben sichtbar; gilt für alle Kapuzenträger und die Spielfigur |
-| Bodendetails (seit Rev 31) | Grashalme und Blüten, Kiesel, Risse, Schlammpfützen mit Schilf, Sandrippel, Schneeglitzer, Glut in der Asche, Moos zwischen Pflastersteinen, Kristalle in Höhlen, Eisschlieren, Holzmaserung; einmal pro Kachel vorgezeichnet, daher ohne Leistungskosten beim Spielen |
-| Leuchtende Dinge | Glutklinge, Sturmzepter, Splitter, aktive Wegsteine, Kristalle, Augen der Gegner |
-| Licht | immer Tag (seit Spiel-Rev 41 kein Tag-Nacht-Wechsel); Höhlen und dunkle Zonen dunkel; Bildrand draußen leicht abgedunkelt (Randdunkel 0,34, seit Spiel-Rev 96, vorher 0,24) |
-
+- **Motiv:** ein „G“ aus verwittertem grauem Stein mit Querbalken, eingemeißelten Runen, feinen Rissen und einem tiefen Spalt oben; unten links hängt grünes Moos über die Kante. In der Mitte des „G“ ist das zerbrochene Amulett eingelassen: goldenes Kreuz auf dunkelblauem Grund (Wappen der Siegelwächter) mit Goldrand, von einem schwarzen Zickzack-Riss durchzogen.
+- **Herkunft (seit Spiel-Rev 113):** Vorlage vom Auftraggeber selbst erstellt (`werkstatt/logo/logo_vorlage.jpg`); ausdrückliche Ausnahme von der Regel „Alle Grafiken aus eigenem Code“ (CLAUDE.md, Abschnitt 2). Vorher: Spiel-Rev 104–111 SVG im Code (48 × 48 Pixel), Spiel-Rev 112 3D-Modell aus der Werkstatt (144 × 144 Pixel).
+- **Umsetzung:** `npm run logo` (`werkstatt/logo.js`) stellt den schwarzen Hintergrund und den dunklen Schein vom Rand her frei, verkleinert auf **216 × 216 Pixel** und rastert wie alle Grafiken auf 16 Stufen je Farbkanal mit Bayer-Dithering; eingebettet als PNG in `index.html` (etwa 27 KB).
+- **Einsatz:** im Titelbild über dem Schriftzug „Grauufer 1.0.NNN“. Die Anzeigegröße richtet sich nach der Bildschirmauflösung: jeder Logo-Pixel bedeckt genau eine ganze Zahl Bildschirmpunkte (dadurch scharf), höchstens 288 Punkte, höchstens 45 % der Bildschirmhöhe (z. B. 216 Punkte bei 1250 × 650 und auf einem Tablet mit 1000 × 594 Punkten und doppelter Auflösung, 288 Punkte bei 1280 × 800 mit 1,5-facher Auflösung). Das Symbol im Browser-Reiter bleibt das Wappen der Siegelwächter, weil das Amulett bei 16 Punkten nicht erkennbar ist.
 ### Bäume (Im Spiel seit Spiel-Rev 99)
 
 Bisher gab es je Gebiet eine Baumart in 4 fast gleich hohen Spielarten. Jetzt gibt es je Gebiet 8 Spielarten aus Baumart und Größe. Welche auf einem Feld steht, ist fest nach dem Feld bestimmt, also in jedem Spiel gleich. Kleine Bäume haben eine kleinere Leinwand und kosten pro Bild weniger Fläche.
