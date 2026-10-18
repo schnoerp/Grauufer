@@ -91,7 +91,23 @@ function hautKopf(f){return tex(512,256,(g,w,h)=>{g.fillStyle=f;g.fillRect(0,0,w
   rausch(g,w,h,10,3);},1);}
 
 // ---------- Figur ----------
-function bau(spec={}){
+// Kopf mit Augen und Ohren (für alle Klassen gleich); gibt die Kopfgruppe zurück
+function kopf(G,L,M,kopfHaut,m){
+  const K=new THREE.Group();K.position.set(0,1.682,.006);G.add(K);
+  const kg=new THREE.Mesh(kopfGeo(),kopfHaut);kg.castShadow=kg.receiveShadow=true;K.add(kg);
+  for(const s of[-1,1]){
+    const a=new THREE.Mesh(new THREE.SphereGeometry(.0115,20,16),m.weiss);a.position.set(s*.033,-.003,.07);K.add(a);
+    const ir=new THREE.Mesh(new THREE.SphereGeometry(.0062,16,12),m.iris);ir.position.set(s*.033,-.003,.0792);ir.scale.z=.45;K.add(ir);
+    const pu=new THREE.Mesh(new THREE.SphereGeometry(.0028,10,8),m.dunkel);pu.position.set(s*.033,-.003,.082);pu.scale.z=.4;K.add(pu);
+    const o=new THREE.Mesh(new THREE.SphereGeometry(.03,20,16,0,Math.PI*2,0,Math.PI),kopfHaut);o.scale.set(.33,1,.62);o.position.set(s*.073,-.012,-.008);o.rotation.y=s*.25;o.castShadow=true;K.add(o);
+  }
+  return K;}
+// Hand: Handfläche, vier Finger leicht gekrümmt, Daumen nach vorn; h0 = Handgelenk
+function hand(add,s,h0,haut){
+    add(querschnitte([{c:[h0[0],h0[1]+.01,h0[2]],w:.022,f:.026,b:.022},{c:[h0[0]+s*.004,h0[1]-.03,h0[2]+.004],w:.016,f:.038,b:.03},{c:[h0[0]+s*.006,h0[1]-.075,h0[2]+.006],w:.014,f:.036,b:.028}]),haut);
+    for(let f=0;f<4;f++){const z=h0[2]+.03-f*.017;add(querschnitte([{c:[h0[0]+s*.006,h0[1]-.07,z],w:.008,f:.0085,b:.0085},{c:[h0[0]+s*.006,h0[1]-.1,z+.006],w:.0075,f:.0075,b:.0075},{c:[h0[0]+s*.004,h0[1]-.123+f*.004,z+.016],w:.0065,f:.0065,b:.0065}],{n:12,m:10}),haut);}
+    add(querschnitte([{c:[h0[0]-s*.006,h0[1]-.02,h0[2]+.03],w:.009,f:.01,b:.01},{c:[h0[0]-s*.008,h0[1]-.045,h0[2]+.05],w:.008,f:.008,b:.008},{c:[h0[0]-s*.006,h0[1]-.065,h0[2]+.058],w:.007,f:.007,b:.007}],{n:12,m:10}),haut);}
+function startfigur(spec){
   const L=Object.assign({haut:'#c99068',augen:'#3a5068',hemd:'#9a2e32',hose:'#1e1a1e',stiefel:'#4a301c',guertel:'#5a3a22',groesse:1.8},spec);
   const M=o=>new THREE.MeshStandardMaterial(Object.assign({roughness:.8,metalness:0},o));
   const haut=M({map:koern(L.haut,8,3,4),roughness:.62}),kopfHaut=M({map:hautKopf(L.haut),roughness:.6}),
@@ -121,11 +137,7 @@ function bau(spec={}){
     const aermel=arm.slice(0,4).map(q=>({c:q.c,w:q.w+.012,f:q.f+.012,b:q.b+.012}));aermel[0]={c:[s*.18,1.45,0],w:.07,f:.07,b:.07};
     add(querschnitte(aermel,{deckel:false,n:40}),hemd);
     const k=add(new THREE.TorusGeometry(.053,.015,10,28),hemd,s*.218,1.15,-.015);k.rotation.set(Math.PI/2,0,s*.05);
-    // Hand: Handfläche, vier Finger leicht gekrümmt, Daumen nach vorn
-    const h0=[s*.243,.88,.05];
-    add(querschnitte([{c:[h0[0],h0[1]+.01,h0[2]],w:.022,f:.026,b:.022},{c:[h0[0]+s*.004,h0[1]-.03,h0[2]+.004],w:.016,f:.038,b:.03},{c:[h0[0]+s*.006,h0[1]-.075,h0[2]+.006],w:.014,f:.036,b:.028}]),haut);
-    for(let f=0;f<4;f++){const z=h0[2]+.03-f*.017;add(querschnitte([{c:[h0[0]+s*.006,h0[1]-.07,z],w:.008,f:.0085,b:.0085},{c:[h0[0]+s*.006,h0[1]-.1,z+.006],w:.0075,f:.0075,b:.0075},{c:[h0[0]+s*.004,h0[1]-.123+f*.004,z+.016],w:.0065,f:.0065,b:.0065}],{n:12,m:10}),haut);}
-    add(querschnitte([{c:[h0[0]-s*.006,h0[1]-.02,h0[2]+.03],w:.009,f:.01,b:.01},{c:[h0[0]-s*.008,h0[1]-.045,h0[2]+.05],w:.008,f:.008,b:.008},{c:[h0[0]-s*.006,h0[1]-.065,h0[2]+.058],w:.007,f:.007,b:.007}],{n:12,m:10}),haut);
+    hand(add,s,[s*.243,.88,.05],haut);
   }
   // Beine (Haut unter der Hose) und Hose
   for(const s of[-1,1]){
@@ -145,18 +157,109 @@ function bau(spec={}){
   // Gürtel mit Schnalle
   add(querschnitte([{c:[0,.965,0],w:.19,f:.125,b:.14},{c:[0,1.01,.002],w:.188,f:.124,b:.138}],{deckel:false,n:48}),leder);
   add(new THREE.BoxGeometry(.065,.05,.012),messing,0,.988,.128);add(new THREE.BoxGeometry(.04,.03,.014),leder,0,.988,.13);
-  // Kopf
-  const K=new THREE.Group();K.position.set(0,1.682,.006);G.add(K);
-  const kg=new THREE.Mesh(kopfGeo(),kopfHaut);kg.castShadow=kg.receiveShadow=true;K.add(kg);
-  for(const s of[-1,1]){
-    const a=new THREE.Mesh(new THREE.SphereGeometry(.0115,20,16),weiss);a.position.set(s*.033,-.003,.07);K.add(a);
-    const ir=new THREE.Mesh(new THREE.SphereGeometry(.0062,16,12),iris);ir.position.set(s*.033,-.003,.0792);ir.scale.z=.45;K.add(ir);
-    const pu=new THREE.Mesh(new THREE.SphereGeometry(.0028,10,8),dunkel);pu.position.set(s*.033,-.003,.082);pu.scale.z=.4;K.add(pu);
-    // Ohr: flache Muschel
-    const o=new THREE.Mesh(new THREE.SphereGeometry(.03,20,16,0,Math.PI*2,0,Math.PI),kopfHaut);o.scale.set(.33,1,.62);o.position.set(s*.073,-.012,-.008);o.rotation.y=s*.25;o.castShadow=true;K.add(o);
-  }
+  kopf(G,L,M,kopfHaut,{weiss,iris,dunkel});
   G.scale.setScalar((+L.groesse||1.8)/1.8);
   return G;}
 
+
+// ---------- Klasse Magier (Zielbild des Auftraggebers, Spiel-Rev 124) ----------
+// Kapuze, Schulterumhang und weite Robe mit Falten und Goldborte, weite Ärmel, Gürtel mit Schnalle, Tasche und Riemen,
+// Bart, geschnitzter Stab mit leuchtendem Stein (blaues Licht).
+function magier(spec){
+  const L=Object.assign({haut:'#c99068',augen:'#3a5068',robe:'#1a2554',borte:'#b8903e',leder:'#5a3a22',bart:'#6a5848',stiefel:'#3a2616',stein:'#2f6bff',groesse:1.8},spec);
+  const M=o=>new THREE.MeshStandardMaterial(Object.assign({roughness:.8,metalness:0},o));
+  const haut=M({map:koern(L.haut,8,3,4),roughness:.62}),kopfHaut=M({map:hautKopf(L.haut),roughness:.6}),
+    robe=M({map:robenStoff(L.robe),roughness:.88,side:THREE.FrontSide}),borte=M({map:borteTex(L.borte),roughness:.4,metalness:.55}),
+    leder=M({map:koern(L.leder,22,11,10),roughness:.55}),messing=M({color:0xc89a3c,roughness:.3,metalness:.85}),stiefel=M({map:koern(L.stiefel,20,9,10),roughness:.5}),
+    bart=M({map:haarTex(L.bart),roughness:.9}),holz=M({map:holzTex(),roughness:.75}),
+    stein=new THREE.MeshStandardMaterial({color:L.stein,emissive:L.stein,emissiveIntensity:1,roughness:.15,toneMapped:false}),futter=M({color:0x0b0f22,roughness:1,side:THREE.BackSide}),
+    weiss=M({color:0xb8ab9c,roughness:.4}),iris=M({color:L.augen,roughness:.3}),dunkel=M({color:0x120c08,roughness:.4});
+  const G=new THREE.Group(),add=(g,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;G.add(o);return o;};
+  // senkrechte Falten: Auslenkung nach außen, nach unten stärker
+  const falten=(amp,k,ph)=>(p,t,u)=>{const r=Math.atan2(p.x,p.z),a=amp*Math.pow(t,1.2);const d=a*(Math.sin(r*k+ph)+.45*Math.sin(r*k*2.3+ph*1.7));p.x+=Math.sin(r)*d;p.z+=Math.cos(r)*d;};
+  // Robe vom Hals bis knapp über den Boden, unten weit
+  const R=[[1.5,.075,.07,.072],[1.47,.16,.1,.1],[1.42,.205,.12,.11],[1.32,.195,.135,.115],[1.2,.18,.13,.11],[1.08,.178,.13,.12],[.95,.2,.14,.14],
+    [.75,.225,.16,.165],[.5,.255,.185,.19],[.25,.285,.205,.215],[.06,.305,.22,.235]];
+  const robenS=R.map(q=>({c:[0,q[0],-.01],w:q[1],f:q[2],b:q[3]}));
+  add(querschnitte(robenS.slice().reverse(),{deckel:false,n:72,m:110,form:falten(.02,11,.6)}),robe);
+  // Saumborte unten und senkrechte Borte vorn
+  add(querschnitte([{c:[0,.05,-.01],w:.31,f:.226,b:.241},{c:[0,.1,-.01],w:.302,f:.22,b:.235}],{deckel:false,n:72,form:(p,t,u)=>{falten(.02,11,.6)(p,1-(.075/1.44),u);const r=Math.atan2(p.x,p.z);p.x+=Math.sin(r)*.003;p.z+=Math.cos(r)*.003;}}),borte);
+  const vorn=R.slice(1).map(q=>({c:[0,q[0],q[2]-.008],w:.024,f:.006,b:.006}));
+  add(querschnitte(vorn,{n:12,m:60}),borte);
+  // Schulterumhang mit Kapuzenansatz, Borte am Rand
+  const um=[[1.56,.09,.075,.09],[1.5,.15,.1,.12],[1.44,.235,.14,.15],[1.36,.27,.16,.17],[1.3,.275,.165,.175]];
+  add(querschnitte(um.map(q=>({c:[0,q[0],-.012],w:q[1],f:q[2],b:q[3]})).reverse(),{deckel:false,n:64,form:falten(.008,7,.2)}),robe);
+  add(querschnitte([{c:[0,1.29,-.012],w:.282,f:.17,b:.18},{c:[0,1.31,-.012],w:.279,f:.168,b:.178}],{deckel:false,n:64,form:falten(.008,7,.2)}),borte);
+  // Kapuze: Schale um den Kopf, vorn offen, mit Borte am Gesichtsrand
+  add(kapuze(),robe,0,1.682,.006);add(kapuzenRand(),borte,0,1.682,.006);
+  const fu=add(kapuze(),futter,0,1.682,.006);fu.scale.setScalar(.985);                              // dunkles Futter: Gesicht liegt im Schatten der Kapuze
+  // weite Ärmel bis zum Handgelenk, Borte am Saum
+  for(const s of[-1,1]){
+    const A=[[.17,1.41,0],[.215,1.3,0],[.225,1.17,-.01],[.232,1.04,.01],[.242,.93,.04]],W=[.07,.068,.07,.085,.1];
+    add(querschnitte(A.map((p,i)=>({c:[s*p[0],p[1],p[2]],w:W[i],f:W[i]*1.05,b:W[i]*1.1})),{deckel:false,n:40,form:falten(.006,6,s)}),robe);
+    add(querschnitte([{c:[s*.243,.935,.042],w:.103,f:.108,b:.113},{c:[s*.244,.915,.046],w:.105,f:.11,b:.115}],{deckel:false,n:40}),borte);
+    add(querschnitte([{c:[s*.24,.97,.035],w:.03,f:.026,b:.026},{c:[s*.243,.885,.05],w:.028,f:.022,b:.022}]),haut);
+    hand(add,s,[s*.243,.88,.05],haut);
+    // Stiefelspitzen unter der Robe
+    add(querschnitte([{c:[s*.1,.05,-.02],w:.046,f:.045,b:.045},{c:[s*.104,.045,.05],w:.05,f:.035,b:.035},{c:[s*.108,.035,.12],w:.044,f:.025,b:.025},{c:[s*.108,.03,.15],w:.03,f:.018,b:.018}].map(q=>({c:q.c,w:q.w,f:q.f,b:q.b,e:2.4})),{n:28}),stiefel);
+  }
+  // Gürtel mit großer Schnalle, Tasche an der Seite, Riemen quer über die Brust
+  add(querschnitte([{c:[0,1.0,-.01],w:.192,f:.142,b:.132},{c:[0,1.05,-.01],w:.19,f:.14,b:.13}],{deckel:false,n:56}),leder);
+  const sn=add(new THREE.TorusGeometry(.024,.007,8,20),messing,0,1.025,.135);
+  add(rundKasten(.11,.12,.05,.012),leder,-.2,.93,.06).rotation.y=-.5;
+  add(new THREE.BoxGeometry(.11,.035,.052),M({map:koern(L.leder,22,13,10),roughness:.5}),-.2,.985,.06).rotation.y=-.5;
+  add(new THREE.SphereGeometry(.008,8,6),messing,-.18,.975,.088);
+  const riemen=[];for(let k=0;k<=12;k++){const t=k/12,y=1.0+t*.44,x=-.18+t*.32,f=y>1.4?.115-(y-1.4)*.6:y>1.25?.135:.132,z=f*Math.sqrt(Math.max(0,1-(x/.2)**2))+.004;riemen.push({c:[x,y,z],w:.016,f:.003,b:.003});}
+  add(querschnitte(riemen,{n:10,m:40}),leder);
+  // Kopf mit Bart
+  const K=kopf(G,L,M,kopfHaut,{weiss,iris,dunkel});
+  const b=new THREE.Mesh(bartGeo(),bart);b.castShadow=true;K.add(b);
+  // Stab in der rechten Hand: gedrehtes Holz, Krone aus vier Klauen, leuchtender Stein mit blauem Licht
+  const sx=-.255,sz=.075;
+  add(querschnitte([{c:[sx,.02,sz],w:.016,f:.016,b:.016},{c:[sx,.9,sz],w:.019,f:.019,b:.019},{c:[sx,1.6,sz],w:.018,f:.018,b:.018},{c:[sx,1.86,sz],w:.024,f:.024,b:.024}],{n:14,m:60,form:(p,t)=>{const a=t*40;p.x+=.003*Math.sin(a);p.z+=.003*Math.cos(a);}}),holz);
+  for(let k=0;k<4;k++){const a=k*Math.PI/2+.4,kl=[];for(let q=0;q<=6;q++){const t=q/6,r=.025+.03*Math.sin(t*Math.PI*.9),y=1.86+t*.13;kl.push({c:[sx+Math.sin(a)*r,y,sz+Math.cos(a)*r],w:.007*(1-t*.6),f:.007*(1-t*.6),b:.007*(1-t*.6)});}add(querschnitte(kl,{n:10,m:20}),holz);}
+  add(new THREE.SphereGeometry(.032,24,18),stein,sx,1.94,sz).castShadow=false;
+  const schein=new THREE.Mesh(new THREE.SphereGeometry(.06,20,14),new THREE.MeshBasicMaterial({color:L.stein,transparent:true,opacity:.25,blending:THREE.AdditiveBlending,depthWrite:false,toneMapped:false}));schein.position.set(sx,1.94,sz);G.add(schein);
+  const licht=new THREE.PointLight(L.stein,3,1.4,2);licht.position.set(sx,1.94,sz+.02);G.add(licht);
+  G.scale.setScalar((+L.groesse||1.8)/1.8);
+  return G;}
+
+// Kapuze: weite Schale um den Kopf (lokal, Kopfmitte), Zipfel nach hinten oben, vorn ein großes ovales Gesichtsloch,
+// dessen Rand etwas vorsteht (das Gesicht liegt im Schatten), hinten bis in den Nacken
+const KAP={ox:.6,oy:-.07,oh:.72,rx:.122,ryo:.132,ryu:.14,rzv:.135,rzh:.145};
+function kapuzenPunkt(nx,ny,nz){const k=KAP;let x=nx*k.rx,y=ny*(ny>0?k.ryo:k.ryu)+.018,z=nz*(nz>0?k.rzv:k.rzh)-.018;
+  if(ny>.2&&nz<.2){const a=(ny-.2)*Math.max(0,.2-nz);z-=a*.09;y+=a*.035;}                             // Zipfel nach hinten oben
+  const e=(nx/k.ox)**2+((ny-k.oy)/k.oh)**2;if(nz>0){const r=Math.max(0,1-Math.abs(e-1)*2.5)*nz;z+=.026*r;y+=.008*r*Math.max(0,ny);}         // vorstehender Rand
+  return[x,y,z];}
+function kapuze(){const LAT=72,LON=96,P=[],UV=[],I=[],ok=[];
+  for(let i=0;i<=LAT;i++){const phi=Math.PI*i/LAT*.9;for(let j=0;j<=LON;j++){const th=Math.PI+2*Math.PI*j/LON,nx=Math.sin(phi)*Math.sin(th),ny=Math.cos(phi),nz=Math.sin(phi)*Math.cos(th);
+    const q=kapuzenPunkt(nx,ny,nz);P.push(q[0],q[1],q[2]);UV.push(j/LON*1.2,i/LAT*.8);ok.push(!(nz>0&&(nx/KAP.ox)**2+((ny-KAP.oy)/KAP.oh)**2<1));}}
+  for(let i=0;i<LAT;i++)for(let j=0;j<LON;j++){const a=i*(LON+1)+j,b=a+LON+1;if(ok[a]&&ok[b]&&ok[a+1]&&ok[b+1])I.push(a,b,a+1,a+1,b,b+1);}
+  const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(P,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(UV,2));g.setIndex(I);g.computeVertexNormals();return g;}
+// Borte am Gesichtsrand der Kapuze: Rohr entlang des Lochrands
+function kapuzenRand(){const pts=[];for(let k=0;k<=56;k++){const a=-Math.PI+.25+k/56*(Math.PI*2-.5),nx=KAP.ox*Math.sin(a)*1.03,ny=KAP.oy+KAP.oh*Math.cos(a)*1.03;
+    const nz=Math.sqrt(Math.max(.01,1-nx*nx-ny*ny));const q=kapuzenPunkt(nx,ny,nz);pts.push(new THREE.Vector3(q[0],q[1],q[2]));}
+  return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),90,.005,8,false);}
+// Bart: Schale über Kiefer, Kinn und Oberlippe, aus der Kopfgrundform abgeleitet
+function bartGeo(){const g=kopfGeo(),p=g.attributes.position,I=g.index.array,neu=[];const v=new THREE.Vector3();
+  const im=k=>{v.fromBufferAttribute(p,k);return v.y<-.04&&v.z>-.035&&!(v.y>-.092&&v.y<-.066&&Math.abs(v.x)<.022&&v.z>.07)&&!(v.y>-.062&&Math.abs(v.x)<.03&&v.z>.08);};
+  for(let k=0;k<p.count;k++){v.fromBufferAttribute(p,k);const n=v.clone().normalize(),t=Math.max(0,Math.min(1,(-.05-v.y)/.07)),dick=.003+.012*t*t*(3-2*t)*Math.max(0,Math.min(1,(v.z+.02)/.08));p.setXYZ(k,v.x+n.x*dick,v.y+n.y*dick-dick*.9*t,v.z+n.z*dick);}
+  for(let k=0;k<I.length;k+=3)if(im(I[k])&&im(I[k+1])&&im(I[k+2]))neu.push(I[k],I[k+1],I[k+2]);
+  // Schnurrbart über der Oberlippe
+  g.setIndex(neu);g.computeVertexNormals();return g;}
+function rundKasten(w,h,d,r){const g=new THREE.BoxGeometry(w,h,d,3,3,3),p=g.attributes.position,v=new THREE.Vector3(),hw=w/2-r,hh=h/2-r,hd=d/2-r;
+  for(let k=0;k<p.count;k++){v.fromBufferAttribute(p,k);const q=new THREE.Vector3(Math.max(-hw,Math.min(hw,v.x)),Math.max(-hh,Math.min(hh,v.y)),Math.max(-hd,Math.min(hd,v.z)));const dd=v.clone().sub(q);if(dd.length())dd.setLength(r);p.setXYZ(k,q.x+dd.x,q.y+dd.y,q.z+dd.z);}
+  g.computeVertexNormals();return g;}
+// Stoff der Robe: Grundfarbe mit feiner Webstruktur und leichtem Farbwechsel
+function robenStoff(f){return tex(256,256,(g,w,h)=>{g.fillStyle=f;g.fillRect(0,0,w,h);g.globalAlpha=.06;for(let y=0;y<h;y+=2){g.fillStyle=y%4?'#000':'#fff';g.fillRect(0,y,w,1);}
+  for(let x=0;x<w;x+=3){g.fillStyle=x%6?'#000':'#fff';g.fillRect(x,0,1,h);}g.globalAlpha=1;rausch(g,w,h,16,31);},4);}
+// Goldborte mit Rautenmuster
+function borteTex(f){return tex(128,32,(g,w,h)=>{g.fillStyle=f;g.fillRect(0,0,w,h);g.strokeStyle='rgba(80,50,10,.6)';g.lineWidth=2;
+  for(let x=0;x<w;x+=16){g.beginPath();g.moveTo(x,h/2);g.lineTo(x+8,4);g.lineTo(x+16,h/2);g.lineTo(x+8,h-4);g.closePath();g.stroke();}
+  g.fillStyle='rgba(255,240,190,.35)';g.fillRect(0,2,w,2);g.fillStyle='rgba(60,40,10,.4)';g.fillRect(0,h-4,w,2);rausch(g,w,h,20,37);},20);}
+function haarTex(f){return tex(128,128,(g,w,h)=>{g.fillStyle=f;g.fillRect(0,0,w,h);for(let k=0;k<900;k++){const x=Math.random()*w,y=Math.random()*h;g.strokeStyle=Math.random()<.5?'rgba(0,0,0,.25)':'rgba(255,240,220,.18)';g.beginPath();g.moveTo(x,y);g.lineTo(x+(Math.random()-.5)*3,y+6+Math.random()*6);g.stroke();}},6);}
+function holzTex(){return tex(64,256,(g,w,h)=>{g.fillStyle='#5a3a1e';g.fillRect(0,0,w,h);for(let k=0;k<40;k++){g.strokeStyle=k%2?'rgba(30,15,5,.4)':'rgba(140,95,50,.3)';g.beginPath();const x=Math.random()*w;g.moveTo(x,0);g.bezierCurveTo(x+6,h/3,x-6,h*2/3,x+3,h);g.stroke();}rausch(g,w,h,14,41);},6);}
+
+function bau(spec={}){return spec.klasse==='magier'?magier(spec):startfigur(spec);}
 window.Figur={bau,querschnitte};
 })();
