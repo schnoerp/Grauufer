@@ -50,8 +50,8 @@ textarea{width:100%;height:150px;font:12px/1.35 ui-monospace,Menlo,Consolas,mono
 <section class="tafel" id="regler">
   <p id="status" role="status"></p>
   <h2>Bauweise</h2>
-  <div class="seg" id="bauweise"><button type="button" data-bw="bausteine">Bausteine</button><button type="button" data-bw="formfeld">Formfeld (Probe)</button></div>
-  <p class="hinweis" id="bwhinweis" hidden>Formfeld-Probe: durchgehende, weiche Form. Hier wirken bisher Größe und Farben von Haut, Augen, Hemd, Hose, Stiefeln und Gürtel; Frisur, Bart, Kleidungsart, Rüstung, Waffe und Bewegungen folgen im Ausbau.</p>
+  <div class="seg" id="bauweise"><button type="button" data-bw="bausteine">Bausteine</button><button type="button" data-bw="formfeld">Formfeld</button><button type="button" data-bw="querschnitte">Querschnitte (Probe)</button></div>
+  <p class="hinweis" id="bwhinweis" hidden>Probe der neuen Bauweise. Hier wirken bisher Größe und Farben von Haut, Augen, Hemd, Hose, Stiefeln und Gürtel; Frisur, Bart, Kleidungsart, Rüstung, Waffe und Bewegungen folgen im Ausbau.</p>
   <h2>Körper</h2>
   <div class="seg" data-wahl="geschlecht"></div>
   <div id="masse"></div>
@@ -91,6 +91,7 @@ textarea{width:100%;height:150px;font:12px/1.35 ui-monospace,Menlo,Consolas,mono
 <script src="lib/three.min.js"></script>
 <script src="modelle/avatar.js"></script>
 <script src="modelle/formfeld.js"></script>
+<script src="modelle/figur.js"></script>
 <script>
 // Avatar-Baukasten: Bedienung. Figuren werden als JSON beschrieben (Format siehe Avatar.STANDARD in modelle/avatar.js).
 const AV=window.Avatar,SPEICHER='grauufer-avatare';
@@ -148,7 +149,7 @@ function felder(){
   document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('an',spec[b.dataset.f]===b.dataset.c));
   Object.keys(TAFEL).forEach(k=>{$('c_'+k).value=spec[k];});
   MASSE.forEach(([k,,,,,f])=>{$('m_'+k).value=spec[k];$('w_'+k).textContent=f(+spec[k]);});
-  const ff=bauweise==='formfeld';document.querySelectorAll('[data-bw]').forEach(b=>b.classList.toggle('an',b.dataset.bw===bauweise));$('bwhinweis').hidden=!ff;
+  const ff=bauweise!=='bausteine';document.querySelectorAll('[data-bw]').forEach(b=>b.classList.toggle('an',b.dataset.bw===bauweise));$('bwhinweis').hidden=!ff;
   document.querySelectorAll('[data-a]').forEach(b=>{b.classList.toggle('an',b.dataset.a===art);b.disabled=ff&&b.dataset.a!=='idle';});if(ff)art='idle';
   const um=spec.kleidung==='umhang';$('umhangL').hidden=!um;$('umhangF').hidden=!um;
   $('richtung').textContent=RNAME[richtung];zeigeJson();liste();}
@@ -169,7 +170,7 @@ function spielBild(){const d=Math.min(2,devicePixelRatio||1);if(sp.width!==Math.
   for(const[x,z]of[[40,1],[110,2.5]]){const s=q*z;sg.drawImage(cv,(x*d)-breite/2*s,(185*d)-fusY*s,breite*s,hoehe*s);}}
 let letzt=0;
 function bild(jetzt){requestAnimationFrame(bild);
-  if(neuBauen){neuBauen=false;breite=0;if(bauweise==='formfeld')formfeldBauen();else sz.baue(spec);}
+  if(neuBauen){neuBauen=false;breite=0;if(bauweise==='formfeld')formfeldBauen();else if(bauweise==='querschnitte'){sz.fest(window.Figur.bau(spec));meldung('Neue Bauweise aus Querschnitten (Probe).');}else sz.baue(spec);}
   passeGroesse();
   const dauer={idle:2400,walk:960,attack:900,death:1600}[art],t=((jetzt-t0)%(dauer+(art==='death'?900:0)))/dauer;
   if(art==='idle'&&jetzt-letzt<120&&breite)return;letzt=jetzt;

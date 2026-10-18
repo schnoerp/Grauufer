@@ -1,6 +1,6 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 15**, Stand: Spiel-Rev 123. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 17**, Stand: Spiel-Rev 125. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
@@ -49,13 +49,14 @@
 | Erdbeben als Weltereignis ja oder nein | Grauufer_Fahrplan_RevXX.md |
 | Prüfpunkte im Kampfsystem, Ausgleichsmaßnahmen aus Fortschritt und Wirtschaft | Grauufer_Fahrplan_RevXX.md |
 | Einzeldatei oder mehrere Dateien, sobald die neue Grafik zu groß wird (nach den Piloten) | Grauufer_Grafik_RevXX.md |
-| **Weg vom Pixel-Look (Entscheidung des Auftraggebers, Spiel-Rev 121):** Startbild erledigt (Spiel-Rev 121). Geplant: 1. Raster abschaltbar machen (Schalter „Pixel / Fein“ zum Vergleich), 2. Werkstatt-Grafik in voller Auflösung, 3. Figuren und Texturen neu (Figuren-Baukasten), 4. Schrift und Oberfläche; Regel 2.4 in CLAUDE.md anpassen. Ziel-Stil entschieden: Typ A, vorgerendert und gemalt wie Pagan. Offen: Schrift; Probefigur Avatar freigegeben (Spiel-Rev 121), Avatar-Baukasten vorhanden (Spiel-Rev 122, Grauufer_Baukaesten_RevXX.md); Probe Formfeld für weichere, realistischere Formen liegt vor (Spiel-Rev 123), wartet auf Freigabe; danach Ausbau und Einbau ins Spiel mit 8 Richtungen | Grauufer_Grafik_RevXX.md |
+| **Weg vom Pixel-Look (Entscheidung des Auftraggebers, Spiel-Rev 121):** Startbild erledigt (Spiel-Rev 121). Geplant: 1. Raster abschaltbar machen (Schalter „Pixel / Fein“ zum Vergleich), 2. Werkstatt-Grafik in voller Auflösung, 3. Figuren und Texturen neu (Figuren-Baukasten), 4. Schrift und Oberfläche; Regel 2.4 in CLAUDE.md anpassen. Ziel-Stil entschieden: Typ A, vorgerendert und gemalt wie Pagan. Offen: Schrift; Probefigur Avatar freigegeben (Spiel-Rev 121), Avatar-Baukasten vorhanden (Spiel-Rev 122, Grauufer_Baukaesten_RevXX.md); Probe Formfeld (Spiel-Rev 123) nicht zufriedenstellend; Probe Querschnitte (Spiel-Rev 124) im Avatar-Baukasten; Avatar-Baukasten zurückgestellt; feste Figuren: Krieger, Magier, Waldläufer je als Mann und Frau (Entscheidung Spiel-Rev 124); Magier, Krieger und Waldläufer (Männer) im Spiel seit Spiel-Rev 125 mit 8 Richtungen, Magier mit flackerndem Leuchten; Gegner Skelettkrieger im neuen Stil mit Lauf- und Angriffsbildern (Spiel-Rev 125); Frauenfiguren zurückgestellt; Lauf- und Angriffsbilder für Krieger, Magier und Waldläufer (Spiel-Rev 125); offen: weitere Gegner, Robe beim Laufen ruhiger, Bogenhaltung feiner, Dateigröße im Blick behalten; danach Ausbau und Einbau ins Spiel mit 8 Richtungen | Grauufer_Grafik_RevXX.md |
 | Umfang des Anlagen-Baukastens (Vorschlag liegt vor) | Grauufer_Baukaesten_RevXX.md |
 | Aufbau des Figuren-Baukastens (Vorschlag liegt vor) | Grauufer_Baukaesten_RevXX.md |
 
 ## 5. Prüfpunkte für den Auftraggeber
 
 - Fenster nur noch mit dem Siegel oben rechts schließen, Knopf „Schließen“ entfernt (Spiel-Rev 122) – im Spiel prüfen.
+- Größerer Zoom bis etwa 560 % (Spiel-Rev 125) auf dem Tablet prüfen (Bildzeit, Schärfe).
 - **Avatar-Baukasten (Spiel-Rev 122):** deine Figur einstellen und speichern; Claudia holt sie aus dem gemeinsamen Speicher ab.
 - Neues Startbild nach deiner Gemini-Vorlage auf dem Tablet ansehen (Spiel-Rev 121); bei Bedarf Originaldatei in höherer Auflösung nachreichen.
 - **Echtzeitkampf (Spiel-Rev 119) auf dem Tablet testen:** Takt der Gegner, Waffentakt, Abklingzeiten und Erholung ggf. nachjustieren; die Ausgleichsvorschläge in Grauufer_Fortschritt_RevXX.md beziehen sich noch auf Züge.

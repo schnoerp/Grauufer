@@ -62,6 +62,45 @@ test('Rev 122: Fenster ohne Knopf „Schließen“, das Siegel oben rechts schli
   expect(fehler).toEqual([]);
 });
 
+test('Rev 125: Feste Figuren (Magier, Krieger, Waldläufer) in 8 Richtungen, Magier mit flackerndem Leuchten', async ({ page }) => {
+  const fehler = [];
+  page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto(URL);
+  await page.waitForFunction(() => typeof READY !== 'undefined' && READY, null, { timeout: 30000 });
+  await page.evaluate(() => { document.querySelector('#splash').hidden = true; startNew({ name: 'Test', cls: 'magier', str: 8, dex: 9, int: 13, look: { ...DEFLOOK } }); });
+  await page.waitForTimeout(2200);
+  await page.evaluate(() => closeOverlay());
+  await page.waitForFunction(() => FIGBILD.magier_m.every(d => d.i.complete && d.i.naturalWidth > 0), null, { timeout: 15000 });
+  const r = await page.evaluate(() => {
+    const F = figurFuer(S.p), richt = [];
+    for (const [dx, dy] of [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]]) { setFace(S.p, dx, dy); richt.push(S.p.dir8); }
+    let gemalt = 0; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (...a) => { const ok = alt(...a); if (ok) gemalt++; return ok; };
+    const n = performance.now(); draw0(n / 1000, n, .016); window.drawFigurBild = drawFigurBild = alt;
+    return [F.length, F.every(d => d.licht.length === 2), new Set(richt).size, richt[0], gemalt, ['krieger', 'laeufer'].map(c => (figurFuer({ cls: c, look: { sex: 'w' } }) || []).length)];
+  });
+  expect(r).toEqual([8, true, 8, 0, 1, [8, 8]]);
+  // Skelettkrieger: eigene Figur, schaut die Spielfigur an, wenn er neben ihr steht
+  const sk = await page.evaluate(() => { const o = { id: 'tsk', k: 'skeleton', x: S.p.x + 1, y: S.p.y, rx: S.p.x + 1, ry: S.p.y, hp: 24, maxHp: 24, face: 1, dir8: 0 }; S.enemies.push(o);
+    let r8 = null; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (F, ob, ...a) => { if (ob === o) r8 = F.indexOf(F[dir8Von(S.p.x - o.x, S.p.y - o.y)]); return alt(F, ob, ...a); };
+    const n = performance.now(); draw0(n / 1000, n, .016); window.drawFigurBild = drawFigurBild = alt; S.enemies.pop(); return [FIGBILD.skeleton.length, r8 === dir8Von(-1, 0), FIGBILD.skeleton.walk.map(r => r.length).join(), FIGBILD.skeleton.atk.map(r => r.length).join()]; });
+  expect(sk).toEqual([8, true, '8,8,8,8,8,8,8,8', '6,6,6,6,6,6,6,6']);
+  // Lauf- und Angriffsbilder auch für die drei Klassen; die Spielfigur nimmt beim Laufen ein Laufbild
+  const kl = await page.evaluate(() => ['magier_m', 'krieger_m', 'laeufer_m'].map(k => FIGBILD[k].walk.map(r => r.length).join() + '|' + FIGBILD[k].atk.map(r => r.length).join()));
+  expect(kl).toEqual(Array(3).fill('8,8,8,8,8,8,8,8|6,6,6,6,6,6,6,6'));
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 125: Zoom bis über 500 %, Boden bleibt gezeichnet', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => { for (let i = 0; i < 40; i++) zoom(1); return [ZOOM > 5 && ZOOM <= 6, PXd <= 8]; });
+  await page.waitForTimeout(2000);
+  const schwarz = await page.evaluate(() => { const c = document.querySelector('canvas'), g = document.createElement('canvas'); g.width = c.width; g.height = c.height; const x = g.getContext('2d'); x.drawImage(c, 0, 0);
+    const d = x.getImageData(c.width * .25, c.height * .25, c.width * .5, c.height * .5).data; let n = 0; for (let i = 0; i < d.length; i += 4) if (d[i] + d[i + 1] + d[i + 2] < 20) n++; return n / (d.length / 4); });
+  expect(r).toEqual([true, true]);
+  expect(schwarz).toBeLessThan(.02);
+  expect(fehler).toEqual([]);
+});
+
 test('Gespräch mit Mareth', async ({ page }) => {
   const fehler = await frisch(page);
   const n = await page.evaluate(() => { openDialog('mareth'); return document.querySelectorAll('#choices button').length; });
@@ -389,6 +428,7 @@ test('Rev 122: Avatar-Baukasten baut alle Varianten, zeigt die Figur und speiche
   expect(r).toBe(64);
   expect(z).toEqual([true, 'lang', 'Testfigur', true]);
   expect(f).toEqual([true, true, 'formfeld']);
+  await page.click('[data-bw=querschnitte]'); await page.waitForFunction(() => /Querschnitten/.test(document.querySelector('#status').textContent), null, { timeout: 30000 });
   expect(fehler).toEqual([]);
 });
 
@@ -401,6 +441,22 @@ test('Rev 123: Probe Formfeld baut eine geschlossene, durchgehende Figur', async
     const m = Formfeld.bau({ schritt: .012 }), g = m.geometry; g.computeBoundingBox(); const b = g.boundingBox;
     const innen = Formfeld.feld(0, 1.2, 0) < 0 && Formfeld.feld(0, 1.69, 0) < 0 && Formfeld.feld(.6, 1, 0) > 0;
     return [m.userData.dreiecke > 5000, +b.max.y.toFixed(1), Math.abs(+b.min.y.toFixed(1)), innen];
+  });
+  expect(r).toEqual([true, 1.8, 0, true]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 124: Probe Querschnitte baut eine Figur mit nach außen zeigenden Flächen', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.setContent('<html><body></body></html>');
+  await page.addScriptTag({ path: path.resolve(__dirname, '..', 'werkstatt', 'lib', 'three.min.js') });
+  await page.addScriptTag({ path: path.resolve(__dirname, '..', 'werkstatt', 'modelle', 'figur.js') });
+  const r = await page.evaluate(() => {
+    const g = Figur.bau({}), b = new THREE.Box3().setFromObject(g); let teile = 0; g.traverse(o => { if (o.isMesh) teile++; });
+    // Probekörper: Normalen eines Zylinders müssen nach außen zeigen
+    const q = Figur.querschnitte([{ c: [0, 0, 0], w: .1, f: .1, b: .1 }, { c: [0, 1, 0], w: .1, f: .1, b: .1 }], { deckel: false }), p = q.attributes.position, n = q.attributes.normal;
+    let aussen = 0; for (let i = 0; i < p.count; i++) if (p.getX(i) * n.getX(i) + p.getZ(i) * n.getZ(i) > 0) aussen++;
+    return [teile > 20, +b.max.y.toFixed(1), Math.abs(+b.min.y.toFixed(1)), aussen / p.count > .95];
   });
   expect(r).toEqual([true, 1.8, 0, true]);
   expect(fehler).toEqual([]);

@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 26**, Stand: Spiel-Rev 121. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 27**, Stand: Spiel-Rev 125. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -45,6 +45,22 @@ Bildzeit (Waldgebiete Wildnis, Nebelwald, Frostmark, Fahlmoor, CPU 4-fach gedros
 Endgegner werden 1,2- bis 1,6-fach vergrößert.
 
 **Seit Spiel-Rev 110** werden alle Figuren (Spielfigur, Gesprächspartner, Gegner) auf **75 %** dieser Maße verkleinert (`FIGF` in `index.html`), damit sie zu den Häusern aus der Grafik-Werkstatt passen: etwa 2,2 m bei einem Feld = 2,1 m, knapp über Türhöhe (2,4 m). Verkleinert wird einmal beim Anlegen des Bildes vor dem Rastern; der Pixel-Look bleibt gleich fein, die Bildzeit unverändert. Namen über den Figuren sitzen entsprechend tiefer; die Tippfläche zum Ansprechen und Angreifen bleibt so groß wie vorher.
+
+### Feste Spielfiguren im Ziel-Stil A (Im Spiel seit Spiel-Rev 125)
+
+- Entscheidung des Auftraggebers (Spiel-Rev 124): statt eines Avatar-Baukastens **feste Figuren** – Krieger, Magier, Waldläufer, je als Mann und Frau.
+- **Im Spiel:** **Magier, Krieger und Waldläufer (je die Männerfigur; Frauen nutzen sie vorerst mit)**. Vorgerendert in der Grafik-Werkstatt (`npm run figuren`, `werkstatt/figuren.js`, Modell `werkstatt/modelle/figur.js`) in **8 Blickrichtungen**, glatt ohne Pixel-Raster, 120 Bildpunkte je Meter (doppelte Spielauflösung, gezeichnet mit 60 Einheiten je Meter), als WebP eingebettet (alle drei zusammen etwa 160 KB). Licht der Werkstatt: Stimmung „nacht“ (warmes Hauptlicht von oben links, kalte Lichtkante, Faltenschatten).
+- **Blickrichtung:** folgt der letzten Bewegung (`dir8` aus dem Schritt, 0 = zur Kamera); die bisherigen Figuren werden weiter nur gespiegelt.
+- **Leuchten:** Stein am Stab und Kugel über der linken Hand flackern blau – das Spiel zeichnet in jedem Bild einen radialen, additiven Lichtschein (Radius etwa 13 Einheiten) mit unregelmäßigem Flackern darüber.
+- **Bewegung:** beim Laufen leichtes Auf und Ab (die Robe verdeckt die Beine), beim Angriff der bisherige Ausfallschritt, bei Treffern ein heller Blitz.
+- **Bildzeit** (1250 × 650, je 200 Bilder): 18,6 ms mit der bisherigen Figur (Krieger), 17,7 ms mit dem Magier – im Messrauschen.
+- **Krieger:** Kettenhemd mit Kettenkragen, blauer Wappenrock mit goldenem Kreuz (Wappen der Siegelwächter), Schulterplatten, Beinschienen, Lederarmschienen, Schwert in der rechten Hand, Tropfenschild mit Goldkreuz am linken Arm, kurzes Haar.
+- **Waldläufer:** grüner Kapuzenumhang (vorn offen, mit Faltenschatten), Hemd und geschnürtes Lederwams, Armschienen, Gürtel mit Tasche und Messer, Köcher mit Pfeilen auf dem Rücken, Langbogen in der linken Hand, Bart.
+- **Gegner Skelettkrieger** (seit Spiel-Rev 125, Zielbild des Auftraggebers): Knochenkörper, Lederschulterstücke, Brustriemen, Gürtel mit Rundschnalle, zerrissener roter Lendenschurz, Stiefel, Schwert, runder Holzschild; Einzelheiten in Grauufer_Gegner_RevXX.md. Gegner neben der Spielfigur schauen sie an.
+- **Bewegungsbilder** (Skelettkrieger, Krieger, Magier, Waldläufer): Laufen 8 Bilder (90 ms je Bild) und Angriff 6 Bilder (450 ms ab dem Ausfallschritt) je Richtung, gerendert in 60 % der Auflösung (WebP), das Spiel gleicht den Maßstab aus. Figuren ohne Gelenkgerüst wippen beim Laufen nur auf und ab.
+- **Gelenkgerüst der drei Klassen** (`binde` und `menschPose` in `werkstatt/modelle/figur.js`): Knochen für Becken, Rumpf, Brust, Hals, Kopf, Arme und Beine; starre Teile (Kopf, Hände, Schwert, Schild, Stab, Kugel, Bogen) hängen fest an ihrem Knochen, Kleidung und Körper werden weich nach Abstand zu den Knochen gebunden (breite Teile wie Wappenrock, Umhang und Robe folgen den Armen nicht). Angriff: Krieger Schwerthieb von oben, Waldläufer Bogenschuss (Bogen gehoben, Sehne gezogen), Magier Zauberstoß mit der Kugel nach vorn.
+- Alle Figuren zusammen etwa 1 656 KB (Magier 482 KB, Krieger 375 KB, Waldläufer 353 KB, Skelettkrieger 446 KB).
+- **Geplant:** die drei Frauenfiguren im selben Stil (zurückgestellt, Entscheidung des Auftraggebers Spiel-Rev 125); weitere Gegner; Robe des Magiers beim Laufen ruhiger, Bogenhaltung feiner.
 
 ### Farbwelt je Gebiet
 

@@ -7,7 +7,8 @@
     "test": "node scripts/check.js && playwright test",
     "grafik": "node werkstatt/render.js",
     "haeuser": "node werkstatt/spielhaeuser.js",
-    "logo": "node werkstatt/logo.js"
+    "logo": "node werkstatt/logo.js",
+    "figuren": "node werkstatt/figuren.js"
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",
