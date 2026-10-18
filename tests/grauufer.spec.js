@@ -82,6 +82,17 @@ test('Rev 125: Feste Figuren (Magier, Krieger, Waldläufer) in 8 Richtungen, Mag
   expect(fehler).toEqual([]);
 });
 
+test('Rev 125: Zoom bis über 500 %, Boden bleibt gezeichnet', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => { for (let i = 0; i < 40; i++) zoom(1); return [ZOOM > 5 && ZOOM <= 6, PXd <= 8]; });
+  await page.waitForTimeout(2000);
+  const schwarz = await page.evaluate(() => { const c = document.querySelector('canvas'), g = document.createElement('canvas'); g.width = c.width; g.height = c.height; const x = g.getContext('2d'); x.drawImage(c, 0, 0);
+    const d = x.getImageData(c.width * .25, c.height * .25, c.width * .5, c.height * .5).data; let n = 0; for (let i = 0; i < d.length; i += 4) if (d[i] + d[i + 1] + d[i + 2] < 20) n++; return n / (d.length / 4); });
+  expect(r).toEqual([true, true]);
+  expect(schwarz).toBeLessThan(.02);
+  expect(fehler).toEqual([]);
+});
+
 test('Gespräch mit Mareth', async ({ page }) => {
   const fehler = await frisch(page);
   const n = await page.evaluate(() => { openDialog('mareth'); return document.querySelectorAll('#choices button').length; });

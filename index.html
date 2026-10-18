@@ -3682,12 +3682,12 @@ function resize(){
      Die Zeichenfläche wird nur neu angelegt, wenn sich ihre Größe wirklich ändert (beim Zoomen bleibt sie gleich). */
   const cap=SOFT?1.2e6:5e6,px=cw*ch*d*d;if(px>cap)d*=Math.sqrt(cap/px);dpr=d;
   const w=Math.round(cw*dpr),h=Math.round(ch*dpr);if(cv.width!==w)cv.width=w;if(cv.height!==h)cv.height=h;
-  const tileCss=clamp(Math.min(cw,ch)/22,32,66);PXd=clamp(tileCss*dpr/TW*ZOOM,.25,3);
+  const tileCss=clamp(Math.min(cw,ch)/22,32,66);PXd=clamp(tileCss*dpr/TW*ZOOM,.25,8);
   if(PIX){const u=RES*PXd;if(u>=1.5)PXd=Math.round(u)/RES;}/* Rev 59: Spielpixel auf ganze Bildschirmpixel */
   LW=cv.width/PXd;LH=cv.height/PXd;
 }
 function showZoom(){const e=$('#zpct');if(e)e.textContent=Math.round(ZOOM*100)+' %';}
-function zoom(d){const p0=PXd,z0=ZOOM;let n=ZOOM;for(let i=0;i<14;i++){n=clamp(n*(d>0?1.1:1/1.1),.5,2.5);ZOOM=n;resize();if(PXd!==p0||n<=.5||n>=2.5)break;}
+function zoom(d){const p0=PXd,z0=ZOOM;let n=ZOOM;for(let i=0;i<14;i++){n=clamp(n*(d>0?1.1:1/1.1),.5,6);ZOOM=n;resize();if(PXd!==p0||n<=.5||n>=6)break;}
   if(PXd===p0){ZOOM=z0;resize();return;}showZoom();
   try{localStorage.setItem('grauufer-zoom6',ZOOM);}catch(e){}resize();amb.length=0;}
 addEventListener('resize',()=>{resize();if(S)try{const n=performance.now();draw0(n/1000,n,.016);}catch(e){}});
