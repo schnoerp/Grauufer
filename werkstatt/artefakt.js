@@ -13,6 +13,7 @@ const ein = (tag, datei) => { const src = fs.readFileSync(path.join(DIR, datei),
   h = h.replace(tag, () => '<script>' + src + '</script>'); };
 ein('<script src="lib/three.min.js"></script>', 'lib/three.min.js');
 ein(`<script src="${SEITE.modell}"></script>`, SEITE.modell);
+if (AVATAR) ein('<script src="modelle/formfeld.js"></script>', 'modelle/formfeld.js');
 h = h.replace(/<!doctype html>\s*<html[^>]*><head><meta charset="utf-8"><meta name="viewport"[^>]*>\s*/i, '')
   .replace('</head>\n<body>', '').replace(/<\/body><\/html>\s*$/, '');
 h = h.replace(`<title>Grauufer – ${SEITE.titel}</title>`, `<title>Grauufer ${SEITE.titel}</title>\n<meta name="claude:viewport-fit-sides" content="cover">`);

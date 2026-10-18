@@ -383,8 +383,26 @@ test('Rev 122: Avatar-Baukasten baut alle Varianten, zeigt die Figur und speiche
     const ab = JSON.parse(localStorage.getItem('grauufer-avatare') || '{}');
     return [voll > 2000, ab.Testfigur && ab.Testfigur.haare, JSON.parse(document.querySelector('#json').value).name, document.documentElement.scrollWidth <= innerWidth];
   });
+  await page.click('[data-bw=formfeld]');
+  await page.waitForFunction(() => /berechnet/.test(document.querySelector('#status').textContent), null, { timeout: 60000 });
+  const f = await page.evaluate(() => [document.querySelector('[data-a=walk]').disabled, !document.querySelector('#bwhinweis').hidden, localStorage.getItem('grauufer-avatare-bauweise')]);
   expect(r).toBe(64);
   expect(z).toEqual([true, 'lang', 'Testfigur', true]);
+  expect(f).toEqual([true, true, 'formfeld']);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 123: Probe Formfeld baut eine geschlossene, durchgehende Figur', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.setContent('<html><body></body></html>');
+  await page.addScriptTag({ path: path.resolve(__dirname, '..', 'werkstatt', 'lib', 'three.min.js') });
+  await page.addScriptTag({ path: path.resolve(__dirname, '..', 'werkstatt', 'modelle', 'formfeld.js') });
+  const r = await page.evaluate(() => {
+    const m = Formfeld.bau({ schritt: .012 }), g = m.geometry; g.computeBoundingBox(); const b = g.boundingBox;
+    const innen = Formfeld.feld(0, 1.2, 0) < 0 && Formfeld.feld(0, 1.69, 0) < 0 && Formfeld.feld(.6, 1, 0) > 0;
+    return [m.userData.dreiecke > 5000, +b.max.y.toFixed(1), Math.abs(+b.min.y.toFixed(1)), innen];
+  });
+  expect(r).toEqual([true, 1.8, 0, true]);
   expect(fehler).toEqual([]);
 });
 

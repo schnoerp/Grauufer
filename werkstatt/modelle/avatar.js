@@ -2,7 +2,7 @@
 // Das Aussehen steht in einer Beschreibung (spec, siehe Avatar.STANDARD), die der Avatar-Baukasten (werkstatt/avatarbaukasten.html)
 // erzeugt. Alle Stoffe und Muster werden hier im Code gezeichnet (CanvasTexture), keine Bilddateien.
 // Maße in Metern, Kamera wie im Spiel: 2:1 isometrisch (Höhenwinkel 30°, Blick über die Felddiagonale), Licht von oben links.
-// Avatar.Szene(canvas, opt) → { groesse(w, h, k, fuss), baue(spec), boden(an), zeige(art, t, richtung), renderer }
+// Avatar.Szene(canvas, opt) → { groesse(w, h, k, fuss), baue(spec), fest(mesh, massstab), boden(an), zeige(art, t, richtung), renderer }
 //   art: 'idle' | 'walk' | 'attack' | 'death', t von 0 bis 1, richtung 0 bis 7
 // Für die Werkstatt (render.js): window.avatar(opt) baut eine Szene mit der Startfigur, window.shot(art, t, richtung) liefert ein PNG.
 (function(){
@@ -169,10 +169,12 @@ function Szene(canvas,opt={}){
   const s={renderer:R,
     // Bildgröße w × h, k Pixel je Meter, Fußpunkt fuss Pixel über dem unteren Rand
     groesse(w,h,k,fuss){R.setSize(w,h,false);const ox=w/2,oy=h-fuss;Object.assign(cam,{left:-ox/k,right:(w-ox)/k,top:oy/k,bottom:-(h-oy)/k});cam.updateProjectionMatrix();},
-    baue(spec){if(F){scene.remove(F.root);F.root.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){if(o.material.map)o.material.map.dispose();o.material.dispose();}});}
-      F=figur(spec);scene.add(F.root);},
+    baue(spec){weg();F=figur(spec);scene.add(F.root);},
+    // fertige Figur ohne Gelenke zeigen (Formfeld-Probe, seit Spiel-Rev 123): nur Drehen, keine Bewegungen
+    fest(obj,massstab=1){weg();const g=new THREE.Group();obj.scale.setScalar(massstab);g.add(obj);F={root:g,fest:true};scene.add(g);},
     boden(an){boden.visible=an;},
-    zeige(art,t,dir){pose(F,art,t,dir);R.render(scene,cam);}};
+    zeige(art,t,dir){if(F.fest)F.root.rotation.y=Math.PI/4+dir*Math.PI/4;else pose(F,art,t,dir);R.render(scene,cam);}};
+  function weg(){if(!F)return;scene.remove(F.root);if(!F.fest)F.root.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){if(o.material.map)o.material.map.dispose();o.material.dispose();}});F=null;}
   s.groesse(opt.w||320,opt.h||560,opt.k||250,opt.fuss||40);if(opt.boden===false)boden.visible=false;
   return s;
 }

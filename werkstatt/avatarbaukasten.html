@@ -20,7 +20,7 @@ label b{font-weight:400;font-variant-numeric:tabular-nums;color:var(--tinte2)}
 select,input,button{font-family:inherit;font-size:15px;color:var(--tinte)}
 select,input[type=text]{width:100%;padding:5px;border:1px solid #8a6434;border-radius:5px;background:#f6ead0}
 button{padding:5px 10px;border:2px solid #6a4420;border-radius:6px;background:linear-gradient(#d8aa6a,#a8743c);cursor:pointer;min-height:34px}
-button:active{transform:translateY(1px)}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--rot);outline-offset:1px}
+button:active{transform:translateY(1px)}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--rot);outline-offset:1px}
 button.an{background:linear-gradient(#7ab060,var(--gruen));color:#fff8e8;border-color:#2e5020}
 .seg{display:flex;flex-wrap:wrap;gap:4px}.seg button{flex:1 1 auto;min-height:30px;padding:2px 6px;font-size:14px}
 input[type=range]{width:100%;accent-color:#8a5a2a}
@@ -49,6 +49,9 @@ textarea{width:100%;height:150px;font:12px/1.35 ui-monospace,Menlo,Consolas,mono
 <main>
 <section class="tafel" id="regler">
   <p id="status" role="status"></p>
+  <h2>Bauweise</h2>
+  <div class="seg" id="bauweise"><button type="button" data-bw="bausteine">Bausteine</button><button type="button" data-bw="formfeld">Formfeld (Probe)</button></div>
+  <p class="hinweis" id="bwhinweis" hidden>Formfeld-Probe: durchgehende, weiche Form. Hier wirken bisher Größe und Farben von Haut, Augen, Hemd, Hose, Stiefeln und Gürtel; Frisur, Bart, Kleidungsart, Rüstung, Waffe und Bewegungen folgen im Ausbau.</p>
   <h2>Körper</h2>
   <div class="seg" data-wahl="geschlecht"></div>
   <div id="masse"></div>
@@ -87,13 +90,15 @@ textarea{width:100%;height:150px;font:12px/1.35 ui-monospace,Menlo,Consolas,mono
 </main>
 <script src="lib/three.min.js"></script>
 <script src="modelle/avatar.js"></script>
+<script src="modelle/formfeld.js"></script>
 <script>
 // Avatar-Baukasten: Bedienung. Figuren werden als JSON beschrieben (Format siehe Avatar.STANDARD in modelle/avatar.js).
 const AV=window.Avatar,SPEICHER='grauufer-avatare';
 const $=id=>document.getElementById(id);
 const kopie=o=>JSON.parse(JSON.stringify(o));
 const meldung=t=>{$('status').textContent=t;};
-let spec=kopie(AV.STANDARD),richtung=0,art='idle',t0=performance.now();
+let spec=kopie(AV.STANDARD),richtung=0,art='idle',t0=performance.now(),bauweise='bausteine';
+try{bauweise=localStorage.getItem(SPEICHER+'-bauweise')||'bausteine';}catch(e){}
 try{const z=localStorage.getItem(SPEICHER+'-zuletzt');if(z)spec=Object.assign(kopie(AV.STANDARD),JSON.parse(z));}catch(e){}
 // Farbtafeln wie im Charakter-Editor des Spiels, dazu freie Wahl
 const TAFEL={haut:['#f0c8a0','#c99068','#b07a50','#7a4e30','#5a3622'],haarfarbe:['#2a1a10','#5a3a20','#8a5a2a','#c8a050','#8a8a86','#a03018'],
@@ -131,7 +136,8 @@ $('bewegung').innerHTML=BEW.map(([a,n])=>`<button type="button" data-a="${a}">${
 document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.k){spec[b.dataset.k]=b.dataset.v;geaendert();}
   else if(b.dataset.f){spec[b.dataset.f]=b.dataset.c;geaendert();}
-  else if(b.dataset.a){art=b.dataset.a;t0=performance.now();felder();}});
+  else if(b.dataset.a){art=b.dataset.a;t0=performance.now();felder();}
+  else if(b.dataset.bw){bauweise=b.dataset.bw;try{localStorage.setItem(SPEICHER+'-bauweise',bauweise);}catch(e){}geaendert();}});
 MASSE.forEach(([k])=>$('m_'+k).addEventListener('input',e=>{spec[k]=+e.target.value;geaendert();}));
 Object.keys(TAFEL).forEach(k=>$('c_'+k).addEventListener('input',e=>{spec[k]=e.target.value;geaendert();}));
 $('name').addEventListener('input',e=>{spec.name=e.target.value;zeigeJson();});
@@ -142,7 +148,8 @@ function felder(){
   document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('an',spec[b.dataset.f]===b.dataset.c));
   Object.keys(TAFEL).forEach(k=>{$('c_'+k).value=spec[k];});
   MASSE.forEach(([k,,,,,f])=>{$('m_'+k).value=spec[k];$('w_'+k).textContent=f(+spec[k]);});
-  document.querySelectorAll('[data-a]').forEach(b=>b.classList.toggle('an',b.dataset.a===art));
+  const ff=bauweise==='formfeld';document.querySelectorAll('[data-bw]').forEach(b=>b.classList.toggle('an',b.dataset.bw===bauweise));$('bwhinweis').hidden=!ff;
+  document.querySelectorAll('[data-a]').forEach(b=>{b.classList.toggle('an',b.dataset.a===art);b.disabled=ff&&b.dataset.a!=='idle';});if(ff)art='idle';
   const um=spec.kleidung==='umhang';$('umhangL').hidden=!um;$('umhangF').hidden=!um;
   $('richtung').textContent=RNAME[richtung];zeigeJson();liste();}
 function zeigeJson(){$('json').value=JSON.stringify(spec,null,1);try{localStorage.setItem(SPEICHER+'-zuletzt',JSON.stringify(spec));}catch(e){}}
@@ -162,11 +169,18 @@ function spielBild(){const d=Math.min(2,devicePixelRatio||1);if(sp.width!==Math.
   for(const[x,z]of[[40,1],[110,2.5]]){const s=q*z;sg.drawImage(cv,(x*d)-breite/2*s,(185*d)-fusY*s,breite*s,hoehe*s);}}
 let letzt=0;
 function bild(jetzt){requestAnimationFrame(bild);
-  if(neuBauen){sz.baue(spec);breite=0;neuBauen=false;}
+  if(neuBauen){neuBauen=false;breite=0;if(bauweise==='formfeld')formfeldBauen();else sz.baue(spec);}
   passeGroesse();
   const dauer={idle:2400,walk:960,attack:900,death:1600}[art],t=((jetzt-t0)%(dauer+(art==='death'?900:0)))/dauer;
   if(art==='idle'&&jetzt-letzt<120&&breite)return;letzt=jetzt;
   sz.zeige(art,Math.min(1,t),richtung);spielBild();}
+// Formfeld-Probe: Rechnen dauert etwa eine Sekunde, deshalb erst die Meldung zeigen, dann rechnen; gleiche Farben nicht neu rechnen
+let ffSchluessel='',ffMesh=null;
+function formfeldBauen(){const farben={haut:spec.haut,augen:spec.augen,hemd:spec.hemd,hose:spec.hose,stiefel:spec.stiefel,guertel:spec.guertel},k=JSON.stringify(farben);
+  const zeigen=()=>{sz.fest(ffMesh.clone(),(+spec.groesse||1.8)/1.8);breite=0;};
+  if(k===ffSchluessel&&ffMesh){zeigen();return;}
+  meldung('Rechne die neue Form …');setTimeout(()=>{const t=performance.now();ffMesh=window.Formfeld.bau({schritt:.006,farben});ffSchluessel=k;zeigen();
+    meldung(`Neue Form berechnet (${(ffMesh.userData.dreiecke/1000).toFixed(0)} 000 Dreiecke, ${((performance.now()-t)/1000).toFixed(1).replace('.',',')} s).`);},30);}
 $('links').onclick=()=>{richtung=(richtung+1)%8;felder();};
 $('rechts').onclick=()=>{richtung=(richtung+7)%8;felder();};
 
