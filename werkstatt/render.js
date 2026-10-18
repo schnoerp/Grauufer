@@ -51,6 +51,18 @@ const speichere = (name, url) => fs.writeFileSync(path.join(OUT, name), Buffer.f
     speichere('skelettkrieger_bewegungen.png', await p.evaluate(z => window.bogen(z, 118, 175, [69, 292]), z));
     alleFehler.push(...p.fehler); await p.close();
   }
+  // 1b. Avatar als Probefigur im Ziel-Stil A (Spiel-Rev 121): 8 Richtungen, Laufen, Angriff
+  {
+    const p = await seite(b, 'avatar.js', 300, 560);
+    await p.evaluate(() => window.avatar({ w: 300, h: 560, k: 250, fuss: 50 }));
+    const shot = (k, t, d) => p.evaluate(([k, t, d]) => window.shot(k, t, d), [k, t, d]);
+    const z = [['8 Blickrichtungen', []], ['Laufen', []], ['Angriff', []]];
+    for (let d = 0; d < 8; d++) z[0][1].push(await shot('idle', 0, d));
+    for (let f = 0; f < 8; f++) z[1][1].push(await shot('walk', f / 8, 1));
+    for (let f = 0; f < 6; f++) z[2][1].push(await shot('attack', f / 5, 1));
+    speichere('avatar_probe.png', await p.evaluate(z => window.bogen(z, 200, 500, [50, 40]), z));
+    alleFehler.push(...p.fehler); await p.close();
+  }
   // 2. Häuser aus werkstatt/haeuser/*.json (Haus-Baukasten): außen, innen und innen wie im Spiel gerastert
   for (const datei of fs.readdirSync(path.join(DIR, 'haeuser')).filter(f => f.endsWith('.json')).sort()) {
     const spec = JSON.parse(fs.readFileSync(path.join(DIR, 'haeuser', datei), 'utf8')), name = datei.replace(/\.json$/, '');

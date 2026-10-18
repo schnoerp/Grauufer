@@ -1,6 +1,6 @@
 # Grauufer – Baukästen
 
-**Revision 7**, Stand: Spiel-Rev 120. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 8**, Stand: Spiel-Rev 121. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zweite Entwickler Teile der Spielwelt selbst zusammenstellen. Die Baukästen gehören zur Grafik-Werkstatt; Technik, Stilregeln und Kamera stehen in Grauufer_Grafik_RevXX.md.
 
@@ -56,6 +56,8 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 - Umfang und Bedienung sind noch nicht festgelegt. Vorschlag zur Abstimmung: Ringmauer mit Wehrgang, Türme, Torhaus, Hof, Bergfried oder Hauptbau; Gebäude im Hof aus dem Haus-Baukasten wiederverwenden.
 
 ## 4. Figuren-Baukasten (Geplant)
+
+**Probefigur Avatar (Werkstatt, seit Spiel-Rev 121, noch nicht im Spiel):** `werkstatt/modelle/avatar.js` baut die Spielfigur im Ziel-Stil A (Grauufer_Grafik_RevXX.md) mit dem Startaussehen aus dem Spiel: Mann mit Glatze, rotes Karohemd mit hochgekrempelten Ärmeln, dunkle Hose, Lederstiefel, Gürtel mit Messingschnalle, Kurzschwert. 1,80 m, Glieder als Gelenkkette, Stoffmuster im Code gezeichnet, warmes Licht von oben links mit kühler Kante. Bewegungen: Stehen, Laufen (8 Bilder), Angriff (6 Bilder), Sterben, je in 8 Richtungen. Vorschau `werkstatt/vorschau/avatar_probe.png` (`npm run grafik`). Nächste Schritte nach Freigabe: Aussehen aus dem Charakter-Editor übernehmen (Geschlecht, Haare, Farben, Kleidung, Waffe, Rüstung), Bilder je Richtung einbetten, im Spiel 8 Richtungen statt Spiegeln.
 
 **Entscheidungen (Gespräch mit dem Auftraggeber, Spiel-Rev 108):**
 - Ein eigener Baukasten für Figuren: Gesprächspartner, Gegner und die Spielerfiguren.

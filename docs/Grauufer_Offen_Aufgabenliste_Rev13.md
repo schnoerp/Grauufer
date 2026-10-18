@@ -49,7 +49,7 @@
 | Erdbeben als Weltereignis ja oder nein | Grauufer_Fahrplan_RevXX.md |
 | Prüfpunkte im Kampfsystem, Ausgleichsmaßnahmen aus Fortschritt und Wirtschaft | Grauufer_Fahrplan_RevXX.md |
 | Einzeldatei oder mehrere Dateien, sobald die neue Grafik zu groß wird (nach den Piloten) | Grauufer_Grafik_RevXX.md |
-| **Weg vom Pixel-Look (Entscheidung des Auftraggebers, Spiel-Rev 121):** Startbild erledigt (Spiel-Rev 121). Geplant: 1. Raster abschaltbar machen (Schalter „Pixel / Fein“ zum Vergleich), 2. Werkstatt-Grafik in voller Auflösung, 3. Figuren und Texturen neu (Figuren-Baukasten), 4. Schrift und Oberfläche; Regel 2.4 in CLAUDE.md anpassen. Ziel-Stil entschieden: Typ A, vorgerendert und gemalt wie Pagan. Offen: Schrift; nächster Schritt: Probefigur (Avatar) im neuen Stil | Grauufer_Grafik_RevXX.md |
+| **Weg vom Pixel-Look (Entscheidung des Auftraggebers, Spiel-Rev 121):** Startbild erledigt (Spiel-Rev 121). Geplant: 1. Raster abschaltbar machen (Schalter „Pixel / Fein“ zum Vergleich), 2. Werkstatt-Grafik in voller Auflösung, 3. Figuren und Texturen neu (Figuren-Baukasten), 4. Schrift und Oberfläche; Regel 2.4 in CLAUDE.md anpassen. Ziel-Stil entschieden: Typ A, vorgerendert und gemalt wie Pagan. Offen: Schrift; Probefigur Avatar in der Werkstatt gebaut (Grauufer_Baukaesten_RevXX.md), wartet auf Freigabe | Grauufer_Grafik_RevXX.md |
 | Umfang des Anlagen-Baukastens (Vorschlag liegt vor) | Grauufer_Baukaesten_RevXX.md |
 | Aufbau des Figuren-Baukastens (Vorschlag liegt vor) | Grauufer_Baukaesten_RevXX.md |
 
