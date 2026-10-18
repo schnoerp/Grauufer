@@ -4,11 +4,16 @@
 (function(){
 THREE.ColorManagement.legacyMode=false;
 const T=2.1,WH=3.0,WT=.28,PI=Math.PI;
+// zusatz: darf mit einem Hauptteil im selben Feld stehen (Teppich am Boden, Kessel am Kamin, Dinge an der Wand)
 const KATALOG={
   bett:{name:'Bett',wand:1},truhe:{name:'Truhe',wand:1},schrank:{name:'Schrank',wand:1},regal:{name:'Bücherregal',wand:1},
-  kamin:{name:'Kamin',wand:1},wandbrett:{name:'Wandbrett',wand:1},waffen:{name:'Waffen an der Wand',wand:1},
+  kamin:{name:'Kamin',wand:1},wandbrett:{name:'Wandbrett',wand:1,zusatz:1},waffen:{name:'Waffen an der Wand',wand:1,zusatz:1},
   tisch:{name:'Tisch mit Bänken'},faesser:{name:'Fässer'},kiste:{name:'Kiste'},saecke:{name:'Säcke'},hocker:{name:'Hocker'},
-  teppich:{name:'Teppich'},kessel:{name:'Kessel'},stuhl:{name:'Stuhl (umgekippt)'},besen:{name:'Besen'},brennholz:{name:'Brennholz'}};
+  teppich:{name:'Teppich',zusatz:1},kessel:{name:'Kessel',zusatz:1},stuhl:{name:'Stuhl (umgekippt)'},besen:{name:'Besen'},brennholz:{name:'Brennholz'}};
+// je Feld höchstens ein Hauptteil und ein Zusatzteil; doppelte und unbekannte Teile werden verworfen
+function bereinige(liste){const feld={};return(liste||[]).filter(e=>{const k=KATALOG[e&&e.art];if(!k)return false;
+  const f=feld[e.x+','+e.z]=feld[e.x+','+e.z]||{};const typ=k.zusatz?'z':'h';if(f[typ])return false;f[typ]=1;return true;});}
+
 const OEFFNUNGEN=['wand','fenster','tuer','fenster_kaputt','fenster_vernagelt'];
 const BEISPIEL={name:'Fischerhaus',breite:5,tiefe:4,wand:'fachwerk',dach:'schiefer',first:'x',verwitterung:.75,schornstein:true,
   oeffnungen:[{seite:'hinten',feld:0,art:'fenster'},{seite:'hinten',feld:4,art:'fenster'},{seite:'links',feld:2,art:'fenster'},
@@ -203,7 +208,7 @@ function Bau(spec,innen,drehung=0){
     stuhl(f){const c=new THREE.Group();c.position.set(0,.36,0);c.rotation.set(0,.7,PI/2.1);f.add(c);box(.45,.06,.45,mHolz,0,0,0,c);for(const[x,z]of[[-.18,-.18],[.18,-.18],[-.18,.18]])box(.05,.45,.05,mHolz,x,-.24,z,c);box(.45,.5,.05,mHolz,0,.25,-.2,c);},
     besen(f){const b=cyl(.02,.02,1.4,mHolz,0,.75,hinten+.15,f,6);b.rotation.x=-.25;cyl(.03,.14,.3,M({color:0xa08a50,roughness:1}),0,.15,hinten+.3,f,10);},
     brennholz(f){for(let r=0;r<3;r++)for(let i=0;i<5-r;i++){const l=cyl(.11,.11,1.1,mHolz,-.45+i*.23+r*.11,.12+r*.2,hinten+.65,f,8);l.rotation.x=PI/2;}}};
-  (spec.einrichtung||[]).forEach(e=>{const fn=TEILE[e.art];if(!fn)return;const drin=e.x>=0&&e.x<B&&e.z>=0&&e.z<D;if(innen!==drin&&drin)return;
+  bereinige(spec.einrichtung).forEach(e=>{const fn=TEILE[e.art];if(!fn)return;const drin=e.x>=0&&e.x<B&&e.z>=0&&e.z<D;if(innen!==drin&&drin)return;
     const f=new THREE.Group();f.position.set((e.x+.5)*T,drin?.12:0,(e.z+.5)*T);f.rotation.y=(e.dreh&3)*PI/2;haus.add(f);fn(f);});
 
   // Verwitterung: Stroh, Ruß, Spinnweben, Putzbrocken innen; Unkraut und Dreck außen
@@ -240,5 +245,5 @@ function Szene(canvas){
       hemi.intensity=innen?.5:.62;R.render(scene,cam);},
     groesse(spec,innen,K){const B=spec.breite*T,D=spec.tiefe*T,dd=B+D+2*T,ho=innen?WH:WH+(spec.first==='z'?B:D)*.45+1.5;return[Math.ceil(dd*.7071*K*1.08),Math.ceil((dd*.3536+ho*.866)*K*1.12)];}};
 }
-window.Hausbau={T,KATALOG,OEFFNUNGEN,BEISPIEL,Bau,Szene};
+window.Hausbau={T,KATALOG,OEFFNUNGEN,BEISPIEL,Bau,Szene,bereinige};
 })();
