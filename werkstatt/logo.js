@@ -1,40 +1,48 @@
-// Grafik-Werkstatt: bereitet das Logo vor und bettet es in index.html ein (zwischen /*#LOGOBILD*/ und /*#LOGOBILD-ENDE*/).
-// Vorlage seit Spiel-Rev 113: werkstatt/logo/logo_vorlage.jpg, vom Auftraggeber selbst erstellt (Ausnahme laut CLAUDE.md, Abschnitt 2).
-// Ablauf: schwarzen Hintergrund und dunklen Schein vom Rand her freistellen, auf N × N Pixel verkleinern und wie das Spiel rastern
-// (16 Stufen je Farbkanal, Bayer-Dithering, keine halbdurchsichtigen Pixel). Aufruf: npm run logo
+// Grafik-Werkstatt: bereitet das Startbild vor und bettet es in index.html ein (zwischen /*#STARTBILD*/ und /*#STARTBILD-ENDE*/).
+// Vorlage seit Spiel-Rev 121: werkstatt/logo/startbild_vorlage.jpg, vom Auftraggeber mit Gemini erstellt (Ausnahme laut CLAUDE.md, Abschnitt 2).
+// Ablauf: Logo und Schriftzug ausschneiden, die eingebrannte Versionsnummer mit Hintergrund übermalen (die echte setzt das Spiel
+// als Text darüber), Ränder weich in die Hintergrundfarbe auslaufen lassen, verkleinern und als JPEG einbetten.
+// Kein Pixel-Raster (erster Schritt weg vom Pixel-Look). Aufruf: npm run logo
 const { chromium } = require('@playwright/test');
 const fs = require('fs'), path = require('path');
-const { pngIndex } = require('./png.js');
-const DIR = __dirname, SPIEL = path.join(DIR, '..', 'index.html'), N = 216, DUNKEL = 52;
+const DIR = __dirname, SPIEL = path.join(DIR, '..', 'index.html');
+// Ausschnitt in der Vorlage (2734 × 1452), eingebrannte Versionsnummer, Quelle zum Übermalen (gleiche Zeilen weiter rechts), Zielbreite
+const AUS = [350, 0, 2100, 1160], VER = [2180, 1050, 250, 100], QUELLE = 2440, BREITE = 1800, QUAL = 0.84;
 
 (async () => {
   const b = await chromium.launch(), p = await b.newPage();
   const fehler = []; p.on('pageerror', e => fehler.push(String(e)));
-  const src = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(DIR, 'logo', 'logo_vorlage.jpg')).toString('base64');
-  const px = await p.evaluate(async ([src, N, DUNKEL]) => {
+  const src = 'data:image/jpeg;base64,' + fs.readFileSync(path.join(DIR, 'logo', 'startbild_vorlage.jpg')).toString('base64');
+  const r = await p.evaluate(async ([src, AUS, VER, QUELLE, BREITE, QUAL]) => {
     const i = new Image(); i.src = src; await i.decode();
-    const S = Math.min(i.width, i.height), c = document.createElement('canvas'); c.width = c.height = S; const g = c.getContext('2d');
-    g.drawImage(i, (i.width - S) / 2, (i.height - S) / 2, S, S, 0, 0, S, S);
-    const D = g.getImageData(0, 0, S, S), a = D.data, frei = new Uint8Array(S * S), st = [];
-    const dunkel = k => Math.max(a[k * 4], a[k * 4 + 1], a[k * 4 + 2]) < DUNKEL;
-    for (let k = 0; k < S; k++) st.push(k, (S - 1) * S + k, k * S, k * S + S - 1);
-    while (st.length) { const k = st.pop(); if (frei[k] || !dunkel(k)) continue; frei[k] = 1; const x = k % S, y = (k - x) / S;
-      if (x > 0) st.push(k - 1); if (x < S - 1) st.push(k + 1); if (y > 0) st.push(k - S); if (y < S - 1) st.push(k + S); }
-    for (let k = 0; k < S * S; k++) if (frei[k]) a[k * 4 + 3] = 0;
-    g.putImageData(D, 0, 0);
-    const o = document.createElement('canvas'); o.width = o.height = N; const og = o.getContext('2d'); og.imageSmoothingQuality = 'high'; og.drawImage(c, 0, 0, N, N);
-    const E = og.getImageData(0, 0, N, N), e = E.data, B = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
-    for (let y = 0, k = 0; y < N; y++) for (let x = 0; x < N; x++, k += 4) {
-      const t0 = B[(y & 3) * 4 + (x & 3)]; if (e[k + 3] < 110) { e[k] = e[k + 1] = e[k + 2] = e[k + 3] = 0; continue; } e[k + 3] = 255; const t = (t0 / 16 - .47) * 12;
-      for (let q = 0; q < 3; q++) e[k + q] = Math.max(0, Math.min(255, Math.round((e[k + q] + t) / 17) * 17));
+    const c = document.createElement('canvas'); c.width = i.width; c.height = i.height; const g = c.getContext('2d'); g.drawImage(i, 0, 0);
+    // Versionsnummer übermalen: Streifen aus derselben Höhe weiter rechts, an den Rändern weich überblendet
+    const [vx, vy, vw, vh] = VER, q = g.getImageData(QUELLE, vy, vw, vh), z = g.getImageData(vx, vy, vw, vh);
+    for (let y = 0; y < vh; y++) for (let x = 0; x < vw; x++) {
+      const k = (y * vw + x) * 4, m = Math.min(x, vw - 1 - x, y, vh - 1 - y), t = Math.min(1, m / 14);
+      for (let n = 0; n < 3; n++) z.data[k + n] = z.data[k + n] * (1 - t) + q.data[k + n] * t;
     }
-    return Array.from(e);
-  }, [src, N, DUNKEL]);
+    g.putImageData(z, vx, vy);
+    // Hintergrundfarbe = Mittel der Ausschnittränder
+    const [ax, ay, aw, ah] = AUS, d = g.getImageData(ax, ay, aw, ah), a = d.data; let s = [0, 0, 0], n = 0;
+    for (let x = 0; x < aw; x += 4) for (const y of [0, ah - 1]) { const k = (y * aw + x) * 4; s[0] += a[k]; s[1] += a[k + 1]; s[2] += a[k + 2]; n++; }
+    for (let y = 0; y < ah; y += 4) for (const x of [0, aw - 1]) { const k = (y * aw + x) * 4; s[0] += a[k]; s[1] += a[k + 1]; s[2] += a[k + 2]; n++; }
+    const hg = s.map(v => Math.round(v / n));
+    // Ränder weich in die Hintergrundfarbe auslaufen lassen (unten schmal, damit der Schriftzug nicht verblasst)
+    for (let y = 0; y < ah; y++) for (let x = 0; x < aw; x++) {
+      const k = (y * aw + x) * 4, f = Math.min(1, x / 320, (aw - 1 - x) / 320, y / 110, (ah - 1 - y) / 45), t = f * f * (3 - 2 * f);
+      for (let m = 0; m < 3; m++) a[k + m] = hg[m] + (a[k + m] - hg[m]) * t;
+    }
+    const o = document.createElement('canvas'); o.width = aw; o.height = ah; o.getContext('2d').putImageData(d, 0, 0);
+    const h = Math.round(ah * BREITE / aw), e = document.createElement('canvas'); e.width = BREITE; e.height = h;
+    const eg = e.getContext('2d'); eg.imageSmoothingQuality = 'high'; eg.drawImage(o, 0, 0, BREITE, h);
+    return { url: e.toDataURL('image/jpeg', QUAL), w: BREITE, h, hg: '#' + hg.map(v => v.toString(16).padStart(2, '0')).join('') };
+  }, [src, AUS, VER, QUELLE, BREITE, QUAL]);
   await b.close();
   if (fehler.length) { console.error('Fehler:', fehler); process.exit(1); }
-  const html = fs.readFileSync(SPIEL, 'utf8'), A = '/*#LOGOBILD*/', E = '/*#LOGOBILD-ENDE*/', i = html.indexOf(A), j = html.indexOf(E);
-  if (i < 0 || j < i) { console.error('Marken /*#LOGOBILD*/ … /*#LOGOBILD-ENDE*/ fehlen in index.html.'); process.exit(1); }
-  const js = `const LOGO_PNG='${pngIndex(px, N, N)}';`;
+  const html = fs.readFileSync(SPIEL, 'utf8'), A = '/*#STARTBILD*/', E = '/*#STARTBILD-ENDE*/', i = html.indexOf(A), j = html.indexOf(E);
+  if (i < 0 || j < i) { console.error('Marken /*#STARTBILD*/ … /*#STARTBILD-ENDE*/ fehlen in index.html.'); process.exit(1); }
+  const js = `const STARTBILD={u:'${r.url}',w:${r.w},h:${r.h},hg:'${r.hg}'};`;
   fs.writeFileSync(SPIEL, html.slice(0, i + A.length) + js + html.slice(j));
-  console.log(`Logo eingebettet (${N} × ${N}, ${Math.round(js.length / 1024)} KB)`);
+  console.log(`Startbild eingebettet (${r.w} × ${r.h}, Hintergrund ${r.hg}, ${Math.round(js.length / 1024)} KB)`);
 })();

@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 17**, Stand: Spiel-Rev 114. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 18**, Stand: Spiel-Rev 121. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -25,7 +25,7 @@ Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Ein
 | Haus-Baukasten | `werkstatt/baukasten.html` | Bedienseite zum Selbstbauen (Grauufer_Baukaesten_RevXX.md) |
 | Häuser im Spiel | `werkstatt/spielhaeuser/*.json`, `werkstatt/spielhaeuser.js` | rendert die Häuser als Spielbilder und bettet sie in `index.html` ein (`npm run haeuser`, seit Spiel-Rev 109); Einzelheiten in Grauufer_Baukaesten_RevXX.md |
 | Häuser | `werkstatt/haeuser/*.json` | gebaute Häuser; jedes wird von `npm run grafik` gerendert (außen, innen, innen gerastert) |
-| Logo | `werkstatt/logo/logo_vorlage.jpg`, `werkstatt/logo.js` | Logo im Titelbild nach der Vorlage des Auftraggebers (seit Spiel-Rev 113, vorher 3D-Modell), freigestellt, gerastert und eingebettet mit `npm run logo`; Einzelheiten in Grauufer_Stil_RevXX.md |
+| Startbild | `werkstatt/logo/startbild_vorlage.jpg`, `werkstatt/logo.js` | Startbild nach der Vorlage des Auftraggebers (mit Gemini erstellt, seit Spiel-Rev 121; vorher Logo nach eigener Vorlage, Spiel-Rev 113), zugeschnitten, Versionsnummer übermalt, ohne Raster als JPEG eingebettet mit `npm run logo`; Einzelheiten in Grauufer_Stil_RevXX.md |
 | three.js | `werkstatt/lib/three.min.js` | three.js 0.149.0 (MIT-Lizenz, `three-LICENSE.txt`), nur für Werkstatt und Baukasten, nicht im Spiel |
 | Gegenstände | `werkstatt/modelle/gegenstaende.js` | 14 Gegenstände: Schwert, Schild, Heiltrank, Manatrank, Brot, Apfel, Schlüssel, Kerze, Buch, Gold, Becher, Schriftrolle, Dolch, Edelstein |
 | Rucksack-Entwurf | `werkstatt/rucksack.js` | Entwurfsseite im Pergament-Stil (1250 × 650) mit den gerenderten Gegenständen |
@@ -86,3 +86,15 @@ Haus-Baukasten (vorhanden, noch nicht im Spiel), Anlagen-Baukasten für Burg und
 | Einzeldatei | CLAUDE.md verlangt eine Datei, die offline läuft | für die Piloten Bilder in `index.html` einbetten; danach Umstellung entscheiden |
 | Weltgegenstände | Spielstand muss bewegliche Dinge der Welt speichern | neuer Speicherschlüssel, wenn umgesetzt |
 | Qualität | Grundformen ohne Feinheiten („Low-Poly“), kein Grafiker-Niveau | Texturen und Bewegungen schrittweise verfeinern |
+
+## Weg vom Pixel-Look (Entscheidung des Auftraggebers, Spiel-Rev 121)
+
+Der Auftraggeber will die Pixelwelt zugunsten höherer Grafikqualität verlassen.
+
+- **Im Spiel (Spiel-Rev 121):** Startbild nach seiner Vorlage glatt und in hoher Auflösung, ohne Raster (Grauufer_Stil_RevXX.md).
+- **Geplant**, in dieser Reihenfolge:
+  1. Raster (`pxl`, Schalter `PIX` in `index.html`) abschaltbar machen, zunächst als Einstellung „Pixel / Fein“ zum Vergleich auf dem Tablet; weiche statt gerasterter Bodenübergänge, freier Zoom mit Glättung.
+  2. Werkstatt-Grafik (Häuser, Rucksack, Gegenstände) ohne Raster in voller Auflösung einbetten; Dateigröße und Arbeitsspeicher auf dem Tablet prüfen, Grafikspeicher-Regel aus Spiel-Rev 53 bleibt.
+  3. Figuren und Texturen neu gestalten (Figuren-Baukasten, Landschafts-Baukasten, Grauufer_Baukaesten_RevXX.md).
+  4. Schrift „Pixelify Sans“, Lebens- und Manakugeln und Symbole ersetzen; Regel 2.4 „Pixel-Look“ in CLAUDE.md anpassen.
+- **Offen:** Ziel-Stil (vorgerendert-gemalt wie Pagan oder glatt-modern) und Ersatzschrift.

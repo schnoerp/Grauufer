@@ -255,18 +255,20 @@ test('Rev 112: Versionsnummer „Grauufer 1.0.Revision“ in Titel, Titelbild un
   expect(fehler).toEqual([]);
 });
 
-test('Rev 113: Logo (Vorlage des Auftraggebers), gerastert und ganzzahlig scharf vergrößert', async ({ page }) => {
+test('Rev 121: Startbild (Vorlage des Auftraggebers) glatt eingebettet, Versionsnummer als Text, alles passt ohne Scrollen', async ({ page }) => {
   const fehler = [];
   page.on('pageerror', e => fehler.push(String(e)));
+  await page.setViewportSize({ width: 1250, height: 650 });
   await page.goto(URL);
-  await page.waitForFunction(() => document.querySelector('#spLogo').dataset.ok === '1', null, { timeout: 30000 });
+  await page.waitForFunction(() => document.querySelector('#spBild').dataset.ok === '1', null, { timeout: 30000 });
+  await page.waitForTimeout(2600);
   const r = await page.evaluate(() => {
-    const c = document.querySelector('#spLogo'), d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data;
-    let deckend = 0, stufen = true; for (let i = 0; i < d.length; i += 4) { if (d[i + 3] === 255) { deckend++; if (d[i] % 17 || d[i + 1] % 17 || d[i + 2] % 17) stufen = false; } }
-    const punkte = c.getBoundingClientRect().width * devicePixelRatio;
-    return [c.width, deckend > 12000, stufen, Math.abs(punkte / c.width - Math.round(punkte / c.width)) < 0.01, punkte >= c.width];
+    const i = document.querySelector('#spBild'), v = document.querySelector('#splash .sp-v').getBoundingClientRect(), b = i.getBoundingClientRect(),
+      h = document.querySelector('#spHint').getBoundingClientRect();
+    return [i.naturalWidth, i.src.startsWith('data:image/jpeg'), document.querySelector('#splash .sp-v').textContent === document.title.replace(/^Grauufer /, ''),
+      v.left > b.left + b.width * .8 && v.bottom <= b.bottom + 4, h.bottom <= innerHeight, b.left >= 0 && b.right <= innerWidth];
   });
-  expect(r).toEqual([216, true, true, true, true]);
+  expect(r).toEqual([1800, true, true, true, true, true]);
   expect(fehler).toEqual([]);
 });
 

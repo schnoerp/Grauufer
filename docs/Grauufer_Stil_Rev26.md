@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 25**, Stand: Spiel-Rev 117. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 26**, Stand: Spiel-Rev 121. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -8,12 +8,13 @@
 - Alle Grafiken und Töne sind **selbst erzeugt** (Canvas und Web Audio). Keine Fremdgrafiken, keine Tondateien.
 - Verfasser: **schnoerp-media**, steht auf der Titelseite.
 
-### Logo (Im Spiel seit Spiel-Rev 104, neue Vorlage seit Spiel-Rev 113)
+### Startbild und Logo (Im Spiel seit Spiel-Rev 104, neue Vorlagen seit Spiel-Rev 113 und 121)
 
-- **Motiv:** ein „G“ aus verwittertem grauem Stein mit Querbalken, eingemeißelten Runen, feinen Rissen und einem tiefen Spalt oben; unten links hängt grünes Moos über die Kante. In der Mitte des „G“ ist das zerbrochene Amulett eingelassen: goldenes Kreuz auf dunkelblauem Grund (Wappen der Siegelwächter) mit Goldrand, von einem schwarzen Zickzack-Riss durchzogen.
-- **Herkunft (seit Spiel-Rev 113):** Vorlage vom Auftraggeber selbst erstellt (`werkstatt/logo/logo_vorlage.jpg`); ausdrückliche Ausnahme von der Regel „Alle Grafiken aus eigenem Code“ (CLAUDE.md, Abschnitt 2). Vorher: Spiel-Rev 104–111 SVG im Code (48 × 48 Pixel), Spiel-Rev 112 3D-Modell aus der Werkstatt (144 × 144 Pixel).
-- **Umsetzung:** `npm run logo` (`werkstatt/logo.js`) stellt den schwarzen Hintergrund und den dunklen Schein vom Rand her frei, verkleinert auf **216 × 216 Pixel** und rastert wie alle Grafiken auf 16 Stufen je Farbkanal mit Bayer-Dithering; eingebettet als PNG in `index.html` (etwa 27 KB).
-- **Einsatz:** im Titelbild über dem Schriftzug „Grauufer 1.0.NNN“. Die Anzeigegröße richtet sich nach der Bildschirmauflösung: jeder Logo-Pixel bedeckt genau eine ganze Zahl Bildschirmpunkte (dadurch scharf), höchstens 288 Punkte, höchstens 45 % der Bildschirmhöhe (z. B. 216 Punkte bei 1250 × 650 und auf einem Tablet mit 1000 × 594 Punkten und doppelter Auflösung, 288 Punkte bei 1280 × 800 mit 1,5-facher Auflösung). Das Symbol im Browser-Reiter bleibt das Wappen der Siegelwächter, weil das Amulett bei 16 Punkten nicht erkennbar ist.
+- **Motiv:** ein „G“ aus verwittertem grauem Stein mit eingemeißelten Runen, Rissen und Efeu; in seiner Mitte hängt das zerbrochene Amulett: goldenes Kreuz auf dunkelblauem Grund (Wappen der Siegelwächter) mit Goldrand, von einem schwarzen Zickzack-Riss durchzogen. Darunter der Schriftzug „Grauufer“ in rissigen Steinbuchstaben mit Goldschein, alles vor dunklem Grund.
+- **Herkunft (seit Spiel-Rev 121):** Vorlage vom Auftraggeber mit Gemini erstellt (`werkstatt/logo/startbild_vorlage.jpg`, 2734 × 1452 Pixel, aus seinem Bildschirmfoto ohne Bedienleiste zugeschnitten); ausdrückliche Ausnahme von der Regel „Alle Grafiken aus eigenem Code“ (CLAUDE.md, Abschnitt 2). Vorher: Spiel-Rev 104–111 SVG im Code (48 × 48 Pixel), Spiel-Rev 112 3D-Modell aus der Werkstatt, Spiel-Rev 113–120 Logo nach einer selbst erstellten Vorlage des Auftraggebers (216 × 216 Pixel, gerastert).
+- **Umsetzung:** `npm run logo` (`werkstatt/logo.js`) schneidet Logo und Schriftzug aus, übermalt die eingebrannte Versionsnummer mit Hintergrund, lässt die Ränder weich in die Hintergrundfarbe auslaufen (#0d1010) und bettet das Bild als JPEG ein (**1800 × 994 Pixel**, etwa 208 KB). **Kein Pixel-Raster** – erster Schritt weg vom Pixel-Look (siehe Grauufer_Grafik_RevXX.md).
+- **Titelbild:** das Bild füllt höchstens 96 % der Breite (höchstens 1300 Punkte) und lässt unten Platz für drei Textzeilen. Die **Versionsnummer** „1.0.NNN“ steht als echter Text rechts neben dem Schriftzug (aus dem `<title>` übernommen), darunter „Ein Rollenspiel in der Welt Vharos“, „ein Spiel von schnoerp-media“ und „Lade Welt …“ bzw. „Tippe, um zu beginnen“ in einer Serifenschrift des Geräts (Palatino, Georgia oder Noto Serif). Das Symbol im Browser-Reiter bleibt das Wappen der Siegelwächter.
+
 ### Bäume (Im Spiel seit Spiel-Rev 99)
 
 Bisher gab es je Gebiet eine Baumart in 4 fast gleich hohen Spielarten. Jetzt gibt es je Gebiet 8 Spielarten aus Baumart und Größe. Welche auf einem Feld steht, ist fest nach dem Feld bestimmt, also in jedem Spiel gleich. Kleine Bäume haben eine kleinere Leinwand und kosten pro Bild weniger Fläche.
