@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 26**, Stand: Spiel-Rev 115. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 27**, Stand: Spiel-Rev 116. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -73,8 +73,8 @@ Koordinaten als linke obere und rechte untere Ecke (x, y).
 | Gelände | begehbar | Besonderheit |
 |---|---|---|
 | Wiese, Weg, Sand, Schnee, Wüste | ja | – |
-| Gebirge | ja | mühsamer Aufstieg (Meldung beim Betreten) |
-| Tal | ja | mit Flüssen und begehbaren Holzbrücken |
+| Gebirge | ja | mühsamer Aufstieg (Meldung beim Betreten); seit Spiel-Rev 116 fallen Berge zu Tälern und vor Brückenenden auf Bodenhöhe ab, Bergfelder direkt am Talrand und vor Brücken sind Wiese |
+| Tal | ja | mit Flüssen und begehbaren Holzbrücken; seit Spiel-Rev 116 etwa 3,2 m tief (vorher 2,6 m), kein Berg ragt mehr ins Tal, Brücken stehen auf festem Boden mit gemauerten Widerlagern |
 | Sturmgürtel | ja | nur Warnmeldung beim Betreten, kein Schaden, keine Sperre |
 | Wald, Felsen | nein | blockieren den Weg |
 | Wasser, Lava, Abgrund, Schlucht | nein | Gegner stürzen per Sturmstoß hinein und sterben |

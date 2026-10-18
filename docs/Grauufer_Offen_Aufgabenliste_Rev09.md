@@ -1,6 +1,6 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 8**, Stand: Spiel-Rev 115. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 9**, Stand: Spiel-Rev 116. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
@@ -12,7 +12,7 @@
 
 ## 2. Als Nächstes (vereinbarte Reihenfolge)
 
-1. **Pilot A – Startgebiet Grauufer** (Häuser erledigt in Spiel-Rev 109; offen: Landschaft, Boden, Messung auf dem Tablet) mit dem **Landschafts-Baukasten, Teil A** (Bäume, Büsche, Felsen, Ufer, Klippen, Höhleneingänge): Häuser aus dem Haus-Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut und auf dem Tablet gemessen. → Grauufer_Grafik_RevXX.md, Grauufer_Baukaesten_RevXX.md (Weg ins Spiel)
+1. **Pilot A – Startgebiet Grauufer** (Häuser erledigt in Spiel-Rev 109; offen: Landschaft einschließlich Bergen als Felsmassiven und Brücken als Bausteinen aus der Werkstatt – Vorschlag B aus Spiel-Rev 116 –, Boden, Messung auf dem Tablet) mit dem **Landschafts-Baukasten, Teil A** (Bäume, Büsche, Felsen, Ufer, Klippen, Höhleneingänge): Häuser aus dem Haus-Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut und auf dem Tablet gemessen. → Grauufer_Grafik_RevXX.md, Grauufer_Baukaesten_RevXX.md (Weg ins Spiel)
 2. **Figuren-Baukasten:** gemeinsames Skelett und Bewegungen je Körperbau-Familie. → Grauufer_Baukaesten_RevXX.md
 3. **Pilot B – Die Tiefe:** Ruheloser, Steinwächter, Echo, Skelettkrieger, Thronhüter in neuer Grafik. → Grauufer_Grafik_RevXX.md
 4. **Spielerfiguren:** 3 Klassen, fest je Klasse. → Grauufer_Baukaesten_RevXX.md
@@ -55,6 +55,7 @@
 ## 5. Prüfpunkte für den Auftraggeber
 
 - Logo nach deiner Vorlage im Titelbild auf dem Tablet ansehen (Spiel-Rev 113).
+- Täler, Berge und Brücken (Spiel-Rev 116) im Spiel ansehen, z. B. nördlich von Sonnwacht (104,168).
 - Gruft und schlanke Stadtmauer von Sonnwacht (Spiel-Rev 115) im Spiel ansehen; andere Stadt- und Burgmauern (z. B. Alte Feste, Steinwacht, Kornwacht) auf Wunsch ebenso verschlanken.
 - Häuser in Sandhafen (Spiel-Rev 114) im Spiel ansehen; weitere Orte mit Hütten auf Wunsch genauso umstellen: Kornwacht, Schilfrode, Erzhall, Frosthain, Steinwacht, Ostwacht, Tränensee (Tobe), Miras Kate.
 - Ein Haus über „Über GitHub an Claudia senden“ testweise abschicken.

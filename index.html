@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0.115</title>
+<title>Grauufer 1.0.116</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -663,7 +663,15 @@ let REACH=null;
 function fixWalk(g,x,y){for(let r=0;r<14;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){const nx=x+dx,ny=y+dy;
   if(REACH.has(nx+','+ny)&&zoneAt(nx,ny)==='wild'&&g[ny][nx]!==',')return[nx,ny];}return null;}
 const WORLD=(()=>{
-  const g=buildWorld(),E=[],GR=[],NP=[],AL=[],BL=[];REACH=reachSet(g,...wpos('grau',16,21));
+  const g=buildWorld(),E=[],GR=[],NP=[],AL=[],BL=[];
+  /* Rev 116: Bergfelder, die mitten im Talband liegen, werden Tal – sonst ragte der Berg über die gezeichnete Schlucht (betrifft 4 Felder, Wege unverändert) */
+  for(const C of CANY)for(const[a,b]of C.segs)for(let x=a;x<=b;x++){const yc=Math.round(C.f(x));for(let dy=-2;dy<=2;dy++){const r=g[yc+dy];if(r&&r[x]==='M')r[x]=dy===0?'q':'V';}}
+  /* Rev 116: Bergfelder direkt am Talrand und vor Brückenenden werden Wiese (der Berg beginnt erst dahinter, siehe initMtn) */
+  {const gh=g.length,gw=g[0].length,isT=(x,y)=>g[y]&&'VqhH'.includes(g[y][x]),br=(x,y)=>g[y]&&'hH'.includes(g[y][x]),frei=[];
+    for(let y=1;y<gh-1;y++)for(let x=1;x<gw-1;x++){if(g[y][x]!=='M')continue;let n=false;for(let dy=-1;dy<=1&&!n;dy++)for(let dx=-1;dx<=1;dx++)if(isT(x+dx,y+dy)){n=true;break;}if(n)frei.push([x,y]);}
+    for(let y=1;y<gh-1;y++)for(let x=1;x<gw-1;x++){if(!br(x,y))continue;const ay=br(x,y-1)||br(x,y+1);for(const sg of[-1,1]){if(br(ay?x:x+sg,ay?y+sg:y))continue;
+      for(let k=1;k<=2;k++){const ex=ay?x:x+sg*k,ey=ay?y+sg*k:y;for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++)if(g[ey+dy]&&g[ey+dy][ex+dx]==='M')frei.push([ex+dx,ey+dy]);}}}
+    for(const[x,y]of frei)g[y][x]='.';}REACH=reachSet(g,...wpos('grau',16,21));
   for(const id in REGIONS){const r=REGIONS[id];
     r.enemies.forEach(([eid,k,x,y])=>{const[a,b]=wpos(id,x,y);E.push([eid,k,a,b]);});
     r.ground.forEach(([k,x,y])=>{const[a,b]=wpos(id,x,y);GR.push([k,a,b]);});
@@ -1743,11 +1751,24 @@ function initMtn(){MHT=new Float32Array(W*H);const D=new Int16Array(W*H).fill(99
   for(let i=0;i<q.length;i++){const k=q[i],x=k%W,y=(k/W)|0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const nx=x+dx,ny=y+dy;
     if(nx<0||ny<0||nx>=W||ny>=H)continue;const j=ny*W+nx;if(D[j]>D[k]+1){D[j]=D[k]+1;q.push(j);}}}
   for(let y=0;y<H;y++)for(let x=0;x<W;x++)if(map[y][x]==='M'){const d=Math.min(D[y*W+x],8);MHT[y*W+x]=(d*24+(d>1?vnoise(x/3,y/3,91)*30:0))*RES*(.8+.4*vnoise(x/6,y/6,17));}
+  /* Rev 116: Berge fallen zu Tälern hin auf Bodenhöhe ab (Abstand zum nächsten Talfeld 1 → flach, 2 → 35 %, 3 → 70 %), damit Talkanten
+     und Brückenenden auf ebenem Boden liegen und kein Berg ins Tal ragt */
+  {const DV=new Int16Array(W*H).fill(9),q2=[];for(let y=0;y<H;y++)for(let x=0;x<W;x++)if('VqhH'.includes(map[y][x])){DV[y*W+x]=0;q2.push(y*W+x);}
+    for(let i=0;i<q2.length;i++){const k=q2[i];if(DV[k]>=3)continue;const x=k%W,y=(k/W)|0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const nx=x+dx,ny=y+dy;
+      if(nx<0||ny<0||nx>=W||ny>=H)continue;const j=ny*W+nx;if(DV[j]>DV[k]+1){DV[j]=DV[k]+1;q2.push(j);}}}
+    for(let k=0;k<W*H;k++)if(DV[k]<=3&&MHT[k]>0)MHT[k]*=[0,0,.35,.7][DV[k]];}
+  /* Rev 116: vor jedem Brückenende ein Durchlass – Berge im Umkreis von 2 Feldern um die zwei Felder hinter dem Brückenende flach, danach ansteigend */
+  {const DB=new Int16Array(W*H).fill(9),q3=[],br=(x,y)=>map[y]&&'hH'.includes(map[y][x]);
+    for(let y=1;y<H-1;y++)for(let x=1;x<W-1;x++){if(!br(x,y))continue;const ay=br(x,y-1)||br(x,y+1);
+      for(const sg of[-1,1]){const nx=ay?x:x+sg,ny=ay?y+sg:y;if(br(nx,ny))continue;for(let k=1;k<=3;k++){const ex=ay?x:x+sg*k,ey=ay?y+sg*k:y;if(ex<0||ey<0||ex>=W||ey>=H)break;DB[ey*W+ex]=0;q3.push(ey*W+ex);}}}
+    for(let i=0;i<q3.length;i++){const k=q3[i];if(DB[k]>=4)continue;const x=k%W,y=(k/W)|0;for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){const nx=x+dx,ny=y+dy;
+      if(nx<0||ny<0||nx>=W||ny>=H)continue;const j=ny*W+nx;if(DB[j]>DB[k]+1){DB[j]=DB[k]+1;q3.push(j);}}}
+    for(let k=0;k<W*H;k++)if(DB[k]<=4&&MHT[k]>0)MHT[k]*=[0,0,0,.4,.75][DB[k]];}
   /* Rev 64: Vulkankegel – steigt zum Kraterrand hin an, innen steil abfallend */
   for(let y=VOLC.y-15;y<=VOLC.y+15;y++)for(let x=VOLC.x-15;x<=VOLC.x+15;x++)if(map[y]&&map[y][x]==='M'){const dd=Math.hypot(x-VOLC.x,(y-VOLC.y)*1.05),k=Math.max(0,Math.min(1,(13.4-dd)/7.6));
     const fr=(x-VOLC.x)+(y-VOLC.y)>1?.5:1;MHT[y*W+x]=(dd<5.6?172+vnoise(x/2,y/2,99)*10:30+220*Math.pow(k,1.3)*fr+vnoise(x/2.5,y/2.5,97)*18)*RES;}
     else if(map[y]&&map[y][x]==='L')MHT[y*W+x]=158*RES;}
-const VD=24*RES;
+const VD=30*RES;/* Rev 116: Täler tiefer (vorher 24) */
 function elev(fx,fy){if(!MHT)initMtn();const tx=Math.round(fx),ty=Math.round(fy);if(!map[ty])return 0;const c0=map[ty][tx];if(c0==='V'||c0==='q')return -VD;if(c0!=='M')return 0;
   const i=Math.floor(fx-.5),j=Math.floor(fy-.5),u=fx-.5-i,v=fy-.5-j,a=cornerH(i,j),b=cornerH(i+1,j),c=cornerH(i,j+1),d=cornerH(i+1,j+1);
   return a*(1-u)*(1-v)+b*u*(1-v)+c*(1-u)*v+d*u*v;}
@@ -1832,7 +1853,13 @@ function drawBridge(x,y,q){
     lx.strokeStyle='#4a2e16';lx.lineWidth=.7*RES;const m0=P(...at(-.5),H2*.5),m1=P(...at(.5),H2*.5);lx.beginPath();lx.moveTo(...m0);lx.lineTo(...m1);lx.stroke();
     lx.strokeStyle='#3a2410';lx.lineWidth=1.8*RES;lx.beginPath();lx.moveTo(...a0);lx.lineTo(...h0);if(!nextBr){lx.moveTo(...a1);lx.lineTo(...h1);}lx.stroke();});
   /* Widerlager am Ufer: Steinsockel am Brückenanfang/-ende */
-  [[!prevBr,-.5],[!nextBr,.5]].forEach(([is,t])=>{if(!is)return;const a2=ax==='y'?P(0,t,0):P(t,0,0);lx.fillStyle='#6a6470';lx.fillRect(a2[0]-TW*.22,a2[1]-1*RES,TW*.44,4*RES);lx.fillStyle='#4a4652';lx.fillRect(a2[0]-TW*.22,a2[1]+2*RES,TW*.44,2*RES);});}
+  /* Rev 116: gemauerte Widerlager – hinten als Mauerwerk an der Talwand unter dem Deck, vorn als Steinblock mit Auflage auf festem Boden */
+  const A2=(u,v,h)=>ax==='y'?P(u,v,h):P(v,u,h),wb=w+.1,mauer=(pts,col)=>{poly(pts,col);lx.save();lx.beginPath();lx.moveTo(...pts[0]);pts.slice(1).forEach(p2=>lx.lineTo(...p2));lx.closePath();lx.clip();
+    lx.strokeStyle='rgba(20,16,22,.55)';lx.lineWidth=.6*RES;const ys=pts.map(p2=>p2[1]),y0=Math.min(...ys),y1=Math.max(...ys),xs=pts.map(p2=>p2[0]),x0=Math.min(...xs),x1=Math.max(...xs);
+    for(let yy=y0+3*RES,r=0;yy<y1;yy+=3*RES,r++){lx.beginPath();lx.moveTo(x0,yy);lx.lineTo(x1,yy);lx.stroke();for(let xx=x0+(r%2)*3*RES;xx<x1;xx+=6*RES){lx.beginPath();lx.moveTo(xx,yy-3*RES);lx.lineTo(xx,yy);lx.stroke();}}lx.restore();};
+  if(!prevBr){mauer([A2(-wb,-.5,0),A2(wb,-.5,0),A2(wb,-.5,-D),A2(-wb,-.5,-D)],'#6e6874');poly([A2(-wb,-.62,1.5*RES),A2(wb,-.62,1.5*RES),A2(wb,-.45,1.5*RES),A2(-wb,-.45,1.5*RES)],'#8a8490');}
+  if(!nextBr){const e=.5,f=.78,h=T+1*RES;poly([A2(-wb,e,h),A2(wb,e,h),A2(wb,f,h),A2(-wb,f,h)],'#8a8490');mauer([A2(-wb,f,h),A2(wb,f,h),A2(wb,f,-1*RES),A2(-wb,f,-1*RES)],'#5e5864');
+    mauer([A2(wb,e,h),A2(wb,f,h),A2(wb,f,-1*RES),A2(wb,e,-1*RES)],'#4e4854');}}
 const FPC={};
 function floorPat(g,zg){const k='__fp'+zg;if(g[k])return g[k];
   if(!FPC[zg]){const N=256,M=128,c=document.createElement('canvas');c.width=N;c.height=M;const q=c.getContext('2d'),R=rng(zg.length*77+3);
@@ -1874,7 +1901,11 @@ function drawCanyonSeg(g,C,a,b,x0,y0,x1,y1){
     const rp=g.__rp||(g.__rp=g.createPattern(rockPattern(),'repeat'));
     for(let i=0;i<top.length-1;i++){const[xA,yA]=top[i],[xB,yB]=top[i+1],sl=(yB-yA)/(xB-xA),col=shH('#6c5e4e',-sl*.18),pA=Wp(xA,yA,0),pB=Wp(xB,yB,0);
       const q4=[pA,pB,[pB[0],pB[1]+D],[pA[0],pA[1]+D]];path(q4);const wg=g.createLinearGradient(0,pA[1],0,pA[1]+D);wg.addColorStop(0,shH(col,.12));wg.addColorStop(1,shH(col,-.45));
-      g.fillStyle=wg;g.fill();g.strokeStyle=g.fillStyle;g.lineWidth=1;g.stroke();g.globalAlpha=.3;g.fillStyle=rp;g.fill();g.globalAlpha=1;}
+      g.fillStyle=wg;g.fill();g.strokeStyle=g.fillStyle;g.lineWidth=1;g.stroke();g.globalAlpha=.45;g.fillStyle=rp;g.fill();g.globalAlpha=1;
+      /* Rev 116: Gesteinsschichten und senkrechte Klüfte, damit die Wand als Wand lesbar ist */
+      for(const[f,al]of[[.22,.35],[.48,.3],[.74,.25]]){const o=(hash(Math.round(xA*4),Math.round(f*10))-.5)*2*RES;g.strokeStyle=`rgba(30,22,16,${al})`;g.lineWidth=RES;g.beginPath();g.moveTo(pA[0],pA[1]+D*f+o);g.lineTo(pB[0],pB[1]+D*f+o);g.stroke();
+        g.strokeStyle='rgba(255,235,200,.12)';g.lineWidth=.6*RES;g.beginPath();g.moveTo(pA[0],pA[1]+D*f+o-RES);g.lineTo(pB[0],pB[1]+D*f+o-RES);g.stroke();}
+      if(hash(Math.round(xA*4),3)>.6){g.strokeStyle='rgba(20,14,10,.4)';g.lineWidth=.8*RES;g.beginPath();g.moveTo(pA[0],pA[1]+2*RES);g.lineTo(pA[0]+(hash(i,5)-.5)*3*RES,pA[1]+D*.7);g.stroke();}}
     /* Anfang der Schlucht (Stirnwand) */
     if(Math.abs(xa-(a-.5))<.01){const q4=[Wp(xa,C.f(xa)-HW,0),Wp(xa,C.f(xa)+HW,0),Wp(xa,C.f(xa)+HW,-D),Wp(xa,C.f(xa)-HW,-D)];path(q4);g.fillStyle='#4e4438';g.fill();g.globalAlpha=.3;g.fillStyle=rp;g.fill();g.globalAlpha=1;}
     /* weiche Kanten: helle Oberkante hinten, Schattenlinie unter der vorderen Kante */
@@ -3620,7 +3651,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 115</div>
+  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 116</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }

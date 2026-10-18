@@ -529,3 +529,20 @@ test('Gruft aus der Werkstatt und schlanke Stadtmauer in Sonnwacht', async ({ pa
   expect(r.gross).toEqual([9, 5]); expect(r.drin).toBe('i'); expect(r.schlank).toBe(true);
   expect(fehler).toEqual([]);
 });
+
+test('Täler und Berge: kein Berg am Talrand, Brücken auf festem Boden mit Widerlagern', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const H = map.length, W = map[0].length, N4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+    let talAmBerg = 0, brueckeAmBerg = 0, randHoch = 0;
+    for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) {
+      const c = map[y][x], nb = N4.map(([a, b]) => map[y + b][x + a]);
+      if ((c === 'V' || c === 'q') && nb.includes('M')) talAmBerg++;
+      if ((c === 'h' || c === 'H') && nb.includes('M')) brueckeAmBerg++;
+      if (c === 'M' && N4.some(([a, b]) => 'VqhH'.includes(map[y + 2 * b] && map[y + 2 * b][x + 2 * a])) && MHT[y * W + x] > 20 * RES) randHoch++;
+    }
+    return { talAmBerg, brueckeAmBerg, randHoch, tiefe: VD / RES };
+  });
+  expect(r).toEqual({ talAmBerg: 0, brueckeAmBerg: 0, randHoch: 0, tiefe: 30 });
+  expect(fehler).toEqual([]);
+});
