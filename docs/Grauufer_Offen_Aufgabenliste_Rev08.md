@@ -1,12 +1,12 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 7**, Stand: Spiel-Rev 114. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 8**, Stand: Spiel-Rev 115. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
 | Aufgabe | Stand | Einzelheiten |
 |---|---|---|
-| Haus-Baukasten | fertig in der Werkstatt (Haustypen, 1–3 Geschosse, Dachboden, Öffnungen, 22 Einrichtungsteile); fünf Häuser in Grauufer (Spiel-Rev 109), neun in Sonnwacht (Spiel-Rev 111) und vier in Sandhafen (Spiel-Rev 114) im Spiel | Grauufer_Baukaesten_RevXX.md |
+| Haus-Baukasten | fertig in der Werkstatt (Haustypen, 1–3 Geschosse, Dachboden, Öffnungen, 22 Einrichtungsteile); fünf Häuser in Grauufer (Spiel-Rev 109), neun in Sonnwacht (Spiel-Rev 111) und vier in Sandhafen (Spiel-Rev 114) und die Gruft von Grauufer (Spiel-Rev 115) im Spiel | Grauufer_Baukaesten_RevXX.md |
 | Neue vorgerenderte Grafik | Werkstatt und Stilregeln fertig; im Spiel bisher nur die Häuser in Grauufer, Sonnwacht und Sandhafen; Skelettkrieger, 14 Gegenstände und Rucksack-Entwurf erst gerendert | Grauufer_Grafik_RevXX.md |
 | Umstellung auf TypeScript + Vite | Stufe 0 erledigt; offen: Ordner `reference/` mit Rev 29 fehlt noch | Grauufer_Fahrplan_RevXX.md |
 
@@ -55,6 +55,7 @@
 ## 5. Prüfpunkte für den Auftraggeber
 
 - Logo nach deiner Vorlage im Titelbild auf dem Tablet ansehen (Spiel-Rev 113).
+- Gruft und schlanke Stadtmauer von Sonnwacht (Spiel-Rev 115) im Spiel ansehen; andere Stadt- und Burgmauern (z. B. Alte Feste, Steinwacht, Kornwacht) auf Wunsch ebenso verschlanken.
 - Häuser in Sandhafen (Spiel-Rev 114) im Spiel ansehen; weitere Orte mit Hütten auf Wunsch genauso umstellen: Kornwacht, Schilfrode, Erzhall, Frosthain, Steinwacht, Ostwacht, Tränensee (Tobe), Miras Kate.
 - Ein Haus über „Über GitHub an Claudia senden“ testweise abschicken.
 - Claude-Seite „Grauufer Haus-Baukasten“ mit dem Mitbenutzer teilen (Teilen → Rolle Bearbeiter, kein öffentlicher Link), falls er sie statt der GitHub-Seite nutzen soll.

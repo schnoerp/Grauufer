@@ -1,6 +1,6 @@
 # Grauufer – Baukästen
 
-**Revision 4**, Stand: Spiel-Rev 114. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 5**, Stand: Spiel-Rev 115. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zweite Entwickler Teile der Spielwelt selbst zusammenstellen. Die Baukästen gehören zur Grafik-Werkstatt; Technik, Stilregeln und Kamera stehen in Grauufer_Grafik_RevXX.md.
 
@@ -45,7 +45,7 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 
 **Dächer:** gekrümmte, leicht durchhängende Flächen mit sichtbarer Dicke an der Traufe. Reet: etwa 45° steil, 0,34 m dick, weich gewölbt, mit Firstwulst und Graten, Halme quer zur Traufe; Schiefer und Schindeln: etwa 32° steil, Holzkante an der Traufe und an den Ortgängen, ab „verwittert“ mit Brettern geflickt.
 
-**Beschreibung eines Hauses (JSON):** `name`, `breite`, `tiefe`, `wand`, `dach`, `dachform` (sattel/walm/pult/flach, optional), `wand` auch `lehm`, `gauben` (true/false, optional), `typ` (Haustyp der geladenen Vorlage, optional), `first`, `verwitterung` (0–1), `schornstein`, `oeffnungen` (Liste aus `seite` = hinten/vorn/links/rechts, `feld`, `art`), `einrichtung` (Liste aus `art`, `x`, `z`, `dreh` 0–3; 0 = Rückseite zur hinteren Wand), `geschosse` (1–3, optional), `dachboden` (true/false, optional) und bei Öffnungen und Einrichtung oberhalb des Erdgeschosses `geschoss` (1, 2 …; der Dachboden hat die Nummer nach dem obersten Geschoss).
+**Beschreibung eines Hauses (JSON):** `name`, `breite`, `tiefe`, `wand`, `dach`, `dachform` (sattel/walm/pult/flach, optional), `wand` auch `lehm`, `gauben` (true/false, optional), `boden` (`stein` für Steinboden, sonst Dielen; seit Spiel-Rev 115), `typ` (Haustyp der geladenen Vorlage, optional), `first`, `verwitterung` (0–1), `schornstein`, `oeffnungen` (Liste aus `seite` = hinten/vorn/links/rechts, `feld`, `art`), `einrichtung` (Liste aus `art`, `x`, `z`, `dreh` 0–3; 0 = Rückseite zur hinteren Wand), `geschosse` (1–3, optional), `dachboden` (true/false, optional) und bei Öffnungen und Einrichtung oberhalb des Erdgeschosses `geschoss` (1, 2 …; der Dachboden hat die Nummer nach dem obersten Geschoss).
 
 **Beispiele:** `werkstatt/haeuser/fischerhaus.json` (Fachwerk, Schiefer-Satteldach), `werkstatt/haeuser/reetkate.json` (Holzbohlen, Reet-Walmdach); Bild aller Haustypen: `werkstatt/vorschau/haustypen.jpg` (`npm run grafik`).
 
@@ -122,8 +122,10 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 | Wohnhaus am Markt | `sh_wohnhaus.json` | Teppiche, Bett, Kessel mit Brennholz, Wandbrett | 212,220 |
 | Yasmins Haus | `sh_yasmin.json` | 2 Geschosse; Ladentheke, Regale, Fässer, Säcke | 223,220 |
 
+**Im Spiel seit Spiel-Rev 115 (Grauufer, Gruft):** die Gruft von Grauufer (`gruft.json`, 9 × 5 Felder): Bruchstein, Schiefer-Walmdach, stark verwittert, Portal vorn, Luken; innen **Steinboden** (neue Angabe `boden: "stein"`), Truhe, Regale, Waffen an der Wand, Kisten. Altar, Steinwächter und die Treppe in die Tiefe zeichnet weiter das Spiel; das Tor bleibt verschlossen, bis man den Gruftschlüssel hat. Auch Gebäude mit Steinmauern (`#`) und Tür (`D`) lassen sich damit durch Werkstatt-Häuser ersetzen.
+
 - Die fünf Häuser in Grauufer sind 3 × 3 Felder groß mit der Tür vorn in der Mitte, wie die bisherigen Hütten. Die Bewohner stehen im mittleren Feld, die Einrichtung steht in den Randfeldern, die im Spiel als Wand gelten. Die verlassene Kate ist neu und steht leer.
-- Je Haus drei Bilder, gerendert mit `npm run haeuser` im Maßstab des Spiels (ein Feld 160 Einheiten breit, Raster wie im Spiel) und als PNG mit Farbtabelle in `index.html` eingebettet (seit Spiel-Rev 111 verlustfrei mit höchstens 256 Farben je Bild; alle 18 Häuser zusammen etwa 760 KB): **außen** mit Dach, **innen hinten** (Boden, hintere Wände, Einrichtung) und **innen vorn** (die zwei niedrigen Wände zur Kamera).
+- Je Haus drei Bilder, gerendert mit `npm run haeuser` im Maßstab des Spiels (ein Feld 160 Einheiten breit, Raster wie im Spiel) und als PNG mit Farbtabelle in `index.html` eingebettet (seit Spiel-Rev 111 verlustfrei mit höchstens 256 Farben je Bild; alle 19 Häuser zusammen etwa 850 KB): **außen** mit Dach, **innen hinten** (Boden, hintere Wände, Einrichtung) und **innen vorn** (die zwei niedrigen Wände zur Kamera).
 - Steht die Figur im Haus oder dahinter, zeigt das Spiel die Innenansicht: das hintere Bild vor den Figuren, die niedrigen vorderen Wände danach. Seit Spiel-Rev 111 wird das hintere Bild in senkrechten Streifen je Feldlinie gezeichnet, jeweils beim hintersten Hausfeld; so verdeckt nichts, was hinter dem Haus steht (z. B. die Stadtmauer), die Rückwand. Sonst das Haus von außen mit Dach. Die Bilder werden beim Start einmal im Hauptspeicher entpackt, in der kleinen Rastergröße, und beim Zeichnen ohne Glättung vergrößert; bis dahin zeichnet das Spiel die alte Hütte.
 
 **Weiter geplant:**

@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 25**, Stand: Spiel-Rev 114. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 26**, Stand: Spiel-Rev 115. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -25,8 +25,8 @@ Koordinaten als linke obere und rechte untere Ecke (x, y).
 
 | Gebiet | Lage | Bereich | Besonderheit |
 |---|---|---|---|
-| Sonnwacht | Mitte | 96,178 – 125,200 | Startstadt, Mauer mit Tor, **Schutzzone**; neun Häuser aus der Grafik-Werkstatt (seit Spiel-Rev 111, linke obere Ecke): Haus des Schreibers 98,180; Lenes Haus 101,180; Kate am Nordwall 119,180; Odos Haus 122,180; Gerolds Haus 98,193; Gästehaus 102,193; Werkstatt 117,193; Bauernkate 121,193 (je 3 × 3 Felder, leer und begehbar); Wachhalle 105,180 – 115,184 (11 × 5 Felder, Tür 110,184) |
-| Grauufer | Süden, Küste | 66,206 – 93,233 | Dorf, Gräberfeld, Gruft, Steinkreis; fünf Häuser zu je 3 × 3 Feldern aus der Grafik-Werkstatt (seit Spiel-Rev 109, linke obere Ecke): Mareth 85,220; Oswin 88,213; Ilsabe 69,220; Bram 73,220; verlassene Kate 89,219 (neu, leer und begehbar) |
+| Sonnwacht | Mitte | 96,178 – 125,200 | Startstadt, Mauer mit Tor (seit Spiel-Rev 115 schlanke Mauer, etwa 1 m statt ein Feld dick), **Schutzzone**; neun Häuser aus der Grafik-Werkstatt (seit Spiel-Rev 111, linke obere Ecke): Haus des Schreibers 98,180; Lenes Haus 101,180; Kate am Nordwall 119,180; Odos Haus 122,180; Gerolds Haus 98,193; Gästehaus 102,193; Werkstatt 117,193; Bauernkate 121,193 (je 3 × 3 Felder, leer und begehbar); Wachhalle 105,180 – 115,184 (11 × 5 Felder, Tür 110,184) |
+| Grauufer | Süden, Küste | 66,206 – 93,233 | Dorf, Gräberfeld, Gruft (78,207 – 86,211, Tor 82,211; seit Spiel-Rev 115 aus der Grafik-Werkstatt), Steinkreis; fünf Häuser zu je 3 × 3 Feldern aus der Grafik-Werkstatt (seit Spiel-Rev 109, linke obere Ecke): Mareth 85,220; Oswin 88,213; Ilsabe 69,220; Bram 73,220; verlassene Kate 89,219 (neu, leer und begehbar) |
 | Tränensee | Westen | 14,194 – 37,217 | Moorsee mit Insel |
 | Glutschlund | Sengende Ödnis | 164,196 – 187,219 | Lava, gilt als Höhle; seit Spiel-Rev 76 hierher verlegt (vorher direkt neben Sonnwacht) |
 | Aschenhorn | Klippenküste, Südosten | 631,155 – 673,199 | Vulkan (seit Spiel-Rev 64), Krater bei 652,177 mit Lavasee, Ausbrüche |

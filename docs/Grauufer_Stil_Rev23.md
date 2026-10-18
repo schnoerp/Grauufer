@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 22**, Stand: Spiel-Rev 114. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 23**, Stand: Spiel-Rev 115. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -66,7 +66,7 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 | Ausstattung | 61 | Möbel innen, Stadtdeko außen |
 | Licht | 62 | Schlagschatten von Mauern und Bäumen nach rechts unten, Figurenschatten, Lichtkarte mit Lampen in Höhlen und dunklen Orten |
 | Schatten und Stimmung | 96 | siehe Abschnitt „Schatten und Farbstimmung“ unten |
-| Dünne Hauswände | 63 | Wandscheiben (¼ Kachel) mit Eckpfosten statt Vollblöcken; Stadtmauern bleiben massiv |
+| Dünne Hauswände | 63 | Wandscheiben (¼ Kachel) mit Eckpfosten statt Vollblöcken; Stadtmauern bleiben massiv – Ausnahme seit Spiel-Rev 115: die Stadtmauer von Sonnwacht ist eine schlanke Mauer (gut ½ Kachel, etwa 1 m dick, Höhe unverändert), passend zu den Häusern aus der Werkstatt; Türme und Tor bleiben massiv |
 
 ### Feine Bodenzeichnung (Im Spiel seit Spiel-Rev 98)
 
@@ -89,7 +89,7 @@ Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus
 
 ### Vorgerenderte Häuser (Im Spiel seit Spiel-Rev 109)
 
-Die fünf Häuser in Grauufer seit Spiel-Rev 111 die acht Häuser und die Wachhalle in Sonnwacht und seit Spiel-Rev 114 die vier Lehmhäuser in Sandhafen sind keine Codegrafik mehr, sondern Bilder aus der Grafik-Werkstatt (Stilregeln: Grauufer_Grafik_RevXX.md, Häuser: Grauufer_Baukaesten_RevXX.md). Alle anderen Häuser, Mauern und Bäume bleiben vorerst Codegrafik.
+Die fünf Häuser in Grauufer seit Spiel-Rev 111 die acht Häuser und die Wachhalle in Sonnwacht, seit Spiel-Rev 114 die vier Lehmhäuser in Sandhafen und seit Spiel-Rev 115 die Gruft von Grauufer sind keine Codegrafik mehr, sondern Bilder aus der Grafik-Werkstatt (Stilregeln: Grauufer_Grafik_RevXX.md, Häuser: Grauufer_Baukaesten_RevXX.md). Alle anderen Häuser, Mauern und Bäume bleiben vorerst Codegrafik.
 
 ### Weitere Grafik (Im Spiel seit Spiel-Rev 64–90)
 - Vulkan mit Rauch und Lavasee, Portale mit wirbelndem Licht, animiertes Meer (Wellenkämme, Brandung, seit Spiel-Rev 80), Schiffswrack (Rev 83), Truhen offen/zu, Mimik, Lesepulte, Runentafeln, Felsbrocken, Gittertore, Runentore, Vogelnester.
