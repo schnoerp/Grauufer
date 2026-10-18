@@ -97,4 +97,5 @@ Der Auftraggeber will die Pixelwelt zugunsten höherer Grafikqualität verlassen
   2. Werkstatt-Grafik (Häuser, Rucksack, Gegenstände) ohne Raster in voller Auflösung einbetten; Dateigröße und Arbeitsspeicher auf dem Tablet prüfen, Grafikspeicher-Regel aus Spiel-Rev 53 bleibt.
   3. Figuren und Texturen neu gestalten (Figuren-Baukasten, Landschafts-Baukasten, Grauufer_Baukaesten_RevXX.md).
   4. Schrift „Pixelify Sans“, Lebens- und Manakugeln und Symbole ersetzen; Regel 2.4 „Pixel-Look“ in CLAUDE.md anpassen.
-- **Offen:** Ziel-Stil (vorgerendert-gemalt wie Pagan oder glatt-modern) und Ersatzschrift.
+- **Ziel-Stil (Entscheidung des Auftraggebers, Spiel-Rev 121): Typ A – vorgerendert und gemalt wie Pagan in hoher Auflösung** (vergleichbar Baldur's Gate, Diablo II): Modelle in der Werkstatt gebaut und einmal als Bild gerendert, raue Materialien, warmes Licht, harte Schatten, düster und erdig wie das Startbild. Kein Echtzeit-3D im Spiel.
+- **Offen:** Ersatzschrift für „Pixelify Sans“.
