@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 24**, Stand: Spiel-Rev 111. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 25**, Stand: Spiel-Rev 114. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -37,7 +37,7 @@ Koordinaten als linke obere und rechte untere Ecke (x, y).
 | Spinnengrotte | Gebirge nördlich des Fahlmoors | 172,132 – 198,152 | dunkle Höhle |
 | Frosthain | Frostmark | 222,142 – 239,155 | Dorf |
 | Gefrorener See | nördlich von Frosthain | 232,127 – 250,137 | Eisgolem |
-| Sandhafen | Sengende Ödnis | 210,210 – 229,225 | Hafenstadt |
+| Sandhafen | Sengende Ödnis | 210,210 – 229,225 | Hafenstadt; vier Lehmhäuser mit Flachdach aus der Grafik-Werkstatt (seit Spiel-Rev 114, linke obere Ecke, je 3 × 3 Felder, leer und begehbar): Hafenmeisterei 212,212; Lagerhaus am Hafen 223,212; Wohnhaus am Markt 212,220; Yasmins Haus 223,220 |
 | Versunkener Tempel | Sengende Ödnis | 238,194 – 255,211 | Knochenkönig |
 
 ### Großräume (Biome)

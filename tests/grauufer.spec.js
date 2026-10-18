@@ -335,13 +335,13 @@ test('Werkstatt: Hausbau erzeugt Häuser aus der Beschreibung (alle Wand-, Dach-
   const r = await page.evaluate(() => {
     const zaehle = g => { let n = 0; g.traverse(o => { if (o.isMesh) n++; }); return n; };
     const ergebnis = [];
-    for (const wand of ['fachwerk', 'stein', 'holz']) for (const dach of ['schiefer', 'schindeln', 'reet']) for (const first of ['x', 'z']) for (const dachform of ['sattel', 'walm', 'pult']) {
+    for (const wand of ['fachwerk', 'stein', 'holz', 'lehm']) for (const dach of ['schiefer', 'schindeln', 'reet']) for (const first of ['x', 'z']) for (const dachform of ['sattel', 'walm', 'pult', 'flach']) {
       const spec = Object.assign(JSON.parse(JSON.stringify(Hausbau.BEISPIEL)), { wand, dach, first, dachform });
       ergebnis.push(zaehle(Hausbau.Bau(spec, false)) > 100 && zaehle(Hausbau.Bau(spec, true, 2)) > 200);
     }
     return [ergebnis.every(Boolean), ergebnis.length, Object.keys(Hausbau.KATALOG).length];
   });
-  expect(r).toEqual([true, 54, 22]);
+  expect(r).toEqual([true, 96, 22]);
   expect(fehler).toEqual([]);
 });
 
@@ -466,7 +466,7 @@ test('Grauufer: fünf Häuser aus der Grafik-Werkstatt, außen und innen', async
     const m = BILDHAUS.find(b => b.bild === 'mareth'), mareth = NPCS.find(n => n.id === 'mareth');
     S.p.x = S.p.rx = m.x0 + 1; S.p.y = S.p.ry = m.y0 + 1; await warte(); const drin = m._m;
     S.p.x = S.p.rx = m.x0 - 6; S.p.y = S.p.ry = m.y0 - 6; await warte(); const draussen = m._m;
-    return { namen: BILDHAUS.map(b => b.bild).filter(n => !n.startsWith('sw_')).sort(), drin, draussen, mitte: mareth.x === m.x0 + 1 && mareth.y === m.y0 + 1,
+    return { namen: BILDHAUS.map(b => b.bild).filter(n => !n.includes('_')).sort(), drin, draussen, mitte: mareth.x === m.x0 + 1 && mareth.y === m.y0 + 1,
       bilder: Object.values(HAUSBILD).every(h => ['a', 'h', 'v'].every(s => h[s].c.width > 100)) };
   });
   expect(r.namen).toEqual(['bram', 'ilsabe', 'mareth', 'oswin', 'verlassen']);
@@ -498,5 +498,20 @@ test('Sonnwacht: acht Häuser und die Wachhalle aus der Werkstatt, Innenansicht 
   });
   expect(r.n).toBe(9); expect(r.gross).toEqual([11, 5]); expect(r.drin).toBe('i'); expect(r.draussen).toBe('a');
   expect(r.streifen).toBeGreaterThan(10);
+  expect(fehler).toEqual([]);
+});
+
+test('Sandhafen: vier Lehmhäuser mit Flachdach aus der Werkstatt', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => Object.keys(HAUSBILD).length === Object.keys(HAUSBILDER).length, null, { timeout: 10000 });
+  const r = await page.evaluate(async () => {
+    const warte = () => new Promise(f => requestAnimationFrame(() => requestAnimationFrame(f)));
+    const sh = BILDHAUS.filter(b => b.bild.startsWith('sh_')), y = sh.find(b => b.bild === 'sh_yasmin');
+    S.p.x = S.p.rx = y.x0 + 1; S.p.y = S.p.ry = y.y0 + 1; await warte(); const drin = y._m;
+    S.p.x = S.p.rx = y.x0 - 8; S.p.y = S.p.ry = y.y0 - 8; await warte();
+    return { namen: sh.map(b => b.bild).sort(), drin, draussen: y._m };
+  });
+  expect(r.namen).toEqual(['sh_hafenmeister', 'sh_lager', 'sh_wohnhaus', 'sh_yasmin']);
+  expect(r.drin).toBe('i'); expect(r.draussen).toBe('a');
   expect(fehler).toEqual([]);
 });

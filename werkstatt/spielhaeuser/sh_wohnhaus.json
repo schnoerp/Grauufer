@@ -1,0 +1,104 @@
+{
+ "name": "Wohnhaus am Markt",
+ "breite": 3,
+ "tiefe": 3,
+ "wand": "lehm",
+ "dach": "schindeln",
+ "dachform": "flach",
+ "first": "x",
+ "verwitterung": 0.45,
+ "schornstein": false,
+ "geschosse": 1,
+ "dachboden": false,
+ "gauben": false,
+ "oeffnungen": [
+  {
+   "seite": "vorn",
+   "feld": 1,
+   "art": "tuer"
+  },
+  {
+   "seite": "vorn",
+   "feld": 0,
+   "art": "luke"
+  },
+  {
+   "seite": "rechts",
+   "feld": 1,
+   "art": "luke"
+  },
+  {
+   "seite": "hinten",
+   "feld": 1,
+   "art": "luke"
+  }
+ ],
+ "einrichtung": [
+  {
+   "art": "bett",
+   "x": 0,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "teppich",
+   "x": 0,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "truhe",
+   "x": 1,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "kessel",
+   "x": 2,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "brennholz",
+   "x": 2,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "wandbrett",
+   "x": 0,
+   "z": 1,
+   "dreh": 1
+  },
+  {
+   "art": "faesser",
+   "x": 0,
+   "z": 1,
+   "dreh": 1
+  },
+  {
+   "art": "tisch",
+   "x": 2,
+   "z": 1,
+   "dreh": 3
+  },
+  {
+   "art": "teppich",
+   "x": 1,
+   "z": 1,
+   "dreh": 0
+  },
+  {
+   "art": "hocker",
+   "x": 0,
+   "z": 2,
+   "dreh": 0
+  },
+  {
+   "art": "saecke",
+   "x": 2,
+   "z": 2,
+   "dreh": 3
+  }
+ ]
+}

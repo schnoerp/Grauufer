@@ -1,6 +1,6 @@
 # Grauufer – Baukästen
 
-**Revision 3**, Stand: Spiel-Rev 111. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 4**, Stand: Spiel-Rev 114. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zweite Entwickler Teile der Spielwelt selbst zusammenstellen. Die Baukästen gehören zur Grafik-Werkstatt; Technik, Stilregeln und Kamera stehen in Grauufer_Grafik_RevXX.md.
 
@@ -33,7 +33,7 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 | Bereich | Bedienung |
 |---|---|
 | Haustyp | Vorlagen nach Größe und Aufwand: **Schuppen** (2×2–3×3, Holz, Pultdach, Tor, Werkbank), **Cottage** (3×3–5×4, Bruchstein, Reet-Walmdach, Dachboden), **Bauernhaus** (5×4–8×5, Wohnteil und Stall mit Tor, Futterkrippen und Heu, Heuboden), **Wohnhaus** (3×3–5×5, schmal und hoch, 3 Geschosse, unten Laden mit Theke), **Landhaus** (6×5–9×7, 2 Geschosse, Walmdach mit Gauben), **Residenz** (7×6–9×9, Stein, Portal, regelmäßige Fensterreihen, 2 Geschosse und Dachboden). „Vorlage laden“ setzt Größe, Bauart, Öffnungen und Einrichtung; danach ist alles frei änderbar. Burg und Schloss folgen später als eigener Anlagen-Baukasten |
-| Haus | Breite und Tiefe 2–12 Felder (bis Spiel-Rev 110: 2–9); Wände: Fachwerk auf Bruchstein, Bruchstein, Holzbohlen; Dachdeckung: Schiefer, Holzschindeln, Reet; Dachform: Satteldach (mit Giebeln), Walmdach (rundum geneigt) oder Pultdach (eine Schräge, vorn tief, hinten hoch; ohne Dachboden), Reet standardmäßig als Walmdach; Gauben auf der vorderen Dachfläche (nicht beim Pultdach); First entlang der Breite oder der Tiefe; Verwitterung in 5 Stufen (neu, gepflegt, gebraucht, verwittert, verfallen); Schornstein ein/aus (steht über dem Kamin, falls einer gesetzt ist) |
+| Haus | Breite und Tiefe 2–12 Felder (bis Spiel-Rev 110: 2–9); Wände: Fachwerk auf Bruchstein, Bruchstein, Holzbohlen, Lehm (seit Spiel-Rev 114: sandfarbener Lehmputz mit Rissen und abgeplatzten Stellen, ohne Steinsockel); Dachdeckung: Schiefer, Holzschindeln, Reet; Dachform: Satteldach (mit Giebeln), Walmdach (rundum geneigt) Pultdach (eine Schräge, vorn tief, hinten hoch; ohne Dachboden) oder Flachdach (seit Spiel-Rev 114: Lehmdecke mit Brüstung, hervorstehenden Balkenköpfen und Wasserspeiern; ohne Dachboden und Gauben), Reet standardmäßig als Walmdach; Gauben auf der vorderen Dachfläche (nicht beim Pult- und Flachdach); First entlang der Breite oder der Tiefe; Verwitterung in 5 Stufen (neu, gepflegt, gebraucht, verwittert, verfallen); Schornstein ein/aus (steht über dem Kamin, falls einer gesetzt ist) |
 | Geschosse und Dachboden | 1, 2 oder 3 Geschosse, dazu auf Wunsch ein **begehbarer Dachboden**; bei mehreren Ebenen Umschalter über dem Grundriss (Erdgeschoss, 1. Obergeschoss, 2. Obergeschoss, Dachboden): Fenster, Türen und Einrichtung werden je Ebene gesetzt. Teil **„Treppe (nach oben)“** auf jeder Ebene außer der obersten, steigt in einem Feld auf 3 m und erzeugt darüber an derselben Stelle ein Treppenloch mit Geländer (dort nichts stellbar). Eine Tür im Obergeschoss bekommt einen kleinen Austritt mit Brüstung. Der Dachboden hat keine Fenster- und Türwerkzeuge; innen zeigt er Boden, Kniestock, Giebelwand mit Fenster (Satteldach) und den offenen Dachstuhl mit Firstpfosten – die Dachschrägen selbst stehen in der Spielansicht fast in Blickrichtung und werden deshalb weggelassen. Außen bekommt ein Satteldach mit Dachboden je ein Giebelfenster. „Innen“ zeigt die gewählte Ebene |
 | Grundriss | von oben, oben = hinten, unten = vorn (zur Kamera); ein Feldrand um das Haus für Dinge im Freien (nur Erdgeschoss) |
 | Fenster und Türen | sieben eigene Werkzeuge: Fenster, Tür, Fenster kaputt, Fenster vernagelt, **Tor** (zwei Flügel, 1,9 m breit), **Portal** (Doppeltür mit Steinrahmen, Bogen und Stufen), **Luke** (kleiner Holzladen); auf eine Wand tippen setzt die Öffnung, nochmal tippen macht wieder Wand daraus. Im Grundriss: Fenster als hellblaue Doppellinie (kaputt mit schwarzem Kreuz, vernagelt mit Brettern), Tür als Lücke mit Türblatt und Schwenkbogen ins Haus; die Knöpfe zeigen dasselbe Zeichen |
@@ -45,7 +45,7 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 
 **Dächer:** gekrümmte, leicht durchhängende Flächen mit sichtbarer Dicke an der Traufe. Reet: etwa 45° steil, 0,34 m dick, weich gewölbt, mit Firstwulst und Graten, Halme quer zur Traufe; Schiefer und Schindeln: etwa 32° steil, Holzkante an der Traufe und an den Ortgängen, ab „verwittert“ mit Brettern geflickt.
 
-**Beschreibung eines Hauses (JSON):** `name`, `breite`, `tiefe`, `wand`, `dach`, `dachform` (sattel/walm/pult, optional), `gauben` (true/false, optional), `typ` (Haustyp der geladenen Vorlage, optional), `first`, `verwitterung` (0–1), `schornstein`, `oeffnungen` (Liste aus `seite` = hinten/vorn/links/rechts, `feld`, `art`), `einrichtung` (Liste aus `art`, `x`, `z`, `dreh` 0–3; 0 = Rückseite zur hinteren Wand), `geschosse` (1–3, optional), `dachboden` (true/false, optional) und bei Öffnungen und Einrichtung oberhalb des Erdgeschosses `geschoss` (1, 2 …; der Dachboden hat die Nummer nach dem obersten Geschoss).
+**Beschreibung eines Hauses (JSON):** `name`, `breite`, `tiefe`, `wand`, `dach`, `dachform` (sattel/walm/pult/flach, optional), `wand` auch `lehm`, `gauben` (true/false, optional), `typ` (Haustyp der geladenen Vorlage, optional), `first`, `verwitterung` (0–1), `schornstein`, `oeffnungen` (Liste aus `seite` = hinten/vorn/links/rechts, `feld`, `art`), `einrichtung` (Liste aus `art`, `x`, `z`, `dreh` 0–3; 0 = Rückseite zur hinteren Wand), `geschosse` (1–3, optional), `dachboden` (true/false, optional) und bei Öffnungen und Einrichtung oberhalb des Erdgeschosses `geschoss` (1, 2 …; der Dachboden hat die Nummer nach dem obersten Geschoss).
 
 **Beispiele:** `werkstatt/haeuser/fischerhaus.json` (Fachwerk, Schiefer-Satteldach), `werkstatt/haeuser/reetkate.json` (Holzbohlen, Reet-Walmdach); Bild aller Haustypen: `werkstatt/vorschau/haustypen.jpg` (`npm run grafik`).
 
@@ -113,8 +113,17 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 | Bauernkate | `sw_bauer.json` | Fachwerk, Reet-Satteldach; Kamin, Heu, Säcke | 121,193 |
 | Wachhalle | `sw_wachhalle.json` | Bruchstein, Schiefer-Walmdach mit Gauben, 2 Geschosse, Portal; Betten, Waffen, Kamin, Regal, Tisch | 105,180 (11 × 5 Felder) |
 
+**Im Spiel seit Spiel-Rev 114 (Sandhafen):** vier Lehmhäuser mit Flachdach (neue Wandart Lehm und Dachform Flachdach), kleine Luken statt großer Fenster, Dateien `sh_*.json`. Die Häuser stehen leer und sind begehbar; Yasmin bleibt auf dem Platz.
+
+| Haus | Datei | Bauart | Feld (linke obere Ecke) |
+|---|---|---|---|
+| Hafenmeisterei | `sh_hafenmeister.json` | 2 Geschosse; Regal, Truhe, Waffen an der Wand, Tisch, Teppich | 212,212 |
+| Lagerhaus am Hafen | `sh_lager.json` | Tor und Luken; Kisten, Fässer, Säcke | 223,212 |
+| Wohnhaus am Markt | `sh_wohnhaus.json` | Teppiche, Bett, Kessel mit Brennholz, Wandbrett | 212,220 |
+| Yasmins Haus | `sh_yasmin.json` | 2 Geschosse; Ladentheke, Regale, Fässer, Säcke | 223,220 |
+
 - Die fünf Häuser in Grauufer sind 3 × 3 Felder groß mit der Tür vorn in der Mitte, wie die bisherigen Hütten. Die Bewohner stehen im mittleren Feld, die Einrichtung steht in den Randfeldern, die im Spiel als Wand gelten. Die verlassene Kate ist neu und steht leer.
-- Je Haus drei Bilder, gerendert mit `npm run haeuser` im Maßstab des Spiels (ein Feld 160 Einheiten breit, Raster wie im Spiel) und als PNG mit Farbtabelle in `index.html` eingebettet (seit Spiel-Rev 111 verlustfrei mit höchstens 256 Farben je Bild; alle 14 Häuser zusammen etwa 630 KB): **außen** mit Dach, **innen hinten** (Boden, hintere Wände, Einrichtung) und **innen vorn** (die zwei niedrigen Wände zur Kamera).
+- Je Haus drei Bilder, gerendert mit `npm run haeuser` im Maßstab des Spiels (ein Feld 160 Einheiten breit, Raster wie im Spiel) und als PNG mit Farbtabelle in `index.html` eingebettet (seit Spiel-Rev 111 verlustfrei mit höchstens 256 Farben je Bild; alle 18 Häuser zusammen etwa 760 KB): **außen** mit Dach, **innen hinten** (Boden, hintere Wände, Einrichtung) und **innen vorn** (die zwei niedrigen Wände zur Kamera).
 - Steht die Figur im Haus oder dahinter, zeigt das Spiel die Innenansicht: das hintere Bild vor den Figuren, die niedrigen vorderen Wände danach. Seit Spiel-Rev 111 wird das hintere Bild in senkrechten Streifen je Feldlinie gezeichnet, jeweils beim hintersten Hausfeld; so verdeckt nichts, was hinter dem Haus steht (z. B. die Stadtmauer), die Rückwand. Sonst das Haus von außen mit Dach. Die Bilder werden beim Start einmal im Hauptspeicher entpackt, in der kleinen Rastergröße, und beim Zeichnen ohne Glättung vergrößert; bis dahin zeichnet das Spiel die alte Hütte.
 
 **Weiter geplant:**
