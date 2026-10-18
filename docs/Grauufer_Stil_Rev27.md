@@ -56,7 +56,9 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 - **Bildzeit** (1250 × 650, je 200 Bilder): 18,6 ms mit der bisherigen Figur (Krieger), 17,7 ms mit dem Magier – im Messrauschen.
 - **Krieger:** Kettenhemd mit Kettenkragen, blauer Wappenrock mit goldenem Kreuz (Wappen der Siegelwächter), Schulterplatten, Beinschienen, Lederarmschienen, Schwert in der rechten Hand, Tropfenschild mit Goldkreuz am linken Arm, kurzes Haar.
 - **Waldläufer:** grüner Kapuzenumhang (vorn offen, mit Faltenschatten), Hemd und geschnürtes Lederwams, Armschienen, Gürtel mit Tasche und Messer, Köcher mit Pfeilen auf dem Rücken, Langbogen in der linken Hand, Bart.
-- **Geplant:** die drei Frauenfiguren im selben Stil; Lauf- und Angriffsbilder über ein Skelett (bisher nur Auf und Ab beim Laufen).
+- **Gegner Skelettkrieger** (seit Spiel-Rev 125, Zielbild des Auftraggebers): Knochenkörper, Lederschulterstücke, Brustriemen, Gürtel mit Rundschnalle, zerrissener roter Lendenschurz, Stiefel, Schwert, runder Holzschild; Einzelheiten in Grauufer_Gegner_RevXX.md. Gegner neben der Spielfigur schauen sie an.
+- Alle Figuren zusammen etwa 226 KB.
+- **Geplant:** die drei Frauenfiguren im selben Stil (zurückgestellt, Entscheidung des Auftraggebers Spiel-Rev 125); weitere Gegner; Lauf- und Angriffsbilder über ein Skelett (bisher nur Auf und Ab beim Laufen).
 
 ### Farbwelt je Gebiet
 

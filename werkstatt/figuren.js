@@ -13,6 +13,7 @@ const FIGUREN = [
   { name: 'magier_m', spec: { klasse: 'magier' } },
   { name: 'krieger_m', spec: { klasse: 'krieger' } },
   { name: 'laeufer_m', spec: { klasse: 'waldlaeufer' } },
+  { name: 'skeleton', spec: { klasse: 'skelett' } },        // Gegner Skelettkrieger (Schlüssel wie im Spiel)
 ];
 
 (async () => {

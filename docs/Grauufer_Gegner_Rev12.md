@@ -1,6 +1,6 @@
 # Grauufer – Gegner
 
-**Revision 11**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 12**, Stand: Spiel-Rev 125. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Diese Datei ist die **einzige Quelle für Gegnerwerte**. Formeln und Regeln (Treffer, Schaden, Aggro, Wiederbelebung) stehen in Grauufer_Kampfsystem_RevXX.md.
 
@@ -105,7 +105,7 @@ Alle Gegner sind selbst gezeichnet (Canvas), ohne Fremdgrafiken. Grundformen: Me
 | Ghul | Mensch, gebückt | fahlgrüne Haut, kahl, sichtbare Rippen, Krallen, rote Augen |
 | Ertrunkener | Mensch, gebückt | blaugraue Haut, nasses dunkelgrünes Haar, Seetang, hellblaue Augen |
 | Moorleiche | Mensch, gebückt, Kapuze | moosgrüne Haut, Seetang, hellgrüne Augen |
-| Skelettkrieger | Mensch | Knochen, Rippen, rote Augen, Schwert |
+| Skelettkrieger | feste Figur (seit Spiel-Rev 125) | Im neuen Stil nach Zielbild des Auftraggebers, in 8 Blickrichtungen (Grauufer_Stil_RevXX.md): Knochen mit Gelenkköpfen, Schädel mit dunklen Augenhöhlen und Zähnen, Rippenbögen, Lederschulterstücke mit Nieten, Brustriemen, Gürtel mit runder Schnalle, zerrissener roter Lendenschurz, Lederstiefel, Schwert und runder Holzschild mit Eisenrand und Buckel; schaut die Spielfigur an, wenn er neben ihr steht. Vorher: Mensch mit Knochen, Rippen, roten Augen und Schwert |
 | Bandit | Mensch, Kapuze | erdfarbener Umhang, Schwert |
 | Wolf | Hund | graues Fell, gelbe Augen |
 | Frostwolf | Hund | weißgraues Fell, eisblaue Augen |
