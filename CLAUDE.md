@@ -6,7 +6,7 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 
 - Privates Browser-Rollenspiel **„Grauufer 1.0“** von **schnoerp-media** im Stil von **Ultima VIII: Pagan**.
 - Das Spiel ist **eine einzige Datei**: `index.html` (HTML + CSS + JavaScript, Canvas 2D, isometrisch).
-- Konzeptdokumente liegen in `docs/` (17 Markdown-Dateien). Einstieg: `docs/Grauufer_Uebersicht_RevXX.md`.
+- Konzeptdokumente liegen in `docs/` (18 Markdown-Dateien). Einstieg: `docs/Grauufer_Uebersicht_RevXX.md`.
 - Sprache in Spiel, Dokumenten, Commit-Nachrichten und Antworten: **Deutsch**.
 
 ## 2. Unverrückbare Anforderungen
