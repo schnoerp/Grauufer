@@ -376,3 +376,19 @@ test('Werkstatt: Baukasten erzeugt den Versand an Claudia als GitHub-Issue', asy
   expect(r).toEqual(['https://github.com/schnoerp/Grauufer/issues/new', 'Haus: Fischerhaus', 'Fischerhaus', 5, true, true]);
   expect(fehler).toEqual([]);
 });
+
+test('Werkstatt: Baukasten setzt Fenster und Tür mit eigenen Werkzeugen', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'baukasten.html'));
+  await page.waitForFunction(() => window.Hausbau && typeof spec === 'object', null, { timeout: 30000 });
+  await page.click('#neu');
+  const wand = async () => { await page.locator('#plan').scrollIntoViewIfNeeded(); const b = await page.locator('#plan').boundingBox(), c = b.width / await page.evaluate(() => spec.breite + 2);
+    await page.mouse.click(b.x + 1.5 * c, b.y + 1 * c); };
+  const hinten = () => page.evaluate(() => spec.oeffnungen.filter(o => o.seite === 'hinten' && o.feld === 0).map(o => o.art).join(','));
+  await page.getByRole('button', { name: 'Tür', exact: true }).click(); await wand(); const a = await hinten();
+  await page.getByRole('button', { name: 'Fenster', exact: true }).click(); await wand(); const b = await hinten();
+  await wand(); const c = await hinten();
+  await page.getByRole('button', { name: 'Fenster vernagelt' }).click(); await wand(); const d = await hinten();
+  expect([a, b, c, d]).toEqual(['tuer', 'fenster', '', 'fenster_vernagelt']);
+  expect(fehler).toEqual([]);
+});

@@ -72,7 +72,7 @@ input[type=range]{width:100%}
 const HB=window.Hausbau,SPEICHER='grauufer-baukasten';
 const $=id=>document.getElementById(id);
 const kopie=o=>JSON.parse(JSON.stringify(o));
-let spec=kopie(HB.BEISPIEL),innen=false,drehung=0,werkzeug='oeffnung';
+let spec=kopie(HB.BEISPIEL),innen=false,drehung=0,werkzeug='fenster';
 const meldung=t=>{$('status').textContent=t;};
 // Ablage: im Browser (localStorage) oder – als Claude-Seite – im gemeinsamen Speicher (db), den Claudia lesen kann
 const slug=n=>(n||'haus').toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'haus';
@@ -91,14 +91,23 @@ async function ablageStart(){if(!(window.claude&&window.claude.use))return;let d
 try{const z=localStorage.getItem(SPEICHER+'-zuletzt');if(z)spec=JSON.parse(z);}catch(e){}
 
 // ---------- Werkzeuge ----------
-const WZ=[['oeffnung','Fenster/Tür'],...Object.entries(HB.KATALOG).map(([k,v])=>[k,v.name]),['drehen','↻ Drehen'],['entfernen','✕ Entfernen']];
-const HILFE={oeffnung:'Tippe auf eine Wand: Wand → Fenster → Tür → kaputtes Fenster → vernageltes Fenster → Wand.',
+const OEFF={fenster:'Fenster',tuer:'Tür',fenster_kaputt:'Fenster kaputt',fenster_vernagelt:'Fenster vernagelt'};
+const WZ=[...Object.entries(OEFF),...Object.entries(HB.KATALOG).map(([k,v])=>[k,v.name]),['drehen','↻ Drehen'],['entfernen','✕ Entfernen']];
+const HILFE={fenster:'Tippe auf eine Wand, um dort ein Fenster einzusetzen; nochmal tippen macht wieder Wand daraus.',tuer:'Tippe auf eine Wand, um dort eine Tür einzusetzen (im Grundriss mit Türblatt und Bogen); nochmal tippen macht wieder Wand daraus.',
+  fenster_kaputt:'Tippe auf eine Wand für ein kaputtes Fenster; nochmal tippen macht wieder Wand daraus.',fenster_vernagelt:'Tippe auf eine Wand für ein vernageltes Fenster; nochmal tippen macht wieder Wand daraus.',
   drehen:'Tippe auf ein Feld, um das Teil dort zu drehen.',entfernen:'Tippe auf ein Feld, um alles darin zu entfernen.'};
-function zeigeWerkzeuge(){$('werkzeuge').innerHTML='';WZ.forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;b.className=k===werkzeug?'an':'';
+function zeigeWerkzeuge(){$('werkzeuge').innerHTML='';WZ.forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;if(OEFF[k]){const c=document.createElement('canvas');c.width=26;c.height=14;c.style.cssText='vertical-align:middle;margin-right:5px';oeffnungZeichen(c.getContext('2d'),k,1,1,24,12,'h');b.prepend(c);}b.className=k===werkzeug?'an':'';
   b.onclick=()=>{werkzeug=k;zeigeWerkzeuge();};$('werkzeuge').appendChild(b);});
   $('hilfe').textContent=HILFE[werkzeug]||`Tippe auf ein Feld, um „${HB.KATALOG[werkzeug].name}“ zu setzen, auch außen um das Haus. Je Feld ein Möbelstück`+(HB.KATALOG[werkzeug].zusatz?'; dieses Teil darf zusätzlich zu einem Möbelstück stehen':'; Teppich, Kessel, Wandbrett und Waffen dürfen dazukommen')+'. Erneutes Tippen dreht das Teil, ein anderes Möbelstück ersetzt es.';}
 
 // ---------- Grundriss ----------
+function oeffnungZeichen(g,art,x,y,w,h,dir){
+  if(art==='tuer'){g.fillStyle='#6a4a2a';g.fillRect(x,y,w,h);g.strokeStyle='#ffe2a0';g.lineWidth=2;g.beginPath();g.moveTo(x,y+h/2);g.lineTo(x+w*.8,y+h/2);g.stroke();
+    g.beginPath();g.arc(x,y+h/2,w*.8,-Math.PI/2.4,0);g.stroke();return;}
+  g.fillStyle=art==='fenster_vernagelt'?'#b08850':'#9fd0ec';g.fillRect(x,y,w,h);g.strokeStyle='#1e3a52';g.lineWidth=1.5;g.strokeRect(x+.5,y+.5,w-1,h-1);
+  g.beginPath();if(dir==='h'){g.moveTo(x,y+h/2);g.lineTo(x+w,y+h/2);}else{g.moveTo(x+w/2,y);g.lineTo(x+w/2,y+h);}g.stroke();
+  if(art==='fenster_kaputt'){g.strokeStyle='#111';g.lineWidth=2.5;g.beginPath();g.moveTo(x,y);g.lineTo(x+w,y+h);g.moveTo(x+w,y);g.lineTo(x,y+h);g.stroke();}
+  if(art==='fenster_vernagelt'){g.strokeStyle='#5a3a1a';g.lineWidth=2;g.beginPath();for(let i=0;i<3;i++){const k=(i+.5)/3;if(dir==='h'){g.moveTo(x+w*k-3,y);g.lineTo(x+w*k+3,y+h);}else{g.moveTo(x,y+h*k-3);g.lineTo(x+w,y+h*k+3);}}g.stroke();}}
 const plan=$('plan'),pg=plan.getContext('2d');let cs=40;
 const KURZ={bett:'Bett',truhe:'Tru',schrank:'Schr',regal:'Reg',kamin:'Kam',wandbrett:'Brett',waffen:'Waf',tisch:'Tisch',faesser:'Fäs',kiste:'Kis',saecke:'Sä',hocker:'Ho',teppich:'Tep',kessel:'Kes',stuhl:'Stu',besen:'Bes',brennholz:'Holz'};
 function zeichnePlan(){const B=spec.breite,D=spec.tiefe,tafel=plan.parentElement,breit=tafel.clientWidth-22;
@@ -107,11 +116,17 @@ function zeichnePlan(){const B=spec.breite,D=spec.tiefe,tafel=plan.parentElement
   pg.fillStyle='#5a6a34';pg.fillRect(0,0,plan.width,plan.height);
   for(let x=-1;x<=B;x++)for(let z=-1;z<=D;z++){const drin=x>=0&&x<B&&z>=0&&z<D;pg.fillStyle=drin?((x+z)%2?'#8a6438':'#94703f'):((x+z)%2?'#62723a':'#5a6a34');pg.fillRect((x+1)*cs,(z+1)*cs,cs,cs);}
   pg.strokeStyle='#3a3026';pg.lineWidth=Math.max(5,cs*.16);pg.strokeRect(cs,cs,B*cs,D*cs);
-  const farbe={fenster:'#9fc4dc',tuer:'#6a4020',fenster_kaputt:'#111',fenster_vernagelt:'#b08850'};
-  (spec.oeffnungen||[]).forEach(o=>{const f=o.feld;let x,y,w,h;const t=Math.max(7,cs*.22);
-    if(o.seite==='hinten'){x=(f+1.2)*cs;y=cs-t/2;w=cs*.6;h=t;}else if(o.seite==='vorn'){x=(f+1.2)*cs;y=(D+1)*cs-t/2;w=cs*.6;h=t;}
-    else if(o.seite==='links'){x=cs-t/2;y=(f+1.2)*cs;w=t;h=cs*.6;}else{x=(B+1)*cs-t/2;y=(f+1.2)*cs;w=t;h=cs*.6;}
-    pg.fillStyle=farbe[o.art]||'#fff';pg.fillRect(x,y,w,h);if(o.art==='tuer'){pg.strokeStyle='#e8c890';pg.lineWidth=2;pg.strokeRect(x,y,w,h);}});
+  (spec.oeffnungen||[]).forEach(o=>{const f=o.feld,t=Math.max(8,cs*.2),L=cs*.7,a=(f+1.15)*cs;let x,y,w,h,dir;
+    if(o.seite==='hinten'){x=a;y=cs-t/2;w=L;h=t;dir='h';}else if(o.seite==='vorn'){x=a;y=(D+1)*cs-t/2;w=L;h=t;dir='h';}
+    else if(o.seite==='links'){x=cs-t/2;y=a;w=t;h=L;dir='v';}else{x=(B+1)*cs-t/2;y=a;w=t;h=L;dir='v';}
+    if(o.art==='tuer'){// Türöffnung: Lücke in der Wand, Türblatt und Schwenkbogen ins Haus
+      pg.fillStyle='#94703f';pg.fillRect(x,y,w,h);const r=L*.92;pg.strokeStyle='#ffe2a0';pg.lineWidth=Math.max(2,cs*.05);
+      const ix=o.seite==='links'?1:o.seite==='rechts'?-1:0,iz=o.seite==='hinten'?1:o.seite==='vorn'?-1:0;
+      const hx=dir==='h'?x:x+w/2,hz=dir==='h'?y+h/2:y,ex=hx+ix*r,ez=hz+iz*r;pg.beginPath();pg.moveTo(hx,hz);pg.lineTo(ex,ez);pg.stroke();
+      pg.setLineDash([4,3]);pg.beginPath();const a0=Math.atan2(ez-hz,ex-hx),a1=Math.atan2(dir==='h'?0:L,dir==='h'?L:0);
+      pg.arc(hx,hz,r,Math.min(a0,a1),Math.max(a0,a1));pg.stroke();pg.setLineDash([]);
+    }
+    else oeffnungZeichen(pg,o.art,x,y,w,h,dir);});
   const proFeld={};(spec.einrichtung||[]).forEach(e=>{const k=e.x+','+e.z;(proFeld[k]=proFeld[k]||[]).push(e);});
   pg.textAlign='center';pg.textBaseline='middle';
   for(const k in proFeld){const[x,z]=k.split(',').map(Number),l=proFeld[k],cx=(x+1.5)*cs,cz=(z+1.5)*cs;
@@ -126,11 +141,11 @@ function zeichnePlan(){const B=spec.breite,D=spec.tiefe,tafel=plan.parentElement
   pg.save();pg.translate(plan.width-cs*.45,plan.height/2);pg.rotate(Math.PI/2);pg.fillText('rechts',0,0);pg.restore();}
 plan.addEventListener('click',ev=>{const r=plan.getBoundingClientRect(),fx=(ev.clientX-r.left)*plan.width/r.width/cs-1,fz=(ev.clientY-r.top)*plan.height/r.height/cs-1;
   const B=spec.breite,D=spec.tiefe;spec.oeffnungen=spec.oeffnungen||[];spec.einrichtung=spec.einrichtung||[];
-  if(werkzeug==='oeffnung'){let seite=null,feld=0;const tol=.35;
+  if(OEFF[werkzeug]){let seite=null,feld=0;const tol=.35;
     if(Math.abs(fz)<tol&&fx>0&&fx<B){seite='hinten';feld=Math.floor(fx);}else if(Math.abs(fz-D)<tol&&fx>0&&fx<B){seite='vorn';feld=Math.floor(fx);}
     else if(Math.abs(fx)<tol&&fz>0&&fz<D){seite='links';feld=Math.floor(fz);}else if(Math.abs(fx-B)<tol&&fz>0&&fz<D){seite='rechts';feld=Math.floor(fz);}
     if(!seite)return;const i=spec.oeffnungen.findIndex(o=>o.seite===seite&&o.feld===feld),alt=i<0?'wand':spec.oeffnungen[i].art;
-    const neu=HB.OEFFNUNGEN[(HB.OEFFNUNGEN.indexOf(alt)+1)%HB.OEFFNUNGEN.length];if(i>=0)spec.oeffnungen.splice(i,1);if(neu!=='wand')spec.oeffnungen.push({seite,feld,art:neu});}
+    if(i>=0)spec.oeffnungen.splice(i,1);if(alt!==werkzeug)spec.oeffnungen.push({seite,feld,art:werkzeug});}
   else{const x=Math.floor(fx),z=Math.floor(fz);if(x<-1||x>B||z<-1||z>D)return;const hier=spec.einrichtung.filter(e=>e.x===x&&e.z===z);
     if(werkzeug==='drehen'){if(hier.length)hier[hier.length-1].dreh=(hier[hier.length-1].dreh+1)&3;}
     else if(werkzeug==='entfernen'){spec.einrichtung=spec.einrichtung.filter(e=>!(e.x===x&&e.z===z));}

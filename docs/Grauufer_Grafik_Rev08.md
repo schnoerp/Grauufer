@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 07**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 08**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -55,7 +55,7 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 |---|---|
 | Haus | Breite und Tiefe 2–9 Felder; Wände: Fachwerk auf Bruchstein, Bruchstein, Holzbohlen; Dachdeckung: Schiefer, Holzschindeln, Reet; Dachform: Satteldach (mit Giebeln) oder Walmdach (rundum geneigt), Reet standardmäßig als Walmdach; First entlang der Breite oder der Tiefe; Verwitterung in 5 Stufen (neu, gepflegt, gebraucht, verwittert, verfallen); Schornstein ein/aus (steht über dem Kamin, falls einer gesetzt ist) |
 | Grundriss | von oben, oben = hinten, unten = vorn (zur Kamera); ein Feldrand um das Haus für Dinge im Freien |
-| Fenster/Tür | auf eine Wand tippen schaltet weiter: Wand → Fenster → Tür → kaputtes Fenster → vernageltes Fenster → Wand |
+| Fenster und Türen | vier eigene Werkzeuge: Fenster, Tür, Fenster kaputt, Fenster vernagelt; auf eine Wand tippen setzt die Öffnung, nochmal tippen macht wieder Wand daraus. Im Grundriss: Fenster als hellblaue Doppellinie (kaputt mit schwarzem Kreuz, vernagelt mit Brettern), Tür als Lücke mit Türblatt und Schwenkbogen ins Haus; die Knöpfe zeigen dasselbe Zeichen |
 | Einrichtung | 17 Teile: Bett, Truhe, Schrank, Bücherregal, Kamin, Wandbrett, Waffen an der Wand, Tisch mit Bänken, Fässer, Kiste, Säcke, Hocker, Teppich, Kessel, Stuhl (umgekippt), Besen, Brennholz; Wandteile drehen sich beim Setzen zur nächsten Wand. **Je Feld ein Möbelstück**; Teppich, Kessel, Wandbrett und Waffen an der Wand dürfen als Zusatzteil dazukommen (höchstens eines). Ein zweites Möbelstück ersetzt das erste, erneutes Tippen mit derselben Sorte dreht das Teil. „Drehen“ dreht das zuletzt gesetzte Teil, „Entfernen“ leert das ganze Feld. Ältere gespeicherte Häuser mit mehreren Teilen je Feld werden beim Laden bereinigt |
 | Vorschau | Spielsicht (45°/30°), Außen- oder Innenansicht, in 90°-Schritten drehbar |
 | Speichern | „Speichern“ legt das Haus unter seinem Namen ab (Claude-Seite: im gemeinsamen Speicher, sonst im Browser), Liste „Gespeicherte Häuser“ zum Öffnen; „Löschen“ fragt durch zweites Tippen nach; „Herunterladen“ (nur Browser-Weg) erzeugt eine JSON-Datei, „Datei laden“ öffnet eine solche Datei |
