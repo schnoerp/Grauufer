@@ -199,7 +199,9 @@ function magier(spec){
   add(querschnitte([{c:[0,1.3,-.012],w:.257,f:.16,b:.17},{c:[0,1.32,-.012],w:.254,f:.158,b:.168}],{deckel:false,n:64,form:falten(.008,7,.2)}),borte);
   // Kapuze: Schale um den Kopf, vorn offen, mit Borte am Gesichtsrand
   add(kapuze(),robeKap,0,1.682,.006);add(kapuzenRand(),borte,0,1.682,.006);
-  const fu=add(kapuze(),futter,0,1.682,.006);fu.scale.setScalar(.985);                              // dunkles Futter: Gesicht liegt im Schatten der Kapuze
+  const fu=add(kapuze(),futter,0,1.682,.006);fu.scale.setScalar(.985);
+  // Halstuch unter dem Bart (heller Stoff), füllt die Kapuzenöffnung zum Umhang hin
+  add(querschnitte([{c:[0,1.44,-.005],w:.1,f:.1,b:.09},{c:[0,1.5,-.008],w:.085,f:.085,b:.075},{c:[0,1.56,-.014],w:.068,f:.066,b:.064}],{deckel:false,n:40,form:falten(.004,8,1.1)}),robeHell);                              // dunkles Futter: Gesicht liegt im Schatten der Kapuze
   // Arme in Pose: rechte Hand hält den Stab vor dem Körper, linke Hand angehoben mit leuchtender Kugel.
   // Weite Ärmel folgen dem Arm und hängen am Unterarm nach unten durch, Borte am Saum.
   const ARM={'-1':[[-.17,1.41,0],[-.225,1.17,-.01],[-.25,1.08,.2]],'1':[[.17,1.41,0],[.24,1.18,-.03],[.26,1.13,.19]]};
@@ -258,19 +260,19 @@ function heller(hex,f){const c=new THREE.Color(hex);c.multiplyScalar(f);return'#
 function handGruppe(s,haut){const H=new THREE.Group();hand((g,m)=>{const o=new THREE.Mesh(g,m);o.castShadow=o.receiveShadow=true;H.add(o);return o;},s,[0,0,0],haut);return H;}
 // Kapuze: weite Schale um den Kopf (lokal, Kopfmitte), Zipfel nach hinten oben, vorn ein großes ovales Gesichtsloch,
 // dessen Rand etwas vorsteht (das Gesicht liegt im Schatten), hinten bis in den Nacken
-const KAP={ox:.6,oy:-.08,oh:.72,rx:.118,ryo:.116,ryu:.14,rzv:.132,rzh:.138};
+const KAP={ox:.64,oy:-.28,oh:.94,rx:.126,ryo:.126,ryu:.14,rzv:.14,rzh:.142};
 function kapuzenPunkt(nx,ny,nz){const k=KAP;let x=nx*k.rx,y=ny*(ny>0?k.ryo:k.ryu)+.018,z=nz*(nz>0?k.rzv:k.rzh)-.018;
-  if(ny>.0&&nz<.4){const a=Math.pow(ny,1.5)*Math.pow(Math.max(0,.4-nz),1.3);z-=a*.07;y-=a*.03;}                             // Zipfel nach hinten oben
-  if(ny<-.45){const f=1+Math.pow(-.45-ny,1.4)*2.2;x*=f;z=z*f-(f-1)*.02;y-=(f-1)*.02;}                // unten weit auf die Schultern fallend
-  const e=(nx/k.ox)**2+((ny-k.oy)/k.oh)**2;if(nz>0){const r=Math.max(0,1-Math.abs(e-1)*2.5)*nz;z+=.026*r;y+=.008*r*Math.max(0,ny);}         // vorstehender Rand
+  if(ny>.3&&nz<.2){const a=Math.pow(ny-.3,2)*Math.max(0,.2-nz);z-=a*.12;y+=a*.02;}                      // sanfter Zipfel hinten oben                             // Zipfel nach hinten oben
+  if(ny<-.4){const f=1+Math.pow(-.4-ny,1.3)*.75;x*=f;z=z*f-(f-1)*.03;y-=(-.4-ny)*.06;}                // unten weit auf die Schultern fallend
+  const e=(nx/k.ox)**2+((ny-k.oy)/k.oh)**2;if(nz>0){const r=Math.max(0,1-Math.abs(e-1)*2.2)*nz;z+=.03*r*Math.max(.2,ny+.3);y-=.01*r*Math.max(0,ny);}  // Rand steht über der Stirn vor         // vorstehender Rand
   return[x,y,z];}
 function kapuze(){const LAT=72,LON=96,P=[],UV=[],I=[],ok=[];
-  for(let i=0;i<=LAT;i++){const phi=Math.PI*i/LAT*.9;for(let j=0;j<=LON;j++){const th=Math.PI+2*Math.PI*j/LON,nx=Math.sin(phi)*Math.sin(th),ny=Math.cos(phi),nz=Math.sin(phi)*Math.cos(th);
+  for(let i=0;i<=LAT;i++){const phi=Math.PI*i/LAT*.96;for(let j=0;j<=LON;j++){const th=Math.PI+2*Math.PI*j/LON,nx=Math.sin(phi)*Math.sin(th),ny=Math.cos(phi),nz=Math.sin(phi)*Math.cos(th);
     const q=kapuzenPunkt(nx,ny,nz);P.push(q[0],q[1],q[2]);UV.push(j/LON*1.2,i/LAT*.8);ok.push(!(nz>0&&(nx/KAP.ox)**2+((ny-KAP.oy)/KAP.oh)**2<1));}}
   for(let i=0;i<LAT;i++)for(let j=0;j<LON;j++){const a=i*(LON+1)+j,b=a+LON+1;if(ok[a]&&ok[b]&&ok[a+1]&&ok[b+1])I.push(a,b,a+1,a+1,b,b+1);}
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(P,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(UV,2));g.setIndex(I);g.computeVertexNormals();return g;}
 // Borte am Gesichtsrand der Kapuze: Rohr entlang des Lochrands
-function kapuzenRand(){const pts=[];for(let k=0;k<=56;k++){const a=-Math.PI+.25+k/56*(Math.PI*2-.5),nx=KAP.ox*Math.sin(a)*1.03,ny=KAP.oy+KAP.oh*Math.cos(a)*1.03;
+function kapuzenRand(){const pts=[],aMax=Math.acos(Math.max(-1,(-.98-KAP.oy)/KAP.oh));for(let k=0;k<=56;k++){const a=-aMax+k/56*aMax*2,nx=KAP.ox*Math.sin(a)*1.03,ny=KAP.oy+KAP.oh*Math.cos(a)*1.03;
     const nz=Math.sqrt(Math.max(.01,1-nx*nx-ny*ny));const q=kapuzenPunkt(nx,ny,nz);pts.push(new THREE.Vector3(q[0],q[1],q[2]));}
   return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),90,.0038,8,false);}
 // Bart: Schale über Kiefer, Kinn und Oberlippe, aus der Kopfgrundform abgeleitet
