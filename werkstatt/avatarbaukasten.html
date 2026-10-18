@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grauufer – Avatar-Baukasten</title>
+<style>
+/* Avatar-Baukasten im Stil des Haus-Baukastens: Holz und Pergament. Serifenschrift des Geräts wie im Startbild (seit Spiel-Rev 121). */
+:root{--holz:#3a2716;--holz2:#5a3c22;--perg:#ead8b0;--perg2:#d8c08c;--tinte:#3a2410;--tinte2:#6a4a2a;--rot:#9a1a12;--gruen:#4a7a34;
+  --schrift:'Iowan Old Style','Palatino Linotype','Book Antiqua',Palatino,Georgia,'Noto Serif',serif;color-scheme:light}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html,body{margin:0;height:100%}
+body{display:flex;flex-direction:column;background:var(--holz);color:var(--tinte);font-family:var(--schrift);font-size:15px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding-block:6px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:linear-gradient(#6a4628,var(--holz));color:#f4e2bc;box-shadow:0 2px 6px #0008}
+header h1{font-size:19px;font-weight:600;margin:0 6px 0 0;white-space:nowrap;letter-spacing:.02em}
+header input[type=text]{width:160px}header select{width:180px}header button{min-height:32px;padding:3px 9px;font-size:14px}
+main{flex:1;min-height:0;display:grid;grid-template-columns:300px minmax(320px,1.4fr) minmax(240px,.9fr);gap:10px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.tafel{background:radial-gradient(ellipse at 50% 30%,var(--perg),var(--perg2));border-radius:8px;box-shadow:inset 0 0 24px #a07a4488,0 3px 8px #0008;padding:10px;overflow:auto;min-height:0;min-width:0}
+h2{font-size:16px;font-weight:600;margin:10px 0 6px;border-bottom:1px solid #a07a44;letter-spacing:.03em}
+h2:first-of-type{margin-top:2px}
+label{display:flex;justify-content:space-between;gap:8px;margin:6px 0 2px;font-size:14px}
+label b{font-weight:400;font-variant-numeric:tabular-nums;color:var(--tinte2)}
+select,input,button{font-family:inherit;font-size:15px;color:var(--tinte)}
+select,input[type=text]{width:100%;padding:5px;border:1px solid #8a6434;border-radius:5px;background:#f6ead0}
+button{padding:5px 10px;border:2px solid #6a4420;border-radius:6px;background:linear-gradient(#d8aa6a,#a8743c);cursor:pointer;min-height:34px}
+button:active{transform:translateY(1px)}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--rot);outline-offset:1px}
+button.an{background:linear-gradient(#7ab060,var(--gruen));color:#fff8e8;border-color:#2e5020}
+.seg{display:flex;flex-wrap:wrap;gap:4px}.seg button{flex:1 1 auto;min-height:30px;padding:2px 6px;font-size:14px}
+input[type=range]{width:100%;accent-color:#8a5a2a}
+.farben{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.farben button{width:28px;height:28px;min-height:0;padding:0;border-radius:50%;border:2px solid #6a4420}
+.farben button.an{outline:3px solid var(--tinte);outline-offset:1px}
+.farben input[type=color]{width:34px;height:30px;padding:0;border:1px solid #8a6434;border-radius:5px;background:#f6ead0}
+#status{font-size:13px;color:#6a3a14;margin:0 0 6px;min-height:1em}
+.buehne{display:flex;flex-direction:column;gap:8px}
+#ansicht{width:100%;flex:1;min-height:340px;display:block;border-radius:6px;background:radial-gradient(ellipse at 50% 85%,#7a8450,#4e5832 75%)}
+.reihe{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.reihe>button{flex:1 1 auto}
+#spiel{display:block;margin:4px auto;border-radius:6px;background:#8a7a54;image-rendering:auto}
+.hinweis{font-size:13px;color:var(--tinte2);margin:6px 0 0;line-height:1.4}
+textarea{width:100%;height:150px;font:12px/1.35 ui-monospace,Menlo,Consolas,monospace;color:var(--tinte);background:#f6ead0;border:1px solid #8a6434;border-radius:5px;padding:6px;resize:vertical}
+@media (max-width:1000px){body{display:block;height:auto}main{grid-template-columns:1fr}#ansicht{height:440px;flex:none}header input[type=text],header select{width:100%}}
+@media (prefers-reduced-motion:reduce){button:active{transform:none}}
+</style></head>
+<body>
+<header><h1>Avatar-Baukasten</h1>
+  <input id="name" type="text" title="Name der Figur" aria-label="Name der Figur">
+  <button id="neu" title="Startfigur aus dem Spiel">Neu</button>
+  <select id="liste" title="Gespeicherte Figuren" aria-label="Gespeicherte Figuren"><option value="">Gespeicherte Figuren …</option></select>
+  <button id="speichern">Speichern</button><button id="loeschen">Löschen</button>
+  <button id="senden" title="Öffnet GitHub mit der fertigen Figur; dort nur noch absenden">Über GitHub an Claudia senden</button>
+</header>
+<main>
+<section class="tafel" id="regler">
+  <p id="status" role="status"></p>
+  <h2>Körper</h2>
+  <div class="seg" data-wahl="geschlecht"></div>
+  <div id="masse"></div>
+  <h2>Kopf</h2>
+  <label>Haare</label><div class="seg" data-wahl="haare"></div>
+  <label>Bart</label><div class="seg" data-wahl="bart"></div>
+  <label>Haarfarbe</label><div class="farben" data-farbe="haarfarbe"></div>
+  <label>Hautfarbe</label><div class="farben" data-farbe="haut"></div>
+  <label>Augenfarbe</label><div class="farben" data-farbe="augen"></div>
+  <h2>Kleidung</h2>
+  <div class="seg" data-wahl="kleidung"></div>
+  <label>Hemd</label><div class="farben" data-farbe="hemd"></div>
+  <label id="umhangL">Umhang</label><div class="farben" data-farbe="umhang" id="umhangF"></div>
+  <label>Hose</label><div class="farben" data-farbe="hose"></div>
+  <label>Stiefel</label><div class="farben" data-farbe="stiefel"></div>
+  <label>Gürtel und Leder</label><div class="farben" data-farbe="guertel"></div>
+  <h2>Ausrüstung</h2>
+  <label>Rüstung</label><div class="seg" data-wahl="ruestung"></div>
+  <label>Waffe</label><div class="seg" data-wahl="waffe"></div>
+</section>
+<section class="tafel buehne">
+  <h2>Vorschau aus Spielsicht</h2>
+  <canvas id="ansicht" aria-label="Vorschau der Figur"></canvas>
+  <div class="reihe"><button id="links" title="Figur nach links drehen">⟲ Drehen</button><span id="richtung" style="flex:0 0 auto;font-size:14px;min-width:96px;text-align:center"></span><button id="rechts" title="Figur nach rechts drehen">Drehen ⟳</button></div>
+  <div class="reihe" id="bewegung"></div>
+</section>
+<section class="tafel">
+  <h2>So groß im Spiel</h2>
+  <canvas id="spiel" width="160" height="200" aria-label="Figur in Spielgröße"></canvas>
+  <p class="hinweis">Links in der Größe bei 1250 × 650 Punkten, rechts beim größten Zoom.</p>
+  <h2>Beschreibung</h2>
+  <textarea id="json" readonly aria-label="Beschreibung der Figur"></textarea>
+  <div class="reihe" style="margin-top:6px"><button id="kopieren">Kopieren</button></div>
+  <p class="hinweis" id="ablagehinweis">„Speichern“ merkt sich die Figur nur in diesem Browser. Fertige Figuren mit „Über GitHub an Claudia senden“ abschicken: GitHub öffnet sich, dort nur noch absenden.</p>
+</section>
+</main>
+<script src="lib/three.min.js"></script>
+<script src="modelle/avatar.js"></script>
+<script>
+// Avatar-Baukasten: Bedienung. Figuren werden als JSON beschrieben (Format siehe Avatar.STANDARD in modelle/avatar.js).
+const AV=window.Avatar,SPEICHER='grauufer-avatare';
+const $=id=>document.getElementById(id);
+const kopie=o=>JSON.parse(JSON.stringify(o));
+const meldung=t=>{$('status').textContent=t;};
+let spec=kopie(AV.STANDARD),richtung=0,art='idle',t0=performance.now();
+try{const z=localStorage.getItem(SPEICHER+'-zuletzt');if(z)spec=Object.assign(kopie(AV.STANDARD),JSON.parse(z));}catch(e){}
+// Farbtafeln wie im Charakter-Editor des Spiels, dazu freie Wahl
+const TAFEL={haut:['#f0c8a0','#c99068','#b07a50','#7a4e30','#5a3622'],haarfarbe:['#2a1a10','#5a3a20','#8a5a2a','#c8a050','#8a8a86','#a03018'],
+  augen:['#3a5068','#4a6a3a','#5a3a20','#2a2a2a'],hemd:['#9a2e32','#7a2a20','#3e4e66','#3a5a2e','#4a2e56','#5a4a2a','#e6e2da','#3a3a40'],
+  umhang:['#3e4e66','#7a2a20','#3a5a2e','#4a2e56','#3a3a40'],hose:['#1e1a1e','#3a2a20','#2e3a52','#4a4030','#5a5a5e'],
+  stiefel:['#4a301c','#2a1c12','#6a4a2a'],guertel:['#5a3a22','#3a2414','#7a5232']};
+const MASSE=[['groesse','Größe',1.5,2.1,.01,v=>v.toFixed(2).replace('.',',')+' m'],['statur','Statur',.8,1.3,.01,v=>v<.95?'schlank':v>1.08?'kräftig':'mittel'],
+  ['schultern','Schulterbreite',.85,1.2,.01,v=>Math.round(v*100)+' %'],['kopf','Kopfgröße',.85,1.2,.01,v=>Math.round(v*100)+' %'],
+  ['beine','Beinlänge',.9,1.12,.01,v=>Math.round(v*100)+' %'],['arme','Armlänge',.9,1.12,.01,v=>Math.round(v*100)+' %']];
+const BEW=[['idle','Stehen'],['walk','Laufen'],['attack','Angriff'],['death','Sterben']];
+const RNAME=['zur Kamera','vorn rechts','rechts','hinten rechts','hinten','hinten links','links','vorn links'];
+
+// ---------- Ablage: im Browser oder – als Claude-Seite – im gemeinsamen Speicher (db), den Claudia lesen kann ----------
+const slug=n=>(n||'figur').toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'figur';
+let Ablage={art:'browser',figuren:{},
+  lies(){try{this.figuren=JSON.parse(localStorage.getItem(SPEICHER)||'{}');}catch(e){this.figuren={};}},
+  async speichere(sp){this.figuren[sp.name||'Figur']=kopie(sp);try{localStorage.setItem(SPEICHER,JSON.stringify(this.figuren));return true;}catch(e){return false;}},
+  async loesche(n){delete this.figuren[n];try{localStorage.setItem(SPEICHER,JSON.stringify(this.figuren));}catch(e){}}};
+Ablage.lies();
+async function ablageStart(){if(!(window.claude&&window.claude.use))return;let db=null;try{db=await window.claude.use('db');}catch(e){}if(!db)return;
+  const col=db.collection('avatare');
+  Ablage={art:'claude',figuren:{},
+    async speichere(sp){try{await col.doc(slug(sp.name)).set({name:sp.name||'Figur',spec:kopie(sp),geaendert:new Date().toISOString()});return true;}catch(e){return false;}},
+    async loesche(n){try{await col.doc(slug(n)).delete();}catch(e){meldung('Löschen ging nicht.');}}};
+  $('senden').hidden=true;$('ablagehinweis').textContent='„Speichern“ legt die Figur im gemeinsamen Speicher ab; Claudia kann sie dort direkt abholen.';meldung('Gespeicherte Figuren sieht auch Claudia.');
+  col.onSnapshot(q=>{const f={};q.docs.forEach(d=>{const x=d.data();if(x&&x.spec)f[x.name||d.id]=x.spec;});Ablage.figuren=f;liste();},()=>meldung('Verbindung zum Speicher verloren – bitte neu laden.'));}
+
+// ---------- Regler aufbauen ----------
+document.querySelectorAll('[data-wahl]').forEach(el=>{const k=el.dataset.wahl;
+  el.innerHTML=Object.entries(AV.AUSWAHL[k]).map(([v,n])=>`<button type="button" data-k="${k}" data-v="${v}">${n}</button>`).join('');});
+$('masse').innerHTML=MASSE.map(([k,n,a,b,s])=>`<label for="m_${k}">${n} <b id="w_${k}"></b></label><input id="m_${k}" type="range" min="${a}" max="${b}" step="${s}">`).join('');
+document.querySelectorAll('[data-farbe]').forEach(el=>{const k=el.dataset.farbe;
+  el.innerHTML=TAFEL[k].map(c=>`<button type="button" data-f="${k}" data-c="${c}" style="background:${c}" title="${c}" aria-label="Farbe ${c}"></button>`).join('')+`<input type="color" id="c_${k}" title="Eigene Farbe" aria-label="Eigene Farbe">`;});
+$('bewegung').innerHTML=BEW.map(([a,n])=>`<button type="button" data-a="${a}">${n}</button>`).join('');
+document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.k){spec[b.dataset.k]=b.dataset.v;geaendert();}
+  else if(b.dataset.f){spec[b.dataset.f]=b.dataset.c;geaendert();}
+  else if(b.dataset.a){art=b.dataset.a;t0=performance.now();felder();}});
+MASSE.forEach(([k])=>$('m_'+k).addEventListener('input',e=>{spec[k]=+e.target.value;geaendert();}));
+Object.keys(TAFEL).forEach(k=>$('c_'+k).addEventListener('input',e=>{spec[k]=e.target.value;geaendert();}));
+$('name').addEventListener('input',e=>{spec.name=e.target.value;zeigeJson();});
+
+function felder(){
+  $('name').value=spec.name||'';
+  document.querySelectorAll('[data-k]').forEach(b=>b.classList.toggle('an',spec[b.dataset.k]===b.dataset.v));
+  document.querySelectorAll('[data-f]').forEach(b=>b.classList.toggle('an',spec[b.dataset.f]===b.dataset.c));
+  Object.keys(TAFEL).forEach(k=>{$('c_'+k).value=spec[k];});
+  MASSE.forEach(([k,,,,,f])=>{$('m_'+k).value=spec[k];$('w_'+k).textContent=f(+spec[k]);});
+  document.querySelectorAll('[data-a]').forEach(b=>b.classList.toggle('an',b.dataset.a===art));
+  const um=spec.kleidung==='umhang';$('umhangL').hidden=!um;$('umhangF').hidden=!um;
+  $('richtung').textContent=RNAME[richtung];zeigeJson();liste();}
+function zeigeJson(){$('json').value=JSON.stringify(spec,null,1);try{localStorage.setItem(SPEICHER+'-zuletzt',JSON.stringify(spec));}catch(e){}}
+function liste(){const s=$('liste'),n=Object.keys(Ablage.figuren).sort((a,b)=>a.localeCompare(b,'de'));
+  s.innerHTML='<option value="">Gespeicherte Figuren …</option>'+n.map(x=>`<option>${x.replace(/</g,'&lt;')}</option>`).join('');if(Ablage.figuren[spec.name])s.value=spec.name;}
+
+// ---------- Vorschau ----------
+const cv=$('ansicht'),sz=AV.Szene(cv,{w:400,h:600});let neuBauen=true,breite=0,hoehe=0;
+function geaendert(){neuBauen=true;felder();}
+function passeGroesse(){const r=cv.getBoundingClientRect(),d=Math.min(2,devicePixelRatio||1),w=Math.max(200,Math.round(r.width*d)),h=Math.max(300,Math.round(r.height*d));
+  if(w===breite&&h===hoehe)return;breite=w;hoehe=h;const k=h*.8/((+spec.groesse||1.8)+.12);sz.groesse(w,h,k,h*.09);}
+// Spielgröße: Figur im Spiel bei 1250 × 650 rund 50 Punkte hoch (Spielfeld 2,1 m), beim größten Zoom 2,5-mal so groß
+const sp=$('spiel'),sg=sp.getContext('2d');
+function spielBild(){const d=Math.min(2,devicePixelRatio||1);if(sp.width!==Math.round(160*d)){sp.width=Math.round(160*d);sp.height=Math.round(200*d);sp.style.width='160px';sp.style.height='200px';}
+  sg.clearRect(0,0,sp.width,sp.height);sg.imageSmoothingEnabled=true;sg.imageSmoothingQuality='high';
+  const fusY=hoehe*.91,meter=hoehe*.8/((+spec.groesse||1.8)+.12),q=d*24/meter;/* 24 Punkte je Meter bei 1250 × 650 */
+  for(const[x,z]of[[40,1],[110,2.5]]){const s=q*z;sg.drawImage(cv,(x*d)-breite/2*s,(185*d)-fusY*s,breite*s,hoehe*s);}}
+let letzt=0;
+function bild(jetzt){requestAnimationFrame(bild);
+  if(neuBauen){sz.baue(spec);breite=0;neuBauen=false;}
+  passeGroesse();
+  const dauer={idle:2400,walk:960,attack:900,death:1600}[art],t=((jetzt-t0)%(dauer+(art==='death'?900:0)))/dauer;
+  if(art==='idle'&&jetzt-letzt<120&&breite)return;letzt=jetzt;
+  sz.zeige(art,Math.min(1,t),richtung);spielBild();}
+$('links').onclick=()=>{richtung=(richtung+1)%8;felder();};
+$('rechts').onclick=()=>{richtung=(richtung+7)%8;felder();};
+
+// ---------- Kopfleiste ----------
+$('neu').onclick=()=>{spec=kopie(AV.STANDARD);geaendert();meldung('Startfigur aus dem Spiel geladen.');};
+$('speichern').onclick=async()=>{if(!spec.name){meldung('Bitte zuerst einen Namen eingeben.');return;}meldung('Speichere …');const ok=await Ablage.speichere(spec);meldung(ok?`„${spec.name}“ gespeichert.`:'Speichern ging nicht – bitte noch einmal versuchen.');liste();};
+let loeschFrage=0;$('loeschen').onclick=async()=>{const n=$('liste').value||spec.name;if(!Ablage.figuren[n]){meldung('Diese Figur ist nicht gespeichert.');return;}
+  if(Date.now()-loeschFrage>4000){loeschFrage=Date.now();meldung(`„${n}“ wirklich löschen? Noch einmal tippen.`);return;}
+  loeschFrage=0;await Ablage.loesche(n);meldung(`„${n}“ gelöscht.`);liste();};
+$('liste').onchange=()=>{const n=$('liste').value;if(!n||!Ablage.figuren[n])return;spec=Object.assign(kopie(AV.STANDARD),kopie(Ablage.figuren[n]));geaendert();};
+$('senden').onclick=()=>{const body='Neue Figur aus dem Avatar-Baukasten. Claudia baut sie ins Spiel ein.\n\n```json\n'+JSON.stringify(spec)+'\n```\n';
+  const u='https://github.com/schnoerp/Grauufer/issues/new?title='+encodeURIComponent('Figur: '+(spec.name||'Figur'))+'&body='+encodeURIComponent(body);
+  const w=window.open(u,'_blank');meldung(w?'GitHub ist geöffnet: dort auf „Create“ bzw. „Submit new issue“ tippen.':'GitHub ließ sich nicht öffnen – bitte Pop-ups erlauben.');};
+$('kopieren').onclick=async()=>{try{await navigator.clipboard.writeText($('json').value);meldung('Beschreibung kopiert.');}catch(e){$('json').select();meldung('Bitte die markierte Beschreibung von Hand kopieren.');}};
+window.addEventListener('resize',()=>{breite=0;});
+felder();requestAnimationFrame(bild);ablageStart();
+</script>
+</body></html>

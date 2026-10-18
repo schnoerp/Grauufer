@@ -1,6 +1,6 @@
 # Grauufer – Übersicht
 
-**Revision 22**, Stand: Spiel-Rev 112. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
+**Revision 23**, Stand: Spiel-Rev 122. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
 
 **Spieltitel:** „Grauufer 1.0“ (seit Spiel-Rev 103). Seit Spiel-Rev 112 mit **Versionsnummer 1.0.NNN** (NNN = Spiel-Revision, z. B. „Grauufer 1.0.112“): im Browser-Reiter, im Titelbild, im Titeldialog („Grauufer 1.0.NNN“, darunter „Ein Rollenspiel von schnoerp-media, Revision NNN“) und im Beenden-Dialog. „Grauufer“ allein bleibt der Name des Fischerdorfs in der Spielwelt; die Dokumente behalten ihre Dateinamen `Grauufer_<Thema>_RevXX.md`.
 
@@ -26,7 +26,7 @@
 | Grauufer_Charakter_RevXX.md | Attribute, Fertigkeiten, Talentbaum, Freischaltungen in der Welt (seit Spiel-Rev 90) | Kampfformeln |
 | Grauufer_Schaetze_RevXX.md | Truhen, Mimiken, Schatzkarten, Grabstellen, Lesepulte, Tafeln, Hindernisse mit Fundorten (seit Spiel-Rev 89/90) | Gegenstandswerte |
 | Grauufer_Grafik_RevXX.md | Grafik-Werkstatt: vorgerenderte 3D-Grafik, Stilregeln, Haus und Rucksack wie in Pagan, Fahrplan der neuen Grafik (seit Spiel-Rev 108) | heutige Spielgrafik (→ Stil), Bedienung der Baukästen |
-| Grauufer_Baukaesten_RevXX.md | Haus-Baukasten (Haustypen, Geschosse, Öffnungen, Einrichtung, JSON-Beschreibung), geplanter Anlagen-Baukasten für Burg und Schloss, geplanter Figuren-Baukasten, geplanter Landschafts-Baukasten, Weg der Häuser ins Spiel (seit Spiel-Rev 108) | Stilregeln, Kamera (→ Grafik) |
+| Grauufer_Baukaesten_RevXX.md | Haus-Baukasten (Haustypen, Geschosse, Öffnungen, Einrichtung, JSON-Beschreibung), geplanter Anlagen-Baukasten für Burg und Schloss, Figuren-Baukasten (Avatar-Baukasten seit Spiel-Rev 122, Gesprächspartner und Gegner geplant), geplanter Landschafts-Baukasten, Weg der Häuser ins Spiel (seit Spiel-Rev 108) | Stilregeln, Kamera (→ Grafik) |
 
 Karte von Morvenn als Bild: `Morvenn_Karte_Rev34.png` (im Ordner `docs/`, Stand der Karte: Spiel-Rev 34; neuere Orte und Koordinaten stehen in Grauufer_Welt_RevXX.md).
 

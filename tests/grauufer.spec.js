@@ -46,6 +46,22 @@ test('Fußzeile ist einzeilig', async ({ page }) => {
   expect(fehler).toEqual([]);
 });
 
+test('Rev 122: Fenster ohne Knopf „Schließen“, das Siegel oben rechts schließt', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const out = [];
+    for (const f of [openInv, openMap, openSpells, openGlobe]) {
+      if (!document.querySelector('#panel').hidden) closePanel();
+      f(); const p = document.querySelector('#panel');
+      out.push([...p.querySelectorAll('button')].some(b => b.textContent.trim() === 'Schließen'), !!p.querySelector('.pclose'), document.activeElement === p.querySelector('.pclose'));
+      p.querySelector('.pclose').click(); out.push(p.hidden);
+    }
+    return out.flat();
+  });
+  expect(r).toEqual([false, true, true, true, false, true, true, true, false, true, true, true, false, true, true, true]);
+  expect(fehler).toEqual([]);
+});
+
 test('Gespräch mit Mareth', async ({ page }) => {
   const fehler = await frisch(page);
   const n = await page.evaluate(() => { openDialog('mareth'); return document.querySelectorAll('#choices button').length; });
@@ -344,6 +360,31 @@ test('Werkstatt: Hausbau erzeugt Häuser aus der Beschreibung (alle Wand-, Dach-
     return [ergebnis.every(Boolean), ergebnis.length, Object.keys(Hausbau.KATALOG).length];
   });
   expect(r).toEqual([true, 96, 22]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 122: Avatar-Baukasten baut alle Varianten, zeigt die Figur und speichert sie', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'avatarbaukasten.html'));
+  await page.waitForFunction(() => window.Avatar && window.THREE, null, { timeout: 30000 });
+  const r = await page.evaluate(() => {
+    const c = document.createElement('canvas'), s = Avatar.Szene(c, { w: 120, h: 200, k: 90 }), A = Avatar.AUSWAHL; let n = 0;
+    for (const haare of Object.keys(A.haare)) for (const kleidung of Object.keys(A.kleidung)) for (const waffe of Object.keys(A.waffe)) {
+      s.baue({ geschlecht: n % 2 ? 'w' : 'm', haare, kleidung, waffe, bart: haare === 'kurz' ? 'voll' : 'stoppeln', ruestung: waffe === 'axt' ? 'lederwams' : 'keine' });
+      s.zeige(['idle', 'walk', 'attack', 'death'][n % 4], .5, n % 8); n++;
+    }
+    return n;
+  });
+  await page.click('[data-k=haare][data-v=lang]'); await page.click('[data-a=walk]'); await page.fill('#name', 'Testfigur');
+  await page.click('#speichern'); await page.waitForTimeout(600);
+  const z = await page.evaluate(() => {
+    const c = document.querySelector('#ansicht'), g = document.createElement('canvas'); g.width = c.width; g.height = c.height; g.getContext('2d').drawImage(c, 0, 0);
+    const d = g.getContext('2d').getImageData(0, 0, g.width, g.height).data; let voll = 0; for (let i = 3; i < d.length; i += 4) if (d[i] > 200) voll++;
+    const ab = JSON.parse(localStorage.getItem('grauufer-avatare') || '{}');
+    return [voll > 2000, ab.Testfigur && ab.Testfigur.haare, JSON.parse(document.querySelector('#json').value).name, document.documentElement.scrollWidth <= innerWidth];
+  });
+  expect(r).toBe(64);
+  expect(z).toEqual([true, 'lang', 'Testfigur', true]);
   expect(fehler).toEqual([]);
 });
 

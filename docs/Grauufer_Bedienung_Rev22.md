@@ -1,6 +1,6 @@
 # Grauufer – Bedienung
 
-**Revision 21**, Stand: Spiel-Rev 121. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 22**, Stand: Spiel-Rev 122. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Zielgeräte (Im Spiel)
 
@@ -50,7 +50,7 @@
 | Zoomanzeige | oben rechts | Zoomstufe in %, Start immer bei 100 %; Bereich 50–250 % in Schritten von 10 % |
 | Karte | Taste M | große Karte von Morvenn (keine Minikarte), in der Tiefe stattdessen „Karte der Tiefe“ (seit Spiel-Rev 105); Knopf „Weltkarte“ öffnet den drehbaren Globus von Vharos |
 | Meldungen | Textprotokoll | Kampf, Funde, Gespräche |
-| Fenster | **immer zentriert** (seit Spiel-Rev 86) | Rucksack, Charakter, Tagebuch, Aufgaben, Herstellen, Zauber, Karte, Händler, Gespräch; Stil „Pergament auf Holzrollen“, Schließen als rotes Wachssiegel (seit Spiel-Rev 87); der Rucksack passt ohne Scrollen auf den Bildschirm (seit Spiel-Rev 85/90) |
+| Fenster | **immer zentriert** (seit Spiel-Rev 86) | Rucksack, Charakter, Tagebuch, Aufgaben, Herstellen, Zauber, Karte, Händler, Gespräch; Stil „Pergament auf Holzrollen“, Schließen als rotes Wachssiegel oben rechts (seit Spiel-Rev 87; seit Spiel-Rev 122 ohne zusätzlichen Knopf „Schließen“ unten, Tastaturfokus liegt auf dem Siegel); der Rucksack passt ohne Scrollen auf den Bildschirm (seit Spiel-Rev 85/90) |
 | Ego-Sicht | oben rechts, nur in Höhlen | Knopf „Ego-Sicht“ schaltet in Höhlen auf eine Sicht aus Augenhöhe mit Steuerkreuz, „Iso-Sicht“ schaltet zurück; Auswahl wird gespeichert (Testfunktion seit Spiel-Rev 44) |
 | Testknöpfe | – | entfernt: „zur Höhle“ seit Spiel-Rev 88, „Test: Gegner an/aus“ samt Diagnosezeile seit Spiel-Rev 93 |
 

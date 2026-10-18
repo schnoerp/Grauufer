@@ -1,6 +1,6 @@
 # Grauufer – Baukästen
 
-**Revision 8**, Stand: Spiel-Rev 121. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 9**, Stand: Spiel-Rev 122. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zweite Entwickler Teile der Spielwelt selbst zusammenstellen. Die Baukästen gehören zur Grafik-Werkstatt; Technik, Stilregeln und Kamera stehen in Grauufer_Grafik_RevXX.md.
 
@@ -10,7 +10,7 @@ Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zw
 |---|---|---|
 | Haus-Baukasten | vorhanden in der Werkstatt; im Spiel: fünf Häuser in Grauufer (seit Spiel-Rev 109) und neun in Sonnwacht (seit Spiel-Rev 111), Abschnitt 6 | einzelne Häuser vom Schuppen bis zur Residenz: Grundriss, Wände, Dach, Geschosse, Fenster und Türen, Einrichtung (Abschnitt 2) |
 | Anlagen-Baukasten | Geplant | Burg und Schloss als Anlagen aus mehreren Teilen (Abschnitt 3) |
-| Figuren-Baukasten | Geplant | Gesprächspartner, Gegner und Spielerfiguren aus gemeinsamen Körperbau-Familien (Abschnitt 4) |
+| Figuren-Baukasten | **Avatar-Baukasten** in der Werkstatt vorhanden (seit Spiel-Rev 122), noch nicht im Spiel; Gesprächspartner und Gegner geplant | Spielerfigur, später Gesprächspartner und Gegner aus gemeinsamen Körperbau-Familien (Abschnitt 4) |
 | Landschafts-Baukasten | Geplant | Teil A: Bäume, Felsen, Ufer, Klippen, Höhlen als Bausteine; Teil B (optional, später): Gebiete auf dem Raster entwerfen (Abschnitt 5) |
 
 | Teil | Datei |
@@ -55,9 +55,20 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 - Grund: Burg und Schloss sind keine einzelnen Häuser, sondern Anlagen aus mehreren Teilen auf einer größeren Fläche.
 - Umfang und Bedienung sind noch nicht festgelegt. Vorschlag zur Abstimmung: Ringmauer mit Wehrgang, Türme, Torhaus, Hof, Bergfried oder Hauptbau; Gebäude im Hof aus dem Haus-Baukasten wiederverwenden.
 
-## 4. Figuren-Baukasten (Geplant)
+## 4. Figuren-Baukasten (Avatar-Baukasten vorhanden seit Spiel-Rev 122, Rest geplant)
 
-**Probefigur Avatar (Werkstatt, seit Spiel-Rev 121, noch nicht im Spiel):** `werkstatt/modelle/avatar.js` baut die Spielfigur im Ziel-Stil A (Grauufer_Grafik_RevXX.md) mit dem Startaussehen aus dem Spiel: Mann mit Glatze, rotes Karohemd mit hochgekrempelten Ärmeln, dunkle Hose, Lederstiefel, Gürtel mit Messingschnalle, Kurzschwert. 1,80 m, Glieder als Gelenkkette, Stoffmuster im Code gezeichnet, warmes Licht von oben links mit kühler Kante. Bewegungen: Stehen, Laufen (8 Bilder), Angriff (6 Bilder), Sterben, je in 8 Richtungen. Vorschau `werkstatt/vorschau/avatar_probe.png` (`npm run grafik`). Nächste Schritte nach Freigabe: Aussehen aus dem Charakter-Editor übernehmen (Geschlecht, Haare, Farben, Kleidung, Waffe, Rüstung), Bilder je Richtung einbetten, im Spiel 8 Richtungen statt Spiegeln.
+**Avatar-Baukasten (Werkstatt, seit Spiel-Rev 122, noch nicht im Spiel):** `werkstatt/avatarbaukasten.html` (über GitHub Pages unter `https://schnoerp.github.io/Grauufer/werkstatt/avatarbaukasten.html` und als Claude-Seite mit gemeinsamem Speicher, Sammlung `avatare`; Seite bauen mit `node werkstatt/artefakt.js <Ziel> avatar`). Der Auftraggeber stellt damit die Spielfigur nach (Freigabe der Probefigur mit dem Vermerk „über den Avatar-Baukasten wird noch nachjustiert“, Spiel-Rev 121).
+
+| Bereich | Einstellungen |
+|---|---|
+| Körper | Mann oder Frau; Größe 1,50–2,10 m, Statur 80–130 %, Schulterbreite 85–120 %, Kopfgröße 85–120 %, Bein- und Armlänge 90–112 % |
+| Kopf | Haare: Glatze, kurz, lang, Zopf; Bart: kein, Stoppeln, Vollbart; Farben für Haare, Haut, Augen |
+| Kleidung | Karohemd, Hemd, T-Shirt (kurze Ärmel), Hemd mit Umhang; Farben für Hemd, Umhang, Hose, Stiefel, Gürtel und Leder (Farbtafeln wie im Charakter-Editor, dazu freie Farbwahl) |
+| Ausrüstung | Rüstung: keine, Lederwams; Waffe: keine, Kurzschwert, Axt, Stab |
+| Vorschau | Figur aus Spielsicht in 8 Richtungen, Bewegungen Stehen, Laufen, Angriff, Sterben; daneben die Figur in Spielgröße (bei 1250 × 650 und beim größten Zoom) |
+| Ablage | Speichern im Browser bzw. im gemeinsamen Speicher; „Über GitHub an Claudia senden“; Beschreibung als JSON zum Kopieren (Format `Avatar.STANDARD` in `werkstatt/modelle/avatar.js`) |
+
+**Probefigur Avatar (Werkstatt, seit Spiel-Rev 121, noch nicht im Spiel):** `werkstatt/modelle/avatar.js` (seit Spiel-Rev 122 aus einer Beschreibung, siehe Avatar-Baukasten) baut die Spielfigur im Ziel-Stil A (Grauufer_Grafik_RevXX.md) mit dem Startaussehen aus dem Spiel: Mann mit Glatze, rotes Karohemd mit hochgekrempelten Ärmeln, dunkle Hose, Lederstiefel, Gürtel mit Messingschnalle, Kurzschwert. 1,80 m, Glieder als Gelenkkette, Stoffmuster im Code gezeichnet, warmes Licht von oben links mit kühler Kante. Bewegungen: Stehen, Laufen (8 Bilder), Angriff (6 Bilder), Sterben, je in 8 Richtungen. Vorschau `werkstatt/vorschau/avatar_probe.png` (`npm run grafik`). Nächste Schritte: Figur im Avatar-Baukasten nachjustieren (Auftraggeber), dann Bilder je Richtung und Bewegung einbetten, im Spiel 8 Richtungen statt Spiegeln, Charakter-Editor auf dieselben Einstellungen umstellen.
 
 **Entscheidungen (Gespräch mit dem Auftraggeber, Spiel-Rev 108):**
 - Ein eigener Baukasten für Figuren: Gesprächspartner, Gegner und die Spielerfiguren.
