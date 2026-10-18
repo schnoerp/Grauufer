@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 24**, Stand: Spiel-Rev 116. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 25**, Stand: Spiel-Rev 117. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -87,12 +87,12 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 
 Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus 6 Orten): Rev 95 24,8 ms, Rev 96 24,8 ms, also keine messbare Mehrlast. Es werden keine neuen Grafikkarten-Leinwände angelegt.
 
-### Täler, Berge und Brücken (Im Spiel seit Spiel-Rev 116)
+### Flüsse, Berge und Brücken (Im Spiel seit Spiel-Rev 116/117)
 
-- **Täler** 30 Einheiten je Auflösungsstufe tief (vorher 24); die hintere Talwand zeigt Gesteinsschichten, Klüfte und eine kräftigere Felsstruktur.
-- **Berge** fallen zum Talrand hin ab: Abstand zum nächsten Talfeld 1 Feld → Wiese, 2 Felder → 35 % der Höhe, 3 Felder → 70 %. Vor jedem Brückenende entsteht ein flacher Durchlass (2 Felder flach, dann 40 % und 75 %). Die 4 Bergfelder, die mitten im Talband lagen, sind Tal geworden.
-- **Brücken** haben gemauerte Widerlager: hinten Mauerwerk an der Talwand unter dem Deck, vorn ein Steinblock mit Auflage auf festem Boden.
-- Begehbarkeit, Wege und Fundorte sind unverändert. Die Berge selbst bleiben vorerst Codegrafik; als Felsmassive aus der Werkstatt sind sie mit dem Landschafts-Baukasten geplant (Grauufer_Baukaesten_RevXX.md).
+- **Flüsse** liegen seit Spiel-Rev 117 auf Bodenhöhe, ohne Höhensprung: nasses Ufer, Wasser in der mittleren Farbe der Seen mit Lichtreflexen, Grashalme an den Kanten. Jedes Flussende mündet in einen kleinen See (etwa 7 × 5 Felder), damit kein Fluss aus der Erde kommt. Bis Spiel-Rev 116 waren es abgesenkte Täler mit Felswänden.
+- **Berge** fallen zum Ufer hin ab: Abstand zum nächsten Flussfeld 1 Feld → Wiese, 2 Felder → 35 % der Höhe, 3 Felder → 70 %. Vor jedem Brückenende entsteht ein flacher Durchlass (2 Felder flach, dann 40 % und 75 %).
+- **Brücken** spannen 3 Felder über den Fluss und haben an beiden Enden einen gemauerten Steinblock auf festem Boden.
+- Wege und Fundorte bleiben erreichbar. Die Berge selbst bleiben vorerst Codegrafik; als Felsmassive aus der Werkstatt sind sie mit dem Landschafts-Baukasten geplant (Grauufer_Baukaesten_RevXX.md).
 
 ### Vorgerenderte Häuser (Im Spiel seit Spiel-Rev 109)
 

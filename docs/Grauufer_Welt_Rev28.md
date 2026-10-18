@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 27**, Stand: Spiel-Rev 116. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 28**, Stand: Spiel-Rev 117. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -55,9 +55,9 @@ Koordinaten als linke obere und rechte untere Ecke (x, y).
 | Gebiet | Lage | Bereich | Gelände |
 |---|---|---|---|
 | Brachfeld | Nordwesten | 1,1 – 226,123 | Hügelland mit Wiesen, Hecken, Teichen, vereinzelten Bergen |
-| Titanenrücken | Norden Mitte | 227,1 – 452,123 | Gebirgsrücken aus Fels und Schnee mit Pässen, eine Schlucht im Norden |
+| Titanenrücken | Norden Mitte | 227,1 – 452,123 | Gebirgsrücken aus Fels und Schnee mit Pässen, ein Fluss im Norden (bis Spiel-Rev 116 Schlucht) |
 | Glimmerseen | Nordosten | 453,1 – 678,123 | Seenplatte mit Inseln und Uferwäldern |
-| Rotsteinschluchten | Osten | 339,124 – 559,246 | Felsland mit Sandflächen und zwei großen Schluchten mit Brücken |
+| Rotsteinschluchten | Osten | 339,124 – 559,246 | Felsland mit Sandflächen und zwei großen Flüssen mit Brücken (bis Spiel-Rev 116 Schluchten) |
 | Klippenküste | Südosten | 560,124 – 678,246 | Grasland mit Felsen, Steilküste vor dem Meer |
 
 | Ort | Gebiet | Bereich | Besonderheit |
@@ -73,8 +73,8 @@ Koordinaten als linke obere und rechte untere Ecke (x, y).
 | Gelände | begehbar | Besonderheit |
 |---|---|---|
 | Wiese, Weg, Sand, Schnee, Wüste | ja | – |
-| Gebirge | ja | mühsamer Aufstieg (Meldung beim Betreten); seit Spiel-Rev 116 fallen Berge zu Tälern und vor Brückenenden auf Bodenhöhe ab, Bergfelder direkt am Talrand und vor Brücken sind Wiese |
-| Tal | ja | mit Flüssen und begehbaren Holzbrücken; seit Spiel-Rev 116 etwa 3,2 m tief (vorher 2,6 m), kein Berg ragt mehr ins Tal, Brücken stehen auf festem Boden mit gemauerten Widerlagern |
+| Gebirge | ja | mühsamer Aufstieg (Meldung beim Betreten); seit Spiel-Rev 116 fallen Berge zu Flüssen und vor Brückenenden auf Bodenhöhe ab, Bergfelder direkt am Ufer und vor Brücken sind Wiese |
+| Fluss mit Ufer (früher „Tal“) | Ufer ja, Wasser nein | seit Spiel-Rev 117 auf Bodenhöhe ohne Höhensprung (bis Spiel-Rev 116 als abgesenktes Tal mit Felswänden); schlängelt sich durch die Landschaft, jedes Flussende mündet in einen kleinen See; Holzbrücken (3 Felder) mit Steinblöcken an beiden Enden |
 | Sturmgürtel | ja | nur Warnmeldung beim Betreten, kein Schaden, keine Sperre |
 | Wald, Felsen | nein | blockieren den Weg |
 | Wasser, Lava, Abgrund, Schlucht | nein | Gegner stürzen per Sturmstoß hinein und sterben |
