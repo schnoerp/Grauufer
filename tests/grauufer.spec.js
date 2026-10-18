@@ -338,7 +338,7 @@ test('Werkstatt: Hausbau erzeugt Häuser aus der Beschreibung (alle Wand-, Dach-
     }
     return [ergebnis.every(Boolean), ergebnis.length, Object.keys(Hausbau.KATALOG).length];
   });
-  expect(r).toEqual([true, 36, 17]);
+  expect(r).toEqual([true, 36, 18]);
   expect(fehler).toEqual([]);
 });
 
@@ -390,5 +390,27 @@ test('Werkstatt: Baukasten setzt Fenster und Tür mit eigenen Werkzeugen', async
   await wand(); const c = await hinten();
   await page.getByRole('button', { name: 'Fenster vernagelt' }).click(); await wand(); const d = await hinten();
   expect([a, b, c, d]).toEqual(['tuer', 'fenster', '', 'fenster_vernagelt']);
+  expect(fehler).toEqual([]);
+});
+
+test('Werkstatt: zweigeschossiges Haus mit Treppe, Obergeschoss getrennt einrichtbar', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'baukasten.html'));
+  await page.waitForFunction(() => window.Hausbau && typeof spec === 'object', null, { timeout: 30000 });
+  await page.click('#neu');
+  await page.selectOption('#geschosse', '2');
+  const feld = async (x, z) => { await page.locator('#plan').scrollIntoViewIfNeeded(); const b = await page.locator('#plan').boundingBox(), c = b.width / await page.evaluate(() => spec.breite + 2);
+    await page.mouse.click(b.x + (x + 1.5) * c, b.y + (z + 1.5) * c); };
+  await page.getByRole('button', { name: 'Treppe (nach oben)' }).click(); await feld(1, 1);
+  await page.click('#og');
+  const treppeOben = await page.getByRole('button', { name: 'Treppe (nach oben)' }).count();
+  await page.getByRole('button', { name: 'Bett' }).click(); await feld(1, 1); await feld(2, 1);
+  const r = await page.evaluate(() => {
+    const zaehle = g => { let n = 0; g.traverse(o => { if (o.isMesh) n++; }); return n; };
+    const eg = Hausbau.Bau(spec, true, 0, 0), og = Hausbau.Bau(spec, true, 0, 1), aussen = Hausbau.Bau(spec, false);
+    return [spec.geschosse, spec.einrichtung.map(e => e.art + (e.geschoss | 0) + ':' + e.x + e.z).sort().join(','), og.userData.ebene, zaehle(og) > zaehle(eg), zaehle(aussen) > 100];
+  });
+  expect(treppeOben).toBe(0);
+  expect(r).toEqual([2, 'bett1:21,treppe0:11', 1, true, true]);
   expect(fehler).toEqual([]);
 });
