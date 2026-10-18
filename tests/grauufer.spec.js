@@ -572,3 +572,22 @@ test('Echtzeit: Welt läuft ohne Zutun weiter, Dauerangriff, Abklingzeiten für 
   expect(r.traenke).toBe(1);
   expect(fehler).toEqual([]);
 });
+
+test('Figur vor einer langen Hauswand bleibt sichtbar (Haus in Streifen gezeichnet)', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => Object.keys(HAUSBILD).length === Object.keys(HAUSBILDER).length, null, { timeout: 10000 });
+  const r = await page.evaluate(async () => {
+    const h = BILDHAUS.find(b => b.bild === 'sw_wachhalle'), x = h.x0 + 2, y = h.y1 + 1;
+    S.p.x = S.p.rx = x; S.p.y = S.p.ry = y; S.enemies.forEach(e => { e.dead = true; }); reveal();
+    await new Promise(f => setTimeout(f, 1500)); /* Kamera nachführen lassen */
+    const folge = [], aS = drawHausStreifen, aF = drawFigure;
+    drawHausStreifen = (b, c, s) => { if (b === h) folge.push(['h', c, s]); aS(b, c, s); };
+    drawFigure = (o, k, n, t) => { if (k === 'player') folge.push(['p']); aF(o, k, n, t); };
+    const jetzt = performance.now(); draw0(jetzt / 1000, jetzt, .016); /* genau ein Bild, synchron */
+    drawHausStreifen = aS; drawFigure = aF;
+    const ip = folge.findIndex(e => e[0] === 'p'), cp = x - y;
+    return { aussen: h._m, davorGezeichnet: folge.slice(ip + 1).filter(e => e[0] === 'h' && e[2] === 'a' && Math.abs(e[1] - cp) <= 1).length, streifen: folge.filter(e => e[0] === 'h').length };
+  });
+  expect(r.aussen).toBe('a'); expect(r.davorGezeichnet).toBe(0); expect(r.streifen).toBeGreaterThan(10);
+  expect(fehler).toEqual([]);
+});
