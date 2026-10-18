@@ -186,6 +186,8 @@ function magier(spec){
     [.75,.225,.16,.165],[.5,.255,.185,.19],[.25,.285,.205,.215],[.06,.305,.22,.235]];
   const robenS=R.map(q=>({c:[0,q[0],-.01],w:q[1],f:q[2],b:q[3]}));
   add(querschnitte(robenS.slice().reverse(),{deckel:false,n:72,m:110,form:falten(.02,11,.6),farbe:(p,t)=>faltenSchatten(11,.6,.55)(p,1-t)}),robe);
+  // Zierband mit goldenen Zeichen über dem Saum (durchsichtig, liegt dicht auf der Robe)
+  add(querschnitte(robenS.filter(q=>q.c[1]<.42).slice().reverse().map(q=>({c:q.c,w:q.w+.003,f:q.f+.003,b:q.b+.003})),{deckel:false,n:72,m:30,form:falten(.02,11,.6)}),zierMat(L.borte));
   // Saumborte unten und senkrechte Borte vorn
   add(querschnitte([{c:[0,.05,-.01],w:.31,f:.226,b:.241},{c:[0,.1,-.01],w:.302,f:.22,b:.235}],{deckel:false,n:72,form:(p,t,u)=>{falten(.02,11,.6)(p,1-(.075/1.44),u);const r=Math.atan2(p.x,p.z);p.x+=Math.sin(r)*.003;p.z+=Math.cos(r)*.003;}}),borte);
   // Mittelbahn vorn (heller) mit Borten an beiden Seiten, vom Gürtel bis zum Saum
@@ -194,7 +196,7 @@ function magier(spec){
   for(const sx of[-1,1])add(querschnitte(bahn.map(q=>({c:[sx*(q.w+.004),q.c[1],q.c[2]-.002-(q.w*q.w)*1.2],w:.009,f:.005,b:.005})),{n:10,m:50}),borte);
   add(querschnitte(R.filter(q=>q[0]>1.0).map(q=>({c:[0,q[0],q[2]-.006],w:.016,f:.005,b:.005})),{n:10,m:30}),borte);
   // Schulterumhang mit Kapuzenansatz, Borte am Rand
-  const um=[[1.5,.15,.1,.12],[1.44,.215,.13,.14],[1.36,.245,.15,.16],[1.31,.25,.155,.165]];
+  const um=[[1.47,.17,.11,.125],[1.44,.215,.13,.14],[1.36,.245,.15,.16],[1.31,.25,.155,.165]];
   add(querschnitte(um.map(q=>({c:[0,q[0],-.012],w:q[1],f:q[2],b:q[3]})).reverse(),{deckel:false,n:64,form:falten(.008,7,.2),farbe:(p,t)=>faltenSchatten(7,.2,.4)(p,1-t)}),robe);
   add(querschnitte([{c:[0,1.3,-.012],w:.257,f:.16,b:.17},{c:[0,1.32,-.012],w:.254,f:.158,b:.168}],{deckel:false,n:64,form:falten(.008,7,.2)}),borte);
   // Kapuze: Schale um den Kopf, vorn offen, mit Borte am Gesichtsrand
@@ -222,7 +224,7 @@ function magier(spec){
   }
   // leuchtende Kugel über der linken Hand
   const ku=ARM['1'][2],kp=[ku[0]+.01,ku[1]+.06,ku[2]+.07];
-  leuchte(G,kp,.028,L.stein,2.2,1.0,stein,1.7);
+  leuchte(G,kp,.028,L.stein,3.4,1.25,stein,1.7);
   for(const s of[-1,1]){
     // Stiefelspitzen unter der Robe
     add(querschnitte([{c:[s*.1,.05,-.02],w:.046,f:.045,b:.045},{c:[s*.104,.045,.05],w:.05,f:.035,b:.035},{c:[s*.108,.035,.12],w:.044,f:.025,b:.025},{c:[s*.108,.03,.15],w:.03,f:.018,b:.018}].map(q=>({c:q.c,w:q.w,f:q.f,b:q.b,e:2.4})),{n:28}),stiefel);
@@ -233,8 +235,10 @@ function magier(spec){
   add(rundKasten(.11,.12,.05,.012),leder,-.2,.93,.06).rotation.y=-.5;
   add(new THREE.BoxGeometry(.11,.035,.052),M({map:koern(L.leder,22,13,10),roughness:.5}),-.2,.985,.06).rotation.y=-.5;
   add(new THREE.SphereGeometry(.008,8,6),messing,-.18,.975,.088);
-  const riemen=[];for(let k=0;k<=12;k++){const t=k/12,y=1.0+t*.44,x=-.18+t*.32,f=y>1.4?.115-(y-1.4)*.6:y>1.25?.135:.132,z=f*Math.sqrt(Math.max(0,1-(x/.2)**2))+.004;riemen.push({c:[x,y,z],w:.016,f:.003,b:.003});}
-  add(querschnitte(riemen,{n:10,m:40}),leder);
+  // zwei Riemen über Kreuz von den Schultern zum Gürtel, in der Mitte eine runde Schnalle (wie im Zielbild)
+  const brustZ=(x,y)=>{const f=y>1.4?.115-(y-1.4)*.6:y>1.25?.137:.134;return f*Math.sqrt(Math.max(0,1-(x/.21)**2))+.005;};
+  for(const sx of[-1,1]){const rr=[];for(let k=0;k<=14;k++){const t=k/14,y=1.03+t*.42,x=sx*(-.16+t*.3);rr.push({c:[x,y,brustZ(x,y)],w:.015,f:.003,b:.003});}add(querschnitte(rr,{n:10,m:42}),leder);}
+  add(new THREE.TorusGeometry(.019,.006,8,20),messing,0,1.24,brustZ(0,1.24)+.004);add(new THREE.CylinderGeometry(.013,.013,.006,16),messing,0,1.24,brustZ(0,1.24)+.003).rotation.x=Math.PI/2;
   // zweiter, schmaler Gürtel schräg über der Hüfte mit zwei Fläschchen
   add(querschnitte([{c:[0,.9,-.01],w:.205,f:.15,b:.15},{c:[0,.925,-.01],w:.204,f:.149,b:.149}],{deckel:false,n:56,form:(p)=>{p.y+=p.x*.18;}}),leder);
   for(const[fx,fc]of[[.1,0x7a2a8a],[.14,0x2a8a6a]]){const fz=.15*Math.sqrt(Math.max(0,1-(fx/.21)**2))+.012;
@@ -247,7 +251,7 @@ function magier(spec){
   const sx=-.262,sz=.235;
   add(querschnitte([{c:[sx,.02,sz],w:.016,f:.016,b:.016},{c:[sx,.9,sz],w:.019,f:.019,b:.019},{c:[sx,1.6,sz],w:.018,f:.018,b:.018},{c:[sx,1.86,sz],w:.024,f:.024,b:.024}],{n:14,m:60,form:(p,t)=>{const a=t*40;p.x+=.003*Math.sin(a);p.z+=.003*Math.cos(a);}}),holz);
   for(let k=0;k<4;k++){const a=k*Math.PI/2+.4,kl=[];for(let q=0;q<=6;q++){const t=q/6,r=.025+.03*Math.sin(t*Math.PI*.9),y=1.86+t*.13;kl.push({c:[sx+Math.sin(a)*r,y,sz+Math.cos(a)*r],w:.007*(1-t*.6),f:.007*(1-t*.6),b:.007*(1-t*.6)});}add(querschnitte(kl,{n:10,m:20}),holz);}
-  leuchte(G,[sx,1.94,sz],.032,L.stein,2.6,1.1,stein,0);
+  leuchte(G,[sx,1.94,sz],.032,L.stein,3.4,1.3,stein,0);
   G.scale.setScalar((+L.groesse||1.8)/1.8);
   return G;}
 
@@ -260,6 +264,14 @@ function leuchte(G,pos,r,farbe,staerke,reichweite,kernMat,phase){
 // Flackern: unregelmäßig aus mehreren Schwingungen, je Stein versetzt; t in Sekunden
 function flackern(G,t){for(const l of G.userData.leuchten||[]){const p=l.phase,f=1+.22*Math.sin(t*11+p)+.14*Math.sin(t*23.7+p*2.1)+.09*Math.sin(t*41.3+p*3.3);
   l.licht.intensity=l.staerke*f;l.h1.scale.setScalar(.9+.15*f);l.h2.scale.setScalar(.85+.25*f);l.h1.material.opacity=.2*f;l.h2.material.opacity=.07*f;l.mat.emissiveIntensity=.7+.3*f;}}
+// Zeichen in Gold auf durchsichtigem Grund (Runen, Bögen), als Band um den Saum
+function zierMat(f){const t=tex(512,128,(g,w,h)=>{g.clearRect(0,0,w,h);g.strokeStyle=f;g.fillStyle=f;g.lineWidth=9;g.lineCap='round';
+  for(let i=0;i<8;i++){const x=i*64+32,y=64;g.beginPath();
+    if(i%2){g.moveTo(x,y-34);g.lineTo(x,y+34);g.moveTo(x-16,y-12);g.lineTo(x,y-28);g.lineTo(x+16,y-12);g.moveTo(x-14,y+18);g.lineTo(x+14,y+18);}
+    else{g.arc(x,y,20,Math.PI*.15,Math.PI*1.85);g.moveTo(x,y-34);g.lineTo(x,y-22);g.moveTo(x,y+22);g.lineTo(x,y+34);}
+    g.stroke();g.fillRect(x+28,y-3,6,6);}
+  g.fillRect(0,4,w,4);g.fillRect(0,h-8,w,4);},1);t.repeat.set(1/.22,1/.3);
+  return new THREE.MeshStandardMaterial({map:t,transparent:true,alphaTest:.4,roughness:.4,metalness:.55,depthWrite:true});}
 function heller(hex,f){const c=new THREE.Color(hex);c.multiplyScalar(f);return'#'+c.getHexString();}
 // Hand als eigene Gruppe (Finger zeigen nach −y), zum Ausrichten am Unterarm
 function handGruppe(s,haut){const H=new THREE.Group();hand((g,m)=>{const o=new THREE.Mesh(g,m);o.castShadow=o.receiveShadow=true;H.add(o);return o;},s,[0,0,0],haut);return H;}
