@@ -341,3 +341,26 @@ test('Werkstatt: Hausbau erzeugt Häuser aus der Beschreibung (alle Wand-, Dach-
   expect(r).toEqual([true, 36, 17]);
   expect(fehler).toEqual([]);
 });
+
+test('Werkstatt: Baukasten erlaubt je Feld nur ein Möbelstück und entfernt zuverlässig', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'baukasten.html'));
+  await page.waitForFunction(() => window.Hausbau && typeof spec === 'object', null, { timeout: 30000 });
+  await page.click('#neu');
+  const feld = async (x, z) => { const b = await page.locator('#plan').boundingBox(), c = b.width / await page.evaluate(() => spec.breite + 2);
+    await page.mouse.click(b.x + (x + 1.5) * c, b.y + (z + 1.5) * c); };
+  const inhalt = () => page.evaluate(() => spec.einrichtung.filter(e => e.x === 1 && e.z === 1).map(e => e.art + e.dreh).sort().join(','));
+  await page.getByRole('button', { name: 'Truhe' }).click();
+  for (let i = 0; i < 3; i++) await feld(1, 1);
+  const a = await inhalt();
+  await page.getByRole('button', { name: 'Schrank' }).click(); await feld(1, 1);
+  await page.getByRole('button', { name: 'Teppich' }).click(); await feld(1, 1);
+  const b = await inhalt();
+  await page.getByRole('button', { name: 'Säcke' }).click(); await feld(1, 1);
+  const c = await inhalt();
+  await page.getByRole('button', { name: '✕ Entfernen' }).click(); await feld(1, 1);
+  const d = await inhalt();
+  const alt = await page.evaluate(() => Hausbau.bereinige([{ art: 'truhe', x: 0, z: 0 }, { art: 'truhe', x: 0, z: 0 }, { art: 'bett', x: 0, z: 0 }, { art: 'teppich', x: 0, z: 0 }]).map(e => e.art).join(','));
+  expect([a, b, c, d, alt]).toEqual(['truhe2', 'schrank0,teppich0', 'saecke0,teppich0', '', 'truhe,teppich']);
+  expect(fehler).toEqual([]);
+});

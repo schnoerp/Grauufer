@@ -77,10 +77,10 @@ try{const z=localStorage.getItem(SPEICHER+'-zuletzt');if(z)spec=JSON.parse(z);}c
 // ---------- Werkzeuge ----------
 const WZ=[['oeffnung','Fenster/Tür'],...Object.entries(HB.KATALOG).map(([k,v])=>[k,v.name]),['drehen','↻ Drehen'],['entfernen','✕ Entfernen']];
 const HILFE={oeffnung:'Tippe auf eine Wand: Wand → Fenster → Tür → kaputtes Fenster → vernageltes Fenster → Wand.',
-  drehen:'Tippe auf ein Feld, um das zuletzt gesetzte Teil dort zu drehen.',entfernen:'Tippe auf ein Feld, um das zuletzt gesetzte Teil dort zu entfernen.'};
+  drehen:'Tippe auf ein Feld, um das Teil dort zu drehen.',entfernen:'Tippe auf ein Feld, um alles darin zu entfernen.'};
 function zeigeWerkzeuge(){$('werkzeuge').innerHTML='';WZ.forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;b.className=k===werkzeug?'an':'';
   b.onclick=()=>{werkzeug=k;zeigeWerkzeuge();};$('werkzeuge').appendChild(b);});
-  $('hilfe').textContent=HILFE[werkzeug]||`Tippe auf ein Feld, um „${HB.KATALOG[werkzeug].name}“ zu setzen; auch außen um das Haus herum. Teile an der Wand drehen sich zur nächsten Wand.`;}
+  $('hilfe').textContent=HILFE[werkzeug]||`Tippe auf ein Feld, um „${HB.KATALOG[werkzeug].name}“ zu setzen, auch außen um das Haus. Je Feld ein Möbelstück`+(HB.KATALOG[werkzeug].zusatz?'; dieses Teil darf zusätzlich zu einem Möbelstück stehen':'; Teppich, Kessel, Wandbrett und Waffen dürfen dazukommen')+'. Erneutes Tippen dreht das Teil, ein anderes Möbelstück ersetzt es.';}
 
 // ---------- Grundriss ----------
 const plan=$('plan'),pg=plan.getContext('2d');let cs=40;
@@ -97,7 +97,8 @@ function zeichnePlan(){const B=spec.breite,D=spec.tiefe;cs=Math.floor(Math.min(6
   const proFeld={};(spec.einrichtung||[]).forEach(e=>{const k=e.x+','+e.z;(proFeld[k]=proFeld[k]||[]).push(e);});
   pg.textAlign='center';pg.textBaseline='middle';
   for(const k in proFeld){const[x,z]=k.split(',').map(Number),l=proFeld[k],cx=(x+1.5)*cs,cz=(z+1.5)*cs;
-    l.forEach((e,i)=>{const yy=cz+(i-(l.length-1)/2)*cs*.3;pg.font=`${Math.max(10,cs*.24)}px 'Pixelify Sans',sans-serif`;
+    pg.fillStyle='rgba(255,220,140,.18)';pg.fillRect((x+1)*cs+2,(z+1)*cs+2,cs-4,cs-4);
+    l.forEach((e,i)=>{const yy=cz+(i-(l.length-1)/2)*cs*.26;pg.font=`${Math.max(10,cs*.21)}px 'Pixelify Sans',sans-serif`;
       pg.fillStyle='#f6e8c8';pg.strokeStyle='#2a1a0a';pg.lineWidth=3;pg.strokeText(KURZ[e.art]||e.art,cx,yy);pg.fillText(KURZ[e.art]||e.art,cx,yy);});
     const d=l[l.length-1].dreh&3,ax=[0,-1,0,1][d],az=[-1,0,1,0][d];pg.strokeStyle='#ffd070';pg.lineWidth=3;pg.beginPath();
     pg.moveTo(cx+ax*cs*.42,cz+az*cs*.42);pg.lineTo(cx+ax*cs*.3,cz+az*cs*.3);pg.stroke();}
@@ -114,9 +115,12 @@ plan.addEventListener('click',ev=>{const r=plan.getBoundingClientRect(),fx=(ev.c
     const neu=HB.OEFFNUNGEN[(HB.OEFFNUNGEN.indexOf(alt)+1)%HB.OEFFNUNGEN.length];if(i>=0)spec.oeffnungen.splice(i,1);if(neu!=='wand')spec.oeffnungen.push({seite,feld,art:neu});}
   else{const x=Math.floor(fx),z=Math.floor(fz);if(x<-1||x>B||z<-1||z>D)return;const hier=spec.einrichtung.filter(e=>e.x===x&&e.z===z);
     if(werkzeug==='drehen'){if(hier.length)hier[hier.length-1].dreh=(hier[hier.length-1].dreh+1)&3;}
-    else if(werkzeug==='entfernen'){if(hier.length)spec.einrichtung.splice(spec.einrichtung.lastIndexOf(hier[hier.length-1]),1);}
+    else if(werkzeug==='entfernen'){spec.einrichtung=spec.einrichtung.filter(e=>!(e.x===x&&e.z===z));}
+    else if(hier.some(e=>e.art===werkzeug)){const e=hier.find(e=>e.art===werkzeug);e.dreh=(e.dreh+1)&3;}
     else{let dreh=0;if(x<0)dreh=1;else if(x>=B)dreh=3;else if(z<0)dreh=0;else if(z>=D)dreh=2;
       else if(HB.KATALOG[werkzeug].wand){const ab=[z,x,D-1-z,B-1-x];dreh=ab.indexOf(Math.min(...ab));}
+      // je Feld ein Hauptteil und ein Zusatzteil: ein Teil derselben Sorte wird ersetzt
+      const zus=!!HB.KATALOG[werkzeug].zusatz;spec.einrichtung=spec.einrichtung.filter(e=>!(e.x===x&&e.z===z&&!!HB.KATALOG[e.art].zusatz===zus));
       spec.einrichtung.push({art:werkzeug,x,z,dreh});}}
   geaendert();});
 
@@ -124,7 +128,7 @@ plan.addEventListener('click',ev=>{const r=plan.getBoundingClientRect(),fx=(ev.c
 const ansicht=$('ansicht');let warte=0,szene=null;
 try{szene=HB.Szene(ansicht);}catch(e){ansicht.insertAdjacentHTML('afterend','<p class="hinweis">Die 3D-Vorschau braucht WebGL; dieser Browser stellt es nicht bereit.</p>');}
 function rendere(){if(!szene)return;const r=ansicht.getBoundingClientRect();szene.renderer.setPixelRatio(1);szene.renderer.setSize(Math.max(200,r.width|0),Math.max(200,r.height|0),false);szene.zeige(spec,innen,drehung);}
-function geaendert(){try{localStorage.setItem(SPEICHER+'-zuletzt',JSON.stringify(spec));}catch(e){}felder();zeichnePlan();clearTimeout(warte);warte=setTimeout(rendere,120);}
+function geaendert(){spec.einrichtung=HB.bereinige(spec.einrichtung);try{localStorage.setItem(SPEICHER+'-zuletzt',JSON.stringify(spec));}catch(e){}felder();zeichnePlan();clearTimeout(warte);warte=setTimeout(rendere,120);}
 function felder(){$('name').value=spec.name||'';$('breite').textContent=spec.breite;$('tiefe').textContent=spec.tiefe;$('wand').value=spec.wand;$('dach').value=spec.dach;
   $('first').value=spec.first||'x';$('dachform').value=spec.dachform||(spec.dach==='reet'?'walm':'sattel');$('verwitterung').value=spec.verwitterung;$('vw').textContent=['neu','gepflegt','gebraucht','verwittert','verfallen'][Math.round(spec.verwitterung*4)];
   $('schornstein').checked=!!spec.schornstein;$('aussen').className=innen?'':'an';$('innen').className=innen?'an':'';
