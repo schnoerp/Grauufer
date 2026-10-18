@@ -466,7 +466,7 @@ test('Grauufer: fünf Häuser aus der Grafik-Werkstatt, außen und innen', async
     const m = BILDHAUS.find(b => b.bild === 'mareth'), mareth = NPCS.find(n => n.id === 'mareth');
     S.p.x = S.p.rx = m.x0 + 1; S.p.y = S.p.ry = m.y0 + 1; await warte(); const drin = m._m;
     S.p.x = S.p.rx = m.x0 - 6; S.p.y = S.p.ry = m.y0 - 6; await warte(); const draussen = m._m;
-    return { namen: BILDHAUS.map(b => b.bild).filter(n => !n.includes('_')).sort(), drin, draussen, mitte: mareth.x === m.x0 + 1 && mareth.y === m.y0 + 1,
+    return { namen: BILDHAUS.map(b => b.bild).filter(n => !n.includes('_') && n !== 'gruft').sort(), drin, draussen, mitte: mareth.x === m.x0 + 1 && mareth.y === m.y0 + 1,
       bilder: Object.values(HAUSBILD).every(h => ['a', 'h', 'v'].every(s => h[s].c.width > 100)) };
   });
   expect(r.namen).toEqual(['bram', 'ilsabe', 'mareth', 'oswin', 'verlassen']);
@@ -513,5 +513,19 @@ test('Sandhafen: vier Lehmhäuser mit Flachdach aus der Werkstatt', async ({ pag
   });
   expect(r.namen).toEqual(['sh_hafenmeister', 'sh_lager', 'sh_wohnhaus', 'sh_yasmin']);
   expect(r.drin).toBe('i'); expect(r.draussen).toBe('a');
+  expect(fehler).toEqual([]);
+});
+
+test('Gruft aus der Werkstatt und schlanke Stadtmauer in Sonnwacht', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => Object.keys(HAUSBILD).length === Object.keys(HAUSBILDER).length, null, { timeout: 10000 });
+  const r = await page.evaluate(async () => {
+    const warte = () => new Promise(f => requestAnimationFrame(() => requestAnimationFrame(f)));
+    const g = BILDHAUS.find(b => b.bild === 'gruft');
+    S.p.x = S.p.rx = g.x0 + 3; S.p.y = S.p.ry = g.y0 + 2; await warte(); const drin = g._m;
+    const [mx, my] = wpos('sonnwacht', 6, 0), m = wallSprite0(mx, my, '#');
+    return { gross: [g.x1 - g.x0 + 1, g.y1 - g.y0 + 1], drin, schlank: !!m.c && [...SPR.keys()].some(k => k.startsWith('THIN|stone|') && k.endsWith('|0.26')) };
+  });
+  expect(r.gross).toEqual([9, 5]); expect(r.drin).toBe('i'); expect(r.schlank).toBe(true);
   expect(fehler).toEqual([]);
 });

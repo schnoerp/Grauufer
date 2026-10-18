@@ -150,7 +150,7 @@ function Bau(spec,innen,drehung=0,ebene=0,opt={}){
     wand('hinten',HX,0,0,'x',hw('hinten'),gs);wand('links',HZ,0,0,'z',hw('links'),gs);wand('vorn',HX,0,HZ,'x',hw('vorn'),gs);wand('rechts',HZ,HX,0,'z',hw('rechts'),gs);}
   [[0,0,'hinten','links'],[HX,0,'hinten','rechts'],[0,HZ,'links','vorn'],[HX,HZ,'vorn','rechts']].forEach(([x,z,s1,s2])=>{const h=innen&&!dachboden?(niedrig.includes(s1)||niedrig.includes(s2)?ebene*WH+1.15:(ebene+1)*WH+.05):HG+.05;
     const o=typ==='holz'?box(.3,h,.3,mHolz,x,h/2,z):uv(box(.42,h,.42,typ==='lehm'?mLehm:mStein,x,h/2,z),[.3,h/2.3]);if(innen&&(niedrig.includes(s1)||niedrig.includes(s2)))o.userData.vorn=true;});
-  uv(box(HX,.12,HZ,M({map:tx.dielen}),HX/2,.06,HZ/2),[B/2,D/2]);
+  uv(box(HX,.12,HZ,spec.boden==='stein'?mStein:M({map:tx.dielen}),HX/2,.06,HZ/2),[B/2,D/2]);/* Rev 115: boden 'stein' (z. B. Gruft) */
   // Decke zum Obergeschoss mit Treppenloch (nur in der Innenansicht des Obergeschosses sichtbar)
   const treppen=bereinige(spec.einrichtung).filter(e=>e.art==='treppe'&&(e.geschoss|0)<L-1&&e.x>=0&&e.x<B&&e.z>=0&&e.z<D);
   if(innen&&ebene>0){const mD=M({map:tx.dielen});const loch=new Set(treppen.filter(e=>(e.geschoss|0)===ebene-1).map(e=>e.x+','+e.z));
