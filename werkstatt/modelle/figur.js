@@ -20,7 +20,7 @@ function querschnitte(S,opt={}){
   const ringe=[];
   for(let r=0;r<=M;r++){const u=r/M*(S.length-1),i=Math.min(S.length-2,Math.floor(u)),t=u-i;
     ringe.push({c:V(cr(kx,i,t),cr(ky,i,t),cr(kz,i,t)),w:cr(kw,i,t),f:cr(kf,i,t),b:cr(kb,i,t),e:cr(ke,i,t)});}
-  const P=[],UV=[],I=[];let vlaenge=0;
+  const P=[],UV=[],I=[],CO=[];let vlaenge=0;
   for(let r=0;r<=M;r++){const R=ringe[r],a=ringe[Math.min(M,r+1)].c.clone().sub(ringe[Math.max(0,r-1)].c).normalize();
     const F=V(0,0,1).sub(a.clone().multiplyScalar(a.z)).normalize(),Sd=a.clone().cross(F).normalize();if(Sd.x<0)Sd.multiplyScalar(-1);
     if(r)vlaenge+=R.c.distanceTo(ringe[r-1].c);
@@ -28,14 +28,15 @@ function querschnitte(S,opt={}){
     for(let j=0;j<=N;j++){const th=Math.PI+j/N*Math.PI*2,s=Math.sin(th),c=Math.cos(th);
       const p=R.c.clone().addScaledVector(Sd,R.w*sp(s,R.e)).addScaledVector(F,(c>=0?R.f:R.b)*sp(c,R.e));
       if(opt.form)opt.form(p,r/M,j/N);
-      if(vor)bogen+=p.distanceTo(vor);vor=p;P.push(p.x,p.y,p.z);UV.push(bogen,vlaenge);}}
+      if(vor)bogen+=p.distanceTo(vor);vor=p;P.push(p.x,p.y,p.z);UV.push(bogen,vlaenge);if(opt.farbe){const f=opt.farbe(p,r/M,j/N);CO.push(f,f,f);}}}
   for(let r=0;r<M;r++)for(let j=0;j<N;j++){const a=r*(N+1)+j,b=a+N+1;I.push(a,b,a+1,a+1,b,b+1);}
   // Umlaufsinn prüfen: Flächen müssen nach außen zeigen (sonst blendet three.js sie aus)
   {const r=Math.floor(M/2),a=r*(N+1)+Math.floor(N/4),b=a+N+1,q=k=>V(P[k*3],P[k*3+1],P[k*3+2]);
     const n=q(b).sub(q(a)).cross(q(a+1).sub(q(a))),aus=q(a).sub(ringe[r].c);if(n.dot(aus)<0)for(let k=0;k<I.length;k+=3){const t=I[k+1];I[k+1]=I[k+2];I[k+2]=t;}}
-  if(deckel){const fl=I.length&&I[1]!==N+1;for(const r of[0,M]){const mi=P.length/3,C=ringe[r].c;P.push(C.x,C.y,C.z);UV.push(0,0);
+  if(deckel){const fl=I.length&&I[1]!==N+1;for(const r of[0,M]){const mi=P.length/3,C=ringe[r].c;P.push(C.x,C.y,C.z);UV.push(0,0);if(opt.farbe)CO.push(1,1,1);
     for(let j=0;j<N;j++){const a=r*(N+1)+j;if((r>0)!==fl)I.push(a,mi,a+1);else I.push(a,a+1,mi);}}}
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(P,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(UV,2));
+  if(opt.farbe)g.setAttribute('color',new THREE.Float32BufferAttribute(CO,3));
   g.setIndex(I);g.computeVertexNormals();return g;}
 
 // ---------- Kopf: Grundform mit aufmodellierten Wölbungen ----------
@@ -169,37 +170,60 @@ function magier(spec){
   const L=Object.assign({haut:'#c99068',augen:'#3a5068',robe:'#1a2554',borte:'#b8903e',leder:'#5a3a22',bart:'#6a5848',stiefel:'#3a2616',stein:'#2f6bff',groesse:1.8},spec);
   const M=o=>new THREE.MeshStandardMaterial(Object.assign({roughness:.8,metalness:0},o));
   const haut=M({map:koern(L.haut,8,3,4),roughness:.62}),kopfHaut=M({map:hautKopf(L.haut),roughness:.6}),
-    robe=M({map:robenStoff(L.robe),roughness:.88,side:THREE.FrontSide}),borte=M({map:borteTex(L.borte),roughness:.4,metalness:.55}),
+    robe=M({map:robenStoff(L.robe),roughness:.7,vertexColors:true}),robeHell=M({map:robenStoff(heller(L.robe,1.35)),roughness:.7}),robeKap=M({map:robenStoff(L.robe),roughness:.7}),borte=M({map:borteTex(L.borte),roughness:.4,metalness:.55}),
     leder=M({map:koern(L.leder,22,11,10),roughness:.55}),messing=M({color:0xc89a3c,roughness:.3,metalness:.85}),stiefel=M({map:koern(L.stiefel,20,9,10),roughness:.5}),
     bart=M({map:haarTex(L.bart),roughness:.9}),holz=M({map:holzTex(),roughness:.75}),
     stein=new THREE.MeshStandardMaterial({color:L.stein,emissive:L.stein,emissiveIntensity:1,roughness:.15,toneMapped:false}),futter=M({color:0x0b0f22,roughness:1,side:THREE.BackSide}),
     weiss=M({color:0xb8ab9c,roughness:.4}),iris=M({color:L.augen,roughness:.3}),dunkel=M({color:0x120c08,roughness:.4});
   const G=new THREE.Group(),add=(g,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;G.add(o);return o;};
   // senkrechte Falten: Auslenkung nach außen, nach unten stärker
-  const falten=(amp,k,ph)=>(p,t,u)=>{const r=Math.atan2(p.x,p.z),a=amp*Math.pow(t,1.2);const d=a*(Math.sin(r*k+ph)+.45*Math.sin(r*k*2.3+ph*1.7));p.x+=Math.sin(r)*d;p.z+=Math.cos(r)*d;};
+  const welle=(r,k,ph)=>Math.sin(r*k+ph)+.45*Math.sin(r*k*2.3+ph*1.7);
+  const falten=(amp,k,ph)=>(p,t,u)=>{const r=Math.atan2(p.x,p.z),a=amp*Math.pow(t,1.2);const d=a*welle(r,k,ph);p.x+=Math.sin(r)*d;p.z+=Math.cos(r)*d;};
+  // Schattierung der Falten (wie Umgebungsverdeckung): Täler dunkel, Grate hell, nach unten kräftiger
+  const faltenSchatten=(k,ph,st)=>(p,t)=>{const r=Math.atan2(p.x,p.z),w=(welle(r,k,ph)+1.45)/2.9;return 1-(st||.5)*Math.pow(t,.8)*(1-w);};
   // Robe vom Hals bis knapp über den Boden, unten weit
   const R=[[1.5,.075,.07,.072],[1.47,.16,.1,.1],[1.42,.205,.12,.11],[1.32,.195,.135,.115],[1.2,.18,.13,.11],[1.08,.178,.13,.12],[.95,.2,.14,.14],
     [.75,.225,.16,.165],[.5,.255,.185,.19],[.25,.285,.205,.215],[.06,.305,.22,.235]];
   const robenS=R.map(q=>({c:[0,q[0],-.01],w:q[1],f:q[2],b:q[3]}));
-  add(querschnitte(robenS.slice().reverse(),{deckel:false,n:72,m:110,form:falten(.02,11,.6)}),robe);
+  add(querschnitte(robenS.slice().reverse(),{deckel:false,n:72,m:110,form:falten(.02,11,.6),farbe:(p,t)=>faltenSchatten(11,.6,.55)(p,1-t)}),robe);
   // Saumborte unten und senkrechte Borte vorn
   add(querschnitte([{c:[0,.05,-.01],w:.31,f:.226,b:.241},{c:[0,.1,-.01],w:.302,f:.22,b:.235}],{deckel:false,n:72,form:(p,t,u)=>{falten(.02,11,.6)(p,1-(.075/1.44),u);const r=Math.atan2(p.x,p.z);p.x+=Math.sin(r)*.003;p.z+=Math.cos(r)*.003;}}),borte);
-  const vorn=R.slice(1).map(q=>({c:[0,q[0],q[2]-.008],w:.024,f:.006,b:.006}));
-  add(querschnitte(vorn,{n:12,m:60}),borte);
+  // Mittelbahn vorn (heller) mit Borten an beiden Seiten, vom Gürtel bis zum Saum
+  const bahn=R.filter(q=>q[0]<1.0).map(q=>({c:[0,q[0],q[2]-.004],w:.055+(1-q[0])*.03,f:.004,b:.004}));
+  add(querschnitte(bahn,{n:16,m:50}),robeHell);
+  for(const sx of[-1,1])add(querschnitte(bahn.map(q=>({c:[sx*(q.w+.004),q.c[1],q.c[2]-.002-(q.w*q.w)*1.2],w:.009,f:.005,b:.005})),{n:10,m:50}),borte);
+  add(querschnitte(R.filter(q=>q[0]>1.0).map(q=>({c:[0,q[0],q[2]-.006],w:.016,f:.005,b:.005})),{n:10,m:30}),borte);
   // Schulterumhang mit Kapuzenansatz, Borte am Rand
-  const um=[[1.56,.09,.075,.09],[1.5,.15,.1,.12],[1.44,.235,.14,.15],[1.36,.27,.16,.17],[1.3,.275,.165,.175]];
-  add(querschnitte(um.map(q=>({c:[0,q[0],-.012],w:q[1],f:q[2],b:q[3]})).reverse(),{deckel:false,n:64,form:falten(.008,7,.2)}),robe);
-  add(querschnitte([{c:[0,1.29,-.012],w:.282,f:.17,b:.18},{c:[0,1.31,-.012],w:.279,f:.168,b:.178}],{deckel:false,n:64,form:falten(.008,7,.2)}),borte);
+  const um=[[1.5,.15,.1,.12],[1.44,.215,.13,.14],[1.36,.245,.15,.16],[1.31,.25,.155,.165]];
+  add(querschnitte(um.map(q=>({c:[0,q[0],-.012],w:q[1],f:q[2],b:q[3]})).reverse(),{deckel:false,n:64,form:falten(.008,7,.2),farbe:(p,t)=>faltenSchatten(7,.2,.4)(p,1-t)}),robe);
+  add(querschnitte([{c:[0,1.3,-.012],w:.257,f:.16,b:.17},{c:[0,1.32,-.012],w:.254,f:.158,b:.168}],{deckel:false,n:64,form:falten(.008,7,.2)}),borte);
   // Kapuze: Schale um den Kopf, vorn offen, mit Borte am Gesichtsrand
-  add(kapuze(),robe,0,1.682,.006);add(kapuzenRand(),borte,0,1.682,.006);
+  add(kapuze(),robeKap,0,1.682,.006);add(kapuzenRand(),borte,0,1.682,.006);
   const fu=add(kapuze(),futter,0,1.682,.006);fu.scale.setScalar(.985);                              // dunkles Futter: Gesicht liegt im Schatten der Kapuze
-  // weite Ärmel bis zum Handgelenk, Borte am Saum
+  // Arme in Pose: rechte Hand hält den Stab vor dem Körper, linke Hand angehoben mit leuchtender Kugel.
+  // Weite Ärmel folgen dem Arm und hängen am Unterarm nach unten durch, Borte am Saum.
+  const ARM={'-1':[[-.17,1.41,0],[-.225,1.17,-.01],[-.25,1.08,.2]],'1':[[.17,1.41,0],[.24,1.18,-.03],[.26,1.13,.19]]};
+  const lerp=(a,b,t)=>a.map((v,k)=>v+(b[k]-v)*t);
+  for(const s of[-1,1]){const[sh,el,wr]=ARM[s];
+    const oben=[0,.5,1].map(t=>lerp(sh,el,t)),unten=[.33,.66,1].map(t=>lerp(el,wr,t));
+    // Haut: Oberarm unter dem Ärmel, Unterarm bis zum Handgelenk
+    add(querschnitte([...oben,...unten].map((c,i)=>({c,w:[.05,.047,.042,.042,.036,.029][i],f:[.054,.05,.042,.043,.034,.024][i],b:[.052,.046,.04,.04,.032,.024][i]}))),haut);
+    // Ärmel: oben anliegend, zum Handgelenk weit und nach unten durchhängend
+    const ae=[...oben,...unten].map((c,i)=>{const t=Math.max(0,i-2)/3;return{c:[c[0],c[1]-.035*t*t,c[2]],w:[.068,.064,.064,.07,.082,.1][i],f:[.07,.066,.066,.074,.09,.115][i],b:[.072,.068,.068,.078,.1,.13][i]};});
+    add(querschnitte(ae,{deckel:false,n:40,form:falten(.006,6,s),farbe:(p,t)=>.75+.25*Math.cos(t*2)}),robe);
+    const e=ae[5],d=ae[4];add(querschnitte([{c:lerp(d.c,e.c,.85),w:e.w*.98,f:e.f*.98,b:e.b*.98},{c:lerp(d.c,e.c,1.05),w:e.w+.004,f:e.f+.004,b:e.b+.004}],{deckel:false,n:40}),borte);
+    // Hand am Handgelenk, entlang des Unterarms ausgerichtet
+    const H=handGruppe(s,haut),dir=new THREE.Vector3(...wr).sub(new THREE.Vector3(...el)).normalize();
+    H.position.set(...wr);H.quaternion.setFromUnitVectors(new THREE.Vector3(0,-1,0),dir);
+    if(s>0)H.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,-1,0),-Math.PI/2));   // linke Handfläche nach oben
+    G.add(H);
+  }
+  // leuchtende Kugel über der linken Hand
+  const ku=ARM['1'][2],kp=[ku[0]+.01,ku[1]+.06,ku[2]+.07];
+  add(new THREE.SphereGeometry(.028,24,18),stein,...kp).castShadow=false;
+  const ks=new THREE.Mesh(new THREE.SphereGeometry(.065,20,14),new THREE.MeshBasicMaterial({color:L.stein,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthWrite:false,toneMapped:false}));ks.position.set(...kp);G.add(ks);
+  const kl=new THREE.PointLight(L.stein,2.5,1.2,2);kl.position.set(kp[0],kp[1],kp[2]+.03);G.add(kl);
   for(const s of[-1,1]){
-    const A=[[.17,1.41,0],[.215,1.3,0],[.225,1.17,-.01],[.232,1.04,.01],[.242,.93,.04]],W=[.07,.068,.07,.085,.1];
-    add(querschnitte(A.map((p,i)=>({c:[s*p[0],p[1],p[2]],w:W[i],f:W[i]*1.05,b:W[i]*1.1})),{deckel:false,n:40,form:falten(.006,6,s)}),robe);
-    add(querschnitte([{c:[s*.243,.935,.042],w:.103,f:.108,b:.113},{c:[s*.244,.915,.046],w:.105,f:.11,b:.115}],{deckel:false,n:40}),borte);
-    add(querschnitte([{c:[s*.24,.97,.035],w:.03,f:.026,b:.026},{c:[s*.243,.885,.05],w:.028,f:.022,b:.022}]),haut);
-    hand(add,s,[s*.243,.88,.05],haut);
     // Stiefelspitzen unter der Robe
     add(querschnitte([{c:[s*.1,.05,-.02],w:.046,f:.045,b:.045},{c:[s*.104,.045,.05],w:.05,f:.035,b:.035},{c:[s*.108,.035,.12],w:.044,f:.025,b:.025},{c:[s*.108,.03,.15],w:.03,f:.018,b:.018}].map(q=>({c:q.c,w:q.w,f:q.f,b:q.b,e:2.4})),{n:28}),stiefel);
   }
@@ -211,11 +235,16 @@ function magier(spec){
   add(new THREE.SphereGeometry(.008,8,6),messing,-.18,.975,.088);
   const riemen=[];for(let k=0;k<=12;k++){const t=k/12,y=1.0+t*.44,x=-.18+t*.32,f=y>1.4?.115-(y-1.4)*.6:y>1.25?.135:.132,z=f*Math.sqrt(Math.max(0,1-(x/.2)**2))+.004;riemen.push({c:[x,y,z],w:.016,f:.003,b:.003});}
   add(querschnitte(riemen,{n:10,m:40}),leder);
+  // zweiter, schmaler Gürtel schräg über der Hüfte mit zwei Fläschchen
+  add(querschnitte([{c:[0,.9,-.01],w:.205,f:.15,b:.15},{c:[0,.925,-.01],w:.204,f:.149,b:.149}],{deckel:false,n:56,form:(p)=>{p.y+=p.x*.18;}}),leder);
+  for(const[fx,fc]of[[.1,0x7a2a8a],[.14,0x2a8a6a]]){const fz=.15*Math.sqrt(Math.max(0,1-(fx/.21)**2))+.012;
+    add(new THREE.CylinderGeometry(.011,.013,.045,12),new THREE.MeshStandardMaterial({color:fc,roughness:.1,metalness:.1,transparent:true,opacity:.85}),fx,.91+fx*.18-.02,fz);
+    add(new THREE.CylinderGeometry(.006,.006,.014,8),M({color:0x8a6a40,roughness:.8}),fx,.91+fx*.18+.01,fz);}
   // Kopf mit Bart
   const K=kopf(G,L,M,kopfHaut,{weiss,iris,dunkel});
   const b=new THREE.Mesh(bartGeo(),bart);b.castShadow=true;K.add(b);
   // Stab in der rechten Hand: gedrehtes Holz, Krone aus vier Klauen, leuchtender Stein mit blauem Licht
-  const sx=-.255,sz=.075;
+  const sx=-.262,sz=.235;
   add(querschnitte([{c:[sx,.02,sz],w:.016,f:.016,b:.016},{c:[sx,.9,sz],w:.019,f:.019,b:.019},{c:[sx,1.6,sz],w:.018,f:.018,b:.018},{c:[sx,1.86,sz],w:.024,f:.024,b:.024}],{n:14,m:60,form:(p,t)=>{const a=t*40;p.x+=.003*Math.sin(a);p.z+=.003*Math.cos(a);}}),holz);
   for(let k=0;k<4;k++){const a=k*Math.PI/2+.4,kl=[];for(let q=0;q<=6;q++){const t=q/6,r=.025+.03*Math.sin(t*Math.PI*.9),y=1.86+t*.13;kl.push({c:[sx+Math.sin(a)*r,y,sz+Math.cos(a)*r],w:.007*(1-t*.6),f:.007*(1-t*.6),b:.007*(1-t*.6)});}add(querschnitte(kl,{n:10,m:20}),holz);}
   add(new THREE.SphereGeometry(.032,24,18),stein,sx,1.94,sz).castShadow=false;
@@ -224,11 +253,15 @@ function magier(spec){
   G.scale.setScalar((+L.groesse||1.8)/1.8);
   return G;}
 
+function heller(hex,f){const c=new THREE.Color(hex);c.multiplyScalar(f);return'#'+c.getHexString();}
+// Hand als eigene Gruppe (Finger zeigen nach −y), zum Ausrichten am Unterarm
+function handGruppe(s,haut){const H=new THREE.Group();hand((g,m)=>{const o=new THREE.Mesh(g,m);o.castShadow=o.receiveShadow=true;H.add(o);return o;},s,[0,0,0],haut);return H;}
 // Kapuze: weite Schale um den Kopf (lokal, Kopfmitte), Zipfel nach hinten oben, vorn ein großes ovales Gesichtsloch,
 // dessen Rand etwas vorsteht (das Gesicht liegt im Schatten), hinten bis in den Nacken
-const KAP={ox:.6,oy:-.07,oh:.72,rx:.122,ryo:.132,ryu:.14,rzv:.135,rzh:.145};
+const KAP={ox:.6,oy:-.08,oh:.72,rx:.118,ryo:.116,ryu:.14,rzv:.132,rzh:.138};
 function kapuzenPunkt(nx,ny,nz){const k=KAP;let x=nx*k.rx,y=ny*(ny>0?k.ryo:k.ryu)+.018,z=nz*(nz>0?k.rzv:k.rzh)-.018;
-  if(ny>.2&&nz<.2){const a=(ny-.2)*Math.max(0,.2-nz);z-=a*.09;y+=a*.035;}                             // Zipfel nach hinten oben
+  if(ny>.0&&nz<.4){const a=Math.pow(ny,1.5)*Math.pow(Math.max(0,.4-nz),1.3);z-=a*.07;y-=a*.03;}                             // Zipfel nach hinten oben
+  if(ny<-.45){const f=1+Math.pow(-.45-ny,1.4)*2.2;x*=f;z=z*f-(f-1)*.02;y-=(f-1)*.02;}                // unten weit auf die Schultern fallend
   const e=(nx/k.ox)**2+((ny-k.oy)/k.oh)**2;if(nz>0){const r=Math.max(0,1-Math.abs(e-1)*2.5)*nz;z+=.026*r;y+=.008*r*Math.max(0,ny);}         // vorstehender Rand
   return[x,y,z];}
 function kapuze(){const LAT=72,LON=96,P=[],UV=[],I=[],ok=[];
@@ -239,11 +272,11 @@ function kapuze(){const LAT=72,LON=96,P=[],UV=[],I=[],ok=[];
 // Borte am Gesichtsrand der Kapuze: Rohr entlang des Lochrands
 function kapuzenRand(){const pts=[];for(let k=0;k<=56;k++){const a=-Math.PI+.25+k/56*(Math.PI*2-.5),nx=KAP.ox*Math.sin(a)*1.03,ny=KAP.oy+KAP.oh*Math.cos(a)*1.03;
     const nz=Math.sqrt(Math.max(.01,1-nx*nx-ny*ny));const q=kapuzenPunkt(nx,ny,nz);pts.push(new THREE.Vector3(q[0],q[1],q[2]));}
-  return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),90,.005,8,false);}
+  return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),90,.0038,8,false);}
 // Bart: Schale über Kiefer, Kinn und Oberlippe, aus der Kopfgrundform abgeleitet
 function bartGeo(){const g=kopfGeo(),p=g.attributes.position,I=g.index.array,neu=[];const v=new THREE.Vector3();
   const im=k=>{v.fromBufferAttribute(p,k);return v.y<-.04&&v.z>-.035&&!(v.y>-.092&&v.y<-.066&&Math.abs(v.x)<.022&&v.z>.07)&&!(v.y>-.062&&Math.abs(v.x)<.03&&v.z>.08);};
-  for(let k=0;k<p.count;k++){v.fromBufferAttribute(p,k);const n=v.clone().normalize(),t=Math.max(0,Math.min(1,(-.05-v.y)/.07)),dick=.003+.012*t*t*(3-2*t)*Math.max(0,Math.min(1,(v.z+.02)/.08));p.setXYZ(k,v.x+n.x*dick,v.y+n.y*dick-dick*.9*t,v.z+n.z*dick);}
+  for(let k=0;k<p.count;k++){v.fromBufferAttribute(p,k);const n=v.clone().normalize(),t=Math.max(0,Math.min(1,(-.05-v.y)/.07)),dick=.003+.019*t*t*(3-2*t)*Math.max(0,Math.min(1,(v.z+.02)/.08));p.setXYZ(k,v.x+n.x*dick,v.y+n.y*dick-dick*.9*t,v.z+n.z*dick);}
   for(let k=0;k<I.length;k+=3)if(im(I[k])&&im(I[k+1])&&im(I[k+2]))neu.push(I[k],I[k+1],I[k+2]);
   // Schnurrbart über der Oberlippe
   g.setIndex(neu);g.computeVertexNormals();return g;}
