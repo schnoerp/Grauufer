@@ -1,6 +1,6 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 12**, Stand: Spiel-Rev 119. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 13**, Stand: Spiel-Rev 121. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
@@ -49,12 +49,13 @@
 | Erdbeben als Weltereignis ja oder nein | Grauufer_Fahrplan_RevXX.md |
 | Prüfpunkte im Kampfsystem, Ausgleichsmaßnahmen aus Fortschritt und Wirtschaft | Grauufer_Fahrplan_RevXX.md |
 | Einzeldatei oder mehrere Dateien, sobald die neue Grafik zu groß wird (nach den Piloten) | Grauufer_Grafik_RevXX.md |
+| **Weg vom Pixel-Look (Entscheidung des Auftraggebers, Spiel-Rev 121):** Startbild erledigt (Spiel-Rev 121). Geplant: 1. Raster abschaltbar machen (Schalter „Pixel / Fein“ zum Vergleich), 2. Werkstatt-Grafik in voller Auflösung, 3. Figuren und Texturen neu (Figuren-Baukasten), 4. Schrift und Oberfläche; Regel 2.4 in CLAUDE.md anpassen. Ziel-Stil entschieden: Typ A, vorgerendert und gemalt wie Pagan. Offen: Schrift; Probefigur Avatar in der Werkstatt gebaut (Grauufer_Baukaesten_RevXX.md), wartet auf Freigabe | Grauufer_Grafik_RevXX.md |
 | Umfang des Anlagen-Baukastens (Vorschlag liegt vor) | Grauufer_Baukaesten_RevXX.md |
 | Aufbau des Figuren-Baukastens (Vorschlag liegt vor) | Grauufer_Baukaesten_RevXX.md |
 
 ## 5. Prüfpunkte für den Auftraggeber
 
-- Logo nach deiner Vorlage im Titelbild auf dem Tablet ansehen (Spiel-Rev 113).
+- Neues Startbild nach deiner Gemini-Vorlage auf dem Tablet ansehen (Spiel-Rev 121); bei Bedarf Originaldatei in höherer Auflösung nachreichen.
 - **Echtzeitkampf (Spiel-Rev 119) auf dem Tablet testen:** Takt der Gegner, Waffentakt, Abklingzeiten und Erholung ggf. nachjustieren; die Ausgleichsvorschläge in Grauufer_Fortschritt_RevXX.md beziehen sich noch auf Züge.
 - Häuser zeigen ihr Inneres erst beim Betreten (Spiel-Rev 118) – im Spiel prüfen, ob die Figur hinter Häusern gut genug zu finden ist.
 - Flüsse ohne Höhensprung mit Seen an den Enden (Spiel-Rev 117) im Spiel ansehen, z. B. nördlich von Sonnwacht (104,168).
