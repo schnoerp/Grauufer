@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 05**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 06**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -47,7 +47,7 @@ Aufruf: `npm run grafik` (benötigt `npm install` für Playwright).
 
 **Aufruf, zwei Wege:**
 - **Claude-Seite „Grauufer Haus-Baukasten“** im Claude-Konto des Auftraggebers (empfohlen): gespeicherte Häuser liegen im Speicher der Seite (Sammlung `haeuser`, ein Dokument je Haus mit `name`, `spec`, `geaendert`); Claude liest sie dort direkt aus, legt sie unter `werkstatt/haeuser/` ab und baut sie ins Spiel ein. Der Auftraggeber muss keine Dateien ablegen. Die Seite wird mit `node werkstatt/artefakt.js <Zieldatei>` aus `baukasten.html` erzeugt (three.js und Hausbau eingebettet).
-- **`werkstatt/baukasten.html`** lokal oder über GitHub Pages unter `…/werkstatt/baukasten.html`: gespeichert wird nur im Browser; Weitergabe über „Herunterladen“.
+- **`werkstatt/baukasten.html`** über GitHub Pages unter `https://schnoerp.github.io/Grauufer/werkstatt/baukasten.html` (wie das Spiel) oder lokal: „Speichern“ legt nur im Browser ab. **„An Claudia senden“** öffnet auf GitHub ein vorausgefülltes Issue „Haus: <Name>“ mit der Beschreibung als JSON; nach „Submit“ liest Claude es aus, legt das Haus unter `werkstatt/haeuser/` ab, baut es ein und schließt das Issue. Voraussetzung: beim Absenden bei GitHub angemeldet (beide Entwickler haben Zugriff aufs Repo).
 
 Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 
