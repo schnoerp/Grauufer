@@ -37,7 +37,7 @@ input[type=range]{width:100%}
   <input id="name" type="text" title="Name des Hauses">
   <button id="neu">Neu</button><button id="beispiel">Beispiel</button>
   <select id="liste" title="Gespeicherte Häuser"><option value="">Gespeicherte Häuser …</option></select>
-  <button id="speichern">Speichern</button><button id="loeschen">Löschen</button><button id="senden" title="Öffnet GitHub mit dem fertigen Haus; dort nur noch absenden">An Claudia senden</button><button id="herunter">Herunterladen</button>
+  <button id="speichern">Speichern</button><button id="loeschen">Löschen</button><button id="senden" title="Öffnet GitHub mit dem fertigen Haus; dort nur noch absenden">Über GitHub an Claudia senden</button><button id="herunter">Herunterladen</button>
   <button id="ladeKnopf">Datei laden</button><input id="datei" type="file" accept=".json" hidden>
 </header>
 <main>
@@ -55,7 +55,7 @@ input[type=range]{width:100%}
   <h2 style="margin-top:14px">Ansicht</h2>
   <div class="reihe"><button id="aussen" class="an">Außen</button><button id="innen">Innen</button></div>
   <div class="reihe" style="margin-top:6px"><button id="links">⟲ Drehen</button><button id="rechts">Drehen ⟳</button></div>
-  <p class="hinweis" id="ablagehinweis">„Speichern“ merkt sich das Haus nur in diesem Browser. Fertige Häuser mit „An Claudia senden“ abschicken: GitHub öffnet sich, dort nur noch absenden.</p>
+  <p class="hinweis" id="ablagehinweis">„Speichern“ merkt sich das Haus nur in diesem Browser. Fertige Häuser mit „Über GitHub an Claudia senden“ abschicken: GitHub öffnet sich, dort nur noch absenden.</p>
 </section>
 <section class="tafel">
   <h2>Grundriss <span style="font-size:13px">(oben = hinten, unten = vorn mit Blick zur Kamera)</span></h2>
@@ -163,7 +163,7 @@ $('links').onclick=()=>{drehung=(drehung+3)&3;geaendert();};$('rechts').onclick=
 $('neu').onclick=()=>{spec={name:'Neues Haus',breite:4,tiefe:3,wand:'fachwerk',dach:'schiefer',first:'x',verwitterung:.5,schornstein:false,oeffnungen:[{seite:'vorn',feld:1,art:'tuer'}],einrichtung:[]};geaendert();};
 $('beispiel').onclick=()=>{spec=kopie(HB.BEISPIEL);geaendert();};
 $('speichern').onclick=async()=>{meldung('Speichere …');const ok=await Ablage.speichere(spec);meldung(ok?`„${spec.name}“ gespeichert.`:'Speichern ging nicht – bitte noch einmal versuchen.');felder();};
-// An Claudia senden: öffnet ein vorausgefülltes GitHub-Issue mit der Hausbeschreibung (nur noch „Submit“ tippen)
+// Über GitHub an Claudia senden: öffnet ein vorausgefülltes GitHub-Issue mit der Hausbeschreibung (nur noch „Submit“ tippen)
 window.hausLink=()=>{const j=JSON.stringify(spec);const body='Neues Haus aus dem Haus-Baukasten. Claudia baut es ins Spiel ein.\n\n```json\n'+j+'\n```\n';
   return'https://github.com/schnoerp/Grauufer/issues/new?title='+encodeURIComponent('Haus: '+(spec.name||'Haus'))+'&body='+encodeURIComponent(body);};
 $('senden').onclick=()=>{const u=window.hausLink();if(u.length>7500){meldung('Das Haus ist zu groß für den Versand – bitte weniger Einrichtung.');return;}
