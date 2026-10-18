@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 18**, Stand: Spiel-Rev 121. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 19**, Stand: Spiel-Rev 122. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -25,6 +25,7 @@ Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Ein
 | Haus-Baukasten | `werkstatt/baukasten.html` | Bedienseite zum Selbstbauen (Grauufer_Baukaesten_RevXX.md) |
 | Häuser im Spiel | `werkstatt/spielhaeuser/*.json`, `werkstatt/spielhaeuser.js` | rendert die Häuser als Spielbilder und bettet sie in `index.html` ein (`npm run haeuser`, seit Spiel-Rev 109); Einzelheiten in Grauufer_Baukaesten_RevXX.md |
 | Häuser | `werkstatt/haeuser/*.json` | gebaute Häuser; jedes wird von `npm run grafik` gerendert (außen, innen, innen gerastert) |
+| Avatar | `werkstatt/modelle/avatar.js`, `werkstatt/avatarbaukasten.html` | Spielfigur im Ziel-Stil A aus einer Beschreibung, eingestellt im Avatar-Baukasten (seit Spiel-Rev 122, Probefigur seit 121); Vorschau `werkstatt/vorschau/avatar_probe.png`; Einzelheiten in Grauufer_Baukaesten_RevXX.md |
 | Startbild | `werkstatt/logo/startbild_vorlage.jpg`, `werkstatt/logo.js` | Startbild nach der Vorlage des Auftraggebers (mit Gemini erstellt, seit Spiel-Rev 121; vorher Logo nach eigener Vorlage, Spiel-Rev 113), zugeschnitten, Versionsnummer übermalt, ohne Raster als JPEG eingebettet mit `npm run logo`; Einzelheiten in Grauufer_Stil_RevXX.md |
 | three.js | `werkstatt/lib/three.min.js` | three.js 0.149.0 (MIT-Lizenz, `three-LICENSE.txt`), nur für Werkstatt und Baukasten, nicht im Spiel |
 | Gegenstände | `werkstatt/modelle/gegenstaende.js` | 14 Gegenstände: Schwert, Schild, Heiltrank, Manatrank, Brot, Apfel, Schlüssel, Kerze, Buch, Gold, Becher, Schriftrolle, Dolch, Edelstein |

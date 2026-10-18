@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0.121</title>
+<title>Grauufer 1.0.122</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -3651,7 +3651,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;LIVE=true;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 121</div>
+  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 122</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
