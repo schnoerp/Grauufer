@@ -7,6 +7,7 @@ Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Ein
 ## 1. Entscheidungen (Gespräch mit dem Auftraggeber, Spiel-Rev 108)
 
 - **Eigenes Grafikpaket statt fremder Pakete.** Alle Grafiken entstehen aus unserem eigenen Code; fremde Grafiken (z. B. Kenney, OpenGameArt, Kaufpakete) werden nicht verwendet. Grund: einheitlicher Stil, keine Lizenzfragen, öffentliches Repo.
+- **Ausnahmen (Festlegung des Auftraggebers, Spiel-Rev 113):** Die Regel „nur aus eigenem Code“ gilt, solange der Auftraggeber nicht ausdrücklich verlangt, für etwas ein Bild zu erzeugen oder ein von ihm selbst erstelltes Bild zu verwenden. Solche Vorlagen liegen in `werkstatt/` und werden wie alle Grafiken gerastert; erstes Beispiel ist das Logo (Grauufer_Stil_RevXX.md).
 - **Oberwelt und Unterwelt** werden gleichermaßen neu gestaltet, nicht nur die Tiefe.
 - **Häuser und Inventar wie in Ultima VIII: Pagan:** Häuser dicht eingerichtet, Rucksack als freie Fläche mit Ziehen und Ablegen.
 - **Möbel bleiben fest** (Tisch, Bett, Schrank, Regal), **kleine Dinge sind beweglich** (Becher, Kerze, Buch, Brot, Waffen).
