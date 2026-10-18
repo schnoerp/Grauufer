@@ -11,6 +11,8 @@ const GL = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swifts
 const K = 120, W = 200, H = 300, FUSS = 20;
 const FIGUREN = [
   { name: 'magier_m', spec: { klasse: 'magier' } },
+  { name: 'krieger_m', spec: { klasse: 'krieger' } },
+  { name: 'laeufer_m', spec: { klasse: 'waldlaeufer' } },
 ];
 
 (async () => {

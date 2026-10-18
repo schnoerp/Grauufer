@@ -312,6 +312,125 @@ function borteTex(f){return tex(128,32,(g,w,h)=>{g.fillStyle=f;g.fillRect(0,0,w,
 function haarTex(f){return tex(128,128,(g,w,h)=>{g.fillStyle=f;g.fillRect(0,0,w,h);for(let k=0;k<900;k++){const x=Math.random()*w,y=Math.random()*h;g.strokeStyle=Math.random()<.5?'rgba(0,0,0,.25)':'rgba(255,240,220,.18)';g.beginPath();g.moveTo(x,y);g.lineTo(x+(Math.random()-.5)*3,y+6+Math.random()*6);g.stroke();}},6);}
 function holzTex(){return tex(64,256,(g,w,h)=>{g.fillStyle='#5a3a1e';g.fillRect(0,0,w,h);for(let k=0;k<40;k++){g.strokeStyle=k%2?'rgba(30,15,5,.4)':'rgba(140,95,50,.3)';g.beginPath();const x=Math.random()*w;g.moveTo(x,0);g.bezierCurveTo(x+6,h/3,x-6,h*2/3,x+3,h);g.stroke();}rausch(g,w,h,14,41);},6);}
 
-function bau(spec={}){return spec.klasse==='magier'?magier(spec):startfigur(spec);}
+// ---------- gemeinsame Teile für Krieger und Waldläufer ----------
+// Beine mit Hose und Stiefeln, Arme hängend mit Händen; Werte wie bei der Startfigur
+function beineUndStiefel(add,haut,hose,stiefel,dunkel,opt={}){
+  for(const s of[-1,1]){
+    const B=[[.088,.93,-.005,.09,.095,.1],[.093,.8,.005,.084,.09,.085],[.097,.66,.012,.072,.08,.068],[.099,.54,.01,.058,.058,.056],[.1,.49,.012,.052,.054,.05],
+      [.101,.42,-.002,.055,.046,.062],[.102,.33,-.008,.053,.042,.06],[.103,.2,-.01,.04,.036,.042],[.104,.1,-.01,.034,.033,.035]];
+    const bein=B.map(q=>({c:[s*q[0],q[1],q[2]],w:q[3],f:q[4],b:q[5]}));
+    const H=bein.slice(0,7).map(q=>({c:q.c,w:Math.max(q.w,.06)+.015,f:Math.max(q.f,.06)+.014,b:Math.max(q.b,.062)+.014}));H[0]={c:[s*.084,.98,-.01],w:.12,f:.115,b:.13};
+    add(querschnitte(H,{deckel:false,n:40}),hose);
+    const sh=opt.hoch?.5:.4;
+    add(querschnitte([{c:[s*.101,sh,-.004],w:.072,f:.068,b:.078},{c:[s*.102,sh-.1,-.008],w:.066,f:.058,b:.074},{c:[s*.104,.16,-.01],w:.052,f:.05,b:.056},{c:[s*.104,.08,-.006],w:.048,f:.052,b:.056}]),stiefel);
+    add(querschnitte([{c:[s*.104,.05,-.06],w:.04,f:.03,b:.03},{c:[s*.104,.055,-.02],w:.046,f:.045,b:.045},{c:[s*.106,.045,.05],w:.05,f:.035,b:.035},{c:[s*.108,.035,.12],w:.044,f:.025,b:.025},{c:[s*.108,.03,.15],w:.03,f:.018,b:.018}].map(q=>({c:q.c,w:q.w,f:q.f,b:q.b,e:2.4})),{n:28}),stiefel);
+    add(new THREE.BoxGeometry(.1,.016,.22),dunkel,s*.106,.008,.045);
+  }}
+// Arm von der Schulter zum Handgelenk (Haut), Ärmel/Rüstung darüber legt die Klasse selbst an
+const ARMPUNKTE=s=>[[s*.17,1.405,0],[s*.205,1.33,.005],[s*.212,1.24,0],[s*.218,1.155,-.016],[s*.225,1.07,0],[s*.232,.97,.025],[s*.24,.89,.045]];
+const ARMRADIEN=[[.05,.054,.052],[.052,.058,.05],[.047,.052,.044],[.04,.04,.04],[.044,.043,.038],[.036,.033,.03],[.029,.022,.022]];
+function arm(add,s,haut){const A=ARMPUNKTE(s);add(querschnitte(A.map((c,i)=>({c,w:ARMRADIEN[i][0],f:ARMRADIEN[i][1],b:ARMRADIEN[i][2]}))),haut);hand(add,s,[s*.243,.88,.05],haut);return A;}
+const ueber=(A,von,bis,plus)=>A.slice(von,bis).map((c,i)=>({c,w:ARMRADIEN[von+i][0]+plus,f:ARMRADIEN[von+i][1]+plus,b:ARMRADIEN[von+i][2]+plus}));
+// Rumpfform (unter der Kleidung), daraus abgeleitet Wams, Wappenrock usw.
+const RUMPFFORM=[[.84,.165,.1,.12],[.97,.172,.1,.12],[1.05,.16,.1,.1],[1.12,.152,.1,.096],[1.22,.164,.112,.1],[1.31,.178,.12,.102],[1.39,.19,.105,.095],[1.445,.165,.075,.075],[1.48,.08,.06,.065]];
+const rumpf=(von,bis,plus,e)=>RUMPFFORM.filter(q=>q[0]>=von&&q[0]<=bis).map(q=>({c:[0,q[0],-.005],w:q[1]+plus,f:q[2]+plus,b:q[3]+plus,e:e||2.3}));
+function hals(add,haut){add(querschnitte([{c:[0,1.43,-.012],w:.066,f:.06,b:.064},{c:[0,1.5,-.016],w:.06,f:.055,b:.06},{c:[0,1.56,-.02],w:.057,f:.05,b:.058},{c:[0,1.63,-.024],w:.054,f:.046,b:.056}],{deckel:false}),haut);}
+function haare(K,L,M,art){const m=M({map:haarTex(L.haarfarbe),roughness:.85});
+  if(art==='kurz'){const g=new THREE.SphereGeometry(.084,40,24,0,Math.PI*2,0,Math.PI*.6);const o=new THREE.Mesh(g,m);o.scale.set(.97,1.08,1.18);o.position.set(0,.03,-.016);o.rotation.x=-.42;o.castShadow=true;K.add(o);}
+  if(art==='bart'){const b=new THREE.Mesh(bartGeo(),m);b.scale.setScalar(.995);K.add(b);}}
+
+// ---------- Klasse Krieger: Kettenhemd, blauer Wappenrock mit Goldkreuz (Siegelwächter), Schulterplatten, Schwert und Schild ----------
+function krieger(spec){
+  const L=Object.assign({haut:'#c08a62',augen:'#4a5a6a',haarfarbe:'#4a3020',rock:'#22356f',borte:'#c9a24e',leder:'#5a3a22',hose:'#2a2420',stiefel:'#3a2616',groesse:1.8},spec);
+  const M=o=>new THREE.MeshStandardMaterial(Object.assign({roughness:.8,metalness:0},o));
+  const haut=M({map:koern(L.haut,8,3,4),roughness:.62}),kopfHaut=M({map:hautKopf(L.haut),roughness:.6}),
+    kette=M({map:kettenTex(),roughness:.45,metalness:.75}),stahl=M({color:0x9aa2aa,roughness:.28,metalness:.9}),stahlD=M({color:0x5a6068,roughness:.35,metalness:.85}),
+    rock=M({map:robenStoff(L.rock),roughness:.75,vertexColors:true}),borte=M({map:borteTex(L.borte),roughness:.4,metalness:.55}),gold=M({color:0xd0a848,roughness:.3,metalness:.8}),
+    leder=M({map:koern(L.leder,22,11,10),roughness:.55}),hose=M({map:koern(L.hose,18,5,10),roughness:.95}),stiefel=M({map:koern(L.stiefel,20,9,10),roughness:.5}),
+    holz=M({map:holzTex(),roughness:.75}),weiss=M({color:0xb8ab9c,roughness:.4}),iris=M({color:L.augen,roughness:.3}),dunkel=M({color:0x120c08,roughness:.4});
+  const G=new THREE.Group(),add=(g,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;G.add(o);return o;};
+  beineUndStiefel(add,haut,hose,stiefel,dunkel,{hoch:true});
+  // Beinschienen über den Stiefeln
+  for(const s of[-1,1])add(querschnitte([{c:[s*.101,.48,.02],w:.06,f:.058,b:.04},{c:[s*.102,.3,.012],w:.056,f:.052,b:.036}],{n:24}),stahl);
+  // Kettenhemd: Rumpf bis zur Hüfte, Ärmel bis zum Ellbogen
+  add(querschnitte(rumpf(.8,1.48,.016),{deckel:false,n:56}),kette);
+  // Wappenrock: vorn und hinten bis über die Knie, an den Seiten offen (zwei Bahnen), Goldborte, Kreuz vorn
+  for(const z of[1,-1]){const bahn=[];for(let k=0;k<=10;k++){const y=.58+k*.088,q=RUMPFFORM.reduce((a,b)=>Math.abs(b[0]-y)<Math.abs(a[0]-y)?b:a);const tief=(z>0?q[2]:q[3])+.03+(y<.95?(.95-y)*.08:0);bahn.push({c:[0,y,z*tief],w:Math.min(q[1]*.78,.15)+(y<.95?(.95-y)*.06:0),f:.006,b:.006});}
+    add(querschnitte(bahn,{n:24,m:40,farbe:(p,t)=>.7+.3*t}),rock);
+    add(querschnitte(bahn.map(q=>({c:[q.c[0],q.c[1],q.c[2]+z*.002],w:q.w+.006,f:.004,b:.004})).slice(0,2),{n:24,m:6}),borte);}
+  add(new THREE.BoxGeometry(.03,.2,.006),gold,0,1.16,.155);add(new THREE.BoxGeometry(.13,.03,.006),gold,0,1.2,.155);
+  // Gürtel
+  add(querschnitte([{c:[0,.95,-.005],w:.2,f:.14,b:.15},{c:[0,.995,-.005],w:.198,f:.138,b:.148}],{deckel:false,n:56}),leder);add(new THREE.BoxGeometry(.05,.04,.012),gold,0,.973,.143);
+  // Arme: Kettenärmel, Lederarmschienen, Schulterplatten
+  for(const s of[-1,1]){const A=arm(add,s,haut);add(querschnitte(ueber(A,0,4,.012),{deckel:false,n:32}),kette);
+    add(querschnitte(ueber(A,4,7,.008),{n:24}),leder);
+    const sp=add(new THREE.SphereGeometry(.085,24,14,0,Math.PI*2,0,Math.PI*.5),stahl,s*.185,1.43,0);sp.scale.set(1.1,.75,1);sp.rotation.z=-s*.45;
+    const sp2=add(new THREE.SphereGeometry(.078,24,12,0,Math.PI*2,0,Math.PI*.5),stahlD,s*.2,1.39,0);sp2.scale.set(1.05,.6,.95);sp2.rotation.z=-s*.55;}
+  // Schwert in der rechten Hand (Spitze schräg nach vorn unten)
+  const sw=new THREE.Group();sw.position.set(-.245,.83,.075);sw.rotation.set(.12,0,.04);G.add(sw);
+  const m2=(g,m,x,y,z)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;sw.add(o);return o;};
+  m2(new THREE.CylinderGeometry(.014,.014,.1,10),leder,0,.04,0);m2(new THREE.SphereGeometry(.02,12,8),gold,0,.1,0);m2(new THREE.BoxGeometry(.16,.02,.03),gold,0,-.015,0);
+  m2(new THREE.BoxGeometry(.045,.58,.008),stahl,0,-.31,0);m2(new THREE.ConeGeometry(.023,.06,4),stahl,0,-.63,0).rotation.set(Math.PI,Math.PI/4,0);m2(new THREE.BoxGeometry(.01,.5,.01),stahlD,0,-.28,.002);
+  // Schild am linken Arm: Tropfenform, blau mit goldenem Kreuz (Wappen der Siegelwächter), Stahlrand
+  const sh=new THREE.Group();sh.position.set(.3,1.06,.06);sh.rotation.set(0,.95,0);G.add(sh);
+  const form=new THREE.Shape();form.moveTo(-.2,.24);form.lineTo(.2,.24);form.quadraticCurveTo(.21,-.05,0,-.3);form.quadraticCurveTo(-.21,-.05,-.2,.24);
+  const sg=new THREE.ExtrudeGeometry(form,{depth:.025,bevelEnabled:true,bevelThickness:.012,bevelSize:.012,bevelSegments:3,curveSegments:24});
+  const sm=new THREE.Mesh(sg,[M({map:robenStoff(L.rock),roughness:.55}),stahl]);sm.castShadow=true;sh.add(sm);
+  const kr=(w,h,y)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,.012),gold);o.position.set(0,y,.045);sh.add(o);};kr(.055,.4,-.02);kr(.3,.055,.07);
+  // Kettenkragen um den Hals
+  add(querschnitte([{c:[0,1.44,-.01],w:.1,f:.09,b:.09},{c:[0,1.5,-.014],w:.074,f:.068,b:.07},{c:[0,1.545,-.018],w:.064,f:.058,b:.062}],{deckel:false,n:36}),kette);
+  // Hals, Kopf mit kurzem Haar und Bartschatten
+  hals(add,haut);const K=kopf(G,L,M,kopfHaut,{weiss,iris,dunkel});haare(K,L,M,'kurz');
+  G.scale.setScalar((+L.groesse||1.8)/1.8);return G;}
+
+// ---------- Klasse Waldläufer: grüner Kapuzenumhang, Lederwams, Bogen, Köcher mit Pfeilen ----------
+function waldlaeufer(spec){
+  const L=Object.assign({haut:'#c08a62',augen:'#4a6a3a',haarfarbe:'#5a3a20',umhang:'#2e4a26',wams:'#5e3e24',leder:'#4a3020',hose:'#3a3226',stiefel:'#3a2616',groesse:1.8},spec);
+  const M=o=>new THREE.MeshStandardMaterial(Object.assign({roughness:.8,metalness:0},o));
+  const haut=M({map:koern(L.haut,8,3,4),roughness:.62}),kopfHaut=M({map:hautKopf(L.haut),roughness:.6}),
+    umhang=M({map:robenStoff(L.umhang),roughness:.85,vertexColors:true}),umhangKap=M({map:robenStoff(L.umhang),roughness:.85}),futter=M({color:0x10140c,roughness:1,side:THREE.BackSide}),
+    wams=M({map:koern(L.wams,26,23,10),roughness:.55}),leder=M({map:koern(L.leder,22,11,10),roughness:.55}),hemd=M({map:robenStoff('#5a5a3e'),roughness:.9}),
+    hose=M({map:koern(L.hose,18,5,10),roughness:.95}),stiefel=M({map:koern(L.stiefel,20,9,10),roughness:.5}),messing=M({color:0xb08a3c,roughness:.35,metalness:.8}),
+    holz=M({map:holzTex(),roughness:.7}),feder=M({color:0xd8d0c0,roughness:.8}),sehne=M({color:0xd8cfb0,roughness:.6}),
+    weiss=M({color:0xb8ab9c,roughness:.4}),iris=M({color:L.augen,roughness:.3}),dunkel=M({color:0x120c08,roughness:.4});
+  const G=new THREE.Group(),add=(g,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;G.add(o);return o;};
+  beineUndStiefel(add,haut,hose,stiefel,dunkel,{hoch:true});
+  // Hemd darunter, Lederwams mit Schnürung, Gürtel mit Tasche und Messer
+  add(querschnitte(rumpf(.9,1.48,.012),{deckel:false,n:56}),hemd);
+  add(querschnitte(rumpf(.82,1.44,.022,2.5),{deckel:false,n:56}),wams);
+  for(let i=0;i<5;i++)add(new THREE.BoxGeometry(.05,.006,.006),leder,0,1.0+i*.08,.142+(i>2?-.01:0)).rotation.z=(i%2?.4:-.4);
+  add(querschnitte([{c:[0,.95,-.005],w:.2,f:.14,b:.15},{c:[0,.99,-.005],w:.198,f:.138,b:.148}],{deckel:false,n:56}),leder);add(new THREE.BoxGeometry(.04,.035,.012),messing,0,.97,.143);
+  add(rundKasten(.08,.09,.04,.01),leder,.17,.9,.08).rotation.y=.6;add(new THREE.BoxGeometry(.025,.16,.02),leder,-.17,.88,.09).rotation.z=.15;
+  // Arme mit Hemdärmeln und Armschienen
+  for(const s of[-1,1]){const A=arm(add,s,haut);add(querschnitte(ueber(A,0,5,.012),{deckel:false,n:32}),hemd);add(querschnitte(ueber(A,4,7,.01),{n:24}),leder);}
+  // Kapuzenumhang: Kapuze auf, Umhang bis zu den Waden, vorn offen
+  const falten=(amp,k,ph)=>(p,t)=>{const r=Math.atan2(p.x,p.z),d=amp*Math.pow(t,1.2)*(Math.sin(r*k+ph)+.45*Math.sin(r*k*2.3+ph*1.7));p.x+=Math.sin(r)*d;p.z+=Math.cos(r)*d;};
+  const U=[[1.47,.17,.11,.125],[1.4,.235,.14,.15],[1.25,.25,.15,.17],[1.0,.255,.15,.19],[.7,.27,.15,.21],[.42,.29,.15,.23]];
+  const um=querschnitte(U.map(q=>({c:[0,q[0],-.015],w:q[1],f:q[2],b:q[3]})).reverse(),{deckel:false,n:64,m:60,form:falten(.016,9,.4),farbe:(p,t)=>{const r=Math.atan2(p.x,p.z);return .55+.45*(.5+.5*Math.sin(r*9+.4))*(1-t*.3);}});
+  // vorn öffnen: Dreiecke entfernen, deren Punkte vorn in der Mitte liegen
+  {const P=um.attributes.position,I=um.index.array,neu=[];for(let k=0;k<I.length;k+=3){let vorn=true;for(let q=0;q<3;q++){const x=P.getX(I[k+q]),z=P.getZ(I[k+q]),y=P.getY(I[k+q]);if(!(z>0&&Math.abs(x)<.12+(1.3-y)*.12))vorn=false;}if(!vorn)neu.push(I[k],I[k+1],I[k+2]);}um.setIndex(neu);}
+  const um2=new THREE.Mesh(um,M({map:robenStoff(L.umhang),roughness:.85,vertexColors:true,side:THREE.DoubleSide}));um2.castShadow=um2.receiveShadow=true;G.add(um2);
+  add(kapuze(),umhangKap,0,1.682,.006);const fu=add(kapuze(),futter,0,1.682,.006);fu.scale.setScalar(.985);
+  add(new THREE.TorusGeometry(.022,.006,8,16),messing,-.09,1.46,.1);
+  // Köcher auf dem Rücken mit Pfeilen
+  const kq=new THREE.Group();kq.position.set(.08,1.25,-.17);kq.rotation.set(-.12,0,-.45);G.add(kq);
+  const k1=new THREE.Mesh(new THREE.CylinderGeometry(.045,.04,.5,16,1,true),leder);k1.castShadow=true;kq.add(k1);
+  for(let i=0;i<6;i++){const a=i*1.1,pf=new THREE.Group();pf.position.set(Math.sin(a)*.022,.25,Math.cos(a)*.022);kq.add(pf);
+    const st=new THREE.Mesh(new THREE.CylinderGeometry(.004,.004,.12,6),holz);st.position.y=.04;pf.add(st);
+    for(let f=0;f<3;f++){const fe=new THREE.Mesh(new THREE.BoxGeometry(.002,.05,.016),feder);fe.position.y=.08;fe.rotation.y=f*Math.PI/3*2;pf.add(fe);}}
+  add(querschnitte([{c:[-.14,1.4,.12],w:.015,f:.003,b:.003},{c:[0,1.2,.155],w:.015,f:.003,b:.003},{c:[.16,1.0,.13],w:.015,f:.003,b:.003}],{n:10,m:20}),leder);
+  // Langbogen in der linken Hand, senkrecht, mit Sehne
+  const bx=.27,bz=.09,bogen=[];for(let k=0;k<=16;k++){const t=k/16,y=.35+t*1.2,c=Math.sin(t*Math.PI);bogen.push({c:[bx,y,bz+c*.13],w:.012-.004*Math.abs(t-.5),f:.013,b:.013});}
+  add(querschnitte(bogen,{n:10,m:60}),holz);add(new THREE.CylinderGeometry(.0018,.0018,1.2,4),sehne,bx,.95,bz);
+  add(new THREE.CylinderGeometry(.018,.018,.1,10),leder,bx,.95,bz+.13);
+  // Hals, Kopf mit Bart unter der Kapuze
+  hals(add,haut);const K=kopf(G,L,M,kopfHaut,{weiss,iris,dunkel});haare(K,L,M,'bart');
+  G.scale.setScalar((+L.groesse||1.8)/1.8);return G;}
+// Kettengeflecht: versetzte Ringe
+function kettenTex(){return tex(128,128,(g,w,h)=>{g.fillStyle='#4a4e54';g.fillRect(0,0,w,h);
+  for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const ox=(y/8)%2?4:0;g.strokeStyle='rgba(200,206,214,.75)';g.lineWidth=2;g.beginPath();g.arc(x+ox,y,3.2,0,Math.PI*2);g.stroke();g.strokeStyle='rgba(20,22,26,.6)';g.beginPath();g.arc(x+ox+.8,y+.8,3.2,Math.PI*.1,Math.PI*.9);g.stroke();}
+  rausch(g,w,h,14,43);},40);}
+
+function bau(spec={}){return spec.klasse==='magier'?magier(spec):spec.klasse==='krieger'?krieger(spec):spec.klasse==='waldlaeufer'?waldlaeufer(spec):startfigur(spec);}
 window.Figur={bau,querschnitte,flackern};
 })();

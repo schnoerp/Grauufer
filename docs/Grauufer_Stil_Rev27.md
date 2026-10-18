@@ -49,12 +49,14 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 ### Feste Spielfiguren im Ziel-Stil A (Im Spiel seit Spiel-Rev 125)
 
 - Entscheidung des Auftraggebers (Spiel-Rev 124): statt eines Avatar-Baukastens **feste Figuren** – Krieger, Magier, Waldläufer, je als Mann und Frau.
-- **Im Spiel:** **Magier (Mann)**. Vorgerendert in der Grafik-Werkstatt (`npm run figuren`, `werkstatt/figuren.js`, Modell `werkstatt/modelle/figur.js`) in **8 Blickrichtungen**, glatt ohne Pixel-Raster, 120 Bildpunkte je Meter (doppelte Spielauflösung, gezeichnet mit 60 Einheiten je Meter), als WebP eingebettet (zusammen etwa 68 KB). Licht der Werkstatt: Stimmung „nacht“ (warmes Hauptlicht von oben links, kalte Lichtkante, Faltenschatten).
+- **Im Spiel:** **Magier, Krieger und Waldläufer (je die Männerfigur; Frauen nutzen sie vorerst mit)**. Vorgerendert in der Grafik-Werkstatt (`npm run figuren`, `werkstatt/figuren.js`, Modell `werkstatt/modelle/figur.js`) in **8 Blickrichtungen**, glatt ohne Pixel-Raster, 120 Bildpunkte je Meter (doppelte Spielauflösung, gezeichnet mit 60 Einheiten je Meter), als WebP eingebettet (alle drei zusammen etwa 160 KB). Licht der Werkstatt: Stimmung „nacht“ (warmes Hauptlicht von oben links, kalte Lichtkante, Faltenschatten).
 - **Blickrichtung:** folgt der letzten Bewegung (`dir8` aus dem Schritt, 0 = zur Kamera); die bisherigen Figuren werden weiter nur gespiegelt.
 - **Leuchten:** Stein am Stab und Kugel über der linken Hand flackern blau – das Spiel zeichnet in jedem Bild einen radialen, additiven Lichtschein (Radius etwa 13 Einheiten) mit unregelmäßigem Flackern darüber.
 - **Bewegung:** beim Laufen leichtes Auf und Ab (die Robe verdeckt die Beine), beim Angriff der bisherige Ausfallschritt, bei Treffern ein heller Blitz.
 - **Bildzeit** (1250 × 650, je 200 Bilder): 18,6 ms mit der bisherigen Figur (Krieger), 17,7 ms mit dem Magier – im Messrauschen.
-- **Geplant:** Magierin, Krieger und Waldläufer (je Mann und Frau) im selben Stil; Lauf- und Angriffsbilder über ein Skelett.
+- **Krieger:** Kettenhemd mit Kettenkragen, blauer Wappenrock mit goldenem Kreuz (Wappen der Siegelwächter), Schulterplatten, Beinschienen, Lederarmschienen, Schwert in der rechten Hand, Tropfenschild mit Goldkreuz am linken Arm, kurzes Haar.
+- **Waldläufer:** grüner Kapuzenumhang (vorn offen, mit Faltenschatten), Hemd und geschnürtes Lederwams, Armschienen, Gürtel mit Tasche und Messer, Köcher mit Pfeilen auf dem Rücken, Langbogen in der linken Hand, Bart.
+- **Geplant:** die drei Frauenfiguren im selben Stil; Lauf- und Angriffsbilder über ein Skelett (bisher nur Auf und Ab beim Laufen).
 
 ### Farbwelt je Gebiet
 

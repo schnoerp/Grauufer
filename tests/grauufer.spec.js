@@ -62,7 +62,7 @@ test('Rev 122: Fenster ohne Knopf „Schließen“, das Siegel oben rechts schli
   expect(fehler).toEqual([]);
 });
 
-test('Rev 125: Magier als feste Figur in 8 Richtungen mit flackerndem Leuchten', async ({ page }) => {
+test('Rev 125: Feste Figuren (Magier, Krieger, Waldläufer) in 8 Richtungen, Magier mit flackerndem Leuchten', async ({ page }) => {
   const fehler = [];
   page.on('pageerror', e => fehler.push(String(e)));
   await page.goto(URL);
@@ -76,9 +76,9 @@ test('Rev 125: Magier als feste Figur in 8 Richtungen mit flackerndem Leuchten',
     for (const [dx, dy] of [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]]) { setFace(S.p, dx, dy); richt.push(S.p.dir8); }
     let gemalt = 0; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (...a) => { const ok = alt(...a); if (ok) gemalt++; return ok; };
     const n = performance.now(); draw0(n / 1000, n, .016); window.drawFigurBild = drawFigurBild = alt;
-    return [F.length, F.every(d => d.licht.length === 2), new Set(richt).size, richt[0], gemalt, figurFuer({ cls: 'krieger', look: {} }) === null];
+    return [F.length, F.every(d => d.licht.length === 2), new Set(richt).size, richt[0], gemalt, ['krieger', 'laeufer'].map(c => (figurFuer({ cls: c, look: { sex: 'w' } }) || []).length)];
   });
-  expect(r).toEqual([8, true, 8, 0, 1, true]);
+  expect(r).toEqual([8, true, 8, 0, 1, [8, 8]]);
   expect(fehler).toEqual([]);
 });
 
