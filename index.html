@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0.119</title>
+<title>Grauufer 1.0.120</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -2104,11 +2104,9 @@ function roofSprite(b){
 const HAUSBILD={};
 for(const k in HAUSBILDER){const e=HAUSBILDER[k],r={};let n=0;
   for(const s of['a','h','v']){const d=e[s],i=new Image();i.onload=()=>{const c=document.createElement('canvas');c.width=i.width;c.height=i.height;c.getContext('2d').drawImage(i,0,0);r[s]={c,x:d.x,y:d.y,w:d.w,h:d.h};if(++n===3)HAUSBILD[k]=r;};i.src=d.u;}}
-function drawHaus(b,s){const e=HAUSBILD[b.bild][s],q=iso((b.x0+b.x1)/2,(b.y0+b.y1)/2),sm=lx.imageSmoothingEnabled;lx.imageSmoothingEnabled=false;
-  lx.drawImage(e.c,Math.round(q.x-e.x),Math.round(q.y-e.y),e.w,e.h);lx.imageSmoothingEnabled=sm;}
 /* Rev 111: Innenansicht (hinten) in senkrechten Streifen je Feldlinie x−y=c, jeweils beim hintersten Hausfeld der Linie gezeichnet –
    so verdeckt nichts, was hinter dem Haus steht (Stadtmauer, Bäume), die Rückwand, und Figuren im Haus bleiben davor. */
-function drawHausStreifen(b,c){const e=HAUSBILD[b.bild].h,q=iso((b.x0+b.x1)/2,(b.y0+b.y1)/2),X0=Math.round(q.x-e.x),Y0=Math.round(q.y-e.y),f=e.w/e.c.width,cw=e.c.width;
+function drawHausStreifen(b,c,s='h'){const e=HAUSBILD[b.bild][s],q=iso((b.x0+b.x1)/2,(b.y0+b.y1)/2),X0=Math.round(q.x-e.x),Y0=Math.round(q.y-e.y),f=e.w/e.c.width,cw=e.c.width;
   const l=c<=b.x0-b.y1?-1e9:(c-.5)*TW/2,r=c>=b.x1-b.y0?1e9:(c+.5)*TW/2,k=v=>Math.max(0,Math.min(cw,Math.round((v-X0)/f))),c0=k(l),c1=k(r);if(c1<=c0)return;
   const sm=lx.imageSmoothingEnabled;lx.imageSmoothingEnabled=false;lx.drawImage(e.c,c0,0,c1-c0,e.c.height,X0+c0*f,Y0,(c1-c0)*f,e.h);lx.imageSmoothingEnabled=sm;}
 /* Rev 58: rastert eine fertige Zeichnung auf Einheiten (Mittelwert je Block) und vergrößert sie ohne Glättung – Pixel-Look */
@@ -3654,7 +3652,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;LIVE=true;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 119</div>
+  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 120</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -3911,8 +3909,11 @@ function waterFx(x,y,t){if(RM)return;const q=iso(x,y),h=hash(x*5+3,y*11+7),u=Mat
       const cx=px+(q.x-px)*k,cy=py+(q.y-py)*k;lx.fillRect(Math.round(cx-u),Math.round(cy),2*u,u);}}}
 function drawObject(x,y,t,cut){
   const c=T(x,y),q=iso(x,y),hn=hash(x,y);
-  const hb=(c==='w'||c==='#'||c==='D')&&HZELLE.get(x+','+y);
-  if(hb&&HAUSBILD[hb.bild]){if(hb._m==='i'&&(x===hb.x0||y===hb.y0))drawHausStreifen(hb,x-y);}
+  /* Rev 120: Werkstatt-Häuser in Streifen je Feldlinie x−y: innen hinten beim hintersten Randfeld, außen bzw. die niedrigen
+     Vorderwände beim vordersten Randfeld der Linie – so verdeckt das Haus nur, was wirklich dahinter steht (vorher wurde das
+     ganze Haus beim vordersten Eckfeld gezeichnet und überdeckte Figuren vor einer langen Vorderwand) */
+  const hb=HZELLE.get(x+','+y),rand=hb&&(x===hb.x0||x===hb.x1||y===hb.y0||y===hb.y1);
+  if(rand&&HAUSBILD[hb.bild]){if(hb._m==='i'&&(x===hb.x0||y===hb.y0))drawHausStreifen(hb,x-y,'h');if(x===hb.x1||y===hb.y1)drawHausStreifen(hb,x-y,hb._m==='i'?'v':'a');}
   else if(c==='#'||c==='w'||c==='D'){const sp=wallSprite(x,y,c);
     if(cut){const st=5*RES,sy=sp.ay-TH/2-st;lx.drawImage(sp.c,0,sy,TW,sp.c.height-sy,q.x-TW/2,q.y-TH/2-st,TW,sp.c.height-sy);}
     else lx.drawImage(sp.c,q.x-sp.ax,q.y-sp.ay);}
@@ -4250,7 +4251,7 @@ function draw0(t,now,dt){
   for(let d=x0+y0;d<=x1+y1;d++)for(let x=Math.max(x0,d-y1);x<=Math.min(x1,d-y0);x++){const y=d-x;if(!vis(x,y))continue;
     const cut=map[y][x]==='M'?(d>pd&&d-pd<=7&&Math.abs((x-y)-pc)<=4):(cutAt(x,y)||(TGT&&'TB'.includes(map[y][x])&&d>TGT.x+TGT.y&&d-(TGT.x+TGT.y)<=3&&Math.abs((x-y)-(TGT.x-TGT.y))<=2));
     if(map[y][x]==='~')waterFx(x,y,t);drawObject(x,y,t,cut);drawDeco(x,y,cut,t);const l=ents[x+','+y];if(l)l.forEach(fn=>fn());
-    const bl=BLAT.get(x+','+y);if(bl&&bl.bild&&HAUSBILD[bl.bild])drawHaus(bl,bl._m==='i'?'v':'a');
+    const bl=BLAT.get(x+','+y);if(bl&&bl.bild&&HAUSBILD[bl.bild]){}
     else if(bl&&!(p.x>=bl.x0&&p.x<=bl.x1&&p.y>=bl.y0&&p.y<=bl.y1)){let cc=false;
       for(let yy=bl.y0;yy<=bl.y1&&!cc;yy++)for(let xx=bl.x0;xx<=bl.x1;xx++)if((xx===bl.x0||xx===bl.x1||yy===bl.y0||yy===bl.y1)&&cutAt(xx,yy)){cc=true;break;}
       if(!cc){const r=roofSprite(bl);lx.drawImage(r.c,r.x,r.y);}}}
