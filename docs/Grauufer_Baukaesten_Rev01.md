@@ -10,6 +10,7 @@ Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zw
 |---|---|---|
 | Haus-Baukasten | vorhanden in der Werkstatt, noch nicht im Spiel | einzelne Häuser vom Schuppen bis zur Residenz: Grundriss, Wände, Dach, Geschosse, Fenster und Türen, Einrichtung (Abschnitt 2) |
 | Anlagen-Baukasten | Geplant | Burg und Schloss als Anlagen aus mehreren Teilen (Abschnitt 3) |
+| Figuren-Baukasten | Geplant | Gesprächspartner, Gegner und Spielerfiguren aus gemeinsamen Körperbau-Familien (Abschnitt 4) |
 
 | Teil | Datei |
 |---|---|
@@ -52,7 +53,20 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 - Grund: Burg und Schloss sind keine einzelnen Häuser, sondern Anlagen aus mehreren Teilen auf einer größeren Fläche.
 - Umfang und Bedienung sind noch nicht festgelegt. Vorschlag zur Abstimmung: Ringmauer mit Wehrgang, Türme, Torhaus, Hof, Bergfried oder Hauptbau; Gebäude im Hof aus dem Haus-Baukasten wiederverwenden.
 
-## 4. Weg ins Spiel (Geplant)
+## 4. Figuren-Baukasten (Geplant)
+
+**Entscheidungen (Gespräch mit dem Auftraggeber, Spiel-Rev 108):**
+- Ein eigener Baukasten für Figuren: Gesprächspartner, Gegner und die Spielerfiguren.
+- **Reihenfolge:** Haus-Baukasten → Pilot A „Startgebiet Grauufer“ → Figuren-Baukasten → Pilot B „Die Tiefe“ (dort werden die Gegner gebraucht). Fahrplan in Grauufer_Grafik_RevXX.md.
+- **Eigene Spielfigur: fest je Klasse** (3 Figuren mit fester Ausrüstung je Klasse). Keine Auswahl von Gesicht oder Frisur und kein Wechsel des Aussehens mit der Ausrüstung, weil jede Wahlmöglichkeit die vorgerenderten Bilder und die Dateigröße vervielfacht.
+
+**Aufbau (Vorschlag):**
+- **Gemeinsames Skelett und gemeinsame Bewegungen** je Körperbau-Familie: Stehen, Laufen, Angriff, Sterben in 8 Blickrichtungen werden einmal gebaut und gelten für alle Figuren der Familie. Grundlage ist der Aufbau des Skelettkriegers (`werkstatt/modelle/skelettkrieger.js`: Gelenke, Arme und Beine als Bausteine, Haltung getrennt davon).
+- **Wählbar je Figur:** Körperbau (Größe, Statur, Alter), Kopf (Gesicht, Haare, Bart, Haut), Kleidung und Rüstungsteile, Waffe und Schild, Farben, bei Untoten der Grad des Verfalls.
+- **Körperbau-Familien:** menschenähnlich (alle Gesprächspartner, Spielerfiguren, Bandit, Ghul, Moorleiche, Ertrunkener, Skelettkrieger, Ruheloser), Vierbeiner (Wolf, Frostwolf, Aschenhund), Spinnentiere (Riesenspinne, Sandskorpion), Geflügelte (Harpyie). Sonderwesen und Endgegner (z. B. Golem, Glutgeist, Echo, Nhal) werden einzeln gebaut.
+- Ergebnis wie beim Haus-Baukasten als Beschreibung (JSON), Abgabe über die Claude-Seite oder GitHub.
+
+## 5. Weg ins Spiel (Geplant)
 
 1. **Abgeben:** Der Auftraggeber oder der zweite Entwickler speichert ein Haus auf der Claude-Seite oder sendet es über GitHub (Abschnitt 2). Claude legt es unter `werkstatt/haeuser/` ab; niemand muss Dateien selbst ablegen.
 2. **Rendern:** `npm run grafik` erzeugt die Bilder (außen, innen, wie im Spiel gerastert).
