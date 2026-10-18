@@ -1,0 +1,263 @@
+{
+ "name": "Wachhalle",
+ "breite": 11,
+ "tiefe": 5,
+ "wand": "stein",
+ "dach": "schiefer",
+ "dachform": "walm",
+ "first": "x",
+ "verwitterung": 0.2,
+ "schornstein": true,
+ "geschosse": 2,
+ "dachboden": false,
+ "gauben": true,
+ "oeffnungen": [
+  {
+   "seite": "vorn",
+   "feld": 5,
+   "art": "portal"
+  },
+  {
+   "seite": "vorn",
+   "feld": 1,
+   "art": "fenster"
+  },
+  {
+   "seite": "vorn",
+   "feld": 3,
+   "art": "fenster"
+  },
+  {
+   "seite": "vorn",
+   "feld": 7,
+   "art": "fenster"
+  },
+  {
+   "seite": "vorn",
+   "feld": 9,
+   "art": "fenster"
+  },
+  {
+   "seite": "vorn",
+   "feld": 1,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "vorn",
+   "feld": 3,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "vorn",
+   "feld": 5,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "vorn",
+   "feld": 7,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "vorn",
+   "feld": 9,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "links",
+   "feld": 2,
+   "art": "fenster"
+  },
+  {
+   "seite": "rechts",
+   "feld": 2,
+   "art": "fenster"
+  },
+  {
+   "seite": "links",
+   "feld": 2,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "rechts",
+   "feld": 2,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "hinten",
+   "feld": 2,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "hinten",
+   "feld": 5,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "hinten",
+   "feld": 8,
+   "art": "fenster",
+   "geschoss": 1
+  }
+ ],
+ "einrichtung": [
+  {
+   "art": "bett",
+   "x": 0,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "bett",
+   "x": 1,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "bett",
+   "x": 2,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "waffen",
+   "x": 3,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "truhe",
+   "x": 3,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "kamin",
+   "x": 5,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "waffen",
+   "x": 6,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "regal",
+   "x": 6,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "schrank",
+   "x": 7,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "tisch",
+   "x": 8,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "faesser",
+   "x": 9,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "kiste",
+   "x": 10,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "truhe",
+   "x": 0,
+   "z": 1,
+   "dreh": 1
+  },
+  {
+   "art": "waffen",
+   "x": 0,
+   "z": 2,
+   "dreh": 1
+  },
+  {
+   "art": "faesser",
+   "x": 0,
+   "z": 3,
+   "dreh": 1
+  },
+  {
+   "art": "kiste",
+   "x": 10,
+   "z": 1,
+   "dreh": 3
+  },
+  {
+   "art": "waffen",
+   "x": 10,
+   "z": 2,
+   "dreh": 3
+  },
+  {
+   "art": "saecke",
+   "x": 10,
+   "z": 3,
+   "dreh": 3
+  },
+  {
+   "art": "teppich",
+   "x": 4,
+   "z": 2,
+   "dreh": 0
+  },
+  {
+   "art": "teppich",
+   "x": 5,
+   "z": 2,
+   "dreh": 0
+  },
+  {
+   "art": "teppich",
+   "x": 6,
+   "z": 2,
+   "dreh": 0
+  },
+  {
+   "art": "faesser",
+   "x": 0,
+   "z": 4,
+   "dreh": 0
+  },
+  {
+   "art": "kiste",
+   "x": 10,
+   "z": 4,
+   "dreh": 3
+  },
+  {
+   "art": "hocker",
+   "x": 2,
+   "z": 4,
+   "dreh": 0
+  },
+  {
+   "art": "besen",
+   "x": 8,
+   "z": 4,
+   "dreh": 0
+  }
+ ]
+}

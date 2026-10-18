@@ -76,7 +76,7 @@ function texturen(v){const key=Math.round(v*4);if(CACHE[key])return CACHE[key];c
 // opt.spiel: Bild fürs Spiel – ohne Wiese und Bodenflecken; die niedrigen Wände zur Kamera sind markiert (userData.vorn)
 function Bau(spec,innen,drehung=0,ebene=0,opt={}){
   const v=Math.max(0,Math.min(1,+spec.verwitterung||0)),tx=texturen(v);setSeed(spec.name||'haus');
-  const B=Math.max(2,Math.min(9,spec.breite|0)),D=Math.max(2,Math.min(9,spec.tiefe|0)),HX=B*T,HZ=D*T,G=Math.max(1,Math.min(3,spec.geschosse|0||1)),DB=!!spec.dachboden&&spec.dachform!=='pult',L=G+(DB?1:0);
+  const B=Math.max(2,Math.min(12,spec.breite|0)),D=Math.max(2,Math.min(12,spec.tiefe|0)),HX=B*T,HZ=D*T,G=Math.max(1,Math.min(3,spec.geschosse|0||1)),DB=!!spec.dachboden&&spec.dachform!=='pult',L=G+(DB?1:0);
   ebene=Math.max(0,Math.min(L-1,ebene|0));const HG=G*WH,dachboden=innen&&DB&&ebene===G;
   // Dachmaße (auch für den Dachboden): First entlang x oder z, Reet steiler
   const dArt=['schiefer','reet','schindeln'].includes(spec.dach)?spec.dach:'schiefer',dWalm=(spec.dachform||(dArt==='reet'?'walm':'sattel'))==='walm',

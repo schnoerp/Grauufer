@@ -193,7 +193,7 @@ function felder(){$('typ').value=spec.typ||'';$('typhinweis').textContent=spec.t
   $('first').value=spec.first||'x';$('dachform').value=spec.dachform||(spec.dach==='reet'?'walm':'sattel');$('verwitterung').value=spec.verwitterung;$('vw').textContent=['neu','gepflegt','gebraucht','verwittert','verfallen'][Math.round(spec.verwitterung*4)];
   $('schornstein').checked=!!spec.schornstein;$('aussen').className=innen?'':'an';$('innen').className=innen?'an':'';
   const l=Ablage.haeuser;$('liste').innerHTML='<option value="">Gespeicherte Häuser …</option>'+Object.keys(l).sort().map(n=>`<option>${n.replace(/</g,'&lt;')}</option>`).join('');$('liste').value=l[spec.name]?spec.name:'';}
-document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{const[k,d]=b.dataset.z.split(':');spec[k]=Math.max(2,Math.min(9,spec[k]+ +d));
+document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{const[k,d]=b.dataset.z.split(':');spec[k]=Math.max(2,Math.min(12,spec[k]+ +d));
   spec.oeffnungen=spec.oeffnungen.filter(o=>o.feld<((o.seite==='hinten'||o.seite==='vorn')?spec.breite:spec.tiefe));
   spec.einrichtung=spec.einrichtung.filter(e=>e.x<=spec.breite&&e.z<=spec.tiefe);geaendert();});
 ['wand','dach','first','dachform'].forEach(k=>$(k).onchange=()=>{spec[k]=$(k).value;if(k==='dach')delete spec.dachform;geaendert();});

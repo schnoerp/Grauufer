@@ -1,12 +1,35 @@
 // Grafik-Werkstatt: rendert die Häuser aus werkstatt/spielhaeuser/*.json als Spielbilder und bettet sie in index.html ein.
 // Je Haus drei Bilder: außen (mit Dach), innen hinten (Boden, hintere Wände, Einrichtung) und innen vorn (die zwei niedrigen
-// Wände zur Kamera). Maßstab wie im Spiel: ein Feld = TW = 160 Einheiten, gerastert wie pxl (Faktor RES/2 = 2,5).
+// Wände zur Kamera), als PNG mit Farbtabelle. Maßstab wie im Spiel: ein Feld = TW = 160 Einheiten, gerastert wie pxl (Faktor RES/2 = 2,5).
 // Aufruf: npm run haeuser
 const { chromium } = require('@playwright/test');
 const fs = require('fs'), path = require('path');
 const DIR = __dirname, SPIEL = path.join(DIR, '..', 'index.html');
 const GL = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--no-sandbox'];
-const K = 160 / (2.1 * Math.SQRT2), F = 2.5; // Pixel je Meter (ein Feld 160 breit), Rasterfaktor wie PXF im Spiel
+const K = 160 / (2.1 * Math.SQRT2), F = 2.5;
+const zlib = require('zlib');
+
+// Gerastertes Bild als PNG mit Farbtabelle (höchstens 256 Farben, durch das Raster meist um 110) – verlustfrei, etwa ein Drittel
+// der Größe eines Vollfarb-PNG
+function pngIndex(px, w, h) {
+  const farben = new Map(), idx = Buffer.alloc(w * h);
+  for (let i = 0; i < w * h; i++) {
+    const k = px[i * 4 + 3] ? (px[i * 4] << 16 | px[i * 4 + 1] << 8 | px[i * 4 + 2]) + 1 : 0;
+    if (!farben.has(k)) farben.set(k, farben.size); idx[i] = farben.get(k);
+  }
+  if (farben.size > 256) throw new Error('zu viele Farben: ' + farben.size);
+  const n = farben.size, pal = Buffer.alloc(n * 3), trns = Buffer.alloc(n, 255);
+  for (const [k, i] of farben) { if (!k) { trns[i] = 0; continue; } const c = k - 1; pal[i * 3] = c >> 16; pal[i * 3 + 1] = c >> 8 & 255; pal[i * 3 + 2] = c & 255; }
+  const roh = Buffer.alloc((w + 1) * h); // Filter 0 je Zeile: bei Farbtabellen am kleinsten
+  for (let y = 0; y < h; y++) idx.copy(roh, y * (w + 1) + 1, y * w, y * w + w);
+  const crcT = []; for (let i = 0; i < 256; i++) { let c = i; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; crcT[i] = c >>> 0; }
+  const crc = b => { let c = 0xffffffff; for (const x of b) c = crcT[(c ^ x) & 255] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; };
+  const teil = (typ, d) => { const l = Buffer.alloc(4); l.writeUInt32BE(d.length); const td = Buffer.concat([Buffer.from(typ), d]), c = Buffer.alloc(4); c.writeUInt32BE(crc(td)); return Buffer.concat([l, td, c]); };
+  const ih = Buffer.alloc(13); ih.writeUInt32BE(w, 0); ih.writeUInt32BE(h, 4); ih[8] = 8; ih[9] = 3;
+  return 'data:image/png;base64,' + Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), teil('IHDR', ih), teil('PLTE', pal), teil('tRNS', trns),
+    teil('IDAT', zlib.deflateSync(roh, { level: 9 })), teil('IEND', Buffer.alloc(0))]).toString('base64');
+}
+const fertig = r => ({ u: pngIndex(r.px, r.sw, r.sh), w: r.w, h: r.h, x: r.x, y: r.y }); // Pixel je Meter (ein Feld 160 breit), Rasterfaktor wie PXF im Spiel
 
 // im Browser: Ansicht rendern, auf den sichtbaren Teil zuschneiden (Raster 5, damit F glatt aufgeht) und wie pxl rastern
 const BILD = async ([spec, innen, schicht, K, F]) => {
@@ -24,8 +47,7 @@ const BILD = async ([spec, innen, schicht, K, F]) => {
     const b = B[(y & 3) * 4 + (x & 3)]; if (p[i + 3] < 110) { p[i] = p[i + 1] = p[i + 2] = p[i + 3] = 0; continue; } p[i + 3] = 255; const t = (b / 16 - .47) * ST * .7;
     for (let k = 0; k < 3; k++) { const v = Math.round((p[i + k] + t) / ST) * ST; p[i + k] = v < 0 ? 0 : v > 255 ? 255 : v; }
   }
-  og.putImageData(D, 0, 0);
-  return { u: o.toDataURL('image/png'), w: cw, h: ch, x: Math.round(mx - x0), y: Math.round(my - y0) };
+  return { px: Array.from(p), sw, sh, w: cw, h: ch, x: Math.round(mx - x0), y: Math.round(my - y0) };
 };
 
 (async () => {
@@ -38,9 +60,9 @@ const BILD = async ([spec, innen, schicht, K, F]) => {
   for (const datei of fs.readdirSync(path.join(DIR, 'spielhaeuser')).filter(f => f.endsWith('.json')).sort()) {
     const spec = JSON.parse(fs.readFileSync(path.join(DIR, 'spielhaeuser', datei), 'utf8')), name = datei.replace(/\.json$/, '');
     bilder[name] = {
-      a: await p.evaluate(BILD, [spec, false, null, K, F]),
-      h: await p.evaluate(BILD, [spec, true, 'hinten', K, F]),
-      v: await p.evaluate(BILD, [spec, true, 'vorn', K, F]),
+      a: fertig(await p.evaluate(BILD, [spec, false, null, K, F])),
+      h: fertig(await p.evaluate(BILD, [spec, true, 'hinten', K, F])),
+      v: fertig(await p.evaluate(BILD, [spec, true, 'vorn', K, F])),
     };
   }
   await b.close();

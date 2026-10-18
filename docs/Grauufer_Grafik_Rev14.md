@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 13**, Stand: Spiel-Rev 110. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 14**, Stand: Spiel-Rev 111. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -68,7 +68,7 @@ Haus-Baukasten (vorhanden, noch nicht im Spiel), Anlagen-Baukasten für Burg und
 
 1. **Werkstatt und Stilregeln** – erledigt als Probe (dieses Dokument).
 2. **Haus-Baukasten im Browser** – erledigt (Grauufer_Baukaesten_RevXX.md): Grundriss, Mauern (Stein, Fachwerk, Holz), Dachform und -deckung, Fenster, Türen, Schornstein und Verwitterungsgrad selbst zusammenstellen; 3D-Vorschau aus Spielsicht; Ergebnis wird gespeichert und von der Werkstatt gerendert.
-3. **Pilot A – Startgebiet Grauufer** (begonnen: fünf Häuser im Spiel seit Spiel-Rev 109, Grauufer_Baukaesten_RevXX.md): Landschafts-Bausteine aus dem Landschafts-Baukasten, Teil A (Grauufer_Baukaesten_RevXX.md): Bäume (per Code gewachsen, 10–20 Exemplare je Art), Felsen, Häuser aus dem Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut, auf dem Tablet gemessen.
+3. **Pilot A – Startgebiet Grauufer** (begonnen: fünf Häuser in Grauufer seit Spiel-Rev 109, neun Häuser in Sonnwacht seit Spiel-Rev 111, Grauufer_Baukaesten_RevXX.md): Landschafts-Bausteine aus dem Landschafts-Baukasten, Teil A (Grauufer_Baukaesten_RevXX.md): Bäume (per Code gewachsen, 10–20 Exemplare je Art), Felsen, Häuser aus dem Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut, auf dem Tablet gemessen.
 4. **Figuren-Baukasten** (Grauufer_Baukaesten_RevXX.md): gemeinsames Skelett und gemeinsame Bewegungen je Körperbau-Familie.
 5. **Pilot B – Die Tiefe:** Ruheloser, Steinwächter, Echo, Skelettkrieger, Thronhüter.
 6. Spielerfiguren (3 Klassen mit fester Ausrüstung je Klasse, Entscheidung des Auftraggebers).

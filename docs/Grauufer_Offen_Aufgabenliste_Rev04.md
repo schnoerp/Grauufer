@@ -1,13 +1,13 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 3**, Stand: Spiel-Rev 110. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 4**, Stand: Spiel-Rev 111. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
 | Aufgabe | Stand | Einzelheiten |
 |---|---|---|
-| Haus-Baukasten | fertig in der Werkstatt (Haustypen, 1–3 Geschosse, Dachboden, Öffnungen, 22 Einrichtungsteile); fünf Häuser in Grauufer im Spiel (Spiel-Rev 109) | Grauufer_Baukaesten_RevXX.md |
-| Neue vorgerenderte Grafik | Werkstatt und Stilregeln fertig; im Spiel bisher nur die fünf Häuser in Grauufer; Skelettkrieger, 14 Gegenstände und Rucksack-Entwurf erst gerendert | Grauufer_Grafik_RevXX.md |
+| Haus-Baukasten | fertig in der Werkstatt (Haustypen, 1–3 Geschosse, Dachboden, Öffnungen, 22 Einrichtungsteile); fünf Häuser in Grauufer (Spiel-Rev 109) und neun in Sonnwacht (Spiel-Rev 111) im Spiel | Grauufer_Baukaesten_RevXX.md |
+| Neue vorgerenderte Grafik | Werkstatt und Stilregeln fertig; im Spiel bisher nur die Häuser in Grauufer und Sonnwacht; Skelettkrieger, 14 Gegenstände und Rucksack-Entwurf erst gerendert | Grauufer_Grafik_RevXX.md |
 | Umstellung auf TypeScript + Vite | Stufe 0 erledigt; offen: Ordner `reference/` mit Rev 29 fehlt noch | Grauufer_Fahrplan_RevXX.md |
 
 ## 2. Als Nächstes (vereinbarte Reihenfolge)
@@ -54,8 +54,6 @@
 
 ## 5. Prüfpunkte für den Auftraggeber
 
-- Auf dem Tablet bestätigen, dass die schwarzen Ränder weg sind (Spiel-Rev 108).
-- Die fünf Häuser in Grauufer im Spiel ansehen (Spiel-Rev 109) und entscheiden: so lassen, im Haus-Baukasten ändern oder weitere Häuser ergänzen; auf dem Tablet auf Ruckeln achten.
-- Figurengröße 75 % (Spiel-Rev 110) auf dem Tablet prüfen: gut zu erkennen und anzutippen?
+- Häuser in Sonnwacht (Spiel-Rev 111) im Spiel ansehen; weitere Orte mit Hütten auf Wunsch genauso umstellen: Sandhafen, Kornwacht, Schilfrode, Erzhall, Frosthain, Steinwacht, Ostwacht, Tränensee (Tobe), Miras Kate.
 - Ein Haus über „Über GitHub an Claudia senden“ testweise abschicken.
 - Claude-Seite „Grauufer Haus-Baukasten“ mit dem Mitbenutzer teilen (Teilen → Rolle Bearbeiter, kein öffentlicher Link), falls er sie statt der GitHub-Seite nutzen soll.

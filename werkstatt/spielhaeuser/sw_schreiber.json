@@ -1,0 +1,110 @@
+{
+ "name": "Haus des Schreibers",
+ "breite": 3,
+ "tiefe": 3,
+ "wand": "fachwerk",
+ "dach": "schiefer",
+ "dachform": "sattel",
+ "first": "x",
+ "verwitterung": 0.3,
+ "schornstein": true,
+ "geschosse": 2,
+ "dachboden": false,
+ "gauben": false,
+ "oeffnungen": [
+  {
+   "seite": "vorn",
+   "feld": 1,
+   "art": "tuer"
+  },
+  {
+   "seite": "vorn",
+   "feld": 0,
+   "art": "fenster"
+  },
+  {
+   "seite": "vorn",
+   "feld": 2,
+   "art": "fenster"
+  },
+  {
+   "seite": "rechts",
+   "feld": 1,
+   "art": "fenster"
+  },
+  {
+   "seite": "vorn",
+   "feld": 0,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "vorn",
+   "feld": 1,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "vorn",
+   "feld": 2,
+   "art": "fenster",
+   "geschoss": 1
+  },
+  {
+   "seite": "rechts",
+   "feld": 1,
+   "art": "fenster",
+   "geschoss": 1
+  }
+ ],
+ "einrichtung": [
+  {
+   "art": "regal",
+   "x": 1,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "regal",
+   "x": 2,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "kamin",
+   "x": 0,
+   "z": 1,
+   "dreh": 1
+  },
+  {
+   "art": "tisch",
+   "x": 2,
+   "z": 1,
+   "dreh": 3
+  },
+  {
+   "art": "teppich",
+   "x": 1,
+   "z": 1,
+   "dreh": 0
+  },
+  {
+   "art": "truhe",
+   "x": 0,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "hocker",
+   "x": 0,
+   "z": 2,
+   "dreh": 0
+  },
+  {
+   "art": "schrank",
+   "x": 2,
+   "z": 2,
+   "dreh": 3
+  }
+ ]
+}
