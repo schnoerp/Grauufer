@@ -1,6 +1,6 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 11**, Stand: Spiel-Rev 118. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 12**, Stand: Spiel-Rev 119. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
@@ -55,6 +55,7 @@
 ## 5. Prüfpunkte für den Auftraggeber
 
 - Logo nach deiner Vorlage im Titelbild auf dem Tablet ansehen (Spiel-Rev 113).
+- **Echtzeitkampf (Spiel-Rev 119) auf dem Tablet testen:** Takt der Gegner, Waffentakt, Abklingzeiten und Erholung ggf. nachjustieren; die Ausgleichsvorschläge in Grauufer_Fortschritt_RevXX.md beziehen sich noch auf Züge.
 - Häuser zeigen ihr Inneres erst beim Betreten (Spiel-Rev 118) – im Spiel prüfen, ob die Figur hinter Häusern gut genug zu finden ist.
 - Flüsse ohne Höhensprung mit Seen an den Enden (Spiel-Rev 117) im Spiel ansehen, z. B. nördlich von Sonnwacht (104,168).
 - Gruft und schlanke Stadtmauer von Sonnwacht (Spiel-Rev 115) im Spiel ansehen; andere Stadt- und Burgmauern (z. B. Alte Feste, Steinwacht, Kornwacht) auf Wunsch ebenso verschlanken.

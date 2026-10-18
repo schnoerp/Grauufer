@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 28**, Stand: Spiel-Rev 117. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 29**, Stand: Spiel-Rev 119. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -104,7 +104,7 @@ Koordinaten als linke obere und rechte untere Ecke (x, y).
 | Aschenhorn | 636, 193 (seit Spiel-Rev 64) |
 
 - Ein Wegstein wird entdeckt, sobald man ihm auf 7 Felder nahe kommt.
-- Berühren öffnet die Reiseliste; eine Reise dauert 15 Züge.
+- Berühren öffnet die Reiseliste; eine Reise lässt 15 Takte (7,5 s Weltzeit) vergehen.
 - Sonnwacht und Grauufer sind ab Spielbeginn bekannt.
 
 ### Portale (Im Spiel seit Spiel-Rev 66)
@@ -119,7 +119,7 @@ Drauftreten genügt, danach 1,5 s Sperre gegen Hin-und-her-Springen.
 ## 5. Tageszählung (Im Spiel)
 
 - Seit Spiel-Rev 41 gibt es keine Nacht mehr, es ist immer hell. Nur Höhlen und dunkle Zonen bleiben dunkel.
-- Ein Tag dauert weiterhin 600 Züge; oben steht nur „Tag N“.
+- Ein Tag dauert 600 Takte; seit Spiel-Rev 119 (Echtzeit, Takt 0,5 s) sind das 5 Minuten. Oben steht nur „Tag N“.
 
 Jedes Gebiet hat eine eigene Klangkulisse (siehe Stil).
 

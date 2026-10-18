@@ -141,7 +141,7 @@ test('Rev 94: Titanenbrecher-Name, Holzkisten, Eislanze, keine Wiederbelebung vo
   });
   expect(r[0]).toBe('Meisterlicher Titanenbrecher');
   expect(r[1]).toBe(false); expect(r[2]).toBe(true);
-  expect(r[3]).toContain('3 Züge');
+  expect(r[3]).toContain('3 Sekunden');
   expect(r[4]).toBe(true);
   expect(fehler).toEqual([]);
 });
@@ -547,5 +547,28 @@ test('Flüsse ohne Höhensprung, jedes Flussende mündet in einen See, kein Berg
     return { ufAmBerg, brueckeAmBerg, ohneSee, tiefe: VD, hoehe: elev(...(() => { for (let y = 1; y < H; y++) for (let x = 1; x < W; x++) if (map[y][x] === 'V') return [x, y]; })()) };
   });
   expect(r).toEqual({ ufAmBerg: 0, brueckeAmBerg: 0, ohneSee: 0, tiefe: 0, hoehe: 0 });
+  expect(fehler).toEqual([]);
+});
+
+test('Echtzeit: Welt läuft ohne Zutun weiter, Dauerangriff, Abklingzeiten für Zauber und Tränke', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(async () => {
+    const warte = ms => new Promise(f => setTimeout(f, ms));
+    const t0 = S.turn; await warte(1600); const takte = S.turn - t0;
+    // Dauerangriff: Gegner direkt neben die Figur, einmal anvisieren – mehrere Schläge ohne weiteres Tippen
+    const p = S.p, e = { id: 'probe', k: 'wolf', x: p.x + 1, y: p.y, rx: p.x + 1, ry: p.y, hx: p.x + 1, hy: p.y, hp: 999, maxHp: 999, dead: false, face: -1, frozen: 999 };
+    S.enemies.push(e); G.pending = { type: 'attack', id: 'probe' }; G.path = [];
+    await warte(2600); const schlaege = 999 - e.hp; e.dead = true; G.pending = null;
+    // Abklingzeit: Heilwasser zweimal hintereinander
+    if (!S.spells.includes('heil')) S.spells.push('heil'); p.mp = p.maxMp; p.hp = 1; G.cd = {};
+    castSpell('heil'); const mp1 = p.mp; castSpell('heil'); const zweimal = p.mp < mp1;
+    // Trank: zweiter Trank sofort danach wird abgelehnt
+    p.hp = 1; give('potion'); give('potion'); const n0 = cntItem('potion'); useItem('potion'); p.hp = 1; useItem('potion');
+    return { takte, schlaege: schlaege > 0, getroffen: schlaege, zweimal, traenke: n0 - cntItem('potion') };
+  });
+  expect(r.takte).toBeGreaterThanOrEqual(2);
+  expect(r.schlaege).toBe(true);
+  expect(r.zweimal).toBe(false);
+  expect(r.traenke).toBe(1);
   expect(fehler).toEqual([]);
 });
