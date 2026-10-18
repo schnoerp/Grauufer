@@ -15,7 +15,7 @@ Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = 
 | Pfad | Inhalt |
 |---|---|
 | `index.html` | das komplette Spiel (HTML, CSS, JavaScript, eingebettete Schrift) |
-| `werkstatt/` | Grafik-Werkstatt: 3D-Modelle im Code, mit three.js gerendert (`npm run grafik`, Vorschaubilder in `werkstatt/vorschau/`); **Haus-Baukasten** `werkstatt/baukasten.html` (über GitHub Pages unter `…/werkstatt/baukasten.html`) |
+| `werkstatt/` | Grafik-Werkstatt: 3D-Modelle im Code, mit three.js gerendert (`npm run grafik`, Vorschaubilder in `werkstatt/vorschau/`); **Haus-Baukasten** `werkstatt/baukasten.html` (über GitHub Pages unter `…/werkstatt/baukasten.html`; als Claude-Seite mit gemeinsamem Speicher über `node werkstatt/artefakt.js`) |
 | `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze …) |
 | `CLAUDE.md` | Arbeitsregeln für Claude Code |
 

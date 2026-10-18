@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 04**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 05**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -45,7 +45,11 @@ Aufruf: `npm run grafik` (benötigt `npm install` für Playwright).
 
 ## 4. Haus-Baukasten (vorhanden, noch nicht im Spiel)
 
-**Aufruf:** `werkstatt/baukasten.html` im Browser öffnen – lokal oder über GitHub Pages unter `…/werkstatt/baukasten.html`. Die Seite ist für Tablet (1280 × 800) und Rechner ausgelegt.
+**Aufruf, zwei Wege:**
+- **Claude-Seite „Grauufer Haus-Baukasten“** im Claude-Konto des Auftraggebers (empfohlen): gespeicherte Häuser liegen im Speicher der Seite (Sammlung `haeuser`, ein Dokument je Haus mit `name`, `spec`, `geaendert`); Claude liest sie dort direkt aus, legt sie unter `werkstatt/haeuser/` ab und baut sie ins Spiel ein. Der Auftraggeber muss keine Dateien ablegen. Die Seite wird mit `node werkstatt/artefakt.js <Zieldatei>` aus `baukasten.html` erzeugt (three.js und Hausbau eingebettet).
+- **`werkstatt/baukasten.html`** lokal oder über GitHub Pages unter `…/werkstatt/baukasten.html`: gespeichert wird nur im Browser; Weitergabe über „Herunterladen“.
+
+Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 
 | Bereich | Bedienung |
 |---|---|
@@ -54,7 +58,7 @@ Aufruf: `npm run grafik` (benötigt `npm install` für Playwright).
 | Fenster/Tür | auf eine Wand tippen schaltet weiter: Wand → Fenster → Tür → kaputtes Fenster → vernageltes Fenster → Wand |
 | Einrichtung | 17 Teile: Bett, Truhe, Schrank, Bücherregal, Kamin, Wandbrett, Waffen an der Wand, Tisch mit Bänken, Fässer, Kiste, Säcke, Hocker, Teppich, Kessel, Stuhl (umgekippt), Besen, Brennholz; Wandteile drehen sich beim Setzen zur nächsten Wand. **Je Feld ein Möbelstück**; Teppich, Kessel, Wandbrett und Waffen an der Wand dürfen als Zusatzteil dazukommen (höchstens eines). Ein zweites Möbelstück ersetzt das erste, erneutes Tippen mit derselben Sorte dreht das Teil. „Drehen“ dreht das zuletzt gesetzte Teil, „Entfernen“ leert das ganze Feld. Ältere gespeicherte Häuser mit mehreren Teilen je Feld werden beim Laden bereinigt |
 | Vorschau | Spielsicht (45°/30°), Außen- oder Innenansicht, in 90°-Schritten drehbar |
-| Speichern | im Browser (Liste „Gespeicherte Häuser“); „Herunterladen“ erzeugt eine JSON-Datei für `werkstatt/haeuser/`; „Datei laden“ öffnet eine solche Datei |
+| Speichern | „Speichern“ legt das Haus unter seinem Namen ab (Claude-Seite: im gemeinsamen Speicher, sonst im Browser), Liste „Gespeicherte Häuser“ zum Öffnen; „Löschen“ fragt durch zweites Tippen nach; „Herunterladen“ (nur Browser-Weg) erzeugt eine JSON-Datei, „Datei laden“ öffnet eine solche Datei |
 
 **Verwitterung je Stufe:** mehr Schmutz, Laufspuren, abgeplatzter Putz, Risse und Moos auf den Oberflächen; durchhängendes Dach und schiefe Holzteile; ab „gebraucht“ Spinnweben, ab „verwittert“ Putzbrocken, geflicktes Dach und schief hängende Fensterläden; mehr Stroh innen und Unkraut außen.
 

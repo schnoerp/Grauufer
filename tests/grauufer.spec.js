@@ -347,7 +347,7 @@ test('Werkstatt: Baukasten erlaubt je Feld nur ein Möbelstück und entfernt zuv
   await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'baukasten.html'));
   await page.waitForFunction(() => window.Hausbau && typeof spec === 'object', null, { timeout: 30000 });
   await page.click('#neu');
-  const feld = async (x, z) => { const b = await page.locator('#plan').boundingBox(), c = b.width / await page.evaluate(() => spec.breite + 2);
+  const feld = async (x, z) => { await page.locator('#plan').scrollIntoViewIfNeeded(); const b = await page.locator('#plan').boundingBox(), c = b.width / await page.evaluate(() => spec.breite + 2);
     await page.mouse.click(b.x + (x + 1.5) * c, b.y + (z + 1.5) * c); };
   const inhalt = () => page.evaluate(() => spec.einrichtung.filter(e => e.x === 1 && e.z === 1).map(e => e.art + e.dreh).sort().join(','));
   await page.getByRole('button', { name: 'Truhe' }).click();
