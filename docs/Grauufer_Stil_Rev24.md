@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 23**, Stand: Spiel-Rev 115. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 24**, Stand: Spiel-Rev 116. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -86,6 +86,13 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 | Farbstimmung je Gebiet | dünne Farbschicht über dem ganzen Bild, beim Gebietswechsel weich überblendet (ca. 1 s) | Grau (Grauufer, Sonnwacht, Wildnis): kühles Blaugrau, 8 %; Nebel (Tränensee, Fahlmoor, Nebelwald, Miras Kate): Grün, 11 %; Glut (Glutschlund): Rot, 10 %; Schnee (Sturmspitze, Frostmark): Eisblau, 7 %; Staub (Sandhafen, Ödnis, Tempel): Ocker, 8 %; Höhle (Grotte, Kristallhöhle): Violett, 12 %; Innenraum: warmes Braun, 6 % |
 
 Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus 6 Orten): Rev 95 24,8 ms, Rev 96 24,8 ms, also keine messbare Mehrlast. Es werden keine neuen Grafikkarten-Leinwände angelegt.
+
+### Täler, Berge und Brücken (Im Spiel seit Spiel-Rev 116)
+
+- **Täler** 30 Einheiten je Auflösungsstufe tief (vorher 24); die hintere Talwand zeigt Gesteinsschichten, Klüfte und eine kräftigere Felsstruktur.
+- **Berge** fallen zum Talrand hin ab: Abstand zum nächsten Talfeld 1 Feld → Wiese, 2 Felder → 35 % der Höhe, 3 Felder → 70 %. Vor jedem Brückenende entsteht ein flacher Durchlass (2 Felder flach, dann 40 % und 75 %). Die 4 Bergfelder, die mitten im Talband lagen, sind Tal geworden.
+- **Brücken** haben gemauerte Widerlager: hinten Mauerwerk an der Talwand unter dem Deck, vorn ein Steinblock mit Auflage auf festem Boden.
+- Begehbarkeit, Wege und Fundorte sind unverändert. Die Berge selbst bleiben vorerst Codegrafik; als Felsmassive aus der Werkstatt sind sie mit dem Landschafts-Baukasten geplant (Grauufer_Baukaesten_RevXX.md).
 
 ### Vorgerenderte Häuser (Im Spiel seit Spiel-Rev 109)
 
