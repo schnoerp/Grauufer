@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 12**, Stand: Spiel-Rev 109. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 13**, Stand: Spiel-Rev 110. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -36,7 +36,7 @@ Aufruf: `npm run grafik` (benötigt `npm install` für Playwright).
 | Regel | Wert |
 |---|---|
 | Kamera | rechtwinklige Parallelprojektion, Blickwinkel 45° seitlich und 30° von oben; ergibt das Seitenverhältnis 2 : 1 wie im Spiel |
-| Maßstab | ein Feld = 2,1 m; Figuren etwa 2 m hoch (Skelettkrieger: Grundmaß 1,8 m, Faktor 1,1) |
+| Maßstab | ein Feld = 2,1 m; Figuren etwa 2 m hoch (Skelettkrieger: Grundmaß 1,8 m, Faktor 1,1); die Codefiguren im Spiel sind seit Spiel-Rev 110 auf 75 % verkleinert (etwa 2,2 m, Grauufer_Stil_RevXX.md) |
 | Spielgröße | ein Feld im Spiel 160 px breit (TW in index.html); Hausbilder werden dafür mit dem Faktor 160/137 umgerechnet |
 | Licht | warmes Sonnenlicht von links vorn oben, weiche Schatten, kühles Fülllicht von rechts hinten, Himmels-/Bodenlicht; innen zusätzlich Feuer und Kerzen als Lichtquellen |
 | Raster | wie im Spiel (`pxl`, Spiel-Rev 59): 16 Stufen je Farbkanal (Schritt 17), Bayer-Dithering 4 × 4, keine Glättung |

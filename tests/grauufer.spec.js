@@ -470,3 +470,14 @@ test('Grauufer: fünf Häuser aus der Grafik-Werkstatt, außen und innen', async
   expect(r.drin).toBe('i'); expect(r.draussen).toBe('a'); expect(r.mitte).toBe(true); expect(r.bilder).toBe(true);
   expect(fehler).toEqual([]);
 });
+
+test('Figuren auf 75 % verkleinert, Pixel-Look bleibt', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const e = charSprite('player', 0), g = charSprite('mareth', 0);
+    return { f: FIGF, klein: !!(e.fk && g.fk), hoch: e.ay / RES };
+  });
+  expect(r.f).toBe(0.75); expect(r.klein).toBe(true);
+  expect(r.hoch).toBeLessThan(32);
+  expect(fehler).toEqual([]);
+});

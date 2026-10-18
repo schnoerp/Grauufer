@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0 (Rev 109)</title>
+<title>Grauufer 1.0 (Rev 110)</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -880,6 +880,12 @@ function pxl(c,f,mode){if(!c||!c.width||!c.height)return c;const w=Math.max(1,Ma
     if(mode==='dith'?a<(b+.5)*16:a<110){d[i+3]=0;continue;}d[i+3]=255;const t=(b/16-.47)*PXSTEP*.7;
     for(let k=0;k<3;k++){const v=Math.round((d[i+k]+t)/PXSTEP)*PXSTEP;d[i+k]=v<0?0:v>255?255:v;}}
   sg.putImageData(id,0,0);const o=document.createElement('canvas');o.width=c.width;o.height=c.height;const og=o.getContext('2d');og.imageSmoothingEnabled=false;og.drawImage(s,0,0,c.width,c.height);s.width=s.height=0;return o;}
+/* Rev 110: Figuren auf 75 % verkleinert, damit sie zu den Häusern aus der Werkstatt passen (etwa 2,2 m bei einem Feld = 2,1 m).
+   Verkleinert wird einmal beim Anlegen des Sprites, vor dem Rastern – der Pixel-Look bleibt gleich fein. */
+const FIGF=.75;
+function figKlein(e){if(!e||e.fk)return e;const sk=c=>{const o=document.createElement('canvas');o.width=Math.max(1,Math.round(c.width*FIGF));o.height=Math.max(1,Math.round(c.height*FIGF));
+  const g=o.getContext('2d');g.imageSmoothingQuality='high';g.drawImage(c,0,0,o.width,o.height);return o;};
+  e.c=sk(e.c);if(e.w)e.w=sk(e.w);e.ax=Math.round(e.ax*FIGF);e.ay=Math.round(e.ay*FIGF);e.fk=1;return e;}
 function pxSpr(e,f){if(e&&e.c&&!e.px){e.c=pxl(e.c,f);if(e.w)e.w=pxl(e.w,f);e.px=1;}return e;}
 function toCanvas(b){const c=document.createElement('canvas');c.width=b.w;c.height=b.h;c.getContext('2d').putImageData(new ImageData(b.d,b.w,b.h),0,0);return c;}
 
@@ -1485,10 +1491,10 @@ function charSprite(key,f){
   if(!e&&d.t==='human'){e=humanHD(d,f);}
   if(!e&&HD[d.t]){e=HD[d.t](d,f);}
   if(e&&!e.w){const wc=document.createElement('canvas');wc.width=e.c.width;wc.height=e.c.height;const w2=wc.getContext('2d');
-    w2.drawImage(e.c,0,0);w2.globalCompositeOperation='source-in';w2.fillStyle='#fff';w2.fillRect(0,0,wc.width,wc.height);e.w=wc;SPR.set(ck,PIX?pxSpr(e,PXF):e);}
+    w2.drawImage(e.c,0,0);w2.globalCompositeOperation='source-in';w2.fillStyle='#fff';w2.fillRect(0,0,wc.width,wc.height);e.w=wc;SPR.set(ck,PIX?pxSpr(figKlein(e),PXF):figKlein(e));}
   if(!e){const s=(d.s||1)*RES,z=SIZES[d.t];e={c:makeSprite(Math.ceil(z[0]*s)+2,Math.ceil(z[1]*s)+2,P=>PAINT[d.t](P,d,f),{s,seed:f+3}),ax:Math.round(z[2]*s),ay:Math.round(z[3]*s)};
     const wc=document.createElement('canvas');wc.width=e.c.width;wc.height=e.c.height;const w2=wc.getContext('2d');
-    w2.drawImage(e.c,0,0);w2.globalCompositeOperation='source-in';w2.fillStyle='#fff';w2.fillRect(0,0,wc.width,wc.height);e.w=wc;SPR.set(ck,PIX?pxSpr(e,PXF):e);}
+    w2.drawImage(e.c,0,0);w2.globalCompositeOperation='source-in';w2.fillStyle='#fff';w2.fillRect(0,0,wc.width,wc.height);e.w=wc;SPR.set(ck,PIX?pxSpr(figKlein(e),PXF):figKlein(e));}
   return e;
 }
 function spriteOnce(key,w,h,paint,ax,ay,opt={}){let e=SPR.get(key);
@@ -3601,7 +3607,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 109</div>
+  overlay(`<h1>Grauufer 1.0</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 110</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -3658,7 +3664,7 @@ function frameOf(o,now,moving){if(o.lg&&now-o.lg.t<200&&now-o.lg.t>=0)return 4;r
 function lungeOff(o,now){if(!o.lg)return[0,0];const k=(now-o.lg.t)/180;if(k>=1||k<0)return[0,0];const a=Math.sin(Math.PI*k)*.3,q=iso(o.lg.dx,o.lg.dy);return[Math.round(q.x*a),Math.round(q.y*a)];}
 const flashOf=(o,now)=>{if(!o.flash)return 0;const d=now-o.flash;return d<0||d>220?0:(1-d/220)*.85;};
 function drawFigure(o,key,now,t){
-  const q=iso(o.rx,o.ry),[ox,oy]=lungeOff(o,now),mv=Math.abs(o.x-o.rx)+Math.abs(o.y-o.ry)>.05,d=CH[key]||CH.player,s=(d.s||1)*RES;{const te=elev(o.rx,o.ry);o.re=o.re===undefined?te:o.re+(te-o.re)*.25;if(Math.abs(o.re-te)<1)o.re=te;}q.y-=o.re;
+  const q=iso(o.rx,o.ry),[ox,oy]=lungeOff(o,now),mv=Math.abs(o.x-o.rx)+Math.abs(o.y-o.ry)>.05,d=CH[key]||CH.player,s=(d.s||1)*RES*FIGF;{const te=elev(o.rx,o.ry);o.re=o.re===undefined?te:o.re+(te-o.re)*.25;if(Math.abs(o.re-te)<1)o.re=te;}q.y-=o.re;
   const da=o.dead?Math.min(1,Math.max(0,(now-(o.deadAt||0))/600)):0,al=1-da,x=q.x+ox,y=q.y+oy+Math.round(da*4*RES);
   pxEll(q.x,q.y,Math.round(7*s),Math.round(3*s),`rgba(0,0,0,${.4*al})`);
   const isT=!o.dead&&G.target&&o.id===G.target;
@@ -4248,9 +4254,9 @@ function draw0(t,now,dt){
   const fs=clamp(Math.round(Math.min(cw,ch)/48),13,18);
   const label=(txt,x,y,col,size)=>{ctx.font=`500 ${size||fs}px "Pixelify Sans",monospace`;ctx.fillStyle='#120804';
     ctx.fillText(txt,x+2,y+2);ctx.fillText(txt,x-1,y);ctx.fillText(txt,x+1,y);ctx.fillText(txt,x,y-1);ctx.fillStyle=col;ctx.fillText(txt,x,y);};
-  if(!uiOpen&&G.target){const e=ens().find(x=>x.id===G.target&&!x.dead);if(e){const q=iso(e.rx,e.ry),s2=(CH[e.k].s||1);label(`${KINDS[e.k].name} ${e.hp}/${e.maxHp}`,(q.x+offX)*K,(q.y-(e.re||0)+offY-(SIZES[CH[e.k].t][3]*s2+26)*RES)*K,'#ff9a7a');}else G.target=null;}
+  if(!uiOpen&&G.target){const e=ens().find(x=>x.id===G.target&&!x.dead);if(e){const q=iso(e.rx,e.ry),s2=(CH[e.k].s||1);label(`${KINDS[e.k].name} ${e.hp}/${e.maxHp}`,(q.x+offX)*K,(q.y-(e.re||0)+offY-(SIZES[CH[e.k].t][3]*s2*FIGF+22)*RES)*K,'#ff9a7a');}else G.target=null;}
   if(!uiOpen)PORTALS.forEach(P=>{if(cheb(P.x,P.y,p.x,p.y)<=5){const q=iso(P.x,P.y);label(P.name,(q.x+offX)*K,(q.y+offY-56*RES)*K,'#e0b8ff');}});
-  if(!uiOpen)npcs().forEach(n=>{if(cheb(n.x,n.y,p.x,p.y)<=4){const q=iso(n.rx,n.ry);label(n.name,(q.x+offX)*K,(q.y+offY-34*RES)*K,'#e0d2b4');}});
+  if(!uiOpen)npcs().forEach(n=>{if(cheb(n.x,n.y,p.x,p.y)<=4){const q=iso(n.rx,n.ry);label(n.name,(q.x+offX)*K,(q.y+offY-28*RES)*K,'#e0d2b4');}});
   for(let i=floats.length-1;i>=0;i--){const f=floats[i],age=(now-f.born)/900;if(age>=1){floats.splice(i,1);continue;}if(age<0)continue;
     const q=iso(f.x,f.y);q.y-=elev(f.x,f.y);ctx.globalAlpha=1-age;label(f.text,(q.x+offX)*K,(q.y+offY-(36+age*12)*RES)*K,f.color,fs+2);}
   ctx.globalAlpha=1;

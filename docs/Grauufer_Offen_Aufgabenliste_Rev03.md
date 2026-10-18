@@ -1,6 +1,6 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 2**, Stand: Spiel-Rev 109. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 3**, Stand: Spiel-Rev 110. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
@@ -56,5 +56,6 @@
 
 - Auf dem Tablet bestätigen, dass die schwarzen Ränder weg sind (Spiel-Rev 108).
 - Die fünf Häuser in Grauufer im Spiel ansehen (Spiel-Rev 109) und entscheiden: so lassen, im Haus-Baukasten ändern oder weitere Häuser ergänzen; auf dem Tablet auf Ruckeln achten.
+- Figurengröße 75 % (Spiel-Rev 110) auf dem Tablet prüfen: gut zu erkennen und anzutippen?
 - Ein Haus über „Über GitHub an Claudia senden“ testweise abschicken.
 - Claude-Seite „Grauufer Haus-Baukasten“ mit dem Mitbenutzer teilen (Teilen → Rolle Bearbeiter, kein öffentlicher Link), falls er sie statt der GitHub-Seite nutzen soll.
