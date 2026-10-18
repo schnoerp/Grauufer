@@ -51,6 +51,8 @@ input[type=range]{width:100%}
   <label>Dachform</label><select id="dachform"><option value="sattel">Satteldach (mit Giebeln)</option><option value="walm">Walmdach (rundum geneigt)</option></select>
   <label>First</label><select id="first"><option value="x">entlang der Breite</option><option value="z">entlang der Tiefe</option></select>
   <label>Verwitterung: <span id="vw"></span></label><input id="verwitterung" type="range" min="0" max="1" step="0.25">
+  <label>Geschosse</label><select id="geschosse"><option value="1">1 – nur Erdgeschoss</option><option value="2">2 – Erdgeschoss und Obergeschoss</option><option value="3">3 – Erdgeschoss und zwei Obergeschosse</option></select>
+  <label class="reihe"><span>Dachboden begehbar</span><input id="dachboden" type="checkbox" style="flex:0 0 22px;height:22px"></label>
   <label class="reihe"><span>Schornstein</span><input id="schornstein" type="checkbox" style="flex:0 0 22px;height:22px"></label>
   <h2 style="margin-top:14px">Ansicht</h2>
   <div class="reihe"><button id="aussen" class="an">Außen</button><button id="innen">Innen</button></div>
@@ -59,6 +61,7 @@ input[type=range]{width:100%}
 </section>
 <section class="tafel">
   <h2>Grundriss <span style="font-size:13px">(oben = hinten, unten = vorn mit Blick zur Kamera)</span></h2>
+  <div class="reihe" id="ebenen" style="margin-bottom:6px;flex-wrap:wrap"></div>
   <canvas id="plan" width="600" height="520"></canvas>
   <div class="werkzeuge" id="werkzeuge"></div>
   <p class="hinweis" id="hilfe"></p>
@@ -72,7 +75,11 @@ input[type=range]{width:100%}
 const HB=window.Hausbau,SPEICHER='grauufer-baukasten';
 const $=id=>document.getElementById(id);
 const kopie=o=>JSON.parse(JSON.stringify(o));
-let spec=kopie(HB.BEISPIEL),innen=false,drehung=0,werkzeug='fenster';
+let spec=kopie(HB.BEISPIEL),innen=false,drehung=0,werkzeug='fenster',ebene=0;
+const gsOf=o=>o.geschoss|0,mitGs=o=>{if(ebene)o.geschoss=ebene;return o;};
+// Ebenen: Geschosse (1–3) und auf Wunsch der Dachboden darüber
+const GZ=()=>Math.max(1,Math.min(3,spec.geschosse|0||1)),LZ=()=>GZ()+(spec.dachboden?1:0),istDach=()=>!!spec.dachboden&&ebene===GZ();
+const EBENEN=['Erdgeschoss','1. Obergeschoss','2. Obergeschoss'],ebName=i=>i>=GZ()?'Dachboden':EBENEN[i];
 const meldung=t=>{$('status').textContent=t;};
 // Ablage: im Browser (localStorage) oder – als Claude-Seite – im gemeinsamen Speicher (db), den Claudia lesen kann
 const slug=n=>(n||'haus').toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'haus';
@@ -95,8 +102,9 @@ const OEFF={fenster:'Fenster',tuer:'Tür',fenster_kaputt:'Fenster kaputt',fenste
 const WZ=[...Object.entries(OEFF),...Object.entries(HB.KATALOG).map(([k,v])=>[k,v.name]),['drehen','↻ Drehen'],['entfernen','✕ Entfernen']];
 const HILFE={fenster:'Tippe auf eine Wand, um dort ein Fenster einzusetzen; nochmal tippen macht wieder Wand daraus.',tuer:'Tippe auf eine Wand, um dort eine Tür einzusetzen (im Grundriss mit Türblatt und Bogen); nochmal tippen macht wieder Wand daraus.',
   fenster_kaputt:'Tippe auf eine Wand für ein kaputtes Fenster; nochmal tippen macht wieder Wand daraus.',fenster_vernagelt:'Tippe auf eine Wand für ein vernageltes Fenster; nochmal tippen macht wieder Wand daraus.',
-  drehen:'Tippe auf ein Feld, um das Teil dort zu drehen.',entfernen:'Tippe auf ein Feld, um alles darin zu entfernen.'};
-function zeigeWerkzeuge(){$('werkzeuge').innerHTML='';WZ.forEach(([k,n])=>{const b=document.createElement('button');b.textContent=n;if(OEFF[k]){const c=document.createElement('canvas');c.width=26;c.height=14;c.style.cssText='vertical-align:middle;margin-right:5px';oeffnungZeichen(c.getContext('2d'),k,1,1,24,12,'h');b.prepend(c);}b.className=k===werkzeug?'an':'';
+  drehen:'Tippe auf ein Feld, um das Teil dort zu drehen.',treppe:'Tippe auf ein Feld: Die Treppe führt in die Ebene darüber; dort entsteht an derselben Stelle das Treppenloch mit Geländer. Erneutes Tippen dreht die Laufrichtung.',entfernen:'Tippe auf ein Feld, um alles darin zu entfernen.'};
+function zeigeWerkzeuge(){$('werkzeuge').innerHTML='';const mitTreppe=ebene<LZ()-1;if((werkzeug==='treppe'&&!mitTreppe)||(OEFF[werkzeug]&&istDach()))werkzeug='bett';
+  WZ.forEach(([k,n])=>{if(k==='treppe'&&!mitTreppe)return;if(OEFF[k]&&istDach())return;const b=document.createElement('button');b.textContent=n;if(OEFF[k]){const c=document.createElement('canvas');c.width=26;c.height=14;c.style.cssText='vertical-align:middle;margin-right:5px';oeffnungZeichen(c.getContext('2d'),k,1,1,24,12,'h');b.prepend(c);}b.className=k===werkzeug?'an':'';
   b.onclick=()=>{werkzeug=k;zeigeWerkzeuge();};$('werkzeuge').appendChild(b);});
   $('hilfe').textContent=HILFE[werkzeug]||`Tippe auf ein Feld, um „${HB.KATALOG[werkzeug].name}“ zu setzen, auch außen um das Haus. Je Feld ein Möbelstück`+(HB.KATALOG[werkzeug].zusatz?'; dieses Teil darf zusätzlich zu einem Möbelstück stehen':'; Teppich, Kessel, Wandbrett und Waffen dürfen dazukommen')+'. Erneutes Tippen dreht das Teil, ein anderes Möbelstück ersetzt es.';}
 
@@ -109,14 +117,14 @@ function oeffnungZeichen(g,art,x,y,w,h,dir){
   if(art==='fenster_kaputt'){g.strokeStyle='#111';g.lineWidth=2.5;g.beginPath();g.moveTo(x,y);g.lineTo(x+w,y+h);g.moveTo(x+w,y);g.lineTo(x,y+h);g.stroke();}
   if(art==='fenster_vernagelt'){g.strokeStyle='#5a3a1a';g.lineWidth=2;g.beginPath();for(let i=0;i<3;i++){const k=(i+.5)/3;if(dir==='h'){g.moveTo(x+w*k-3,y);g.lineTo(x+w*k+3,y+h);}else{g.moveTo(x,y+h*k-3);g.lineTo(x+w,y+h*k+3);}}g.stroke();}}
 const plan=$('plan'),pg=plan.getContext('2d');let cs=40;
-const KURZ={bett:'Bett',truhe:'Tru',schrank:'Schr',regal:'Reg',kamin:'Kam',wandbrett:'Brett',waffen:'Waf',tisch:'Tisch',faesser:'Fäs',kiste:'Kis',saecke:'Sä',hocker:'Ho',teppich:'Tep',kessel:'Kes',stuhl:'Stu',besen:'Bes',brennholz:'Holz'};
+const KURZ={treppe:'Trep',bett:'Bett',truhe:'Tru',schrank:'Schr',regal:'Reg',kamin:'Kam',wandbrett:'Brett',waffen:'Waf',tisch:'Tisch',faesser:'Fäs',kiste:'Kis',saecke:'Sä',hocker:'Ho',teppich:'Tep',kessel:'Kes',stuhl:'Stu',besen:'Bes',brennholz:'Holz'};
 function zeichnePlan(){const B=spec.breite,D=spec.tiefe,tafel=plan.parentElement,breit=tafel.clientWidth-22;
   let hoch=520;if(window.innerWidth>1000){const rest=tafel.scrollHeight-plan.offsetHeight;hoch=tafel.clientHeight-rest-8;}
   cs=Math.max(18,Math.floor(Math.min(breit/(B+2),Math.max(120,hoch)/(D+2),70)));plan.width=cs*(B+2);plan.height=cs*(D+2);
   pg.fillStyle='#5a6a34';pg.fillRect(0,0,plan.width,plan.height);
   for(let x=-1;x<=B;x++)for(let z=-1;z<=D;z++){const drin=x>=0&&x<B&&z>=0&&z<D;pg.fillStyle=drin?((x+z)%2?'#8a6438':'#94703f'):((x+z)%2?'#62723a':'#5a6a34');pg.fillRect((x+1)*cs,(z+1)*cs,cs,cs);}
   pg.strokeStyle='#3a3026';pg.lineWidth=Math.max(5,cs*.16);pg.strokeRect(cs,cs,B*cs,D*cs);
-  (spec.oeffnungen||[]).forEach(o=>{const f=o.feld,t=Math.max(8,cs*.2),L=cs*.7,a=(f+1.15)*cs;let x,y,w,h,dir;
+  (spec.oeffnungen||[]).filter(o=>gsOf(o)===ebene).forEach(o=>{const f=o.feld,t=Math.max(8,cs*.2),L=cs*.7,a=(f+1.15)*cs;let x,y,w,h,dir;
     if(o.seite==='hinten'){x=a;y=cs-t/2;w=L;h=t;dir='h';}else if(o.seite==='vorn'){x=a;y=(D+1)*cs-t/2;w=L;h=t;dir='h';}
     else if(o.seite==='links'){x=cs-t/2;y=a;w=t;h=L;dir='v';}else{x=(B+1)*cs-t/2;y=a;w=t;h=L;dir='v';}
     if(o.art==='tuer'){// Türöffnung: Lücke in der Wand, Türblatt und Schwenkbogen ins Haus
@@ -127,7 +135,11 @@ function zeichnePlan(){const B=spec.breite,D=spec.tiefe,tafel=plan.parentElement
       pg.arc(hx,hz,r,Math.min(a0,a1),Math.max(a0,a1));pg.stroke();pg.setLineDash([]);
     }
     else oeffnungZeichen(pg,o.art,x,y,w,h,dir);});
-  const proFeld={};(spec.einrichtung||[]).forEach(e=>{const k=e.x+','+e.z;(proFeld[k]=proFeld[k]||[]).push(e);});
+  const drinF=e=>e.x>=0&&e.x<B&&e.z>=0&&e.z<D;
+  if(ebene)(spec.einrichtung||[]).filter(e=>e.art==='treppe'&&gsOf(e)===ebene-1&&drinF(e)).forEach(e=>{const px=(e.x+1)*cs,pz=(e.z+1)*cs;pg.fillStyle='rgba(20,12,4,.55)';pg.fillRect(px+3,pz+3,cs-6,cs-6);
+    pg.strokeStyle='#d8b070';pg.lineWidth=2;pg.beginPath();for(let i=1;i<6;i++){const q=i/6;if(e.dreh%2){pg.moveTo(px+q*cs,pz+4);pg.lineTo(px+q*cs,pz+cs-4);}else{pg.moveTo(px+4,pz+q*cs);pg.lineTo(px+cs-4,pz+q*cs);}}pg.stroke();
+    pg.font=`${Math.max(10,cs*.2)}px 'Pixelify Sans',sans-serif`;pg.fillStyle='#f6e8c8';pg.textAlign='center';pg.textBaseline='middle';pg.fillText('Loch',px+cs/2,pz+cs/2);});
+  const proFeld={};(spec.einrichtung||[]).filter(e=>drinF(e)?gsOf(e)===ebene:!ebene).forEach(e=>{const k=e.x+','+e.z;(proFeld[k]=proFeld[k]||[]).push(e);});
   pg.textAlign='center';pg.textBaseline='middle';
   for(const k in proFeld){const[x,z]=k.split(',').map(Number),l=proFeld[k],cx=(x+1.5)*cs,cz=(z+1.5)*cs;
     pg.fillStyle='rgba(255,220,140,.18)';pg.fillRect((x+1)*cs+2,(z+1)*cs+2,cs-4,cs-4);
@@ -144,25 +156,31 @@ plan.addEventListener('click',ev=>{const r=plan.getBoundingClientRect(),fx=(ev.c
   if(OEFF[werkzeug]){let seite=null,feld=0;const tol=.35;
     if(Math.abs(fz)<tol&&fx>0&&fx<B){seite='hinten';feld=Math.floor(fx);}else if(Math.abs(fz-D)<tol&&fx>0&&fx<B){seite='vorn';feld=Math.floor(fx);}
     else if(Math.abs(fx)<tol&&fz>0&&fz<D){seite='links';feld=Math.floor(fz);}else if(Math.abs(fx-B)<tol&&fz>0&&fz<D){seite='rechts';feld=Math.floor(fz);}
-    if(!seite)return;const i=spec.oeffnungen.findIndex(o=>o.seite===seite&&o.feld===feld),alt=i<0?'wand':spec.oeffnungen[i].art;
-    if(i>=0)spec.oeffnungen.splice(i,1);if(alt!==werkzeug)spec.oeffnungen.push({seite,feld,art:werkzeug});}
-  else{const x=Math.floor(fx),z=Math.floor(fz);if(x<-1||x>B||z<-1||z>D)return;const hier=spec.einrichtung.filter(e=>e.x===x&&e.z===z);
+    if(!seite)return;const i=spec.oeffnungen.findIndex(o=>o.seite===seite&&o.feld===feld&&gsOf(o)===ebene),alt=i<0?'wand':spec.oeffnungen[i].art;
+    if(i>=0)spec.oeffnungen.splice(i,1);if(alt!==werkzeug)spec.oeffnungen.push(mitGs({seite,feld,art:werkzeug}));}
+  else{const x=Math.floor(fx),z=Math.floor(fz);if(x<-1||x>B||z<-1||z>D)return;const drin=x>=0&&x<B&&z>=0&&z<D;
+    if(ebene&&!drin){meldung('Oben gibt es nur Felder im Haus.');return;}
+    if(ebene&&spec.einrichtung.some(e=>e.art==='treppe'&&gsOf(e)===ebene-1&&e.x===x&&e.z===z)){meldung('Hier ist das Treppenloch.');return;}
+    if(werkzeug==='treppe'&&!drin){meldung('Die Treppe muss im Haus stehen.');return;}
+    const imFeld=e=>e.x===x&&e.z===z&&(drin?gsOf(e)===ebene:true),hier=spec.einrichtung.filter(imFeld);
     if(werkzeug==='drehen'){if(hier.length)hier[hier.length-1].dreh=(hier[hier.length-1].dreh+1)&3;}
-    else if(werkzeug==='entfernen'){spec.einrichtung=spec.einrichtung.filter(e=>!(e.x===x&&e.z===z));}
+    else if(werkzeug==='entfernen'){spec.einrichtung=spec.einrichtung.filter(e=>!imFeld(e));}
     else if(hier.some(e=>e.art===werkzeug)){const e=hier.find(e=>e.art===werkzeug);e.dreh=(e.dreh+1)&3;}
     else{let dreh=0;if(x<0)dreh=1;else if(x>=B)dreh=3;else if(z<0)dreh=0;else if(z>=D)dreh=2;
       else if(HB.KATALOG[werkzeug].wand){const ab=[z,x,D-1-z,B-1-x];dreh=ab.indexOf(Math.min(...ab));}
       // je Feld ein Hauptteil und ein Zusatzteil: ein Teil derselben Sorte wird ersetzt
-      const zus=!!HB.KATALOG[werkzeug].zusatz;spec.einrichtung=spec.einrichtung.filter(e=>!(e.x===x&&e.z===z&&!!HB.KATALOG[e.art].zusatz===zus));
-      spec.einrichtung.push({art:werkzeug,x,z,dreh});}}
+      const zus=!!HB.KATALOG[werkzeug].zusatz;spec.einrichtung=spec.einrichtung.filter(e=>!(imFeld(e)&&!!HB.KATALOG[e.art].zusatz===zus));
+      spec.einrichtung.push(drin?mitGs({art:werkzeug,x,z,dreh}):{art:werkzeug,x,z,dreh});}}
   geaendert();});
 
 // ---------- Vorschau ----------
 const ansicht=$('ansicht');let warte=0,szene=null;
 try{szene=HB.Szene(ansicht);}catch(e){ansicht.insertAdjacentHTML('afterend','<p class="hinweis">Die 3D-Vorschau braucht WebGL; dieser Browser stellt es nicht bereit.</p>');}
-function rendere(){if(!szene)return;const r=ansicht.getBoundingClientRect();szene.renderer.setPixelRatio(1);szene.renderer.setSize(Math.max(200,r.width|0),Math.max(200,r.height|0),false);szene.zeige(spec,innen,drehung);}
-function geaendert(){spec.einrichtung=HB.bereinige(spec.einrichtung);try{localStorage.setItem(SPEICHER+'-zuletzt',JSON.stringify(spec));}catch(e){}felder();zeichnePlan();clearTimeout(warte);warte=setTimeout(rendere,120);}
-function felder(){$('name').value=spec.name||'';$('breite').textContent=spec.breite;$('tiefe').textContent=spec.tiefe;$('wand').value=spec.wand;$('dach').value=spec.dach;
+function rendere(){if(!szene)return;const r=ansicht.getBoundingClientRect();szene.renderer.setPixelRatio(1);szene.renderer.setSize(Math.max(200,r.width|0),Math.max(200,r.height|0),false);szene.zeige(spec,innen,drehung,undefined,ebene);}
+function geaendert(){if(ebene>LZ()-1)ebene=LZ()-1;zeigeWerkzeuge();spec.einrichtung=HB.bereinige(spec.einrichtung);try{localStorage.setItem(SPEICHER+'-zuletzt',JSON.stringify(spec));}catch(e){}felder();zeichnePlan();clearTimeout(warte);warte=setTimeout(rendere,120);}
+function felder(){$('geschosse').value=String(GZ());$('dachboden').checked=!!spec.dachboden;const eb=$('ebenen');eb.hidden=LZ()<2;eb.innerHTML='';
+  for(let i=0;i<LZ();i++){const b=document.createElement('button');b.textContent=ebName(i);b.className=i===ebene?'an':'';b.onclick=()=>{ebene=i;geaendert();};eb.appendChild(b);}
+  $('innen').textContent=LZ()>1?'Innen ('+['EG','1. OG','2. OG'][ebene]+')':'Innen';if(istDach())$('innen').textContent='Innen (Dachboden)';$('name').value=spec.name||'';$('breite').textContent=spec.breite;$('tiefe').textContent=spec.tiefe;$('wand').value=spec.wand;$('dach').value=spec.dach;
   $('first').value=spec.first||'x';$('dachform').value=spec.dachform||(spec.dach==='reet'?'walm':'sattel');$('verwitterung').value=spec.verwitterung;$('vw').textContent=['neu','gepflegt','gebraucht','verwittert','verfallen'][Math.round(spec.verwitterung*4)];
   $('schornstein').checked=!!spec.schornstein;$('aussen').className=innen?'':'an';$('innen').className=innen?'an':'';
   const l=Ablage.haeuser;$('liste').innerHTML='<option value="">Gespeicherte Häuser …</option>'+Object.keys(l).sort().map(n=>`<option>${n.replace(/</g,'&lt;')}</option>`).join('');$('liste').value=l[spec.name]?spec.name:'';}
@@ -173,7 +191,9 @@ document.querySelectorAll('[data-z]').forEach(b=>b.onclick=()=>{const[k,d]=b.dat
 $('verwitterung').oninput=()=>{spec.verwitterung=+$('verwitterung').value;geaendert();};
 $('schornstein').onchange=()=>{spec.schornstein=$('schornstein').checked;geaendert();};
 $('name').onchange=()=>{spec.name=$('name').value.trim()||'Haus';geaendert();};
-$('aussen').onclick=()=>{innen=false;geaendert();};$('innen').onclick=()=>{innen=true;geaendert();};
+$('aussen').onclick=()=>{innen=false;geaendert();};
+$('geschosse').onchange=()=>{spec.geschosse=+$('geschosse').value;geaendert();};
+$('dachboden').onchange=()=>{spec.dachboden=$('dachboden').checked;geaendert();};$('innen').onclick=()=>{innen=true;geaendert();};
 $('links').onclick=()=>{drehung=(drehung+3)&3;geaendert();};$('rechts').onclick=()=>{drehung=(drehung+1)&3;geaendert();};
 $('neu').onclick=()=>{spec={name:'Neues Haus',breite:4,tiefe:3,wand:'fachwerk',dach:'schiefer',first:'x',verwitterung:.5,schornstein:false,oeffnungen:[{seite:'vorn',feld:1,art:'tuer'}],einrichtung:[]};geaendert();};
 $('beispiel').onclick=()=>{spec=kopie(HB.BEISPIEL);geaendert();};
