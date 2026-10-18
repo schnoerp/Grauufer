@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0.116</title>
+<title>Grauufer 1.0.117</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -303,6 +303,10 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom,body.talk .orb{d
 <script>
 //#MAPS-BEGIN
 const CANY=[];
+/* Rev 117: Jedes Flussende mündet in einen kleinen See (statt aus der Erde zu kommen); Orte und Wege werden danach darübergelegt */
+function teiche(m,f,segs,inR){for(const[a,b]of segs){if(b-a<2)continue;for(const[xe,sg]of[[a,-1],[b,1]]){const cx=xe+sg*1.5,cy=f(xe);
+  for(let y=Math.floor(cy-3);y<=Math.ceil(cy+3);y++)for(let x=Math.floor(cx-4);x<=Math.ceil(cx+4);x++){const dx=(x-cx)/3.4,dy=(y-cy)/2.3;if(dx*dx+dy*dy>1||inR(x,y))continue;
+    const c=m.get(x,y);if(c&&'.TBMVqcyrpk'.includes(c))m.set(x,y,'~');}}}}
 const cheb=(ax,ay,bx,by)=>Math.max(Math.abs(ax-bx),Math.abs(ay-by));
 function hash(x,y){let n=(x*374761393+y*668265263)|0;n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967295;}
 function vnoise(x,y,sd){const xi=Math.floor(x),yi=Math.floor(y),fx=x-xi,fy=y-yi,sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy);
@@ -448,7 +452,7 @@ function buildOst(){const m=grid(26,14,'.','.');m.rect(16,6,22,11,'G');m.set(19,
   m.hut(13,2);m.hut(4,10);m.rect(12,0,12,8,',');m.rect(10,8,16,8,',');m.list([[0,0],[25,0],[24,4],[1,8],[23,2]],'T');m.list([[2,13],[9,13],[15,13],[24,13]],'B');return m.g;}
 function buildMira(){const m=grid(7,7,'.','.');m.hut(2,1);return m.g;}
 const WALK=new Set(['Y','E','.',',','s','_','f','d','k','r','p','b','M','S','y','i','V','h','H','O','G']);
-const LOWC='Vq',isBr=c=>c==='h'||c==='H';
+const LOWC='',/* Rev 117: Flüsse ohne Höhensprung – Ufer und Brücken frei begehbar */isBr=c=>c==='h'||c==='H';
 function edgeOK(g,ax,ay,bx,by){const a=g[ay][ax],b=g[by][bx];return!((isBr(a)&&LOWC.includes(b))||(isBr(b)&&LOWC.includes(a)));}
 /* Gebiete und ihre Lage in der offenen Welt */
 const REGIONS={
@@ -545,7 +549,8 @@ function buildOld(){
     for(let x=x0;x<=x1;x++){const yc=Math.round(y0+amp*Math.sin(x/per+sd)+amp*.45*Math.sin(x/(per*.37)+sd*2));
     for(let dy=-2;dy<=2;dy++){const y=yc+dy;if(y<2||y>=101||inReg(x,y))continue;m.set(x,y,dy===0?'q':'V');}
     if((x-x0)%24===12){const ok=[-3,-4,3,4].every(dy=>{const y=yc+dy;return y>1&&y<102&&!inReg(x,y)&&!'q~vS'.includes(m.get(x,y))&&!inReg(x,yc);});
-      if(ok){for(let dy=-2;dy<=2;dy++)m.set(x,yc+dy,dy===0?'H':'h');for(const dy of[-3,-4,3,4]){const c=m.get(x,yc+dy);if('TBMVc'.includes(c))m.set(x,yc+dy,'.');}}}}};
+      if(ok){for(let dy=-1;dy<=1;dy++)m.set(x,yc+dy,dy===0?'H':'h');for(const dy of[-2,-3,-4,2,3,4]){const c=m.get(x,yc+dy);if('TBMVc'.includes(c))m.set(x,yc+dy,Math.abs(dy)===2?'V':'.');}}}
+    teiche(m,f,segs,(x,y)=>inReg(x,y));}};
   canyon(6,60,52,5,9,1);canyon(266,334,30,5,10,5);canyon(270,334,74,4,9,6);canyon(92,152,40,4,8,2);canyon(160,252,51,4,10,3);canyon(162,236,80,5,11,4);
   for(const id in REGIONS){if(REGIONS[id].nw)continue;const g=REGIONS[id].build(),[ox,oy]=REGIONS[id].at;
     for(let y=0;y<g.length;y++)for(let x=0;x<g[0].length;x++)m.set(ox+x,oy+y,g[y][x]);}
@@ -553,7 +558,7 @@ function buildOld(){
   S_('grau',1,21,',');S_('grau',0,21,',');S_('grau',0,22,'s');S_('grau',7,1,',');S_('grau',7,0,',');S_('grau',26,10,',');S_('grau',27,10,',');
   S_('traenen',12,22,',');S_('traenen',12,23,',');S_('glut',1,18,',');S_('glut',0,18,',');S_('sturm',12,22,',');S_('sturm',12,23,'S');
   const road=pts=>{for(let i=1;i<pts.length;i++){let[x,y]=pts[i-1];const[tx,ty]=pts[i];
-    const rs=(a,b)=>{const c=m.get(a,b);m.set(a,b,c==='~'?'b':c==='q'||c==='H'?'H':c==='V'||c==='h'?'h':',');};
+    const rs=(a,b)=>{const c=m.get(a,b);m.set(a,b,c==='~'?'b':c==='q'||c==='H'?'H':c==='h'?'h':',');};
     while(x!==tx||y!==ty){rs(x,y);if(x!==tx)x+=Math.sign(tx-x);else y+=Math.sign(ty-y);}rs(tx,ty);}};
   road([[26,94],[26,104],[65,104],[65,103]]);
   road([[73,81],[73,50],[80,50],[80,30]]);
@@ -622,11 +627,12 @@ function buildWorld(){
   const canyon=(x0,x1,y0,amp,per,sd)=>{const f=x=>y0+amp*Math.sin(x/per+sd)+amp*.45*Math.sin(x/(per*.37)+sd*2),segs=[];let st=null;
     for(let x=x0;x<=x1+1;x++){if(x<=x1&&st===null)st=x;if(x>x1&&st!==null){segs.push([st,x-1]);st=null;}}CANY.push({f,segs});
     for(let x=x0;x<=x1;x++){const yc=Math.round(f(x));for(let dy=-2;dy<=2;dy++)m.set(x,yc+dy,dy===0?'q':'V');
-      if((x-x0)%24===12){for(let dy=-2;dy<=2;dy++)m.set(x,yc+dy,dy===0?'H':'h');for(const dy of[-3,-4,3,4]){if('TBMVcs~'.includes(m.get(x,yc+dy)))m.set(x,yc+dy,'r');}}}};
+      if((x-x0)%24===12){for(let dy=-1;dy<=1;dy++)m.set(x,yc+dy,dy===0?'H':'h');for(const dy of[-3,-4,3,4]){if('TBMVcs~'.includes(m.get(x,yc+dy)))m.set(x,yc+dy,'r');}}}
+    teiche(m,f,segs,()=>false);};
   canyon(352,548,150,5,11,7);canyon(356,548,198,4,9,8);canyon(250,440,30,4,10,9);
   for(const id in REGIONS){const R=REGIONS[id];if(!R.nw)continue;const g2=R.build(),[ox,oy]=R.at;for(let y=0;y<g2.length;y++)for(let x=0;x<g2[0].length;x++)m.set(ox+x,oy+y,g2[y][x]);}
   const road=pts=>{for(let i=1;i<pts.length;i++){let[x,y]=pts[i-1];const[tx,ty]=pts[i];
-    const rs=(a,b)=>{const c=m.get(a,b);m.set(a,b,c==='~'?'b':c==='q'||c==='H'?'H':c==='V'||c==='h'?'h':',');};
+    const rs=(a,b)=>{const c=m.get(a,b);m.set(a,b,c==='~'?'b':c==='q'||c==='H'?'H':c==='h'?'h':',');};
     while(x!==tx||y!==ty){rs(x,y);if(x!==tx)x+=Math.sign(tx-x);else y+=Math.sign(ty-y);}rs(tx,ty);}};
   road([[110,58],[110,60]]);road([[340,88],[340,90]]);road([[560,58],[560,60]]);road([[420,180],[420,182]]);road([[618,205],[618,207]]);road([[45,152],[45,120],[45,60],[214,60]]);road([[229,159],[214,159],[214,90],[560,90],[560,60]]);
   road([[303,182],[420,182],[420,205],[620,205]]);road([[340,90],[340,120],[345,120],[345,182]]);
@@ -1768,8 +1774,8 @@ function initMtn(){MHT=new Float32Array(W*H);const D=new Int16Array(W*H).fill(99
   for(let y=VOLC.y-15;y<=VOLC.y+15;y++)for(let x=VOLC.x-15;x<=VOLC.x+15;x++)if(map[y]&&map[y][x]==='M'){const dd=Math.hypot(x-VOLC.x,(y-VOLC.y)*1.05),k=Math.max(0,Math.min(1,(13.4-dd)/7.6));
     const fr=(x-VOLC.x)+(y-VOLC.y)>1?.5:1;MHT[y*W+x]=(dd<5.6?172+vnoise(x/2,y/2,99)*10:30+220*Math.pow(k,1.3)*fr+vnoise(x/2.5,y/2.5,97)*18)*RES;}
     else if(map[y]&&map[y][x]==='L')MHT[y*W+x]=158*RES;}
-const VD=30*RES;/* Rev 116: Täler tiefer (vorher 24) */
-function elev(fx,fy){if(!MHT)initMtn();const tx=Math.round(fx),ty=Math.round(fy);if(!map[ty])return 0;const c0=map[ty][tx];if(c0==='V'||c0==='q')return -VD;if(c0!=='M')return 0;
+const VD=0;/* Rev 117: Flüsse liegen auf Bodenhöhe (bis Rev 116 Täler 24–30 Einheiten tief) */
+function elev(fx,fy){if(!MHT)initMtn();const tx=Math.round(fx),ty=Math.round(fy);if(!map[ty])return 0;const c0=map[ty][tx];if(c0==='V'||c0==='q')return 0;if(c0!=='M')return 0;
   const i=Math.floor(fx-.5),j=Math.floor(fy-.5),u=fx-.5-i,v=fy-.5-j,a=cornerH(i,j),b=cornerH(i+1,j),c=cornerH(i,j+1),d=cornerH(i+1,j+1);
   return a*(1-u)*(1-v)+b*u*(1-v)+c*(1-u)*v+d*u*v;}
 function cornerH(x,y){let s2=0;for(const[a,b]of[[x,y],[x+1,y],[x,y+1],[x+1,y+1]])if(a>=0&&b>=0&&a<W&&b<H)s2+=MHT[b*W+a];return s2/4;}
@@ -1835,7 +1841,7 @@ function drawBridge(x,y,q){
   const C=ax==='y'?[[-w,-.5],[w,-.5],[w,.5],[-w,.5]]:[[-.5,-w],[.5,-w],[.5,w],[-.5,w]];
   const prevBr=ax==='y'?isBr(map[y-1][x]):isBr(map[y][x-1]),nextBr=ax==='y'?isBr(map[y+1][x]):isBr(map[y][x+1]);
   /* Stützen: nur über dem Talboden, unter beiden Längsträgern */
-  if(c==='h'){const sp=ax==='y'?[[-w,0],[w,0]]:[[0,-w],[0,w]];sp.forEach(([dx,dy])=>{const a2=P(dx,dy,-T);
+  if(c==='h'&&D>0){const sp=ax==='y'?[[-w,0],[w,0]]:[[0,-w],[0,w]];sp.forEach(([dx,dy])=>{const a2=P(dx,dy,-T);
     const gr=lx.createLinearGradient(a2[0]-2*RES,0,a2[0]+2*RES,0);gr.addColorStop(0,'#6a4628');gr.addColorStop(1,'#2e1c0e');lx.fillStyle=gr;lx.fillRect(a2[0]-2*RES,a2[1],4*RES,D-T+2*RES);
     lx.fillStyle='#2a1a0c';lx.fillRect(a2[0]-3*RES,a2[1]+D-T-1*RES,6*RES,3*RES);});
     const k1=P(ax==='y'?-w:0,ax==='y'?0:-w,-T-D*.45),k2=P(ax==='y'?w:0,ax==='y'?0:w,-T-D*.45);lx.strokeStyle='#4a2e16';lx.lineWidth=1.6*RES;lx.beginPath();lx.moveTo(...P(ax==='y'?-w:0,ax==='y'?0:-w,-T));lx.lineTo(...k2);lx.moveTo(...P(ax==='y'?w:0,ax==='y'?0:w,-T));lx.lineTo(...k1);lx.stroke();}
@@ -1853,11 +1859,11 @@ function drawBridge(x,y,q){
     lx.strokeStyle='#4a2e16';lx.lineWidth=.7*RES;const m0=P(...at(-.5),H2*.5),m1=P(...at(.5),H2*.5);lx.beginPath();lx.moveTo(...m0);lx.lineTo(...m1);lx.stroke();
     lx.strokeStyle='#3a2410';lx.lineWidth=1.8*RES;lx.beginPath();lx.moveTo(...a0);lx.lineTo(...h0);if(!nextBr){lx.moveTo(...a1);lx.lineTo(...h1);}lx.stroke();});
   /* Widerlager am Ufer: Steinsockel am Brückenanfang/-ende */
-  /* Rev 116: gemauerte Widerlager – hinten als Mauerwerk an der Talwand unter dem Deck, vorn als Steinblock mit Auflage auf festem Boden */
+  /* Rev 116/117: gemauerte Widerlager – an beiden Brückenenden ein Steinblock mit Auflage auf festem Boden */
   const A2=(u,v,h)=>ax==='y'?P(u,v,h):P(v,u,h),wb=w+.1,mauer=(pts,col)=>{poly(pts,col);lx.save();lx.beginPath();lx.moveTo(...pts[0]);pts.slice(1).forEach(p2=>lx.lineTo(...p2));lx.closePath();lx.clip();
     lx.strokeStyle='rgba(20,16,22,.55)';lx.lineWidth=.6*RES;const ys=pts.map(p2=>p2[1]),y0=Math.min(...ys),y1=Math.max(...ys),xs=pts.map(p2=>p2[0]),x0=Math.min(...xs),x1=Math.max(...xs);
     for(let yy=y0+3*RES,r=0;yy<y1;yy+=3*RES,r++){lx.beginPath();lx.moveTo(x0,yy);lx.lineTo(x1,yy);lx.stroke();for(let xx=x0+(r%2)*3*RES;xx<x1;xx+=6*RES){lx.beginPath();lx.moveTo(xx,yy-3*RES);lx.lineTo(xx,yy);lx.stroke();}}lx.restore();};
-  if(!prevBr){mauer([A2(-wb,-.5,0),A2(wb,-.5,0),A2(wb,-.5,-D),A2(-wb,-.5,-D)],'#6e6874');poly([A2(-wb,-.62,1.5*RES),A2(wb,-.62,1.5*RES),A2(wb,-.45,1.5*RES),A2(-wb,-.45,1.5*RES)],'#8a8490');}
+  if(!prevBr){const e=-.5,f=-.78,h=T+1*RES;poly([A2(-wb,e,h),A2(wb,e,h),A2(wb,f,h),A2(-wb,f,h)],'#8a8490');mauer([A2(wb,e,h),A2(wb,f,h),A2(wb,f,-1*RES),A2(wb,e,-1*RES)],'#4e4854');}
   if(!nextBr){const e=.5,f=.78,h=T+1*RES;poly([A2(-wb,e,h),A2(wb,e,h),A2(wb,f,h),A2(-wb,f,h)],'#8a8490');mauer([A2(-wb,f,h),A2(wb,f,h),A2(wb,f,-1*RES),A2(-wb,f,-1*RES)],'#5e5864');
     mauer([A2(wb,e,h),A2(wb,f,h),A2(wb,f,-1*RES),A2(wb,e,-1*RES)],'#4e4854');}}
 const FPC={};
@@ -1874,50 +1880,31 @@ function floorPat(g,zg){const k='__fp'+zg;if(g[k])return g[k];
 /* Rev 53: Schluchten segmentweise, damit der Bodenbau sie auf mehrere Bilder verteilen kann */
 function canyonSegs(x0,y0,x1,y1){const out=[];
   for(const C of CANY)for(const[a,b]of C.segs){
-    const xa=Math.max(a-.5,x0-7),xb=Math.min(b+.5,x1+7);if(xa>=xb)continue;
+    const xa=Math.max(a-1.5,x0-7),xb=Math.min(b+1.5,x1+7);if(xa>=xb)continue;
     let hit=false;for(let x=xa;x<=xb;x+=1){const yy=C.f(x);if(yy>y0-6&&yy<y1+6){hit=true;break;}}if(hit)out.push([C,a,b]);}
   return out;}
 
+/* Farbe des Flusses = mittlere Farbe der Seen (Wassertextur), damit Fluss und See ineinander übergehen */
+let FLF=null;function flussFarbe(){if(FLF)return FLF;const t=TEX.water&&TEX.water[0];if(!t)return'#1e3a64';const d=t.getContext('2d').getImageData(0,0,t.width,t.height).data;let r=0,gg=0,b=0,n=0;
+  for(let i=0;i<d.length;i+=16)if(d[i+3]>200){r+=d[i];gg+=d[i+1];b+=d[i+2];n++;}return FLF=n?`rgb(${r/n|0},${gg/n|0},${b/n|0})`:'#1e3a64';}
 function drawCanyonSeg(g,C,a,b,x0,y0,x1,y1){
-  const D=VD,HW=2.55,Wp=(x,y,h)=>[(x-y)*TW/2,(x+y)*TH/2-h];
+  /* Rev 117: Fluss auf Bodenhöhe – nasses Ufer, Wasser mit Lichtreflexen, Gras an den Kanten; an den Enden mündet er in einen See */
+  const Wp=(x,y)=>[(x-y)*TW/2,(x+y)*TH/2];
   const path=(pts)=>{g.beginPath();pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.closePath();};
-  {const xa=Math.max(a-.5,x0-7),xb=Math.min(b+.5,x1+7);
-    const xs=[];for(let x=xa;x<xb;x+=.25)xs.push(x);xs.push(xb);
-    const top=xs.map(x=>[x,C.f(x)-HW]),bot=xs.map(x=>[x,C.f(x)+HW]),mid=Math.round((xa+xb)/2),zg=ZDEF[zoneAt(mid,Math.round(C.f(mid)))].ground;
-    g.save();
-    path([Wp(x0-.5,y0-.5,0),Wp(x1+.5,y0-.5,0),Wp(x1+.5,y1+.5,0),Wp(x0-.5,y1+.5,0)]);g.clip();
-    path([...top.map(([x,y])=>Wp(x,y,0)),...bot.slice().reverse().map(([x,y])=>Wp(x,y,0))]);g.clip();
-    /* Talboden */
-    path([...top.map(([x,y])=>Wp(x,y,-D)),...bot.slice().reverse().map(([x,y])=>Wp(x,y,-D))]);g.fillStyle=floorPat(g,zg);g.fill();g.fillStyle='rgba(0,0,0,.22)';g.fill();
-    /* Fluss in der Mitte, mit nassen Ufern und Lichtreflexen */
-    const rv=w=>[...xs.map(x=>Wp(x,C.f(x)-w,-D-2*RES)),...xs.slice().reverse().map(x=>Wp(x,C.f(x)+w,-D-2*RES))];
-    path(rv(1.12));g.fillStyle='rgba(30,24,18,.45)';g.fill();
-    path(rv(.95));const gr=g.createLinearGradient(0,Wp(xa,C.f(xa),-D)[1]-TH,0,Wp(xb,C.f(xb),-D)[1]+TH);gr.addColorStop(0,'#2e5274');gr.addColorStop(1,'#1c3450');g.fillStyle=gr;g.fill();
-    g.strokeStyle='rgba(170,205,230,.45)';g.lineWidth=RES*.7;g.lineCap='round';
-    for(let i=0;i<xs.length-2;i+=2){const x=xs[i],o=(hash(Math.round(x*4),7)-.5)*1.3;const p1=Wp(x,C.f(x)+o,-D-2*RES),p2=Wp(x+.45,C.f(x+.45)+o,-D-2*RES);g.beginPath();g.moveTo(...p1);g.lineTo(...p2);g.stroke();}
-    /* Schatten am Fuß der hinteren Wand */
-    g.strokeStyle='rgba(0,0,0,.32)';g.lineWidth=9*RES;g.beginPath();top.forEach(([x,y],i)=>{const p=Wp(x,y,-D);i?g.lineTo(...p):g.moveTo(...p);});g.stroke();
-    /* hintere Felswand, abschnittsweise mit Licht je nach Ausrichtung */
-    const rp=g.__rp||(g.__rp=g.createPattern(rockPattern(),'repeat'));
-    for(let i=0;i<top.length-1;i++){const[xA,yA]=top[i],[xB,yB]=top[i+1],sl=(yB-yA)/(xB-xA),col=shH('#6c5e4e',-sl*.18),pA=Wp(xA,yA,0),pB=Wp(xB,yB,0);
-      const q4=[pA,pB,[pB[0],pB[1]+D],[pA[0],pA[1]+D]];path(q4);const wg=g.createLinearGradient(0,pA[1],0,pA[1]+D);wg.addColorStop(0,shH(col,.12));wg.addColorStop(1,shH(col,-.45));
-      g.fillStyle=wg;g.fill();g.strokeStyle=g.fillStyle;g.lineWidth=1;g.stroke();g.globalAlpha=.45;g.fillStyle=rp;g.fill();g.globalAlpha=1;
-      /* Rev 116: Gesteinsschichten und senkrechte Klüfte, damit die Wand als Wand lesbar ist */
-      for(const[f,al]of[[.22,.35],[.48,.3],[.74,.25]]){const o=(hash(Math.round(xA*4),Math.round(f*10))-.5)*2*RES;g.strokeStyle=`rgba(30,22,16,${al})`;g.lineWidth=RES;g.beginPath();g.moveTo(pA[0],pA[1]+D*f+o);g.lineTo(pB[0],pB[1]+D*f+o);g.stroke();
-        g.strokeStyle='rgba(255,235,200,.12)';g.lineWidth=.6*RES;g.beginPath();g.moveTo(pA[0],pA[1]+D*f+o-RES);g.lineTo(pB[0],pB[1]+D*f+o-RES);g.stroke();}
-      if(hash(Math.round(xA*4),3)>.6){g.strokeStyle='rgba(20,14,10,.4)';g.lineWidth=.8*RES;g.beginPath();g.moveTo(pA[0],pA[1]+2*RES);g.lineTo(pA[0]+(hash(i,5)-.5)*3*RES,pA[1]+D*.7);g.stroke();}}
-    /* Anfang der Schlucht (Stirnwand) */
-    if(Math.abs(xa-(a-.5))<.01){const q4=[Wp(xa,C.f(xa)-HW,0),Wp(xa,C.f(xa)+HW,0),Wp(xa,C.f(xa)+HW,-D),Wp(xa,C.f(xa)-HW,-D)];path(q4);g.fillStyle='#4e4438';g.fill();g.globalAlpha=.3;g.fillStyle=rp;g.fill();g.globalAlpha=1;}
-    /* weiche Kanten: helle Oberkante hinten, Schattenlinie unter der vorderen Kante */
-    g.lineCap='round';g.strokeStyle='rgba(255,240,210,.35)';g.lineWidth=1.6*RES;g.beginPath();top.forEach(([x,y],i)=>{const p=Wp(x,y,0);i?g.lineTo(...p):g.moveTo(...p);});g.stroke();
-    g.strokeStyle='rgba(0,0,0,.4)';g.lineWidth=3*RES;g.beginPath();bot.forEach(([x,y],i)=>{const p=Wp(x,y,0);i?g.lineTo(...p):g.moveTo(...p);});g.stroke();
-    g.restore();
-    /* Grasüberhang an beiden Kanten (außerhalb der Öffnung, weich) */
-    g.save();path([Wp(x0-.5,y0-.5,0),Wp(x1+.5,y0-.5,0),Wp(x1+.5,y1+.5,0),Wp(x0-.5,y1+.5,0)]);g.clip();
-    if(zg!=='desert'&&zg!=='frost'){g.strokeStyle='rgba(70,86,38,.9)';g.lineWidth=RES*.6;
-      for(const edge of[top,bot])for(let i=0;i<edge.length;i++){const[x,y]=edge[i],p=Wp(x,y,0),hh=hash(Math.round(x*8),Math.round(y*8));if(hh<.35)continue;
-        g.beginPath();g.moveTo(p[0],p[1]+1*RES);g.quadraticCurveTo(p[0]+(hh-.5)*4*RES,p[1]-3*RES,p[0]+(hh-.6)*6*RES,p[1]-(3+hh*4)*RES);g.stroke();}}
-    g.restore();}
+  const xa=Math.max(a-1.5,x0-7),xb=Math.min(b+1.5,x1+7);if(xa>=xb)return;
+  const xs=[];for(let x=xa;x<xb;x+=.25)xs.push(x);xs.push(xb);
+  const mid=Math.round((xa+xb)/2),zg=ZDEF[zoneAt(mid,Math.round(C.f(mid)))].ground,band=w=>[...xs.map(x=>Wp(x,C.f(x)-w)),...xs.slice().reverse().map(x=>Wp(x,C.f(x)+w))];
+  g.save();path([Wp(x0-.5,y0-.5),Wp(x1+.5,y0-.5),Wp(x1+.5,y1+.5),Wp(x0-.5,y1+.5)]);g.clip();
+  path(band(1.35));g.fillStyle=zg==='desert'?'rgba(120,86,46,.55)':zg==='frost'?'rgba(120,130,150,.45)':'rgba(46,36,22,.5)';g.fill();
+  path(band(1.08));g.fillStyle='rgba(28,22,14,.55)';g.fill();
+  path(band(.95));g.fillStyle=flussFarbe();g.fill();
+  g.strokeStyle='rgba(170,205,230,.45)';g.lineWidth=RES*.7;g.lineCap='round';
+  for(let i=0;i<xs.length-2;i+=2){const x=xs[i],o=(hash(Math.round(x*4),7)-.5)*1.2;const p1=Wp(x,C.f(x)+o),p2=Wp(x+.45,C.f(x+.45)+o);g.beginPath();g.moveTo(...p1);g.lineTo(...p2);g.stroke();}
+  g.strokeStyle='rgba(255,240,210,.18)';g.lineWidth=RES;g.beginPath();xs.forEach((x,i)=>{const p=Wp(x,C.f(x)-.95);i?g.lineTo(...p):g.moveTo(...p);});g.stroke();
+  if(zg!=='desert'&&zg!=='frost'){g.strokeStyle='rgba(70,86,38,.9)';g.lineWidth=RES*.6;
+    for(const sg of[-1,1])for(const x of xs){const y=C.f(x)+sg*1.05,p=Wp(x,y),hh=hash(Math.round(x*8),Math.round(y*8));if(hh<.4)continue;
+      g.beginPath();g.moveTo(p[0],p[1]);g.quadraticCurveTo(p[0]+(hh-.5)*4*RES,p[1]-3*RES,p[0]+(hh-.6)*6*RES,p[1]-(3+hh*4)*RES);g.stroke();}}
+  g.restore();
 }
 const BPRIO=['water','ice','mud','dune','sand','earth','eg','grass','rs','snow','rock','ash','cavef','cobble','slate','wood'];
 const MASKS={},EDGEC=new Map();
@@ -3651,7 +3638,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 116</div>
+  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 117</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }

@@ -530,19 +530,21 @@ test('Gruft aus der Werkstatt und schlanke Stadtmauer in Sonnwacht', async ({ pa
   expect(fehler).toEqual([]);
 });
 
-test('Täler und Berge: kein Berg am Talrand, Brücken auf festem Boden mit Widerlagern', async ({ page }) => {
+test('Flüsse ohne Höhensprung, jedes Flussende mündet in einen See, kein Berg am Ufer', async ({ page }) => {
   const fehler = await frisch(page);
   const r = await page.evaluate(() => {
     const H = map.length, W = map[0].length, N4 = [[1, 0], [-1, 0], [0, 1], [0, -1]];
-    let talAmBerg = 0, brueckeAmBerg = 0, randHoch = 0;
+    let ufAmBerg = 0, brueckeAmBerg = 0, ohneSee = 0;
     for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) {
       const c = map[y][x], nb = N4.map(([a, b]) => map[y + b][x + a]);
-      if ((c === 'V' || c === 'q') && nb.includes('M')) talAmBerg++;
+      if ((c === 'V' || c === 'q') && nb.includes('M')) ufAmBerg++;
       if ((c === 'h' || c === 'H') && nb.includes('M')) brueckeAmBerg++;
-      if (c === 'M' && N4.some(([a, b]) => 'VqhH'.includes(map[y + 2 * b] && map[y + 2 * b][x + 2 * a])) && MHT[y * W + x] > 20 * RES) randHoch++;
     }
-    return { talAmBerg, brueckeAmBerg, randHoch, tiefe: VD / RES };
+    for (const C of CANY) for (const [a, b] of C.segs) { if (b - a < 2) continue;
+      for (const [xe, sg] of [[a, -1], [b, 1]]) { const cx = Math.round(xe + sg * 1.5), cy = Math.round(C.f(xe)); let w = false;
+        for (let dy = -3; dy <= 3; dy++) for (let dx = -3; dx <= 3; dx++) if (map[cy + dy] && map[cy + dy][cx + dx] === '~') w = true; if (!w) ohneSee++; } }
+    return { ufAmBerg, brueckeAmBerg, ohneSee, tiefe: VD, hoehe: elev(...(() => { for (let y = 1; y < H; y++) for (let x = 1; x < W; x++) if (map[y][x] === 'V') return [x, y]; })()) };
   });
-  expect(r).toEqual({ talAmBerg: 0, brueckeAmBerg: 0, randHoch: 0, tiefe: 30 });
+  expect(r).toEqual({ ufAmBerg: 0, brueckeAmBerg: 0, ohneSee: 0, tiefe: 0, hoehe: 0 });
   expect(fehler).toEqual([]);
 });
