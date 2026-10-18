@@ -389,6 +389,7 @@ test('Rev 122: Avatar-Baukasten baut alle Varianten, zeigt die Figur und speiche
   expect(r).toBe(64);
   expect(z).toEqual([true, 'lang', 'Testfigur', true]);
   expect(f).toEqual([true, true, 'formfeld']);
+  await page.click('[data-bw=querschnitte]'); await page.waitForFunction(() => /Querschnitten/.test(document.querySelector('#status').textContent), null, { timeout: 30000 });
   expect(fehler).toEqual([]);
 });
 
@@ -401,6 +402,22 @@ test('Rev 123: Probe Formfeld baut eine geschlossene, durchgehende Figur', async
     const m = Formfeld.bau({ schritt: .012 }), g = m.geometry; g.computeBoundingBox(); const b = g.boundingBox;
     const innen = Formfeld.feld(0, 1.2, 0) < 0 && Formfeld.feld(0, 1.69, 0) < 0 && Formfeld.feld(.6, 1, 0) > 0;
     return [m.userData.dreiecke > 5000, +b.max.y.toFixed(1), Math.abs(+b.min.y.toFixed(1)), innen];
+  });
+  expect(r).toEqual([true, 1.8, 0, true]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 124: Probe Querschnitte baut eine Figur mit nach außen zeigenden Flächen', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.setContent('<html><body></body></html>');
+  await page.addScriptTag({ path: path.resolve(__dirname, '..', 'werkstatt', 'lib', 'three.min.js') });
+  await page.addScriptTag({ path: path.resolve(__dirname, '..', 'werkstatt', 'modelle', 'figur.js') });
+  const r = await page.evaluate(() => {
+    const g = Figur.bau({}), b = new THREE.Box3().setFromObject(g); let teile = 0; g.traverse(o => { if (o.isMesh) teile++; });
+    // Probekörper: Normalen eines Zylinders müssen nach außen zeigen
+    const q = Figur.querschnitte([{ c: [0, 0, 0], w: .1, f: .1, b: .1 }, { c: [0, 1, 0], w: .1, f: .1, b: .1 }], { deckel: false }), p = q.attributes.position, n = q.attributes.normal;
+    let aussen = 0; for (let i = 0; i < p.count; i++) if (p.getX(i) * n.getX(i) + p.getZ(i) * n.getZ(i) > 0) aussen++;
+    return [teile > 20, +b.max.y.toFixed(1), Math.abs(+b.min.y.toFixed(1)), aussen / p.count > .95];
   });
   expect(r).toEqual([true, 1.8, 0, true]);
   expect(fehler).toEqual([]);
