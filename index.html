@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0.117</title>
+<title>Grauufer 1.0.118</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -3638,7 +3638,7 @@ function intro(){
   const sv=loadSave(),b=[];
   if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 117</div>
+  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 118</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -4229,8 +4229,8 @@ function draw0(t,now,dt){
   {const dl0=daylight(),zn=ZD();CSHA=zn.cave||zn.dark||inI?0:Math.max(0,(dl0-.3)/.7)*.5;DSHA=zn.cave||zn.dark?0:inI?.25:CSHA*1.2;}
   const TGT=G.target&&ens().find(e=>e.id===G.target&&!e.dead);
   const cutAt=(x,y)=>{const d=x+y;return d>pd&&(inI?(x>=II[0]-1&&x<=II[2]+1&&y>=II[1]-1&&y<=II[3]+1):(d-pd<=4&&Math.abs((x-y)-pc)<=3));};
-  for(const b of BILDHAUS){if(!HAUSBILD[b.bild])continue;let cc=p.x>=b.x0&&p.x<=b.x1&&p.y>=b.y0&&p.y<=b.y1;/* Rev 109: innen zeigen, wenn die Figur drin oder dahinter steht */
-    for(let yy=b.y0;yy<=b.y1&&!cc;yy++)for(let xx=b.x0;xx<=b.x1;xx++)if((xx===b.x0||xx===b.x1||yy===b.y0||yy===b.y1)&&cutAt(xx,yy)){cc=true;break;}b._m=cc?'i':'a';}
+  for(const b of BILDHAUS){if(!HAUSBILD[b.bild])continue;/* Rev 118: Innenansicht nur, wenn die Figur im Haus steht (vorher auch dahinter) */
+    b._m=p.x>=b.x0&&p.x<=b.x1&&p.y>=b.y0&&p.y<=b.y1?'i':'a';}
   for(let d=x0+y0;d<=x1+y1;d++)for(let x=Math.max(x0,d-y1);x<=Math.min(x1,d-y0);x++){const y=d-x;if(!vis(x,y))continue;
     const cut=map[y][x]==='M'?(d>pd&&d-pd<=7&&Math.abs((x-y)-pc)<=4):(cutAt(x,y)||(TGT&&'TB'.includes(map[y][x])&&d>TGT.x+TGT.y&&d-(TGT.x+TGT.y)<=3&&Math.abs((x-y)-(TGT.x-TGT.y))<=2));
     if(map[y][x]==='~')waterFx(x,y,t);drawObject(x,y,t,cut);drawDeco(x,y,cut,t);const l=ents[x+','+y];if(l)l.forEach(fn=>fn());
