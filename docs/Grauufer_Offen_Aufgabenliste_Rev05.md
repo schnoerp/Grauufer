@@ -1,6 +1,6 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 4**, Stand: Spiel-Rev 111. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 5**, Stand: Spiel-Rev 112. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
@@ -54,6 +54,7 @@
 
 ## 5. Prüfpunkte für den Auftraggeber
 
+- Neues Logo und Versionsnummer im Titelbild auf dem Tablet ansehen (Spiel-Rev 112).
 - Häuser in Sonnwacht (Spiel-Rev 111) im Spiel ansehen; weitere Orte mit Hütten auf Wunsch genauso umstellen: Sandhafen, Kornwacht, Schilfrode, Erzhall, Frosthain, Steinwacht, Ostwacht, Tränensee (Tobe), Miras Kate.
 - Ein Haus über „Über GitHub an Claudia senden“ testweise abschicken.
 - Claude-Seite „Grauufer Haus-Baukasten“ mit dem Mitbenutzer teilen (Teilen → Rolle Bearbeiter, kein öffentlicher Link), falls er sie statt der GitHub-Seite nutzen soll.

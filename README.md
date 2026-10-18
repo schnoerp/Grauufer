@@ -15,7 +15,7 @@ Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = 
 | Pfad | Inhalt |
 |---|---|
 | `index.html` | das komplette Spiel (HTML, CSS, JavaScript, eingebettete Schrift) |
-| `werkstatt/` | Grafik-Werkstatt: 3D-Modelle im Code, mit three.js gerendert (`npm run grafik`, Vorschaubilder in `werkstatt/vorschau/`); **Haus-Baukasten** `werkstatt/baukasten.html` (über GitHub Pages unter `https://schnoerp.github.io/Grauufer/werkstatt/baukasten.html`, Häuser per „Über GitHub an Claudia senden“ als GitHub-Issue; als Claude-Seite mit gemeinsamem Speicher über `node werkstatt/artefakt.js`); **Häuser im Spiel** aus `werkstatt/spielhaeuser/*.json`, eingebettet mit `npm run haeuser` |
+| `werkstatt/` | Grafik-Werkstatt: 3D-Modelle im Code, mit three.js gerendert (`npm run grafik`, Vorschaubilder in `werkstatt/vorschau/`); **Haus-Baukasten** `werkstatt/baukasten.html` (über GitHub Pages unter `https://schnoerp.github.io/Grauufer/werkstatt/baukasten.html`, Häuser per „Über GitHub an Claudia senden“ als GitHub-Issue; als Claude-Seite mit gemeinsamem Speicher über `node werkstatt/artefakt.js`); **Häuser im Spiel** aus `werkstatt/spielhaeuser/*.json`, eingebettet mit `npm run haeuser`; **Logo** aus `werkstatt/modelle/logo.js`, eingebettet mit `npm run logo` |
 | `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze, Baukästen, Aufgabenliste …) |
 | `CLAUDE.md` | Arbeitsregeln für Claude Code |
 
@@ -29,4 +29,4 @@ Lokal: `npm install`, `npx playwright install chromium`, dann `npm test`.
 
 ## Stand
 
-Spiel-Revision **111**. Alle Dokumente in `docs/` sind geprüft; die Kopfzeile nennt den Spielstand ihrer letzten Änderung.
+Spiel-Revision **112** (Versionsnummer 1.0.112). Alle Dokumente in `docs/` sind geprüft; die Kopfzeile nennt den Spielstand ihrer letzten Änderung.

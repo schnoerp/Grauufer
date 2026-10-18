@@ -1,6 +1,6 @@
 # Grauufer – Bedienung
 
-**Revision 18**, Stand: Spiel-Rev 105. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 19**, Stand: Spiel-Rev 112. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Zielgeräte (Im Spiel)
 
@@ -64,7 +64,7 @@
 
 ## 5. Spielstart (Im Spiel)
 
-1. Intro mit Logo (seit Spiel-Rev 104, siehe Grauufer_Stil_RevXX.md) und Titel „Grauufer 1.0“ (seit Spiel-Rev 103, vorher „Grauufer“), Jingle und „schnoerp-media“; danach Titeldialog mit „Weiterspielen“ (nur wenn ein Spielstand vorhanden ist, dann vorausgewählt) und „Neues Spiel“
+1. Intro mit Logo (seit Spiel-Rev 104, siehe Grauufer_Stil_RevXX.md) und Titel „Grauufer 1.0“ (seit Spiel-Rev 103, vorher „Grauufer“), seit Spiel-Rev 112 mit Versionsnummer „1.0.NNN“ (Spiel-Revision), Jingle und „schnoerp-media“; danach Titeldialog mit „Weiterspielen“ (nur wenn ein Spielstand vorhanden ist, dann vorausgewählt) und „Neues Spiel“
 2. Charakter-Editor: Name, Geschlecht, Klasse, Werte, Aussehen; Charaktere speicherbar. Kompakt in drei Spalten (seit Spiel-Rev 65/72), Start mit Glatze und Karohemd, Kleidung auch „Weißes T-Shirt“
 3. Start am Strand südlich von Grauufer mit Erzählkarte „Am Ufer“ (seit Spiel-Rev 79)
 4. Spielstand wird automatisch im Browserspeicher gespeichert (localStorage, Schlüssel grauufer-save-v10), beim Tod gelöscht. Neues Spiel nur noch über Beenden → Titelbildschirm (der Knopf im Rucksack entfällt seit Spiel-Rev 90)

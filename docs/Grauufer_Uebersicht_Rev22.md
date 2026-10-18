@@ -1,8 +1,8 @@
 # Grauufer – Übersicht
 
-**Revision 21**, Stand: Spiel-Rev 108. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
+**Revision 22**, Stand: Spiel-Rev 112. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
 
-**Spieltitel:** „Grauufer 1.0“ (seit Spiel-Rev 103). So steht er im Browser-Reiter („Grauufer 1.0 (Rev NN)“), im Titelbild, im Titeldialog („Ein Rollenspiel von schnoerp-media, Revision NN“) und im Beenden-Dialog. „Grauufer“ allein bleibt der Name des Fischerdorfs in der Spielwelt; die Dokumente behalten ihre Dateinamen `Grauufer_<Thema>_RevXX.md`.
+**Spieltitel:** „Grauufer 1.0“ (seit Spiel-Rev 103). Seit Spiel-Rev 112 mit **Versionsnummer 1.0.NNN** (NNN = Spiel-Revision, z. B. „Grauufer 1.0.112“): im Browser-Reiter, im Titelbild, im Titeldialog („Grauufer 1.0.NNN“, darunter „Ein Rollenspiel von schnoerp-media, Revision NNN“) und im Beenden-Dialog. „Grauufer“ allein bleibt der Name des Fischerdorfs in der Spielwelt; die Dokumente behalten ihre Dateinamen `Grauufer_<Thema>_RevXX.md`.
 
 ## 1. Die Dokumente
 
