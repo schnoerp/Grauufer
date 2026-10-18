@@ -167,13 +167,13 @@ function startfigur(spec){
 // Kapuze, Schulterumhang und weite Robe mit Falten und Goldborte, weite Ärmel, Gürtel mit Schnalle, Tasche und Riemen,
 // Bart, geschnitzter Stab mit leuchtendem Stein (blaues Licht).
 function magier(spec){
-  const L=Object.assign({haut:'#c99068',augen:'#3a5068',robe:'#1a2554',borte:'#b8903e',leder:'#5a3a22',bart:'#6a5848',stiefel:'#3a2616',stein:'#2f6bff',groesse:1.8},spec);
+  const L=Object.assign({haut:'#b07a56',augen:'#3a5068',robe:'#1a2554',borte:'#b8903e',leder:'#5a3a22',bart:'#6a5848',stiefel:'#3a2616',stein:'#2f6bff',groesse:1.8},spec);
   const M=o=>new THREE.MeshStandardMaterial(Object.assign({roughness:.8,metalness:0},o));
   const haut=M({map:koern(L.haut,8,3,4),roughness:.62}),kopfHaut=M({map:hautKopf(L.haut),roughness:.6}),
     robe=M({map:robenStoff(L.robe),roughness:.7,vertexColors:true}),robeHell=M({map:robenStoff(heller(L.robe,1.35)),roughness:.7}),robeKap=M({map:robenStoff(L.robe),roughness:.7}),borte=M({map:borteTex(L.borte),roughness:.4,metalness:.55}),
     leder=M({map:koern(L.leder,22,11,10),roughness:.55}),messing=M({color:0xc89a3c,roughness:.3,metalness:.85}),stiefel=M({map:koern(L.stiefel,20,9,10),roughness:.5}),
     bart=M({map:haarTex(L.bart),roughness:.9}),holz=M({map:holzTex(),roughness:.75}),
-    stein=new THREE.MeshStandardMaterial({color:L.stein,emissive:L.stein,emissiveIntensity:1,roughness:.15,toneMapped:false}),futter=M({color:0x0b0f22,roughness:1,side:THREE.BackSide}),
+    stein=new THREE.MeshStandardMaterial({color:heller(L.stein,.7),emissive:L.stein,emissiveIntensity:1,roughness:.15,toneMapped:false}),futter=M({color:0x0b0f22,roughness:1,side:THREE.BackSide}),
     weiss=M({color:0xb8ab9c,roughness:.4}),iris=M({color:L.augen,roughness:.3}),dunkel=M({color:0x120c08,roughness:.4});
   const G=new THREE.Group(),add=(g,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;G.add(o);return o;};
   // senkrechte Falten: Auslenkung nach außen, nach unten stärker
@@ -222,9 +222,7 @@ function magier(spec){
   }
   // leuchtende Kugel über der linken Hand
   const ku=ARM['1'][2],kp=[ku[0]+.01,ku[1]+.06,ku[2]+.07];
-  add(new THREE.SphereGeometry(.028,24,18),stein,...kp).castShadow=false;
-  const ks=new THREE.Mesh(new THREE.SphereGeometry(.065,20,14),new THREE.MeshBasicMaterial({color:L.stein,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthWrite:false,toneMapped:false}));ks.position.set(...kp);G.add(ks);
-  const kl=new THREE.PointLight(L.stein,2.5,1.2,2);kl.position.set(kp[0],kp[1],kp[2]+.03);G.add(kl);
+  leuchte(G,kp,.028,L.stein,2.2,1.0,stein,1.7);
   for(const s of[-1,1]){
     // Stiefelspitzen unter der Robe
     add(querschnitte([{c:[s*.1,.05,-.02],w:.046,f:.045,b:.045},{c:[s*.104,.045,.05],w:.05,f:.035,b:.035},{c:[s*.108,.035,.12],w:.044,f:.025,b:.025},{c:[s*.108,.03,.15],w:.03,f:.018,b:.018}].map(q=>({c:q.c,w:q.w,f:q.f,b:q.b,e:2.4})),{n:28}),stiefel);
@@ -249,12 +247,19 @@ function magier(spec){
   const sx=-.262,sz=.235;
   add(querschnitte([{c:[sx,.02,sz],w:.016,f:.016,b:.016},{c:[sx,.9,sz],w:.019,f:.019,b:.019},{c:[sx,1.6,sz],w:.018,f:.018,b:.018},{c:[sx,1.86,sz],w:.024,f:.024,b:.024}],{n:14,m:60,form:(p,t)=>{const a=t*40;p.x+=.003*Math.sin(a);p.z+=.003*Math.cos(a);}}),holz);
   for(let k=0;k<4;k++){const a=k*Math.PI/2+.4,kl=[];for(let q=0;q<=6;q++){const t=q/6,r=.025+.03*Math.sin(t*Math.PI*.9),y=1.86+t*.13;kl.push({c:[sx+Math.sin(a)*r,y,sz+Math.cos(a)*r],w:.007*(1-t*.6),f:.007*(1-t*.6),b:.007*(1-t*.6)});}add(querschnitte(kl,{n:10,m:20}),holz);}
-  add(new THREE.SphereGeometry(.032,24,18),stein,sx,1.94,sz).castShadow=false;
-  const schein=new THREE.Mesh(new THREE.SphereGeometry(.06,20,14),new THREE.MeshBasicMaterial({color:L.stein,transparent:true,opacity:.25,blending:THREE.AdditiveBlending,depthWrite:false,toneMapped:false}));schein.position.set(sx,1.94,sz);G.add(schein);
-  const licht=new THREE.PointLight(L.stein,3,1.4,2);licht.position.set(sx,1.94,sz+.02);G.add(licht);
+  leuchte(G,[sx,1.94,sz],.032,L.stein,2.6,1.1,stein,0);
   G.scale.setScalar((+L.groesse||1.8)/1.8);
   return G;}
 
+// Leuchtender Stein: Kern, zwei Lichthöfe und ein farbiges Punktlicht; Figur.flackern(G, t) bewegt sie
+function leuchte(G,pos,r,farbe,staerke,reichweite,kernMat,phase){
+  const kern=new THREE.Mesh(new THREE.SphereGeometry(r,24,18),kernMat);kern.position.set(...pos);G.add(kern);
+  const hof=k=>{const m=new THREE.Mesh(new THREE.SphereGeometry(r*k,20,14),new THREE.MeshBasicMaterial({color:new THREE.Color(farbe).multiplyScalar(.6),transparent:true,opacity:.5/k,blending:THREE.AdditiveBlending,depthWrite:false,toneMapped:false}));m.position.set(...pos);G.add(m);return m;};
+  const h1=hof(1.8),h2=hof(4.2),licht=new THREE.PointLight(farbe,staerke,reichweite,2);licht.position.set(pos[0],pos[1],pos[2]+.02);G.add(licht);
+  (G.userData.leuchten=G.userData.leuchten||[]).push({kern,h1,h2,licht,staerke,phase,mat:kernMat});}
+// Flackern: unregelmäßig aus mehreren Schwingungen, je Stein versetzt; t in Sekunden
+function flackern(G,t){for(const l of G.userData.leuchten||[]){const p=l.phase,f=1+.22*Math.sin(t*11+p)+.14*Math.sin(t*23.7+p*2.1)+.09*Math.sin(t*41.3+p*3.3);
+  l.licht.intensity=l.staerke*f;l.h1.scale.setScalar(.9+.15*f);l.h2.scale.setScalar(.85+.25*f);l.h1.material.opacity=.2*f;l.h2.material.opacity=.07*f;l.mat.emissiveIntensity=.7+.3*f;}}
 function heller(hex,f){const c=new THREE.Color(hex);c.multiplyScalar(f);return'#'+c.getHexString();}
 // Hand als eigene Gruppe (Finger zeigen nach −y), zum Ausrichten am Unterarm
 function handGruppe(s,haut){const H=new THREE.Group();hand((g,m)=>{const o=new THREE.Mesh(g,m);o.castShadow=o.receiveShadow=true;H.add(o);return o;},s,[0,0,0],haut);return H;}
@@ -296,5 +301,5 @@ function haarTex(f){return tex(128,128,(g,w,h)=>{g.fillStyle=f;g.fillRect(0,0,w,
 function holzTex(){return tex(64,256,(g,w,h)=>{g.fillStyle='#5a3a1e';g.fillRect(0,0,w,h);for(let k=0;k<40;k++){g.strokeStyle=k%2?'rgba(30,15,5,.4)':'rgba(140,95,50,.3)';g.beginPath();const x=Math.random()*w;g.moveTo(x,0);g.bezierCurveTo(x+6,h/3,x-6,h*2/3,x+3,h);g.stroke();}rausch(g,w,h,14,41);},6);}
 
 function bau(spec={}){return spec.klasse==='magier'?magier(spec):startfigur(spec);}
-window.Figur={bau,querschnitte};
+window.Figur={bau,querschnitte,flackern};
 })();

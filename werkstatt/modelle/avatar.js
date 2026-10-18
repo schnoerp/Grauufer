@@ -160,7 +160,7 @@ function Szene(canvas,opt={}){
   R.shadowMap.enabled=true;R.shadowMap.type=THREE.PCFSoftShadowMap;
   const scene=new THREE.Scene(),cam=new THREE.OrthographicCamera(-1,1,1,-1,.1,100);
   const el=Math.PI/6,az=Math.PI/4,d=20;cam.position.set(d*Math.cos(el)*Math.sin(az),d*Math.sin(el),d*Math.cos(el)*Math.cos(az));cam.lookAt(0,0,0);
-  scene.add(new THREE.HemisphereLight(0xc8d0de,0x3a2c20,.42));
+  const himmel=new THREE.HemisphereLight(0xc8d0de,0x3a2c20,.42);scene.add(himmel);
   const sonne=new THREE.DirectionalLight(0xffdcae,2.5);sonne.position.set(-3,7,4.5);sonne.castShadow=true;
   sonne.shadow.mapSize.set(2048,2048);Object.assign(sonne.shadow.camera,{left:-1.5,right:1.5,top:2.5,bottom:-.5,near:1,far:20});sonne.shadow.radius=3;sonne.shadow.bias=-.0006;scene.add(sonne);
   const kante=new THREE.DirectionalLight(0x9ab8ff,.9);kante.position.set(3,4,-5);scene.add(kante);
@@ -173,6 +173,10 @@ function Szene(canvas,opt={}){
     // fertige Figur ohne Gelenke zeigen (Formfeld-Probe, seit Spiel-Rev 123): nur Drehen, keine Bewegungen
     fest(obj,massstab=1){weg();const g=new THREE.Group();obj.scale.setScalar(massstab);g.add(obj);F={root:g,fest:true};scene.add(g);},
     boden(an){boden.visible=an;},
+    // Lichtstimmung: 'tag' (Standard) oder 'nacht' (dunkel und kontrastreich, kalte Lichtkante, für leuchtende Zauber; seit Spiel-Rev 124)
+    licht(art){const n=art==='nacht';himmel.intensity=n?.16:.42;sonne.intensity=n?1.45:2.5;sonne.color.set(n?0xffd2a0:0xffdcae);kante.intensity=n?2.4:.9;kante.color.set(n?0x7f9fff:0x9ab8ff);R.toneMappingExposure=n?.95:.92;},
+    // Bildpunkt eines Weltpunkts (für Lichtscheine, die das Spiel später flackernd darüberzeichnet)
+    projiziere(v){F.root.updateMatrixWorld(true);const q=v.clone().applyMatrix4(F.root.matrixWorld).project(cam),w=R.domElement.width,h=R.domElement.height;return[(q.x+1)/2*w,(1-q.y)/2*h];},
     zeige(art,t,dir){if(F.fest)F.root.rotation.y=Math.PI/4+dir*Math.PI/4;else pose(F,art,t,dir);R.render(scene,cam);}};
   function weg(){if(!F)return;scene.remove(F.root);if(!F.fest)F.root.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){if(o.material.map)o.material.map.dispose();o.material.dispose();}});F=null;}
   s.groesse(opt.w||320,opt.h||560,opt.k||250,opt.fuss||40);if(opt.boden===false)boden.visible=false;
