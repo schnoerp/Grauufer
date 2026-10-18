@@ -1,6 +1,6 @@
 # Grauufer – Bedienung
 
-**Revision 19**, Stand: Spiel-Rev 112. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 20**, Stand: Spiel-Rev 119. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Zielgeräte (Im Spiel)
 
@@ -13,7 +13,7 @@
 | Aktion | Bedienung |
 |---|---|
 | Laufen | Zielfeld antippen, die Figur läuft den Weg selbst |
-| Angreifen | Gegner einmal antippen: er wird markiert und sofort angegriffen; ist er außer Reichweite, läuft die Figur hin und greift dann an |
+| Angreifen | Gegner einmal antippen: er wird markiert und angegriffen; ist er außer Reichweite, läuft die Figur hin. Seit Spiel-Rev 119 **Dauerangriff** in Echtzeit: Schläge im Waffentakt, bis der Gegner fällt oder du woanders hintippst, danach automatisch der nächste bedrängende Gegner |
 | Sprechen, Tür, Altar, Wegstein | antippen, die Figur geht hin und handelt |
 | Truhe, Lesepult, Tafel, Hindernis, Kristall | antippen, die Figur geht hin und öffnet, liest oder versucht es (seit Spiel-Rev 82–90) |
 | Angeln | mit Angelrute aufs Wasser tippen (max. 3 Felder); wenn der Schwimmer untertaucht und „!“ erscheint, schnell irgendwo tippen (seit Spiel-Rev 81) |
@@ -26,7 +26,7 @@
 | Taste | Funktion |
 |---|---|
 | Pfeiltasten oder W A S D | ein Feld laufen |
-| Leertaste oder Knopf „Rasten“ | einen Zug rasten: ohne Gegner im Umkreis von 6 Feldern +1 Leben und +1 Mana, sonst nur warten (seit Spiel-Rev 40, vorher „Abwarten“) |
+| Leertaste oder Knopf „Rasten“ | kurz rasten (die Welt läuft seit Spiel-Rev 119 trotzdem in Echtzeit weiter): ohne Gegner im Umkreis von 6 Feldern +1 Leben und +1 Mana, sonst nur warten (seit Spiel-Rev 40, vorher „Abwarten“) |
 | 1–9 | Schnellzugriffsleiste |
 | F | markierten Gegner angreifen |
 | I | Rucksack |
@@ -111,7 +111,7 @@ Knopf „Charakter“ oder Taste K, rotes „!“ bei freien Punkten. Reiter Att
 ### Allgemein
 
 - Zustände (brennend, gefangen usw.) als Symbole über den Figuren.
-- Abklingzeiten als dunkle Überblendung in der Schnellzugriffsleiste.
+- ~~Abklingzeiten als dunkle Überblendung in der Schnellzugriffsleiste~~ – im Spiel seit Spiel-Rev 119.
 - Einstellbare Textgröße.
 - Bestätigung vor gefährlichen Würfen, wenn der Spieler selbst im Wirkungsbereich steht.
 - Minikarte am Bildschirmrand (gibt es in Rev 29 nicht).

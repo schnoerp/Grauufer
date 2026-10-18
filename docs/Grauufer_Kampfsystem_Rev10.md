@@ -1,19 +1,18 @@
 # Grauufer – Kampfsystem
 
-**Revision 09**, Stand: Spiel-Rev 94. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 10**, Stand: Spiel-Rev 119. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
-## 1. Grundprinzip (Im Spiel)
+## 1. Grundprinzip (Im Spiel, Echtzeit seit Spiel-Rev 119)
 
-- Der Kampf ist **zugbasiert**. Jede Aktion des Spielers kostet genau einen Zug: Schritt, Angriff, Zauber, Trank, Tür öffnen.
-- Nach jeder Spieleraktion läuft der Zug in fester Reihenfolge ab:
-  1. Zugzähler +1
+- Der Kampf läuft in **Echtzeit** (bis Spiel-Rev 118 zugbasiert). Die Welt schreitet in einem festen **Takt von 0,5 Sekunden** voran – auch wenn die Figur still steht und auch bei offenem Fenster oder Gespräch (**keine Pause**, Entscheidung des Auftraggebers). Nur wenn der Browser-Reiter im Hintergrund ist, steht die Welt; danach wird nicht nachgeholt.
+- In jedem Takt, in fester Reihenfolge:
+  1. Taktzähler +1 (ersetzt den früheren Zugzähler; Tageszeit und Wiederbelebung zählen in Takten)
   2. Regeneration (siehe Abschnitt 8)
   3. Steinhaut-Dauer −1
-  4. Karte aufdecken, Weltereignisse (Wiederbelebung von Gegnern, Rohstoffe, Wegsteine)
-  5. Zone prüfen
-  6. **Alle Gegner handeln**
-  7. Anzeige aktualisieren, Spielstand speichern
-- Gegner haben keine eigene Initiative. Sie handeln immer direkt nach dem Spieler.
+  4. Weltereignisse (Wiederbelebung von Gegnern, Rohstoffe, Wegsteine), Tageszeit
+  5. **Alle Gegner handeln** (Abschnitt 7)
+  6. Anzeige aktualisieren; alle 10 Takte (5 s) Spielstand speichern
+- Die Figur handelt unabhängig vom Takt: Laufen 1 Feld je 0,15 s (im Gebirge 0,26 s), Angriff im Waffentakt (Abschnitt 3), Zauber und Tränke mit Abklingzeiten (Abschnitt 5 und 8). Karte aufdecken und Gebietswechsel werden bei jedem Schritt geprüft.
 - Entfernungen werden als **Schachbrett-Abstand** gemessen (diagonal zählt wie gerade, 1 Feld).
 
 ## 2. Werte der Spielfigur
@@ -42,6 +41,11 @@ Dazu 5 frei verteilbare Punkte im Charakter-Editor.
 - Start mit vollem Leben und 70 % Mana
 
 ## 3. Angriff des Spielers (Im Spiel)
+
+### Waffentakt und Dauerangriff (seit Spiel-Rev 119)
+
+- **Dauerangriff:** Einmal einen Gegner antippen genügt. Die Figur läuft hin und schlägt im Waffentakt von **0,8 Sekunden** zu, bis der Gegner fällt oder du woanders hintippst. Fällt das Ziel, greift sie den nächsten Gegner in Reichweite an, der sie bedrängt oder schon angegriffen wurde (nicht in der Schutzzone).
+- Der Waffentakt gilt für Nahkampf und Stäbe; auch Angriffe über die Schnellzugriffsleiste warten ihn ab.
 
 ### Nahkampf
 
@@ -83,6 +87,7 @@ Dazu 5 frei verteilbare Punkte im Charakter-Editor.
 | Schaden | Zufall aus Gegner-Angriffsspanne − Rüstung, **mindestens 1** |
 | Rüstung | Rüstungswert + Güte (fein und meisterlich +1) + „des Steins“ auf Waffe oder Rüstung + Steinhaut (+2) |
 
+- **Angriffstakt der Gegner (seit Spiel-Rev 119):** Ein Gegner direkt neben der Figur schlägt alle 1,5 Sekunden zu (jeden dritten Takt), flinke Gegner (Wolf, Frostwolf, Aschenhund, Harpyie) alle 1 Sekunde.
 - Es gibt keinen Ausweichwert. Rüstung senkt nur den Schaden, nicht die Trefferchance.
 - In der Schutzzone von Sonnwacht greifen Gegner nicht an und betreten sie nicht.
 
@@ -91,30 +96,30 @@ Dazu 5 frei verteilbare Punkte im Charakter-Editor.
 | Zauber | Schule | Mana | Ziel | Wirkung |
 |---|---|---|---|---|
 | Flammenzeichen | Feuer | 4 | 1 Gegner, 5 Felder | 6–9 + (Stufe − 1) + Zauberbonus |
-| Steinhaut | Erde | 4 | selbst | +2 Rüstung für 12 Züge |
+| Steinhaut | Erde | 4 | selbst | +2 Rüstung für 10 Sekunden (20 Takte) |
 | Heilwasser | Wasser | 5 | selbst | heilt 12 + 2 × (Stufe − 1) + 2 × Zauberbonus |
 | Glutregen | Feuer | 6 | alle direkt benachbarten Gegner | 7–10 + (Stufe − 1) + Zauberbonus |
 | Sturmstoß | Luft | 5 | 1 Gegner, 4 Felder | 5–8 + (Stufe − 1) + Zauberbonus; Rückstoß bis 2 Felder |
-| Eislanze | Wasser | 6 | 1 Gegner, 5 Felder | 8–11 + (Stufe − 1) + Zauberbonus; Ziel erstarrt 3 Züge |
+| Eislanze | Wasser | 6 | 1 Gegner, 5 Felder | 8–11 + (Stufe − 1) + Zauberbonus; Ziel erstarrt 3 Sekunden (6 Takte) |
 
 **Sonderregeln**
 - Zauber treffen immer, es gibt keinen Trefferwurf.
 - **Sturmstoß:** Landet der Gegner auf Abgrund, Lava, Wasser oder Schlucht, stürzt er hinab und stirbt sofort. Endgegner werden nicht zurückgestoßen.
-- **Eislanze:** Ein erstarrter Gegner setzt seine Züge aus.
-- Es gibt keine Abklingzeiten, nur Manakosten.
+- **Eislanze:** Ein erstarrter Gegner setzt aus.
+- **Abklingzeiten (seit Spiel-Rev 119)** zusätzlich zu den Manakosten: Flammenzeichen 1,5 s, Sturmstoß 3 s, Glutregen 4 s, Eislanze 5 s, Heilwasser 6 s, Steinhaut 8 s. Die Schnellzugriffsleiste dunkelt das Feld ab und lässt die Abdunklung mit der Restzeit schrumpfen.
 
 ## 6. Zustände (Im Spiel)
 
 | Zustand | Auslöser | Wirkung | Dauer |
 |---|---|---|---|
-| Erstarrt | Eislanze | Gegner handelt nicht | 3 Gegnerzüge |
-| Steinhaut | Zauber | +2 Rüstung | 12 Züge |
+| Erstarrt | Eislanze | Gegner handelt nicht | 3 Sekunden (6 Takte) |
+| Steinhaut | Zauber | +2 Rüstung | 10 Sekunden (20 Takte) |
 
 Weitere Zustände sind geplant (Abschnitt 12).
 
 ## 7. Verhalten der Gegner (Im Spiel)
 
-Jeder Gegner prüft in seinem Zug der Reihe nach:
+Jeder Gegner prüft in jedem Takt (0,5 s) der Reihe nach:
 
 | Schritt | Bedingung | Handlung |
 |---|---|---|
@@ -124,14 +129,15 @@ Jeder Gegner prüft in seinem Zug der Reihe nach:
 | 4 | Spieler im Aggro-Radius, nicht in Schutzzone | geht 1 Feld auf kürzestem Weg zum Spieler, wenn der Weg höchstens Aggro × 2 + 2 Felder lang ist |
 | 5 | sonst | 30 % Chance, 1 Feld zufällig zu laufen, höchstens 3 Felder vom Heimatpunkt entfernt |
 
-- **Wiederbelebung:** Alle 25 Züge wird geprüft. Normale Gegner, die seit mindestens 320 Zügen tot sind, erscheinen mit vollem Leben neu, außer Sichtweite (mehr als 10 bis 14 Felder vom Spieler). Endgegner bleiben tot.
+- **Wiederbelebung:** Alle 25 Takte wird geprüft. Normale Gegner, die seit mindestens 320 Takten (160 s) tot sind, erscheinen mit vollem Leben neu, außer Sichtweite (mehr als 10 bis 14 Felder vom Spieler). Endgegner bleiben tot.
 
 ## 8. Regeneration, Heilung und Tod (Im Spiel)
 
 | Quelle | Wirkung |
 |---|---|
-| Natürliche Erholung | +1 Mana alle 3 Züge, +1 Leben alle 5 Züge |
-| Rasten (seit Spiel-Rev 40) | zusätzlich +1 Leben und +1 Mana pro Zug, nur wenn kein Gegner im Umkreis von 6 Feldern ist |
+| Natürliche Erholung | +1 Mana alle 3 Takte (1,5 s), +1 Leben alle 5 Takte (2,5 s) |
+| Rasten (seit Spiel-Rev 40) | zusätzlich +1 Leben und +1 Mana je Druck auf „Rasten“ bzw. die Leertaste, nur wenn kein Gegner im Umkreis von 6 Feldern ist |
+| Abklingzeit Tränke (seit Spiel-Rev 119) | nach Heil-, Großem Heil- oder Manatrank 3 s bis zum nächsten Trank |
 | Heiltrank | +15 Leben; mit Kräuterkunde 2 +15 % (17), ab Kräuterkunde 3 +30 % (20) |
 | Großer Heiltrank | +35 Leben; mit Kräuterkunde 2 +15 % (40), ab Kräuterkunde 3 +30 % (46) |
 | Manatrank | +8 Mana |
@@ -186,6 +192,8 @@ Alle Werte, Vorkommen, Aussehen und Beute der Gegner stehen in **Grauufer_Gegner
 
 ## 12. Geplanter Ausbau
 
+> Hinweis (Spiel-Rev 119): Die geplanten Werte sind noch in Zügen angegeben. Bei der Umsetzung in Echtzeit gilt 1 Zug ≈ 1 Sekunde (2 Takte).
+
 ### Neue Zustände
 
 | Zustand | Auslöser (laut Waffenliste) | Wirkung | Dauer |
@@ -225,8 +233,7 @@ Alle Werte, Vorkommen, Aussehen und Beute der Gegner stehen in **Grauufer_Gegner
 
 ### Abklingzeiten
 
-- Starke Zauber und Artefakte erhalten Abklingzeiten in Zügen (z. B. Erdbeben 15, Wasserkerker 10).
-- Die Schnellzugriffsleiste zeigt die verbleibenden Züge als dunkle Überblendung.
+- **Im Spiel seit Spiel-Rev 119** (Abschnitt 5 und 8).
 
 ### Endgegner-Phasen
 

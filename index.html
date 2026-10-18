@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grauufer 1.0.118</title>
+<title>Grauufer 1.0.119</title>
 <!-- Rev 95: Symbol für Browser-Reiter und Lesezeichen – Wappen der Siegelwächter (goldenes Kreuz auf Blau, mit Riss), als Pixelgrafik direkt eingebettet -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect width='16' height='16' rx='2' fill='%23241610'/><path fill='%230c0810' d='M2 1h12v1h-12zM2 2h1v1h-1zM13 2h1v1h-1zM2 3h1v1h-1zM13 3h1v1h-1zM2 4h1v1h-1zM13 4h1v1h-1zM2 5h1v1h-1zM13 5h1v1h-1zM2 6h1v1h-1zM13 6h1v1h-1zM2 7h1v1h-1zM13 7h1v1h-1zM2 8h1v1h-1zM13 8h1v1h-1zM2 9h1v1h-1zM13 9h1v1h-1zM3 10h1v1h-1zM12 10h1v1h-1zM3 11h1v1h-1zM12 11h1v1h-1zM4 12h1v1h-1zM11 12h1v1h-1zM5 13h1v1h-1zM10 13h1v1h-1zM6 14h4v1h-4z'/><path fill='%232e4e8a' d='M3 2h4v1h-4zM9 2h4v1h-4zM3 3h4v1h-4zM9 3h4v1h-4zM3 4h4v1h-4zM9 4h4v1h-4zM3 5h4v1h-4zM9 5h4v1h-4zM3 6h1v1h-1zM12 6h1v1h-1zM3 7h1v1h-1zM12 7h1v1h-1zM3 8h4v1h-4zM9 8h4v1h-4zM3 9h4v1h-4zM9 9h4v1h-4zM4 10h3v1h-3zM9 10h3v1h-3zM4 11h3v1h-3zM9 11h3v1h-3zM5 12h6v1h-6zM6 13h4v1h-4z'/><path fill='%234a6ca8' d='M7 2h2v1h-2z'/><path fill='%23f2b13c' d='M7 3h2v1h-2zM7 4h2v1h-2zM7 5h2v1h-2zM4 6h8v1h-8zM4 7h4v1h-4zM9 7h3v1h-3zM7 8h1v1h-1zM8 9h1v1h-1zM7 10h2v1h-2zM7 11h2v1h-2z'/><path fill='%232a1608' d='M8 7h1v1h-1zM8 8h1v1h-1zM7 9h1v1h-1z'/></svg>">
 <meta name="theme-color" content="#241610">
@@ -46,6 +46,7 @@ body{height:100%;margin:0;background:var(--night);color:var(--bone);font-family:
 .hk img{width:100%;height:100%;display:block}
 .hk .n{position:absolute;left:3px;top:1px;font-size:12px;color:var(--gold);text-shadow:1px 1px 0 #000}
 .hk .c{position:absolute;right:3px;bottom:1px;font-size:12px;color:var(--bone);text-shadow:1px 1px 0 #000}
+.hk::after{content:'';position:absolute;left:0;right:0;bottom:0;height:calc(var(--cd,0)*100%);background:rgba(0,0,0,.62);pointer-events:none}/* Rev 119: Abklingzeit */
 .hk.on{border-color:var(--gold)}.hk.cast{border-color:var(--arcane);box-shadow:0 0 10px rgba(127,200,192,.6)}
 .hk[disabled]{opacity:.4}
 #bottom{position:fixed;left:0;right:0;bottom:0;padding:22px 12px calc(env(safe-area-inset-bottom,0px) + 10px);
@@ -785,10 +786,10 @@ function rollEq(tier){const pool=[['sword','leather'],['iron','chain','staff'],[
   return mkEq(k,q,Math.random()<.15+q*.15?pickAf():null);}
 const SPELLS={
   flamme:{n:'Flammenzeichen',school:'Feuer',cost:4,target:1,range:5,d:'Schaden auf ein Ziel, Reichweite 5.'},
-  stein:{n:'Steinhaut',school:'Erde',cost:4,d:'Rüstung +2 für 12 Züge.'},
+  stein:{n:'Steinhaut',school:'Erde',cost:4,d:'Rüstung +2 für 10 Sekunden.'},
   heil:{n:'Heilwasser',school:'Wasser',cost:5,d:'Heilt dich.'},
   glut:{n:'Glutregen',school:'Feuer',cost:6,d:'Trifft alle Gegner direkt neben dir.'},
-  eis:{n:'Eislanze',school:'Wasser',cost:6,target:1,range:5,d:'Starker Schaden auf ein Ziel, lässt es 3 Züge erstarren.'},
+  eis:{n:'Eislanze',school:'Wasser',cost:6,target:1,range:5,d:'Starker Schaden auf ein Ziel, lässt es 3 Sekunden erstarren.'},
   sturm:{n:'Sturmstoß',school:'Luft',cost:5,target:1,range:4,d:'Schaden und Rückstoß, Reichweite 4. Stößt Gegner in Abgründe.'}
 };
 const SHOPNAME={lene:'Lenes Laden',bram:'Brams Waren',hagen:'Hagens Schmiede',yasmin:'Yasmins Basar',svea:'Sveas Handelsposten'};
@@ -2452,13 +2453,22 @@ function checkPhase(){const l=phaseLabel();
   if(G.lbl&&l!==G.lbl){if(l==='Nacht')log('Die Nacht senkt sich über das Land. Die Toten werden unruhig.','hurt');
     else if(l==='Morgengrauen')log('Ein fahler Morgen graut.');}G.lbl=l;}
 function checkZone(){const z=pz();if(z===G.zone)return;if(ZDEF[z].safe)log(`Innerhalb der Mauern von ${ZDEF[z].name} bist du sicher. Kein Ungeheuer kann dich hier angreifen.`,'q');else if(G.zone&&ZDEF[G.zone]&&ZDEF[G.zone].safe)log('Du verlässt den Schutz der Mauern.','hurt');G.zone=z;G.title={text:ZDEF[z].name,t:performance.now()};setAmbient(z);amb.length=0;}
-function playerActed(){
-  const p=S.p;S.turn++;
+/* Rev 119: Echtzeit. Die Welt läuft im Takt von 0,5 s weiter – auch wenn die Figur still steht oder ein Fenster offen ist (keine Pause).
+   Ein Takt ersetzt den früheren Zug: Erholung, Weltereignisse, Tageszeit und alle Gegner. Aktionen der Figur verbrauchen keinen Zug mehr,
+   sondern haben eigene Zeiten: Angriff im Waffentakt, Zauber und Tränke mit Abklingzeit. */
+const TAKT=500,ATKMS=800,CDMS={flamme:1500,stein:8000,heil:6000,glut:4000,sturm:3000,eis:5000,trank:3000};let LIVE=false;
+function weltTakt(now){if(!LIVE||!S||S.over)return;if(!G.wt||now-G.wt>3000)G.wt=now-TAKT;/* nach langer Unterbrechung (Reiter im Hintergrund) nicht nachholen */
+  while(now-G.wt>=TAKT){G.wt+=TAKT;weltschlag();if(S.over)return;}}
+function weltschlag(){const p=S.p;S.turn++;
   if(S.turn%3===0&&p.mp<p.maxMp)p.mp++;
   if(S.turn%5===0&&p.hp<p.maxHp)p.hp++;
   if(S.buff>0){S.buff--;if(!S.buff)log('Deine Steinhaut bröckelt ab.');}
-  reveal();worldTick();checkPhase();checkZone();enemiesAct();updateHUD();save();
-}
+  worldTick();checkPhase();enemiesAct();updateHUD();if(S.turn%10===0)save();}
+function bereit(k,now){G.cd=G.cd||{};return now>=(G.cd[k]||0);}
+function sperre(k,now){G.cd=G.cd||{};G.cd[k]=now+CDMS[k];}
+function hotCd(now){const hb=$('#hotbar');if(!hb||!G.cd)return;[...hb.children].forEach((b,i)=>{const x=HB[i],k=x&&(x.t==='s'?x.id:x.t==='p'?'trank':null),e=k&&G.cd[k];
+  const f=e&&e>now?Math.min(1,(e-now)/CDMS[k]):0;if(b.__cd!==f){b.__cd=f;b.style.setProperty('--cd',f.toFixed(3));}});}
+function playerActed(){reveal();checkZone();updateHUD();}
 function applyB(o,sg){if(!o||!o.af)return;const a=AFX[o.af],p=S.p;
   if(a.hp){p.maxHp+=sg*a.hp;if(sg>0)p.hp+=a.hp;}if(a.mp){p.maxMp+=sg*a.mp;if(sg>0)p.mp+=a.mp;}p.hp=Math.max(1,Math.min(p.hp,p.maxHp));p.mp=Math.min(p.mp,p.maxMp);}
 function equip(o,quiet){const sl=ITEMS[o.k].type,old=S.eq[sl],i=S.inv.indexOf(o);if(i>=0)S.inv.splice(i,1);
@@ -2525,13 +2535,14 @@ function damage(e,d,col){if(!e.prov&&e.hp===e.maxHp&&skL('sneak')+(hasT('sohlen'
     burst(e.x,e.y,['#ff4020','#ffd060'],40,2);sfx('stone');log('Nhal brüllt. Aus der Lava lösen sich Glutgeister!','hurt');}
   if(e.hp<=0)kill(e);}
 const wRange=()=>{const w=S.eq.weapon;return w&&ITEMS[w.k].ranged||1;};
-function zapAttack(e){const p=S.p;setFace(p,e.x-p.x,e.y-p.y);p.lg={dx:(e.x-p.x)*.3,dy:(e.y-p.y)*.3,t:performance.now()};
+function zapAttack(e){const now=performance.now();if(now<(G.atkT||0))return;G.atkT=now+ATKMS;const p=S.p;setFace(p,e.x-p.x,e.y-p.y);p.lg={dx:(e.x-p.x)*.3,dy:(e.y-p.y)*.3,t:performance.now()};
   G.bolts.push({a:[p.x,p.y],b:[e.x,e.y],t:performance.now()});sfx('zap');
   if(Math.random()<.9+hitBonus()){damage(e,rand(2,4)+atkBonus()+spB(),'#bfe8ff');burst(e.x,e.y,['#e8f8ff','#7fc8ff'],14,1);}
   else{floatAt(e.x,e.y,'verfehlt','#a8967a');}
   playerActed();}
 function attack(e){
   if(wRange()>1)return zapAttack(e);
+  const now=performance.now();if(now<(G.atkT||0))return;G.atkT=now+ATKMS;
   lunge(S.p,e);
   if(Math.random()<.85+hitBonus()){damage(e,rand(2,4)+atkBonus(),'#ffe0a0');sfx('hit');}
   else{floatAt(e.x,e.y,'verfehlt','#a8967a');sfx('miss');}
@@ -2539,25 +2550,26 @@ function attack(e){
 }
 function learn(id){if(!S.spells.includes(id)){S.spells.push(id);log(`Neuer Zauber: ${SPELLS[id].n} (${SPELLS[id].school}).`,'magic');sfx('level');updateHUD();}}
 function castSpell(id,e){
-  const sp=SPELLS[id],p=S.p;
+  const sp=SPELLS[id],p=S.p,now0=performance.now();
+  if(!bereit(id,now0)){log(`${sp.n} ist noch nicht wieder bereit.`);return;}
   if(p.mp<sp.cost){log('Dir fehlt das Mana.');return;}
   if(id==='glut'){const tg=ens().filter(x=>!x.dead&&cheb(x.x,x.y,p.x,p.y)===1);
     if(!tg.length){log('Kein Gegner steht neben dir.');return;}
     p.mp-=sp.cost;burst(p.x,p.y,['#ff9a28','#ffe070','#ff5a1a'],36,1.8);sfx('fire');
     tg.forEach(x=>damage(x,rand(7,10)+p.lvl-1+spB(),'#ffbf6b'));log('Glut regnet auf alles um dich herab.','magic');}
-  else if(id==='stein'){p.mp-=sp.cost;S.buff=12;burst(p.x,p.y,['#a89070','#c9b28a'],18,.9);sfx('stone');log('Deine Haut wird hart wie Fels.','magic');}
+  else if(id==='stein'){p.mp-=sp.cost;S.buff=20;burst(p.x,p.y,['#a89070','#c9b28a'],18,.9);sfx('stone');log('Deine Haut wird hart wie Fels.','magic');}
   else if(id==='heil'){p.mp-=sp.cost;const h=Math.min(12+2*(p.lvl-1)+2*spB(),p.maxHp-p.hp);p.hp+=h;burst(p.x,p.y,['#60b8f0','#c0ecff'],20,1.2);
     sfx('heal');floatAt(p.x,p.y,'+'+h,'#90e090');log('Kühles Wasser schließt deine Wunden.','magic');}
   else if(id==='flamme'){setFace(p,e.x-p.x,e.y-p.y);p.mp-=sp.cost;burst(e.x,e.y,['#ff9a28','#ffe070']);sfx('fire');damage(e,rand(6,9)+p.lvl-1+spB(),'#ffbf6b');log('Das Zeichen der Flamme lodert auf.','magic');}
   else if(id==='eis'){setFace(p,e.x-p.x,e.y-p.y);p.mp-=sp.cost;burst(e.x,e.y,['#bff0ff','#7fc8e8','#ffffff'],24,1);sfx('stone');
-    damage(e,rand(8,11)+p.lvl-1+spB(),'#bff0ff');if(!e.dead)e.frozen=3;log('Eine Lanze aus Eis durchbohrt deinen Gegner.','magic');}
+    damage(e,rand(8,11)+p.lvl-1+spB(),'#bff0ff');if(!e.dead)e.frozen=6;log('Eine Lanze aus Eis durchbohrt deinen Gegner.','magic');}
   else if(id==='sturm'){setFace(p,e.x-p.x,e.y-p.y);p.mp-=sp.cost;burst(e.x,e.y,['#e8f2ff','#9fb8cc'],20,.8);sfx('wind');
     damage(e,rand(5,8)+p.lvl-1+spB(),'#e8f2ff');log('Der Sturmstoß reißt an deinem Gegner.','magic');
     if(!e.dead&&!KINDS[e.k].boss){const sx=Math.sign(e.x-p.x),sy=Math.sign(e.y-p.y);
       for(let i=0;i<2;i++){const nx=e.x+sx,ny=e.y+sy,t=T(nx,ny);
         if(t==='v'||t==='L'||t==='~'||t==='q'){e.x=nx;e.y=ny;e.hp=0;log(`${KINDS[e.k].name} stürzt hinab.`,'magic');kill(e);break;}
         if(!terrainWalk(nx,ny)||enemyAt(nx,ny)||npcAt(nx,ny))break;e.x=nx;e.y=ny;}}}
-  G.cast=null;playerActed();
+  sperre(id,now0);G.cast=null;playerActed();
 }
 function enemiesAct(){
   const p=S.p,night=isNight()&&!ZD().cave;
@@ -2568,6 +2580,7 @@ function enemiesAct(){
     if(d>16)continue;
     const pSafe=isSafe(p.x,p.y);
     if(d===1&&!pSafe){
+      if(e.cd>0){e.cd--;continue;}e.cd=['wolf','frostwolf','hound','harpy'].includes(e.k)?1:2;/* Rev 119: Gegner schlagen alle 1,5 s zu, flinke alle 1 s */
       lunge(e,p);
       if(Math.random()<K.hit){const dmg=Math.max(1,rand(K.atk[0],K.atk[1])+bonus-defense());p.hp-=dmg;G.hurt=p.flash=performance.now();
         floatAt(p.x,p.y,'-'+dmg,'#ff7a60');log(`${K.name} trifft dich (${dmg}).`,'hurt');sfx('hurt');
@@ -2591,7 +2604,7 @@ function openTravel(i){
   if(i<0)return;const w=WAYS[i];if(!S.ways.includes(w.id)){S.ways.push(w.id);log(`Wegstein entdeckt: ${w.name}.`,'magic');}
   const rows=WAYS.filter(o=>o.id!==w.id).sort((a,b)=>(S.ways.includes(b.id)?1:0)-(S.ways.includes(a.id)?1:0)).map(o=>S.ways.includes(o.id)?`<div class="item"><span class="nm">${o.name}<small>${ZDEF[zoneAt(o.x,o.y)].name}</small></span><button data-w="${o.id}">Reisen</button></div>`
     :`<div class="item"><span class="nm" style="opacity:.6">${o.name}<small>noch nicht entdeckt, liegt ${dirTo(w,o)}. Geh in seine Nähe, um ihn zu aktivieren.</small></span></div>`).join('');
-  const el=openPanel(`<div class="title px">Wegstein: ${w.name}</div><div class="meta">Die Runen leuchten. Wohin willst du reisen? Die Reise dauert etwa 15 Züge.</div>${rows}<div class="row"></div>`);
+  const el=openPanel(`<div class="title px">Wegstein: ${w.name}</div><div class="meta">Die Runen leuchten. Wohin willst du reisen? Die Reise dauert einige Augenblicke.</div>${rows}<div class="row"></div>`);
   el.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>travelTo(+b.dataset.w));btn(el.querySelector('.row'),'Schließen',closePanel).focus();}
 function travelTo(j){const w=WAYS[j],p=S.p;let spot=null;
   for(const[dx,dy]of[[0,1],[1,0],[-1,0],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const x=w.x+dx,y=w.y+dy;if(playerPass(x,y)){spot=[x,y];break;}}
@@ -2753,8 +2766,10 @@ function stepPath(now){
   G.last=now;const p=S.p,pd=G.pending;
   if(pd&&pd.type==='attack'){
     const e=ens().find(e=>e.id===pd.id);
-    if(!e||e.dead){G.pending=null;G.path=[];return;}
-    if(cheb(p.x,p.y,e.x,e.y)<=wRange()){G.pending=null;G.path=[];attack(e);return;}
+    if(!e||e.dead){/* Rev 119: nach dem Sieg gleich den nächsten Gegner in Reichweite angreifen */
+      const n=ens().filter(x=>!x.dead&&(x.prov||cheb(x.x,x.y,p.x,p.y)<=1)&&cheb(x.x,x.y,p.x,p.y)<=wRange()&&!isSafe(p.x,p.y)).sort((a,b)=>cheb(a.x,a.y,p.x,p.y)-cheb(b.x,b.y,p.x,p.y))[0];
+      if(n){G.pending={type:'attack',id:n.id};G.target=n.id;return;}G.pending=null;G.path=[];return;}
+    if(cheb(p.x,p.y,e.x,e.y)<=wRange()){G.path=[];attack(e);return;}/* Rev 119: Dauerangriff – das Ziel bleibt, bis es fällt oder du woanders hintippst */
     if(!G.path.length||!playerPass(G.path[0].x,G.path[0].y)){const np=pathAdj(e);
       if(!np||!np.length){G.pending=null;G.path=[];log('Du kommst nicht heran.');return;}G.path=np;}
   }
@@ -3139,9 +3154,10 @@ function useItem(k){const p=S.p;
   if(ITEMS[k]&&ITEMS[k].heal){const it=ITEMS[k];if(p.hp>=p.maxHp&&!(it.mana&&p.mp<p.maxMp)){log('Du bist satt und unverletzt.');return false;}
     const h=Math.min(it.heal,p.maxHp-p.hp),m=it.mana?Math.min(it.mana,p.maxMp-p.mp):0;p.hp+=h;p.mp+=m;floatAt(p.x,p.y,'+'+h,'#90e090');
     log(k==='fish_leucht'?`Der Leuchtfisch prickelt auf der Zunge (+${h} Leben, +${m} Mana).`:`Du isst ${it.acc||it.n}. Salzig, aber stärkend (+${h} Leben).`);take(k);sfx('heal');playerActed();return true;}
+  if((k==='potion'||k==='bigpotion'||k==='mana')&&!bereit('trank',performance.now())){log('Du kannst noch nicht wieder trinken.');return false;}
   if(k==='potion'||k==='bigpotion'){if(p.hp>=p.maxHp){log('Du bist unverletzt.');return false;}const h=Math.min(Math.round((k==='potion'?15:35)*(1+(skL('herb')>=3?.3:skL('herb')>=2?.15:0))),p.maxHp-p.hp);p.hp+=h;floatAt(p.x,p.y,'+'+h,'#90e090');log(`Der Trank wärmt dich (+${h} Leben).`);}
   else{if(p.mp>=p.maxMp){log('Dein Mana ist voll.');return false;}const m=Math.min(8,p.maxMp-p.mp);p.mp+=m;floatAt(p.x,p.y,'+'+m,'#7fc8c0');log(`Der Manatrank schmeckt nach Eisen (+${m} Mana).`);}
-  take(k);sfx('heal');playerActed();return true;}
+  if(k==='potion'||k==='bigpotion'||k==='mana')sperre('trank',performance.now());take(k);sfx('heal');playerActed();return true;}
 function craft(r){if(r.tool&&!has(r.tool))return;for(const k in r.need)if(cntItem(k)<r.need[k])return;
   for(const k in r.need)for(let i=0;i<r.need[k];i++)take(k);
   if(isEqKey(r.out)){const SL=skL('smith'),q=Math.random()<.08+.05*SL?3:Math.random()<.3+.07*SL?2:1,o=mkEq(r.out,q,Math.random()<.2+.07*SL?pickAf():null);giveEq(o);skUse('smith',2);log(`Hergestellt: ${eqName(o)}.`,'q');}
@@ -3172,7 +3188,7 @@ function renderInv(){
       <div class="pockets"><h4>Taschen <span class="hint">(${entries.length} Fächer belegt)</span></h4><div class="pgrid">${entries.map(slot).join('')}${'<div class="slot empty"></div>'.repeat(free)}</div>
         <div class="detail">${det}</div></div></div>`;}
   else if(invTab==='craft'){
-    body=`<div class="meta">${has('hammer')?'Mit dem Schmiedehammer kannst du auch Ausrüstung herstellen.':'Für Waffen und Rüstungen brauchst du einen Schmiedehammer. Hagen im Glutschlund hat einen.'} Herstellen dauert ein paar Züge, manchmal gelingt ein besonders gutes Stück.</div><div class="clist">`+
+    body=`<div class="meta">${has('hammer')?'Mit dem Schmiedehammer kannst du auch Ausrüstung herstellen.':'Für Waffen und Rüstungen brauchst du einen Schmiedehammer. Hagen im Glutschlund hat einen.'} Herstellen dauert einen Moment, manchmal gelingt ein besonders gutes Stück.</div><div class="clist">`+
       REC.map((r,i)=>{const ok=(!r.tool||has(r.tool))&&Object.keys(r.need).every(k=>cntItem(k)>=r.need[k]);
         const need=Object.entries(r.need).map(([k,n])=>`<span style="color:${cntItem(k)>=n?'#8fe08a':'#f08a70'}">${ITEMS[k].n} ${cntItem(k)}/${n}</span>`).join(', ')+(r.tool?`, <span style="color:${has(r.tool)?'#8fe08a':'#f08a70'}">Schmiedehammer</span>`:'');
         return`<div class="item">${ic(r.out)}<span class="nm">${ITEMS[r.out].n}<small>${need}</small></span><button data-craft="${i}" ${ok?'':'disabled'}>Herstellen</button></div>`;}).join('')+'</div>';}
@@ -3379,7 +3395,7 @@ function epilogue(){const f=F(),L=[];
   L.push(f.fac_feuer>0?'Hagens Esse bleibt kalt. Er wird Fischer in Sandhafen und singt nie wieder.':f.fac_feuer<0?'Im Glutschlund tanzen freie Glutgeister über der Lava. Hagen sieht ihnen jede Nacht zu.':'');
   L.push(f.fac_luft>0?'Die Sturmbrüder läuten in Steinwacht jeden Abend die Glocke für dich.':f.fac_luft<0?'In Steinwacht schreibt Bruder Aldo ein neues Buch: über einen Mann, den der Wind nicht lenken konnte.':'');
   const nb=f.books?Object.keys(f.books).length:0;
-  return L.filter(Boolean).map(t=>`<p>${t}</p>`).join('')+`<p class="hint">${S.turn} Züge · Stufe ${S.p.lvl} · ${S.gold} Gold · ${nb}/${BOOKS.length} Schriften gelesen</p>`;}
+  return L.filter(Boolean).map(t=>`<p>${t}</p>`).join('')+`<p class="hint">${Math.floor(S.turn/120)} Min. Weltzeit · Stufe ${S.p.lvl} · ${S.gold} Gold · ${nb}/${BOOKS.length} Schriften gelesen</p>`;}
 function ending(kind){if(F().ending)return;F().ending=kind;S.over=true;G.path=[];G.pending=null;clearSave();
   const T={a:['Das neue Siegel','<p>Du trittst in die Mitte des Steinkreises. Die vier Splitter lösen sich aus deinen Händen und kreisen über dir. Dann sinken sie in deine Brust, und du wirst still wie Stein.</p><p>Der Riss schließt sich. Unter dem Aschenhorn verstummt das Summen. Du bist das Siegel nun, und du wirst es bleiben.</p>'+(F().mareth>0||F().fac_luft>0?'<p>Du bist nicht allein: '+[F().mareth>0?'Mareth':'',F().fac_luft>0?'die Sturmbrüder':''].filter(Boolean).join(' und ')+' stehen am Rand des Kreises, bis es dunkel wird.</p>':'<p>Niemand steht am Kreis, als die Steine dich aufnehmen.</p>')+'<p>Im Frühjahr kehrt das erste Schiff aus Tharos zurück.</p>'],
     b:['Der Erlöser','<p>Der Titanenbrecher fährt in die Glut, und Nhal schreit mit der Stimme deiner Frau. Dann zerfällt er zu Asche, endgültig.</p><p>Mit ihm sterben die Vier. Die Splitter in deiner Tasche werden zu gewöhnlichen Steinen. Kein Zauber wirkt mehr in Vharos, kein Leuchtstein leuchtet je wieder.</p><p>Die Welt ist frei. Und ein wenig ärmer.</p>'],
@@ -3611,7 +3627,7 @@ function mineCrystal(x,y){const f=F();f.mined=f.mined||{};if(f.mined[y*W+x]){log
 
 function startNew(c){
   clearInterval(G.ccAnim);
-  clearSave();newGame();if(c)applyChar(c);S.p.lookSet=1;initRender();for(let f=0;f<5;f++)charSprite('player',f);logs.length=0;closeOverlay();updateHUD();
+  clearSave();newGame();LIVE=true;if(c)applyChar(c);S.p.lookSet=1;initRender();for(let f=0;f<5;f++)charSprite('player',f);logs.length=0;closeOverlay();updateHUD();
   const now=performance.now();G.fade=now;G.title={text:'Grauufer',t:now};
   log('Salz auf den Lippen. Kälte. Du weißt nicht, wer du bist – nur, dass das Meer dich nicht wollte.','q');
   log('Draußen in der Brandung liegt ein verkohltes Schiff, halb versunken. Neben dir glänzt etwas im Sand. Im Norden steigt Rauch aus den Hütten von Grauufer.');
@@ -3636,9 +3652,9 @@ function migrate(){
   S.inv=S.inv.map(i=>typeof i==='string'&&isEqKey(i)?mkEq(i,1):i);}
 function intro(){
   const sv=loadSave(),b=[];
-  if(sv)b.push(['Weiterspielen',()=>{S=sv;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
+  if(sv)b.push(['Weiterspielen',()=>{S=sv;LIVE=true;S.p.face=S.p.face||1;migrate();initRender();closeOverlay();updateHUD();log(`Du bist zurück in ${ZD().name}.`);},true]);
   b.push(['Neues Spiel',charCreate,!sv]);
-  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 118</div>
+  overlay(`<h1>Grauufer ${VER}</h1><div class="sub px">Ein Rollenspiel von schnoerp-media, Revision 119</div>
     <p class="px">Der Riss hat dich verschluckt und an eine fremde Küste gespien. Wachen aus Sonnwacht, der letzten Stadt mit Licht, haben dich gefunden. Über Vharos hängt ein Himmel ohne Sterne. Die vier Titanen schweigen. Nur die Toten finden keine Ruhe.</p>
     <p class="hint">Die Welt ist offen: Hinter den Mauern von Sonnwacht bist du sicher, draußen nicht. Tippe auf den Boden, um zu gehen, auf Figuren, um zu sprechen oder anzugreifen. Mit den Tasten + und − zoomst du, die Karte zeigt, was du schon erkundet hast. Jede Handlung ist ein Zug.</p>`,b);
 }
@@ -4041,7 +4057,7 @@ function volcDrawSky(now,t){const c=iso(VOLC.x,VOLC.y),rimB=iso(VOLC.x-5,VOLC.y-
     lx.fillStyle='#ffe080';lx.fillRect(Math.round(x-RES),Math.round(y-2*RES),Math.round(2*RES),Math.round(2*RES));}}
 function loopBody(now){
   const t=now/1000,dt=Math.min(.05,(now-lastT)/1000||0);lastT=now;
-  if(S){stepPath(now);volcTick(now);fishTick(now);nhalTick(now);const L=Math.min(1,dt*12),p=S.p;
+  if(S){stepPath(now);weltTakt(now);if(now-(G.cdT||0)>100){G.cdT=now;hotCd(now);}volcTick(now);fishTick(now);nhalTick(now);const L=Math.min(1,dt*12),p=S.p;
     p.rx+=(p.x-p.rx)*L;p.ry+=(p.y-p.ry)*L;ens().forEach(e=>{if(cheb(e.x,e.y,p.x,p.y)<30){e.rx+=(e.x-e.rx)*L;e.ry+=(e.y-e.ry)*L;}else{e.rx=e.x;e.ry=e.y;}});
     const c=iso(p.rx,p.ry);c.y-=elev(p.rx,p.ry);camX+=(c.x-camX)*Math.min(1,dt*8);camY+=(c.y-6*RES-camY)*Math.min(1,dt*8);
     if(G.vEr&&now-G.vEr<900&&!RM&&cheb(p.x,p.y,VOLC.x,VOLC.y)<=22){const k=1-(now-G.vEr)/900;camX+=(Math.random()-.5)*4*RES*k;camY+=(Math.random()-.5)*4*RES*k;}
@@ -4320,7 +4336,7 @@ function prewarm(){try{initMtn();wildPool();['moor','frost','wueste','nebel'].fo
   }catch(e){}}
 setTimeout(()=>{genTextures();newGame();initRender();updateHUD();prewarm();requestAnimationFrame(loop);READY=true;if(!SPGO)$('#spHint').textContent='Tippe, um zu beginnen';
   let rs=false;try{rs=sessionStorage.getItem('grauufer-resume')==='1';sessionStorage.removeItem('grauufer-resume');}catch(e){}
-  const sv=rs&&loadSave();if(sv){S=sv;S.p.face=S.p.face||1;migrate();initRender();SPGO=true;$('#splash').hidden=true;$('#overlay').hidden=true;uiOpen=false;updateHUD();G.fade=performance.now();log('Die Grafik wurde neu gestartet. Weiter geht es.','q');}},80);
+  const sv=rs&&loadSave();if(sv){S=sv;LIVE=true;S.p.face=S.p.face||1;migrate();initRender();SPGO=true;$('#splash').hidden=true;$('#overlay').hidden=true;uiOpen=false;updateHUD();G.fade=performance.now();log('Die Grafik wurde neu gestartet. Weiter geht es.','q');}},80);
 </script>
 </body>
 </html>
