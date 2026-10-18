@@ -67,6 +67,20 @@ const speichere = (name, url) => fs.writeFileSync(path.join(OUT, name), Buffer.f
     }, innenBild));
     alleFehler.push(...p.fehler); await p.close();
   }
+  // 2b. Haustypen (Vorlagen) nebeneinander von außen
+  {
+    const p = await seite(b, 'hausbau.js', 1200, 900);
+    speichere('haustypen.jpg', await p.evaluate(async () => {
+      const bilder = [];
+      for (const [, v] of Object.entries(Hausbau.VORLAGEN)) { const sp = Object.assign({ name: v.name }, v.spec()), c = document.createElement('canvas'), s = Hausbau.Szene(c), [w, h] = s.groesse(sp, false, 28);
+        s.renderer.setSize(w, h); s.zeige(sp, false, 0, 28); bilder.push([v.name, await ladeBild(c.toDataURL())]); }
+      const W = bilder.reduce((a, [, i]) => a + i.width, 0), H = Math.max(...bilder.map(([, i]) => i.height)) + 26, o = document.createElement('canvas'); o.width = W; o.height = H;
+      const g = o.getContext('2d'); g.fillStyle = '#d6ac84'; g.fillRect(0, 0, W, H); g.font = '18px sans-serif'; g.fillStyle = '#3c2819'; let x = 0;
+      for (const [n, i] of bilder) { g.drawImage(i, x, H - i.height); g.fillText(n, x + 10, 20); x += i.width; }
+      return o.toDataURL('image/jpeg', 0.85);
+    }));
+    alleFehler.push(...p.fehler); await p.close();
+  }
   // 3. Gegenstände: einzeln auf den sichtbaren Teil zugeschnitten (128 x 128) und als Bogen
   const symbole = {};
   {

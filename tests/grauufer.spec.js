@@ -332,13 +332,13 @@ test('Werkstatt: Hausbau erzeugt Häuser aus der Beschreibung (alle Wand-, Dach-
   const r = await page.evaluate(() => {
     const zaehle = g => { let n = 0; g.traverse(o => { if (o.isMesh) n++; }); return n; };
     const ergebnis = [];
-    for (const wand of ['fachwerk', 'stein', 'holz']) for (const dach of ['schiefer', 'schindeln', 'reet']) for (const first of ['x', 'z']) for (const dachform of ['sattel', 'walm']) {
+    for (const wand of ['fachwerk', 'stein', 'holz']) for (const dach of ['schiefer', 'schindeln', 'reet']) for (const first of ['x', 'z']) for (const dachform of ['sattel', 'walm', 'pult']) {
       const spec = Object.assign(JSON.parse(JSON.stringify(Hausbau.BEISPIEL)), { wand, dach, first, dachform });
       ergebnis.push(zaehle(Hausbau.Bau(spec, false)) > 100 && zaehle(Hausbau.Bau(spec, true, 2)) > 200);
     }
     return [ergebnis.every(Boolean), ergebnis.length, Object.keys(Hausbau.KATALOG).length];
   });
-  expect(r).toEqual([true, 36, 18]);
+  expect(r).toEqual([true, 54, 22]);
   expect(fehler).toEqual([]);
 });
 
@@ -437,5 +437,20 @@ test('Werkstatt: drei Geschosse und begehbarer Dachboden, je Ebene eine Treppe n
   expect(ebenen).toEqual(['Erdgeschoss', '1. Obergeschoss', '2. Obergeschoss', 'Dachboden']);
   expect(dach).toEqual([0, 0]);
   expect(r).toEqual(['kiste3,treppe0,treppe1,treppe2', 3, 2, true, true]);
+  expect(fehler).toEqual([]);
+});
+
+test('Werkstatt: Haustypen als Vorlagen mit Tor, Portal, Luke, Pultdach und Gauben', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'baukasten.html'));
+  await page.waitForFunction(() => window.Hausbau && typeof spec === 'object', null, { timeout: 30000 });
+  const typen = await page.locator('#typ option').allTextContents();
+  await page.selectOption('#typ', 'bauernhaus'); await page.click('#vorlage');
+  const geladen = await page.evaluate(() => [spec.typ, spec.breite, spec.oeffnungen.some(o => o.art === 'tor'), spec.einrichtung.filter(e => e.art === 'krippe').length, document.getElementById('typhinweis').textContent.startsWith('Typisch')]);
+  const gebaut = await page.evaluate(() => Object.entries(Hausbau.VORLAGEN).map(([k, v]) => { const sp = Object.assign({ name: v.name }, v.spec()); let n = 0;
+    Hausbau.Bau(sp, false).traverse(o => { if (o.isMesh) n++; }); let m = 0; Hausbau.Bau(sp, true, 0, 0).traverse(o => { if (o.isMesh) m++; }); return k + ':' + (n > 100 && m > 100); }).join(','));
+  expect(typen).toEqual(['frei', 'Schuppen', 'Cottage', 'Bauernhaus', 'Wohnhaus', 'Landhaus', 'Residenz']);
+  expect(geladen).toEqual(['bauernhaus', 7, true, 3, true]);
+  expect(gebaut).toBe('schuppen:true,cottage:true,bauernhaus:true,wohnhaus:true,landhaus:true,residenz:true');
   expect(fehler).toEqual([]);
 });
