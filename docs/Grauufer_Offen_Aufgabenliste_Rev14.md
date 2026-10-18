@@ -55,6 +55,7 @@
 
 ## 5. Prüfpunkte für den Auftraggeber
 
+- Fenster nur noch mit dem Siegel oben rechts schließen, Knopf „Schließen“ entfernt (Spiel-Rev 122) – im Spiel prüfen.
 - **Avatar-Baukasten (Spiel-Rev 122):** deine Figur einstellen und speichern; Claudia holt sie aus dem gemeinsamen Speicher ab.
 - Neues Startbild nach deiner Gemini-Vorlage auf dem Tablet ansehen (Spiel-Rev 121); bei Bedarf Originaldatei in höherer Auflösung nachreichen.
 - **Echtzeitkampf (Spiel-Rev 119) auf dem Tablet testen:** Takt der Gegner, Waffentakt, Abklingzeiten und Erholung ggf. nachjustieren; die Ausgleichsvorschläge in Grauufer_Fortschritt_RevXX.md beziehen sich noch auf Züge.

@@ -23,7 +23,7 @@ Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_RevXX.md` (aktuell Rev 21).
 
 ## Tests
 
-Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 42 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität, Story-Baum, Kugeln für Leben und Mana, Spieltitel, Logo, Die Tiefe mit Gegnern, Tafeln, Truhen, Thronhüter und Ring, Notgrund gegen schwarzen Boden, Häuser aus der Werkstatt in Grauufer, Sonnwacht und Sandhafen, Gruft, schlanke Stadtmauer, Flüsse und Berge, Echtzeitkampf, Figurengröße).
+Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 43 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität, Story-Baum, Kugeln für Leben und Mana, Spieltitel, Logo, Die Tiefe mit Gegnern, Tafeln, Truhen, Thronhüter und Ring, Notgrund gegen schwarzen Boden, Häuser aus der Werkstatt in Grauufer, Sonnwacht und Sandhafen, Gruft, schlanke Stadtmauer, Flüsse und Berge, Echtzeitkampf, Figurengröße).
 
 Lokal: `npm install`, `npx playwright install chromium`, dann `npm test`.
 

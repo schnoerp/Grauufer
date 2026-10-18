@@ -118,7 +118,7 @@ body.talk #hud,body.talk #hudR,body.talk #log,body.talk #bottom,body.talk .orb{d
 .q{padding:8px 0;border-bottom:2px solid #2e1c10;line-height:1.45}.q h4{margin:0 0 3px;color:var(--gold);font-weight:500}.q.done{opacity:.55}
 .meta{color:var(--dim);font-size:14px;margin:8px 0}
 #panel p{line-height:1.45;font-size:16px}
-.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.row:empty{display:none}/* Rev 122: kein Knopf „Schließen“ mehr, das Siegel oben rechts schließt */
 #overlay{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;background:radial-gradient(ellipse at 50% 40%,rgba(36,20,10,.84),rgba(10,5,2,.97));
   padding:24px;z-index:5;overflow:auto}
 .ov{max-width:460px;margin:auto}
@@ -2276,7 +2276,7 @@ function openGlobe(){
     const nt=Math.max(-.7,Math.min(.7,tilt+dy/rr*.8));if(Math.abs(nt-tilt)>.03){tilt=nt;tab=glbTable(tilt);}
     drag.x=x;drag.y=y;dirty=true;});
   const up=()=>{drag=null;cv.style.cursor='grab';};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
-  const row=el.querySelector('.row');btn(row,'Schließen',closePanel);btn(row,'◀',()=>{target=(target??yaw)+Math.PI/4;vel=0;});
+  const row=el.querySelector('.row');el.querySelector('.pclose').focus();btn(row,'◀',()=>{target=(target??yaw)+Math.PI/4;vel=0;});
   btn(row,'▶',()=>{target=(target??yaw)-Math.PI/4;vel=0;});btn(row,'Morvenn',()=>{target=-.15;vel=0;});btn(row,'Karte von Morvenn',openMap);
   requestAnimationFrame(frame);}
 
@@ -2306,7 +2306,7 @@ function openMap(){
   const[X,Y]=P(S.p.x,S.p.y);m.fillStyle='#fff';m.beginPath();m.arc(X,Y,8,0,7);m.fill();m.fillStyle='#d02010';m.beginPath();m.arc(X,Y,5.5,0,7);m.fill();
   const el=openPanel(`<div class="title px">${inT?'Karte der Tiefe':'Karte von Morvenn'}</div><div class="meta">${mapFull?'Die ganze Welt, erkundete Gebiete sind eingezeichnet.':'Dein erkundetes Gebiet.'} Der rote Punkt bist du, weiße Punkte sind Bewohner, Quadrate sind Altäre.</div><div id="mapwrap"></div><div class="row"></div>`);
   cvm.style.width='100%';cvm.style.height='auto';cvm.style.display='block';cvm.style.border='2px solid #7a5230';el.querySelector('#mapwrap').appendChild(cvm);
-  const row=el.querySelector('.row');btn(row,'Schließen',closePanel).focus();
+  const row=el.querySelector('.row');el.querySelector('.pclose').focus();
   btn(row,mapFull?'Nur Erkundetes':'Ganze Welt',()=>{mapFull=!mapFull;openMap();});
   btn(row,'Weltkarte',openGlobe);
 }
@@ -2602,7 +2602,7 @@ function openTravel(i){
   const rows=WAYS.filter(o=>o.id!==w.id).sort((a,b)=>(S.ways.includes(b.id)?1:0)-(S.ways.includes(a.id)?1:0)).map(o=>S.ways.includes(o.id)?`<div class="item"><span class="nm">${o.name}<small>${ZDEF[zoneAt(o.x,o.y)].name}</small></span><button data-w="${o.id}">Reisen</button></div>`
     :`<div class="item"><span class="nm" style="opacity:.6">${o.name}<small>noch nicht entdeckt, liegt ${dirTo(w,o)}. Geh in seine Nähe, um ihn zu aktivieren.</small></span></div>`).join('');
   const el=openPanel(`<div class="title px">Wegstein: ${w.name}</div><div class="meta">Die Runen leuchten. Wohin willst du reisen? Die Reise dauert einige Augenblicke.</div>${rows}<div class="row"></div>`);
-  el.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>travelTo(+b.dataset.w));btn(el.querySelector('.row'),'Schließen',closePanel).focus();}
+  el.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>travelTo(+b.dataset.w));el.querySelector('.pclose').focus();}
 function travelTo(j){const w=WAYS[j],p=S.p;let spot=null;
   for(const[dx,dy]of[[0,1],[1,0],[-1,0],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const x=w.x+dx,y=w.y+dy;if(playerPass(x,y)){spot=[x,y];break;}}
   if(!spot){log('Der Wegstein ist versperrt.');return;}
@@ -3112,7 +3112,7 @@ function openShop(id){
     S.gold-=pr;skUse('barter',.6);if(isEqKey(k))giveEq(mkEq(k,1));else give(k);sfx('coin');log(`Gekauft: ${ITEMS[k].n}.`);updateHUD();save();openShop(id);});
   el.querySelectorAll('[data-sell]').forEach(b=>b.onclick=()=>{const o=S.inv.find(i=>typeof i==='object'&&i.uid===b.dataset.sell);if(!o)return;
     const pr=sellPrice(o);S.inv.splice(S.inv.indexOf(o),1);S.gold+=pr;sfx('coin');log(`Verkauft: ${eqName(o)} für ${pr} Gold.`);updateHUD();save();openShop(id);});
-  btn(el.querySelector('.row'),'Schließen',closePanel).focus();
+  el.querySelector('.pclose').focus();
 }
 function openSpells(){
   if(S.over)return;
@@ -3121,7 +3121,7 @@ function openSpells(){
   const el=openPanel(`<div class="title px">Zauberbuch</div><div class="meta">Mana ${p.mp}/${p.maxMp}</div>${rows}<div class="row"></div>`);
   el.querySelectorAll('[data-s]').forEach(b=>b.onclick=()=>{const id=b.dataset.s;closePanel();
     if(SPELLS[id].target){G.cast=id;log(`Wähle ein Ziel für ${SPELLS[id].n}.`,'magic');updateHUD();}else castSpell(id);});
-  btn(el.querySelector('.row'),'Schließen',closePanel).focus();
+  el.querySelector('.pclose').focus();
 }
 let confirmReset=false,invTab='items',invSel=null;
 const REC=[
@@ -3199,7 +3199,7 @@ function renderInv(){
   el.querySelectorAll('[data-use]').forEach(b=>b.onclick=()=>{if(useItem(b.dataset.use)&&!S.over)renderInv();});
   el.querySelectorAll('[data-eq]').forEach(b=>b.onclick=()=>{const o=S.inv.find(i=>typeof i==='object'&&i.uid===b.dataset.eq);if(o){equip(o);sfx('pickup');renderInv();}});
   el.querySelectorAll('[data-craft]').forEach(b=>b.onclick=()=>{craft(REC[+b.dataset.craft]);if(!S.over)renderInv();});
-  const row=el.querySelector('.row');btn(row,'Schließen',closePanel).focus();
+  el.querySelector('.pclose').focus();
 }
 function overlay(html,btns){
   const o=$('#overlay');o.innerHTML=`<div class="ov">${html}<div class="btns"></div></div>`;const b=o.querySelector('.btns');

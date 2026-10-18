@@ -46,6 +46,22 @@ test('Fußzeile ist einzeilig', async ({ page }) => {
   expect(fehler).toEqual([]);
 });
 
+test('Rev 122: Fenster ohne Knopf „Schließen“, das Siegel oben rechts schließt', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => {
+    const out = [];
+    for (const f of [openInv, openMap, openSpells, openGlobe]) {
+      if (!document.querySelector('#panel').hidden) closePanel();
+      f(); const p = document.querySelector('#panel');
+      out.push([...p.querySelectorAll('button')].some(b => b.textContent.trim() === 'Schließen'), !!p.querySelector('.pclose'), document.activeElement === p.querySelector('.pclose'));
+      p.querySelector('.pclose').click(); out.push(p.hidden);
+    }
+    return out.flat();
+  });
+  expect(r).toEqual([false, true, true, true, false, true, true, true, false, true, true, true, false, true, true, true]);
+  expect(fehler).toEqual([]);
+});
+
 test('Gespräch mit Mareth', async ({ page }) => {
   const fehler = await frisch(page);
   const n = await page.evaluate(() => { openDialog('mareth'); return document.querySelectorAll('#choices button').length; });
