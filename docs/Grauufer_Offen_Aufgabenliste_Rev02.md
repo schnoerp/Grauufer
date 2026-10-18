@@ -1,18 +1,18 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 1**, Stand: Spiel-Rev 108. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 2**, Stand: Spiel-Rev 109. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
 | Aufgabe | Stand | Einzelheiten |
 |---|---|---|
-| Haus-Baukasten | fertig in der Werkstatt (Haustypen, 1–3 Geschosse, Dachboden, Öffnungen, 22 Einrichtungsteile), noch nicht im Spiel | Grauufer_Baukaesten_RevXX.md |
-| Neue vorgerenderte Grafik | Werkstatt und Stilregeln als Probe fertig; Skelettkrieger, Fischerhaus, 14 Gegenstände und Rucksack-Entwurf gerendert, nichts davon im Spiel | Grauufer_Grafik_RevXX.md |
+| Haus-Baukasten | fertig in der Werkstatt (Haustypen, 1–3 Geschosse, Dachboden, Öffnungen, 22 Einrichtungsteile); fünf Häuser in Grauufer im Spiel (Spiel-Rev 109) | Grauufer_Baukaesten_RevXX.md |
+| Neue vorgerenderte Grafik | Werkstatt und Stilregeln fertig; im Spiel bisher nur die fünf Häuser in Grauufer; Skelettkrieger, 14 Gegenstände und Rucksack-Entwurf erst gerendert | Grauufer_Grafik_RevXX.md |
 | Umstellung auf TypeScript + Vite | Stufe 0 erledigt; offen: Ordner `reference/` mit Rev 29 fehlt noch | Grauufer_Fahrplan_RevXX.md |
 
 ## 2. Als Nächstes (vereinbarte Reihenfolge)
 
-1. **Pilot A – Startgebiet Grauufer** mit dem **Landschafts-Baukasten, Teil A** (Bäume, Büsche, Felsen, Ufer, Klippen, Höhleneingänge): Häuser aus dem Haus-Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut und auf dem Tablet gemessen. → Grauufer_Grafik_RevXX.md, Grauufer_Baukaesten_RevXX.md (Weg ins Spiel)
+1. **Pilot A – Startgebiet Grauufer** (Häuser erledigt in Spiel-Rev 109; offen: Landschaft, Boden, Messung auf dem Tablet) mit dem **Landschafts-Baukasten, Teil A** (Bäume, Büsche, Felsen, Ufer, Klippen, Höhleneingänge): Häuser aus dem Haus-Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut und auf dem Tablet gemessen. → Grauufer_Grafik_RevXX.md, Grauufer_Baukaesten_RevXX.md (Weg ins Spiel)
 2. **Figuren-Baukasten:** gemeinsames Skelett und Bewegungen je Körperbau-Familie. → Grauufer_Baukaesten_RevXX.md
 3. **Pilot B – Die Tiefe:** Ruheloser, Steinwächter, Echo, Skelettkrieger, Thronhüter in neuer Grafik. → Grauufer_Grafik_RevXX.md
 4. **Spielerfiguren:** 3 Klassen, fest je Klasse. → Grauufer_Baukaesten_RevXX.md
@@ -55,5 +55,6 @@
 ## 5. Prüfpunkte für den Auftraggeber
 
 - Auf dem Tablet bestätigen, dass die schwarzen Ränder weg sind (Spiel-Rev 108).
+- Die fünf Häuser in Grauufer im Spiel ansehen (Spiel-Rev 109) und entscheiden: so lassen, im Haus-Baukasten ändern oder weitere Häuser ergänzen; auf dem Tablet auf Ruckeln achten.
 - Ein Haus über „Über GitHub an Claudia senden“ testweise abschicken.
 - Claude-Seite „Grauufer Haus-Baukasten“ mit dem Mitbenutzer teilen (Teilen → Rolle Bearbeiter, kein öffentlicher Link), falls er sie statt der GitHub-Seite nutzen soll.

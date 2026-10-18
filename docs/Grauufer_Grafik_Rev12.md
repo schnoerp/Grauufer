@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 11**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 12**, Stand: Spiel-Rev 109. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -22,6 +22,7 @@ Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Ein
 | Skelettkrieger | `werkstatt/modelle/skelettkrieger.js` | Figur aus Grundformen mit Gelenken; Stehen, Laufen (8 Bilder), Angriff (6), Sterben (5), 8 Blickrichtungen |
 | Hausbau | `werkstatt/modelle/hausbau.js` | erzeugt Häuser aus einer Beschreibung (JSON): Wandart, Dachdeckung, First, Öffnungen, Einrichtung, Verwitterung; außen mit Dach, innen ohne Dach und mit den zwei Wänden zur Kamera niedrig (1,1 m) |
 | Haus-Baukasten | `werkstatt/baukasten.html` | Bedienseite zum Selbstbauen (Grauufer_Baukaesten_RevXX.md) |
+| Häuser im Spiel | `werkstatt/spielhaeuser/*.json`, `werkstatt/spielhaeuser.js` | rendert die Häuser als Spielbilder und bettet sie in `index.html` ein (`npm run haeuser`, seit Spiel-Rev 109); Einzelheiten in Grauufer_Baukaesten_RevXX.md |
 | Häuser | `werkstatt/haeuser/*.json` | gebaute Häuser; jedes wird von `npm run grafik` gerendert (außen, innen, innen gerastert) |
 | three.js | `werkstatt/lib/three.min.js` | three.js 0.149.0 (MIT-Lizenz, `three-LICENSE.txt`), nur für Werkstatt und Baukasten, nicht im Spiel |
 | Gegenstände | `werkstatt/modelle/gegenstaende.js` | 14 Gegenstände: Schwert, Schild, Heiltrank, Manatrank, Brot, Apfel, Schlüssel, Kerze, Buch, Gold, Becher, Schriftrolle, Dolch, Edelstein |
@@ -53,7 +54,7 @@ Haus-Baukasten (vorhanden, noch nicht im Spiel), Anlagen-Baukasten für Burg und
 - **Außen:** Kiste, Fässer, Brennholzstapel, schief hängende Fensterläden, kaputtes Fenster, mit Brettern geflicktes Dach, ausgetretener Dreck vor der Tür, Unkraut am Sockel.
 - **Innen, feste Möbel:** Kamin mit Feuer, Kessel, Bett mit zerwühlter Decke, Truhe, Schrank, Bücherregal, Wandbrett mit Geschirr, Tisch mit zwei Bänken, Teppich, Fässer, Säcke, Kiste, Hocker, Besen, umgekippter Stuhl.
 - **Innen, bewegliche Dinge (Geplant: aufheben und verschieben):** Brot, Äpfel, Becher, Kerze, Kessel.
-- Bedingung für das Spiel: Häuser bleiben **feldweise** aufgebaut (Mauerstück je Feld, Dach als eigenes Bild), damit Betreten, abnehmbares Dach und Durchsicht wie heute funktionieren.
+- Bedingung für das Spiel: Betreten, abnehmbares Dach und Durchsicht müssen wie bei den Code-Häusern funktionieren. **Umgesetzt seit Spiel-Rev 109** mit drei Bildern je Haus (außen, innen hinten, innen vorn) statt Mauerstücken je Feld; Einzelheiten in Grauufer_Baukaesten_RevXX.md.
 
 ## 6. Rucksack wie in Pagan (Entwurf, Geplant)
 
@@ -67,7 +68,7 @@ Haus-Baukasten (vorhanden, noch nicht im Spiel), Anlagen-Baukasten für Burg und
 
 1. **Werkstatt und Stilregeln** – erledigt als Probe (dieses Dokument).
 2. **Haus-Baukasten im Browser** – erledigt (Grauufer_Baukaesten_RevXX.md): Grundriss, Mauern (Stein, Fachwerk, Holz), Dachform und -deckung, Fenster, Türen, Schornstein und Verwitterungsgrad selbst zusammenstellen; 3D-Vorschau aus Spielsicht; Ergebnis wird gespeichert und von der Werkstatt gerendert.
-3. **Pilot A – Startgebiet Grauufer:** Landschafts-Bausteine aus dem Landschafts-Baukasten, Teil A (Grauufer_Baukaesten_RevXX.md): Bäume (per Code gewachsen, 10–20 Exemplare je Art), Felsen, Häuser aus dem Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut, auf dem Tablet gemessen.
+3. **Pilot A – Startgebiet Grauufer** (begonnen: fünf Häuser im Spiel seit Spiel-Rev 109, Grauufer_Baukaesten_RevXX.md): Landschafts-Bausteine aus dem Landschafts-Baukasten, Teil A (Grauufer_Baukaesten_RevXX.md): Bäume (per Code gewachsen, 10–20 Exemplare je Art), Felsen, Häuser aus dem Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut, auf dem Tablet gemessen.
 4. **Figuren-Baukasten** (Grauufer_Baukaesten_RevXX.md): gemeinsames Skelett und gemeinsame Bewegungen je Körperbau-Familie.
 5. **Pilot B – Die Tiefe:** Ruheloser, Steinwächter, Echo, Skelettkrieger, Thronhüter.
 6. Spielerfiguren (3 Klassen mit fester Ausrüstung je Klasse, Entscheidung des Auftraggebers).

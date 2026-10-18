@@ -1,6 +1,6 @@
 # Grauufer – Baukästen
 
-**Revision 1**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 2**, Stand: Spiel-Rev 109. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zweite Entwickler Teile der Spielwelt selbst zusammenstellen. Die Baukästen gehören zur Grafik-Werkstatt; Technik, Stilregeln und Kamera stehen in Grauufer_Grafik_RevXX.md.
 
@@ -8,7 +8,7 @@ Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zw
 
 | Baukasten | Stand | Inhalt |
 |---|---|---|
-| Haus-Baukasten | vorhanden in der Werkstatt, noch nicht im Spiel | einzelne Häuser vom Schuppen bis zur Residenz: Grundriss, Wände, Dach, Geschosse, Fenster und Türen, Einrichtung (Abschnitt 2) |
+| Haus-Baukasten | vorhanden in der Werkstatt; erste fünf Häuser in Grauufer im Spiel (seit Spiel-Rev 109, Abschnitt 6) | einzelne Häuser vom Schuppen bis zur Residenz: Grundriss, Wände, Dach, Geschosse, Fenster und Türen, Einrichtung (Abschnitt 2) |
 | Anlagen-Baukasten | Geplant | Burg und Schloss als Anlagen aus mehreren Teilen (Abschnitt 3) |
 | Figuren-Baukasten | Geplant | Gesprächspartner, Gegner und Spielerfiguren aus gemeinsamen Körperbau-Familien (Abschnitt 4) |
 | Landschafts-Baukasten | Geplant | Teil A: Bäume, Felsen, Ufer, Klippen, Höhlen als Bausteine; Teil B (optional, später): Gebiete auf dem Raster entwerfen (Abschnitt 5) |
@@ -19,9 +19,10 @@ Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zw
 | Hausbau (Modelle, Vorlagen, Einrichtung) | `werkstatt/modelle/hausbau.js` |
 | Claude-Seite erzeugen | `werkstatt/artefakt.js` (bettet three.js und Hausbau in die Bedienseite ein) |
 | gebaute Häuser | `werkstatt/haeuser/*.json` |
+| Häuser im Spiel | `werkstatt/spielhaeuser/*.json`, eingebettet mit `npm run haeuser` (`werkstatt/spielhaeuser.js`) |
 | Tests | `tests/grauufer.spec.js` (Abschnitt „Werkstatt“) |
 
-## 2. Haus-Baukasten (vorhanden, noch nicht im Spiel)
+## 2. Haus-Baukasten (vorhanden; erste Häuser im Spiel seit Spiel-Rev 109)
 
 **Aufruf, zwei Wege:**
 - **Claude-Seite „Grauufer Haus-Baukasten“** im Claude-Konto des Auftraggebers (empfohlen): gespeicherte Häuser liegen im Speicher der Seite (Sammlung `haeuser`, ein Dokument je Haus mit `name`, `spec`, `geaendert`); Claude liest sie dort direkt aus, legt sie unter `werkstatt/haeuser/` ab und baut sie ins Spiel ein. Der Auftraggeber muss keine Dateien ablegen. Die Seite wird mit `node werkstatt/artefakt.js <Zieldatei>` aus `baukasten.html` erzeugt (three.js und Hausbau eingebettet).
@@ -86,10 +87,25 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 
 **Teil B – Gebietsentwurf (optional, später):** Berge, Seen, Meer, Wald und Wege auf einem Raster malen; Claude baut das Ergebnis in die Karte ein. Nur für neue Gebiete (z. B. weitere Kontinente, Grauufer_Welt_RevXX.md, Abschnitt 7); Morvenn wird nicht neu gemalt, weil Quests und Koordinaten daran hängen.
 
-## 6. Weg ins Spiel (Geplant)
+## 6. Weg ins Spiel
 
-1. **Abgeben:** Der Auftraggeber oder der zweite Entwickler speichert ein Haus auf der Claude-Seite oder sendet es über GitHub (Abschnitt 2). Claude legt es unter `werkstatt/haeuser/` ab; niemand muss Dateien selbst ablegen.
-2. **Rendern:** `npm run grafik` erzeugt die Bilder (außen, innen, wie im Spiel gerastert).
-3. **Einbauen:** Häuser bleiben **feldweise** aufgebaut (Mauerstück je Feld, Dach als eigenes Bild), damit Betreten, abnehmbares Dach und Durchsicht wie heute funktionieren. Die Bilder werden in `index.html` eingebettet (das Spiel bleibt eine Einzeldatei, siehe Grauufer_Grafik_RevXX.md, offene Punkte).
-4. **Obere Ebenen:** wie die Treppen zur Tiefe (seit Spiel-Rev 105): Jedes Obergeschoss und der Dachboden liegen als eigener kleiner Bereich auf der Karte, die Treppe führt dorthin und zurück.
-5. **Erster Einsatz:** Pilot A „Startgebiet Grauufer“ (Fahrplan in Grauufer_Grafik_RevXX.md), auf dem Tablet gemessen.
+**Im Spiel seit Spiel-Rev 109 (Pilot in Grauufer):** fünf Häuser, Vorschlag von Claude, Beschreibungen in `werkstatt/spielhaeuser/`:
+
+| Haus | Datei | Bauart | Feld (linke obere Ecke) |
+|---|---|---|---|
+| Mareths Haus (Dorfälteste) | `mareth.json` | Fachwerk, Schiefer-Satteldach, gepflegt; Kamin, Regal, Bett, Truhe, Tisch, Schrank | 85,220 |
+| Oswins Hütte (Totengräber, verschanzt) | `oswin.json` | Bruchstein, Schindeldach, verwittert, vernagelte Fenster; Bett, Truhe, Waffen an der Wand | 88,213 |
+| Ilsabes Kate (Kräuterkundige) | `ilsabe.json` | Holzbohlen, Reet-Walmdach; Kamin mit Kessel, Regal, Säcke, Wandbrett, Bett | 69,220 |
+| Brams Laden (Händler) | `bram.json` | Fachwerk, Schiefer-Satteldach; Ladentheke, Regal, Schrank, Fässer, Kisten | 73,220 |
+| Verlassene Kate (neu, leer) | `verlassen.json` | Holzbohlen, Reet-Satteldach, verfallen, kaputte Fenster; umgekippter Stuhl, Brennholz | 89,219 |
+
+- Alle fünf Häuser sind 3 × 3 Felder groß mit der Tür vorn in der Mitte, wie die bisherigen Hütten. Die Bewohner stehen im mittleren Feld, die Einrichtung steht in den Randfeldern, die im Spiel als Wand gelten. Die verlassene Kate ist neu und steht leer.
+- Je Haus drei Bilder, gerendert mit `npm run haeuser` im Maßstab des Spiels (ein Feld 160 Einheiten breit, Raster wie im Spiel) und als PNG in `index.html` eingebettet (zusammen etwa 480 KB): **außen** mit Dach, **innen hinten** (Boden, hintere Wände, Einrichtung) und **innen vorn** (die zwei niedrigen Wände zur Kamera).
+- Steht die Figur im Haus oder dahinter, zeigt das Spiel die Innenansicht: das hintere Bild vor den Figuren, die niedrigen vorderen Wände danach. Sonst das Haus von außen mit Dach. Die Bilder werden beim Start einmal im Hauptspeicher entpackt; bis dahin zeichnet das Spiel die alte Hütte.
+
+**Weiter geplant:**
+
+1. **Abgeben:** Der Auftraggeber oder der zweite Entwickler speichert ein Haus auf der Claude-Seite oder sendet es über GitHub (Abschnitt 2). Claude legt es unter `werkstatt/spielhaeuser/` ab, bettet es mit `npm run haeuser` ein und setzt es auf die Karte; niemand muss Dateien selbst ablegen.
+2. **Größere Häuser:** Häuser über 3 × 3 Felder brauchen auf der Karte mehr begehbare Innenfelder; dafür werden die Wände auf der Karte an den Grundriss angepasst.
+3. **Obere Ebenen:** wie die Treppen zur Tiefe (seit Spiel-Rev 105): Jedes Obergeschoss und der Dachboden liegen als eigener kleiner Bereich auf der Karte, die Treppe führt dorthin und zurück.
+4. **Weitere Gebiete:** nach Pilot A Gebiet für Gebiet (Fahrplan in Grauufer_Grafik_RevXX.md), jeweils auf dem Tablet gemessen.
