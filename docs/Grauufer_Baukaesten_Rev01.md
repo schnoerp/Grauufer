@@ -11,6 +11,7 @@ Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zw
 | Haus-Baukasten | vorhanden in der Werkstatt, noch nicht im Spiel | einzelne Häuser vom Schuppen bis zur Residenz: Grundriss, Wände, Dach, Geschosse, Fenster und Türen, Einrichtung (Abschnitt 2) |
 | Anlagen-Baukasten | Geplant | Burg und Schloss als Anlagen aus mehreren Teilen (Abschnitt 3) |
 | Figuren-Baukasten | Geplant | Gesprächspartner, Gegner und Spielerfiguren aus gemeinsamen Körperbau-Familien (Abschnitt 4) |
+| Landschafts-Baukasten | Geplant | Teil A: Bäume, Felsen, Ufer, Klippen, Höhlen als Bausteine; Teil B (optional, später): Gebiete auf dem Raster entwerfen (Abschnitt 5) |
 
 | Teil | Datei |
 |---|---|
@@ -57,7 +58,7 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 
 **Entscheidungen (Gespräch mit dem Auftraggeber, Spiel-Rev 108):**
 - Ein eigener Baukasten für Figuren: Gesprächspartner, Gegner und die Spielerfiguren.
-- **Reihenfolge:** Haus-Baukasten → Pilot A „Startgebiet Grauufer“ → Figuren-Baukasten → Pilot B „Die Tiefe“ (dort werden die Gegner gebraucht). Fahrplan in Grauufer_Grafik_RevXX.md.
+- **Reihenfolge:** Haus-Baukasten → Pilot A „Startgebiet Grauufer“ mit den Landschafts-Bausteinen (Abschnitt 5) → Figuren-Baukasten → Pilot B „Die Tiefe“ (dort werden die Gegner gebraucht). Fahrplan in Grauufer_Grafik_RevXX.md.
 - **Eigene Spielfigur: fest je Klasse** (3 Figuren mit fester Ausrüstung je Klasse). Keine Auswahl von Gesicht oder Frisur und kein Wechsel des Aussehens mit der Ausrüstung, weil jede Wahlmöglichkeit die vorgerenderten Bilder und die Dateigröße vervielfacht.
 
 **Aufbau (Vorschlag):**
@@ -66,7 +67,26 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 - **Körperbau-Familien:** menschenähnlich (alle Gesprächspartner, Spielerfiguren, Bandit, Ghul, Moorleiche, Ertrunkener, Skelettkrieger, Ruheloser), Vierbeiner (Wolf, Frostwolf, Aschenhund), Spinnentiere (Riesenspinne, Sandskorpion), Geflügelte (Harpyie). Sonderwesen und Endgegner (z. B. Golem, Glutgeist, Echo, Nhal) werden einzeln gebaut.
 - Ergebnis wie beim Haus-Baukasten als Beschreibung (JSON), Abgabe über die Claude-Seite oder GitHub.
 
-## 5. Weg ins Spiel (Geplant)
+## 5. Landschafts-Baukasten (Geplant)
+
+**Entscheidungen (Gespräch mit dem Auftraggeber, Spiel-Rev 108):**
+- **Zunächst nur Teil A** (Landschafts-Bausteine), zusammen mit Pilot A „Startgebiet Grauufer“, also vor dem Figuren-Baukasten.
+- **Teil B** (Gebietsentwurf) **optional und später**, frühestens vor dem ersten neuen Kontinent.
+- Boden, Wasser, Meer und Lava bleiben Codegrafik im Spiel (Bodenpuffer, Notgrund; Grauufer_Grafik_RevXX.md, Abschnitt 1). Der Baukasten liefert nur, was auf und an diesen Flächen steht.
+
+**Ausgangslage im Spiel (aus dem Code):** Die Karte von Morvenn mit der Tiefe (680 × 316 Felder) ist im Code festgelegt; Gebiete, Seen, Gebirge und Wege stehen dort mit Koordinaten, an denen Quests, Wegsteine und Schätze hängen. Bäume zeichnet das Spiel selbst (`treeKind`, `treeHD`, `treeSprite`; eigene Arten für Frost- und Wüstengebiete); Felsen, Höhlen und Gebirge sind Geländearten der Karte (Grauufer_Welt_RevXX.md, Abschnitt 3).
+
+**Teil A – Landschafts-Bausteine (Vorschlag):**
+- Bäume nach Art (Laub, Nadel, Frost, Wüste, abgestorben), je Art 10–20 Exemplare, per Code gewachsen.
+- Büsche, Schilf, Felsen und Findlinge.
+- Klippen und Bergflanken, Ufer- und Küstenkanten.
+- Höhleneingänge und Höhlenwände, Brücken.
+- Wählbar: Art, Größe, Gebiet (Wiese, Frost, Wüste, Moor), Moos und Verwitterung.
+- Gerendert in der Werkstatt wie die Häuser, Abgabe über die Claude-Seite oder GitHub.
+
+**Teil B – Gebietsentwurf (optional, später):** Berge, Seen, Meer, Wald und Wege auf einem Raster malen; Claude baut das Ergebnis in die Karte ein. Nur für neue Gebiete (z. B. weitere Kontinente, Grauufer_Welt_RevXX.md, Abschnitt 7); Morvenn wird nicht neu gemalt, weil Quests und Koordinaten daran hängen.
+
+## 6. Weg ins Spiel (Geplant)
 
 1. **Abgeben:** Der Auftraggeber oder der zweite Entwickler speichert ein Haus auf der Claude-Seite oder sendet es über GitHub (Abschnitt 2). Claude legt es unter `werkstatt/haeuser/` ab; niemand muss Dateien selbst ablegen.
 2. **Rendern:** `npm run grafik` erzeugt die Bilder (außen, innen, wie im Spiel gerastert).

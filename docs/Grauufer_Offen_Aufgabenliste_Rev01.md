@@ -12,12 +12,13 @@
 
 ## 2. Als Nächstes (vereinbarte Reihenfolge)
 
-1. **Pilot A – Startgebiet Grauufer:** Bäume, Felsen, Häuser aus dem Haus-Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut und auf dem Tablet gemessen. → Grauufer_Grafik_RevXX.md, Grauufer_Baukaesten_RevXX.md (Weg ins Spiel)
+1. **Pilot A – Startgebiet Grauufer** mit dem **Landschafts-Baukasten, Teil A** (Bäume, Büsche, Felsen, Ufer, Klippen, Höhleneingänge): Häuser aus dem Haus-Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut und auf dem Tablet gemessen. → Grauufer_Grafik_RevXX.md, Grauufer_Baukaesten_RevXX.md (Weg ins Spiel)
 2. **Figuren-Baukasten:** gemeinsames Skelett und Bewegungen je Körperbau-Familie. → Grauufer_Baukaesten_RevXX.md
 3. **Pilot B – Die Tiefe:** Ruheloser, Steinwächter, Echo, Skelettkrieger, Thronhüter in neuer Grafik. → Grauufer_Grafik_RevXX.md
 4. **Spielerfiguren:** 3 Klassen, fest je Klasse. → Grauufer_Baukaesten_RevXX.md
 5. Restliche Oberwelt, Gegner und Gesprächspartner in neuer Grafik; Rucksack wie in Pagan; Weltgegenstände (aufheben, ablegen, Behälter). → Grauufer_Grafik_RevXX.md
 6. **Anlagen-Baukasten** für Burg und Schloss. → Grauufer_Baukaesten_RevXX.md
+7. **Landschafts-Baukasten, Teil B** (Gebietsentwurf, optional), frühestens vor dem ersten neuen Kontinent. → Grauufer_Baukaesten_RevXX.md
 
 ## 3. Geplant, nach Themen
 

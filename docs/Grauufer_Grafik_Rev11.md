@@ -45,7 +45,7 @@ Aufruf: `npm run grafik` (benötigt `npm install` für Playwright).
 
 ## 4. Baukästen
 
-Haus-Baukasten (vorhanden, noch nicht im Spiel), Anlagen-Baukasten für Burg und Schloss (Geplant) und Figuren-Baukasten (Geplant) stehen in Grauufer_Baukaesten_RevXX.md: Bedienung, Haustypen, Beschreibung eines Hauses als JSON und Weg ins Spiel.
+Haus-Baukasten (vorhanden, noch nicht im Spiel), Anlagen-Baukasten für Burg und Schloss (Geplant) Figuren-Baukasten (Geplant) und Landschafts-Baukasten (Geplant) stehen in Grauufer_Baukaesten_RevXX.md: Bedienung, Haustypen, Beschreibung eines Hauses als JSON und Weg ins Spiel.
 
 ## 5. Haus wie in Pagan (Probe „Fischerhaus“)
 
@@ -67,7 +67,7 @@ Haus-Baukasten (vorhanden, noch nicht im Spiel), Anlagen-Baukasten für Burg und
 
 1. **Werkstatt und Stilregeln** – erledigt als Probe (dieses Dokument).
 2. **Haus-Baukasten im Browser** – erledigt (Grauufer_Baukaesten_RevXX.md): Grundriss, Mauern (Stein, Fachwerk, Holz), Dachform und -deckung, Fenster, Türen, Schornstein und Verwitterungsgrad selbst zusammenstellen; 3D-Vorschau aus Spielsicht; Ergebnis wird gespeichert und von der Werkstatt gerendert.
-3. **Pilot A – Startgebiet Grauufer:** Bäume (per Code gewachsen, 10–20 Exemplare je Art), Felsen, Häuser aus dem Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut, auf dem Tablet gemessen.
+3. **Pilot A – Startgebiet Grauufer:** Landschafts-Bausteine aus dem Landschafts-Baukasten, Teil A (Grauufer_Baukaesten_RevXX.md): Bäume (per Code gewachsen, 10–20 Exemplare je Art), Felsen, Häuser aus dem Baukasten, Boden an das neue Licht angepasst; im Spiel eingebaut, auf dem Tablet gemessen.
 4. **Figuren-Baukasten** (Grauufer_Baukaesten_RevXX.md): gemeinsames Skelett und gemeinsame Bewegungen je Körperbau-Familie.
 5. **Pilot B – Die Tiefe:** Ruheloser, Steinwächter, Echo, Skelettkrieger, Thronhüter.
 6. Spielerfiguren (3 Klassen mit fester Ausrüstung je Klasse, Entscheidung des Auftraggebers).
