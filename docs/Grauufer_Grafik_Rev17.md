@@ -1,6 +1,6 @@
 # Grauufer – Grafik-Werkstatt
 
-**Revision 16**, Stand: Spiel-Rev 113. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 17**, Stand: Spiel-Rev 114. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die neue, vorgerenderte Grafik: Figuren, Häuser, Einrichtung und Gegenstände werden als 3D-Modelle im Code gebaut, mit three.js gerendert und als Bilder ins Spiel übernommen. Die heutige Grafik im Spiel beschreibt Grauufer_Stil_RevXX.md.
 
@@ -42,7 +42,7 @@ Aufruf: `npm run grafik` (benötigt `npm install` für Playwright).
 | Spielgröße | ein Feld im Spiel 160 px breit (TW in index.html); Hausbilder werden dafür mit dem Faktor 160/137 umgerechnet |
 | Licht | warmes Sonnenlicht von links vorn oben, weiche Schatten, kühles Fülllicht von rechts hinten, Himmels-/Bodenlicht; innen zusätzlich Feuer und Kerzen als Lichtquellen |
 | Raster | wie im Spiel (`pxl`, Spiel-Rev 59): 16 Stufen je Farbkanal (Schritt 17), Bayer-Dithering 4 × 4, keine Glättung |
-| Oberflächen | prozedurale Texturen: Bruchstein, Putz, Holz, Dielen, Schiefer, Stoff, Teppich, Wiese |
+| Oberflächen | prozedurale Texturen: Bruchstein, Putz, Lehm (seit Spiel-Rev 114), Holz, Dielen, Schiefer, Stoff, Teppich, Wiese |
 | Verwitterung | Schmutzflecken, Laufspuren, Spritzwasserrand, abgeplatzter Putz, Risse, Moos, fehlende Schieferplatten, schiefe Holzteile, durchhängendes Dach, Unkraut, Stroh, Spinnweben, Ruß |
 | Blickrichtungen | Figuren 8, Wände und Möbel bei Bedarf 4 (Nord, Ost, Süd, West), stehende Objekte 1 |
 

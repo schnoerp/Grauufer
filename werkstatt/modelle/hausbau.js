@@ -39,6 +39,13 @@ function texturen(v){const key=Math.round(v*4);if(CACHE[key])return CACHE[key];c
   stein:tex(256,256,(g,w,h)=>{g.fillStyle='#3a362f';g.fillRect(0,0,w,h);let y=0;while(y<h){const rh=18+rnd()*20;let x=-rnd()*30;
     while(x<w){const rw=22+rnd()*44;g.fillStyle=sh(rnd()<.2?'#7a6e5c':'#827c70',.62+rnd()*.42);g.beginPath();g.moveTo(x+2+rnd()*3,y+2);g.lineTo(x+rw-2-rnd()*4,y+2+rnd()*2);g.lineTo(x+rw-3,y+rh-2-rnd()*3);g.lineTo(x+3,y+rh-3);g.closePath();g.fill();
     g.fillStyle='rgba(255,255,255,.06)';g.fillRect(x+5,y+3,rw-14,2);x+=rw;}y+=rh;}grime(g,w,h,10+40*V,.5);moss(g,w,h,12*V,1);}),
+  // Lehmputz (seit Spiel-Rev 114, für Wüstenorte wie Sandhafen): warmer Sandton, Wischspuren, Risse, abgeplatzte Stellen mit Lehmziegeln
+  lehm:tex(256,256,(g,w,h)=>{g.fillStyle=V<.3?'#d8b07a':'#c49a66';g.fillRect(0,0,w,h);for(let i=0;i<2600;i++){g.fillStyle=`rgba(${rnd()<.5?120:240},${rnd()<.5?80:200},${rnd()<.5?40:150},${rnd()*.08})`;g.fillRect(rnd()*w,rnd()*h,2+rnd()*6,1+rnd()*3);}
+    for(let i=0;i<30;i++){g.strokeStyle=`rgba(90,60,30,${.05+rnd()*.06})`;g.lineWidth=4+rnd()*8;g.beginPath();const x=rnd()*w,y=rnd()*h;g.arc(x,y,10+rnd()*30,rnd()*3,rnd()*3+1.5);g.stroke();}
+    const gb=g.createLinearGradient(0,h*.65,0,h);gb.addColorStop(0,'rgba(90,60,30,0)');gb.addColorStop(1,`rgba(90,60,30,${.12+.35*V})`);g.fillStyle=gb;g.fillRect(0,0,w,h);
+    for(let i=0;i<5*V+1;i++){const x=rnd()*w*.8,y=rnd()*h*.75,pw=24+rnd()*40,ph=14+rnd()*24;g.fillStyle='#8a6038';g.fillRect(x,y,pw,ph);g.strokeStyle='rgba(60,38,18,.7)';g.lineWidth=1;
+      for(let yy=y;yy<y+ph;yy+=7)for(let xx=x+((yy-y)/7%2)*6;xx<x+pw;xx+=12)g.strokeRect(xx,yy,12,7);}
+    for(let i=0;i<6+10*V;i++)crack(g,rnd()*w,rnd()*h*.6,4+rnd()*6);}),
   putz:tex(256,256,(g,w,h)=>{g.fillStyle=V<.3?'#d2c4a2':'#bfae88';g.fillRect(0,0,w,h);for(let i=0;i<3000;i++){g.fillStyle=`rgba(${rnd()<.5?80:230},${rnd()<.5?62:215},40,${rnd()*.07})`;g.fillRect(rnd()*w,rnd()*h,2+rnd()*5,2+rnd()*5);}
     for(let i=0;i<8*V;i++){const x=rnd()*w,wd=3+rnd()*8;const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,'rgba(60,45,25,.16)');gr.addColorStop(1,'rgba(60,45,25,0)');g.fillStyle=gr;g.fillRect(x,0,wd,h*(.3+rnd()*.7));}
     const gb=g.createLinearGradient(0,h*.6,0,h);gb.addColorStop(0,'rgba(50,38,20,0)');gb.addColorStop(1,`rgba(50,38,20,${.15+.4*V})`);g.fillStyle=gb;g.fillRect(0,0,w,h);
@@ -76,14 +83,14 @@ function texturen(v){const key=Math.round(v*4);if(CACHE[key])return CACHE[key];c
 // opt.spiel: Bild fürs Spiel – ohne Wiese und Bodenflecken; die niedrigen Wände zur Kamera sind markiert (userData.vorn)
 function Bau(spec,innen,drehung=0,ebene=0,opt={}){
   const v=Math.max(0,Math.min(1,+spec.verwitterung||0)),tx=texturen(v);setSeed(spec.name||'haus');
-  const B=Math.max(2,Math.min(12,spec.breite|0)),D=Math.max(2,Math.min(12,spec.tiefe|0)),HX=B*T,HZ=D*T,G=Math.max(1,Math.min(3,spec.geschosse|0||1)),DB=!!spec.dachboden&&spec.dachform!=='pult',L=G+(DB?1:0);
+  const B=Math.max(2,Math.min(12,spec.breite|0)),D=Math.max(2,Math.min(12,spec.tiefe|0)),HX=B*T,HZ=D*T,G=Math.max(1,Math.min(3,spec.geschosse|0||1)),DB=!!spec.dachboden&&spec.dachform!=='pult'&&spec.dachform!=='flach',L=G+(DB?1:0);
   ebene=Math.max(0,Math.min(L-1,ebene|0));const HG=G*WH,dachboden=innen&&DB&&ebene===G;
   // Dachmaße (auch für den Dachboden): First entlang x oder z, Reet steiler
   const dArt=['schiefer','reet','schindeln'].includes(spec.dach)?spec.dach:'schiefer',dWalm=(spec.dachform||(dArt==='reet'?'walm':'sattel'))==='walm',
     dLx=spec.first==='z'?HZ:HX,dSp=spec.first==='z'?HX:HZ,dRh=dSp/2*(dArt==='reet'?1.0:.62);
   const M=o=>new THREE.MeshStandardMaterial(Object.assign({roughness:.85},o));
   const mt=(t,rx,ry,o)=>{const c=t.clone();c.needsUpdate=true;c.repeat.set(rx,ry);return M(Object.assign({map:c},o));};
-  const mStein=M({map:tx.stein}),mPutz=M({map:tx.putz,roughness:.95}),mHolz=M({map:tx.holz}),mBohlen=M({map:tx.bohlen}),
+  const mStein=M({map:tx.stein}),mLehm=M({map:tx.lehm,roughness:1}),mPutz=M({map:tx.putz,roughness:.95}),mHolz=M({map:tx.holz}),mBohlen=M({map:tx.bohlen}),
     mEisen=M({color:0x55524e,roughness:.5,metalness:.6}),mStoff=M({map:tx.stoff,roughness:1}),mLeinen=M({color:0xe0d8c4,roughness:1}),
     mGlas=M({color:0x9fb8c8,roughness:.2,metalness:.1,emissive:0x203040}),mSchwarz=M({color:0x101010}),mFeuer=new THREE.MeshBasicMaterial({color:0xffa030}),
     mMessing=M({color:0xb08840,roughness:.4,metalness:.7}),mWachs=M({color:0xf2e6c8,roughness:.6}),mBrot=M({color:0xb07a3a}),mApfel=M({color:0x9a2a20,roughness:.5}),
@@ -97,8 +104,8 @@ function Bau(spec,innen,drehung=0,ebene=0,opt={}){
   function cyl(r1,r2,h,m,x,y,z,p,seg=14){const o=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,seg),m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;(p||haus).add(o);return o;}
   function kugel(r,m,x,y,z,p,sx=1,sy=1,sz=1){const o=new THREE.Mesh(new THREE.SphereGeometry(r,12,10),m);o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;(p||haus).add(o);return o;}
   function uv(o,s){const a=o.geometry.attributes.uv;for(let i=0;i<a.count;i++)a.setXY(i,a.getX(i)*s[0],a.getY(i)*s[1]);a.needsUpdate=true;return o;}
-  const typ=['fachwerk','stein','holz'].includes(spec.wand)?spec.wand:'fachwerk';
-  const sockel0=typ==='fachwerk'?.8:typ==='holz'?.35:99,mOben=typ==='fachwerk'?mPutz:typ==='holz'?mBohlen:mStein;
+  const typ=['fachwerk','stein','holz','lehm'].includes(spec.wand)?spec.wand:'fachwerk';
+  const sockel0=typ==='fachwerk'?.8:typ==='holz'?.35:typ==='lehm'?0:99,mOben=typ==='fachwerk'?mPutz:typ==='holz'?mBohlen:typ==='lehm'?mLehm:mStein,mGiebel=typ==='lehm'?mLehm:null;
   const oeff={};(spec.oeffnungen||[]).forEach(o=>{if(o&&o.art&&o.art!=='wand')oeff[(o.geschoss|0)+':'+o.seite+':'+o.feld]=o.art;});
 
   // Wand mit Öffnungen (Löcher in Metern entlang der Wand: [von, bis, unten, oben, art])
@@ -142,7 +149,7 @@ function Bau(spec,innen,drehung=0,ebene=0,opt={}){
   for(let gs=0;gs<=bis;gs++){const hw=s=>innen&&gs===ebene&&niedrig.includes(s)?1.1:WH;
     wand('hinten',HX,0,0,'x',hw('hinten'),gs);wand('links',HZ,0,0,'z',hw('links'),gs);wand('vorn',HX,0,HZ,'x',hw('vorn'),gs);wand('rechts',HZ,HX,0,'z',hw('rechts'),gs);}
   [[0,0,'hinten','links'],[HX,0,'hinten','rechts'],[0,HZ,'links','vorn'],[HX,HZ,'vorn','rechts']].forEach(([x,z,s1,s2])=>{const h=innen&&!dachboden?(niedrig.includes(s1)||niedrig.includes(s2)?ebene*WH+1.15:(ebene+1)*WH+.05):HG+.05;
-    const o=typ==='holz'?box(.3,h,.3,mHolz,x,h/2,z):uv(box(.42,h,.42,mStein,x,h/2,z),[.3,h/2.3]);if(innen&&(niedrig.includes(s1)||niedrig.includes(s2)))o.userData.vorn=true;});
+    const o=typ==='holz'?box(.3,h,.3,mHolz,x,h/2,z):uv(box(.42,h,.42,typ==='lehm'?mLehm:mStein,x,h/2,z),[.3,h/2.3]);if(innen&&(niedrig.includes(s1)||niedrig.includes(s2)))o.userData.vorn=true;});
   uv(box(HX,.12,HZ,M({map:tx.dielen}),HX/2,.06,HZ/2),[B/2,D/2]);
   // Decke zum Obergeschoss mit Treppenloch (nur in der Innenansicht des Obergeschosses sichtbar)
   const treppen=bereinige(spec.einrichtung).filter(e=>e.art==='treppe'&&(e.geschoss|0)<L-1&&e.x>=0&&e.x<B&&e.z>=0&&e.z<D);
@@ -167,7 +174,7 @@ function Bau(spec,innen,drehung=0,ebene=0,opt={}){
     for(let i=0;i<=np;i++){const px=-fl/2+i*fl/np;box(.18,dRh-.1,.18,mHolz,px,(dRh-.1)/2,0,g);
       for(const s of[-1,1]){const kb=box(.1,.1,.9,mHolz,px,dRh-.45,s*.32,g);kb.rotation.x=s*.8;}}
     for(const[sx,seite]of[[1,welt.px],[-1,welt.mx]]){if(niedrig.includes(seite))continue;
-      if(!dWalm){const mG=typ==='fachwerk'?mPutz:typ==='holz'?mBohlen:mStein;flaeche([[sx*ex,0,ez],[sx*ex,0,-ez],[sx*ex,dRh,0]],M({map:(mG.map),side:THREE.DoubleSide}));
+      if(!dWalm){const mG=mGiebel||(typ==='fachwerk'?mPutz:typ==='holz'?mBohlen:mStein);flaeche([[sx*ex,0,ez],[sx*ex,0,-ez],[sx*ex,dRh,0]],M({map:(mG.map),side:THREE.DoubleSide}));
         const gw=box(.06,.7,.7,mGlas,sx*(ex-.05),dRh*.38,0,g);void gw;box(.08,.84,.12,mHolz,sx*(ex-.06),dRh*.38,0,g);box(.08,.12,.84,mHolz,sx*(ex-.06),dRh*.38,0,g);}}
     box(dLx-(dWalm?dSp:0)+.2,.18,.18,mHolz,0,dRh-.1,0,g);
     for(const s of[-1,1])box(dLx,.5,.18,mHolz,0,.25,s*(ez-.1),g);}
@@ -176,7 +183,7 @@ function Bau(spec,innen,drehung=0,ebene=0,opt={}){
   const kamin=(spec.einrichtung||[]).find(e=>e.art==='kamin'&&e.x>=0&&e.x<B&&e.z>=0&&e.z<D);
   if(!innen){const g=new THREE.Group();haus.add(g);const lx=spec.first==='z'?HZ:HX,sp=spec.first==='z'?HX:HZ;g.position.set(HX/2,HG,HZ/2);if(spec.first==='z')g.rotation.y=PI/2;
     const art=['schiefer','reet','schindeln'].includes(spec.dach)?spec.dach:'schiefer',reet=art==='reet';
-    const form=['sattel','walm','pult'].includes(spec.dachform)?spec.dachform:(reet?'walm':'sattel'),walm=form==='walm',pult=form==='pult';
+    const form=['sattel','walm','pult','flach'].includes(spec.dachform)?spec.dachform:(reet?'walm':'sattel'),walm=form==='walm',pult=form==='pult',flach=form==='flach';
     const k=pult?(reet?.7:.35):reet?1.0:.62,ov=reet?.55:.5,ovG=walm?ov:(reet?.35:.4),dick=reet?.34:.12,rh=sp/2*k,ye=-ov*k,ex=lx/2+ovG,ez=sp/2+ov,rx=walm?Math.max(0,ex-ez):ex;
     const mDach=M({map:tx[art],roughness:reet?1:.7}),mRand=reet?M({map:tx.reetRand,roughness:1}):mHolz;
     // Fläche aus Traufkante A–B und Firstkante D–C (Dreieck, wenn D = C), unterteilt, durchhängend und uneben
@@ -203,32 +210,38 @@ function Bau(spec,innen,drehung=0,ebene=0,opt={}){
     // Pultdach: eine Schräge, vorn tief (+z), hinten hoch; Seiten- und Rückwand bis unter das Dach
     const rP=sp*k,yH=rP+ov*k;
     if(pult){flaeche(V(-ex,ye,ez),V(ex,ye,ez),V(ex,yH,-ez),V(-ex,yH,-ez),true,true);
-      const mG=typ==='fachwerk'?mPutz:typ==='holz'?mBohlen:mStein;uv(box(lx,rP,WT,mG,0,rP/2,-sp/2),[lx/3,rP/3]);
+      const mG=mGiebel||(typ==='fachwerk'?mPutz:typ==='holz'?mBohlen:mStein);uv(box(lx,rP,WT,mG,0,rP/2,-sp/2),[lx/3,rP/3]);
       for(const x of[-lx/2,lx/2]){const shp=new THREE.Shape(),hz=x>0?sp/2:-sp/2;shp.moveTo(-sp/2,0);shp.lineTo(sp/2,0);shp.lineTo(hz,rP);shp.lineTo(-sp/2,0);
         const gm=new THREE.Mesh(new THREE.ShapeGeometry(shp),mG);gm.material.side=THREE.DoubleSide;gm.position.set(x+(x>0?.001:-.001),0,0);gm.rotation.y=x>0?PI/2:-PI/2;gm.castShadow=true;g.add(gm);}}
+    // Flachdach (seit Spiel-Rev 114): Lehmdecke mit Brüstung, hervorstehende Balkenköpfe und Wasserspeier
+    else if(flach){const mW=mGiebel||mOben,mD=M({map:tx.lehm,roughness:1,color:0xb09070});uv(box(lx+.1,.22,sp+.1,mD,0,.11,0,g),[lx/3,sp/3]);
+      for(const[w,d,x,z]of[[lx+.3,.28,0,sp/2+.01],[lx+.3,.28,0,-sp/2-.01],[.28,sp+.3,lx/2+.01,0],[.28,sp+.3,-lx/2-.01,0]]){const b=uv(box(w,.55+.08*rnd(),d,mW,x,.36,z,g),[Math.max(w,d)/3,.2]);b.rotation.z+=(rnd()-.5)*.02*v;}
+      for(let x=-lx/2+.5;x<lx/2-.2;x+=.8)for(const z of[sp/2,-sp/2]){const c=cyl(.09,.09,.55,mHolz,x+(rnd()-.5)*.1,-.22,z+(z>0?.2:-.2),g,8);c.rotation.x=PI/2;}
+      for(let z=-sp/2+.5;z<sp/2-.2;z+=.8)for(const x of[lx/2,-lx/2]){const c=cyl(.09,.09,.55,mHolz,x+(x>0?.2:-.2),-.22,z+(rnd()-.5)*.1,g,8);c.rotation.z=PI/2;}
+      for(const x of[-lx/4,lx/4]){const r=box(.16,.12,.7,mHolz,x,.3,sp/2+.3,g);r.rotation.x=-.15;}}
     else{flaeche(V(-ex,ye,ez),V(ex,ye,ez),V(rx,rh,0),V(-rx,rh,0),!walm);
     flaeche(V(ex,ye,-ez),V(-ex,ye,-ez),V(-rx,rh,0),V(rx,rh,0),!walm);}
     if(walm&&!pult){flaeche(V(ex,ye,ez),V(ex,ye,-ez),V(rx,rh,0),V(rx,rh,0),false);flaeche(V(-ex,ye,-ez),V(-ex,ye,ez),V(-rx,rh,0),V(-rx,rh,0),false);}
     // First und Grate
     const linie=(p,q,r,m)=>{const l=p.distanceTo(q);if(l<.05)return;const c=cyl(r,r,l,m,0,0,0,g,10);c.position.lerpVectors(p,q,.5);c.quaternion.setFromUnitVectors(V(0,1,0),q.clone().sub(p).normalize());};
     const mFirst=reet?M({map:tx.reet,roughness:1,color:0xb0a890}):mHolz,rF=reet?.24:.1;
-    const fe=walm?0:.2;if(!pult)linie(V(-rx+fe,rh+.04,0),V(rx-fe,rh+.04,0),rF,mFirst);
+    const fe=walm?0:.2;if(!pult&&!flach)linie(V(-rx+fe,rh+.04,0),V(rx-fe,rh+.04,0),rF,mFirst);
     if(walm)for(const sx of[-1,1])for(const sz of[-1,1])linie(V(sx*rx,rh-.02,0),V(sx*ex,ye+.02,sz*ez),reet?.11:.07,mFirst);
-    if(!reet&&v>.5){const F=flaechen[0];for(const[s0,w0,s1,w1]of[[.6,.35,.7,.55],[.64,.3,.72,.44]]){const pg=new THREE.BufferGeometry(),pp=[];
+    if(!reet&&v>.5&&!flach){const F=flaechen[0];for(const[s0,w0,s1,w1]of[[.6,.35,.7,.55],[.64,.3,.72,.44]]){const pg=new THREE.BufferGeometry(),pp=[];
       for(const[s,w]of[[s0,w0],[s1,w0],[s1,w1],[s0,w0],[s1,w1],[s0,w1]]){const p=F.P(s,w).addScaledVector(F.nrm,.05);pp.push(p.x,p.y,p.z);}
       pg.setAttribute('position',new THREE.Float32BufferAttribute(pp,3));pg.computeVertexNormals();const pm=new THREE.Mesh(pg,mHolz);pm.material.side=THREE.DoubleSide;g.add(pm);}}
-    if(spec.gauben&&!pult){const mG=typ==='fachwerk'?mPutz:typ==='holz'?mBohlen:mStein,breit=walm?Math.max(1.6,lx-3.4):lx-1.2,n=Math.max(1,Math.floor(breit/3.2)),hD=1.25,zf=sp/2-.9,yb=rh*(1-zf/(sp/2)),zb=zf-hD/(rh/(sp/2));
+    if(spec.gauben&&!pult&&!flach){const mG=mGiebel||(typ==='fachwerk'?mPutz:typ==='holz'?mBohlen:mStein),breit=walm?Math.max(1.6,lx-3.4):lx-1.2,n=Math.max(1,Math.floor(breit/3.2)),hD=1.25,zf=sp/2-.9,yb=rh*(1-zf/(sp/2)),zb=zf-hD/(rh/(sp/2));
       for(let i=0;i<n;i++){const gx=-breit/2+(i+.5)*breit/n,gd=new THREE.Group();gd.position.set(gx,0,0);g.add(gd);
         box(1.5,hD+.3,zf-zb+.3,mG,0,yb+(hD+.3)/2-.3,(zf+zb)/2,gd);box(.9,.75,.05,mGlas,0,yb+.62,zf+.16,gd);box(1.04,.1,.1,mHolz,0,yb+.22,zf+.18,gd);box(.08,.8,.08,mHolz,0,yb+.62,zf+.18,gd);
         for(const s of[-1,1]){const dl=box(1.05,.08,zf-zb+.6,mDach,s*.45,yb+hD+.2,(zf+zb)/2+.1,gd);dl.rotation.z=-s*.6;}}}
-    if(!walm&&!pult){const mG=typ==='fachwerk'?mPutz:typ==='holz'?mHolz:mStein;
+    if(!walm&&!pult&&!flach){const mG=mGiebel||(typ==='fachwerk'?mPutz:typ==='holz'?mHolz:mStein);
       for(const x of[-lx/2,lx/2]){const shp=new THREE.Shape();shp.moveTo(-sp/2,0);shp.lineTo(sp/2,0);shp.lineTo(0,rh);shp.lineTo(-sp/2,0);
         const gm=new THREE.Mesh(new THREE.ShapeGeometry(shp),mG);gm.position.set(x+(x>0?.001:-.001),0,0);gm.rotation.y=x>0?PI/2:-PI/2;gm.castShadow=true;g.add(gm);
         if(DB){const ww=x>0?1:-1;box(.06,.7,.7,mGlas,x+ww*.03,rh*.38,0,g);box(.1,.86,.12,mHolz,x+ww*.05,rh*.38,0,g);box(.1,.12,.86,mHolz,x+ww*.05,rh*.38,0,g);box(.12,.1,.9,mHolz,x+ww*.06,rh*.38-.45,0,g);}
         if(typ==='fachwerk'){const b1=box(.14,.14,Math.hypot(sp/2,rh)+.2,mHolz,x,rh/2,-sp/4,g);b1.rotation.x=-Math.atan2(rh,sp/2);
           const b2=box(.14,.14,Math.hypot(sp/2,rh)+.2,mHolz,x,rh/2,sp/4,g);b2.rotation.x=Math.atan2(rh,sp/2);box(.14,rh,.14,mHolz,x,rh/2,0,g);}}}
     if(spec.schornstein){let cx=1.2,cz=1.4;if(kamin){const d=kamin.dreh&3,o=T/2-.55;cx=(kamin.x+.5)*T+(d===1?-o:d===3?o:0);cz=(kamin.z+.5)*T+(d===0?-o:d===2?o:0);}
-      const hc=(pult?rP:rh)+1.4;uv(box(.8,hc,.8,mStein,cx,HG+hc/2,cz),[.5,hc/2]);box(.95,.15,.95,mStein,cx,HG+hc,cz).rotation.z=.06*v;if(v>.5)box(.3,.25,.3,mStein,cx+.15,HG+hc+.15,cz-.15).rotation.y=.4;}}
+      const hc=(pult?rP:flach?.6:rh)+1.4;uv(box(.8,hc,.8,mStein,cx,HG+hc/2,cz),[.5,hc/2]);box(.95,.15,.95,mStein,cx,HG+hc,cz).rotation.z=.06*v;if(v>.5)box(.3,.25,.3,mStein,cx+.15,HG+hc+.15,cz-.15).rotation.y=.4;}}
   // Einrichtung: jedes Teil im eigenen Feld, Rückseite bei dreh 0 zur hinteren Wand (−z)
   const B2=T/2,hinten=-B2+WT/2+.02;
   const TEILE={
