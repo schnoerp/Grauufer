@@ -20,12 +20,12 @@ function kugel(x,y,z,cx,cy,cz,r){const dx=x-cx,dy=y-cy,dz=z-cz;return sqrt(dx*dx
 // Kopf: Schädel, Gesichtsschädel, Kiefer, Kinn, Wangenknochen, Brauenbogen, Augenhöhlen, Nase mit Flügeln, Lippen, Ohren
 function kopf(x,y,z){const K=1.06;y=1.56+(y-1.56)/K;x/=K;z/=K;return kopf0(x,y,z)*K;}
 function kopf0(x,y,z){const ax=abs(x);
-  let d=ell(x,y,z,0,1.695,-.012,.077,.094,.097);
-  d=smin(d,ell(x,y,z,0,1.628,.022,.068,.072,.075),.04);                      // Gesichtsschädel
-  d=smin(d,ell(ax,y,z,.04,1.6,.05,.03,.03,.03),.03);                            // Wangen
-  d=smin(d,cap(ax,y,z,.06,1.615,-.015,.024,1.565,.058,.026,.02),.03);           // Unterkiefer bis zum Kinn
-  d=smin(d,ell(x,y,z,0,1.566,.068,.027,.02,.02),.02);                           // Kinn
-  d=smin(d,ell(ax,y,z,.047,1.638,.06,.022,.016,.018),.02);                      // Wangenknochen
+  let d=ell(x,y,z,0,1.697,-.012,.071,.095,.097);
+  d=smin(d,ell(x,y,z,0,1.63,.024,.056,.074,.074),.035);                      // Gesichtsschädel, schmal
+  d=smin(d,ell(ax,y,z,.036,1.605,.055,.02,.026,.022),.02);                      // Wangen, flach
+  d=smin(d,cap(ax,y,z,.05,1.615,-.012,.018,1.566,.058,.018,.014),.025);          // Unterkiefer bis zum Kinn, schmal
+  d=smin(d,ell(x,y,z,0,1.567,.068,.021,.019,.019),.016);                         // Kinn
+  d=smin(d,ell(ax,y,z,.044,1.64,.058,.018,.013,.016),.016);                      // Wangenknochen
   d=smin(d,cap(ax,y,z,0,1.676,.086,.05,1.677,.07,.011,.008),.016);              // Brauenbogen
   d=smax(d,-kugel(ax,y,z,.033,1.654,.097,.0145),.01);                            // Augenhöhle
   d=smin(d,ell(ax,y,z,.033,1.666,.089,.016,.0045,.009),.004);                    // Oberlid
@@ -40,12 +40,12 @@ function kopf0(x,y,z){const ax=abs(x);
   d=smin(d,ell(x,y,z,0,1.587,.086,.018,.007,.01),.008);
   d=smax(d,-ell(x,y,z,0,1.5925,.097,.02,.0014,.011),.002);
   // Ohren mit Muschel
-  const o=ell(ax,y,z,.08,1.645,-.008,.012,.031,.021);d=smin(d,o,.008);d=smax(d,-ell(ax,y,z,.088,1.643,-.005,.006,.018,.012),.004);
+  const o=ell(ax,y,z,.073,1.645,-.01,.01,.03,.02);d=smin(d,o,.008);d=smax(d,-ell(ax,y,z,.08,1.643,-.007,.005,.017,.011),.004);
   return d;}
 function augen(x,y,z){const K=1.06;return kugel(abs(x/K),1.56+(y-1.56)/K,z/K,.033,1.655,.082,.0128)*K;}
 // Hals mit Kopfwendermuskel und Kehlkopf
-function hals(x,y,z){const ax=abs(x);let d=cap(x,y,z,0,1.44,-.005,0,1.585,-.03,.054,.046);
-  d=smin(d,cap(ax,y,z,.07,1.455,.035,.045,1.6,-.03,.018,.014),.02);d=smin(d,kugel(x,y,z,0,1.52,.045,.014),.015);return d;}
+function hals(x,y,z){const ax=abs(x);let d=cap(x,y,z,0,1.44,-.005,0,1.585,-.03,.05,.041);
+  d=smin(d,cap(ax,y,z,.062,1.455,.03,.04,1.59,-.03,.014,.011),.018);d=smin(d,kugel(x,y,z,0,1.52,.034,.011),.014);return d;}
 // Rumpf: Brustkorb, Brustmuskeln, Schlüsselbein, Trapezmuskel, Schulterblätter, Bauch, Flanken, Becken, Gesäß
 function rumpf(x,y,z){const ax=abs(x);
   let d=ell(x,y,z,0,1.27,-.005,.158,.21,.108);
@@ -113,7 +113,7 @@ const C=(h)=>{const n=parseInt(h.slice(1),16);return[(n>>16)/255,(n>>8&255)/255,
 function farbe(x,y,z,t,L){if(y>1.5&&t<2){const K=1.06;x/=K;y=1.56+(y-1.56)/K;z/=K;}   // Kopfmaße wie in kopf()
   const ax=abs(x);
   if(t===0){let c=C(L.haut).slice();
-    const rot=max(0,.03-kugel(x,y,z,0,1.62,.11,0))/.03*.18+max(0,.035-kugel(ax,y,z,.048,1.625,.07,0))/.035*.12+max(0,.03-kugel(ax,y,z,.085,1.645,-.005,0))/.03*.12;
+    const rot=max(0,.03-kugel(x,y,z,0,1.62,.11,0))/.03*.18+max(0,.035-kugel(ax,y,z,.048,1.625,.07,0))/.035*.12+max(0,.03-kugel(ax,y,z,.078,1.645,-.007,0))/.03*.12;
     c[0]+=rot*.5;c[1]-=rot*.25;c[2]-=rot*.25;
     if(y<1.6&&y>1.55&&z>.04)for(let k=0;k<3;k++)c[k]*=.93;                       // Bartschatten
     if(abs(y-1.5925)<.006&&ax<.02&&z>.085){c=[c[0]*.8,c[1]*.55,c[2]*.5];}           // Lippen
