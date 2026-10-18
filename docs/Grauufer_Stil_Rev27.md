@@ -57,8 +57,9 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 - **Krieger:** Kettenhemd mit Kettenkragen, blauer Wappenrock mit goldenem Kreuz (Wappen der Siegelwächter), Schulterplatten, Beinschienen, Lederarmschienen, Schwert in der rechten Hand, Tropfenschild mit Goldkreuz am linken Arm, kurzes Haar.
 - **Waldläufer:** grüner Kapuzenumhang (vorn offen, mit Faltenschatten), Hemd und geschnürtes Lederwams, Armschienen, Gürtel mit Tasche und Messer, Köcher mit Pfeilen auf dem Rücken, Langbogen in der linken Hand, Bart.
 - **Gegner Skelettkrieger** (seit Spiel-Rev 125, Zielbild des Auftraggebers): Knochenkörper, Lederschulterstücke, Brustriemen, Gürtel mit Rundschnalle, zerrissener roter Lendenschurz, Stiefel, Schwert, runder Holzschild; Einzelheiten in Grauufer_Gegner_RevXX.md. Gegner neben der Spielfigur schauen sie an.
-- Alle Figuren zusammen etwa 226 KB.
-- **Geplant:** die drei Frauenfiguren im selben Stil (zurückgestellt, Entscheidung des Auftraggebers Spiel-Rev 125); weitere Gegner; Lauf- und Angriffsbilder über ein Skelett (bisher nur Auf und Ab beim Laufen).
+- **Bewegungsbilder** (bisher Skelettkrieger): Laufen 8 Bilder (90 ms je Bild) und Angriff 6 Bilder (450 ms ab dem Ausfallschritt) je Richtung, gerendert in 70 % der Auflösung (WebP), das Spiel gleicht den Maßstab aus. Figuren ohne Gelenkgerüst wippen beim Laufen nur auf und ab.
+- Alle Figuren zusammen etwa 692 KB (davon Skelettkrieger mit Bewegungen etwa 470 KB).
+- **Geplant:** die drei Frauenfiguren im selben Stil (zurückgestellt, Entscheidung des Auftraggebers Spiel-Rev 125); weitere Gegner; Lauf- und Angriffsbilder für Krieger, Magier und Waldläufer (Gelenkgerüst wie beim Skelettkrieger).
 
 ### Farbwelt je Gebiet
 

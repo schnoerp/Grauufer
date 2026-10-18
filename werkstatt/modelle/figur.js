@@ -434,75 +434,98 @@ function skelett(spec){
   const M=o=>new THREE.MeshStandardMaterial(Object.assign({roughness:.8,metalness:0},o));
   const kn=M({map:koern(L.knochen,26,51,8),roughness:.6}),knD=M({map:koern(heller(L.knochen,.78),26,53,8),roughness:.65}),loch=M({color:0x0c0806,roughness:1}),
     leder=M({map:koern(L.leder,24,11,10),roughness:.55}),stiefel=M({map:koern(L.stiefel,20,9,10),roughness:.5}),eisen=M({color:0x7a7470,roughness:.4,metalness:.8}),
-    stahl=M({color:0xa8aeb4,roughness:.25,metalness:.9}),stahlD=M({color:0x60666c,roughness:.35,metalness:.85}),holz=M({map:holzTex(),roughness:.75}),
+    stahl=M({color:0xa8aeb4,roughness:.25,metalness:.9}),stahlD=M({color:0x60666c,roughness:.35,metalness:.85}),
     tuch=M({map:robenStoff(L.tuch),roughness:.9,vertexColors:true,side:THREE.DoubleSide}),dunkel=M({color:0x120c08,roughness:.4});
-  const G=new THREE.Group(),add=(g,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;G.add(o);return o;};
-  const kugel=(r,m,x,y,z)=>add(new THREE.SphereGeometry(r,14,10),m,x,y,z);
-  // Knochen zwischen zwei Punkten mit Gelenkköpfen an beiden Enden
-  const knochen=(a,b,r0,r1)=>{const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),m=A.clone().lerp(B,.5);
-    add(querschnitte([{c:a,w:r0,f:r0,b:r0},{c:m.toArray(),w:Math.min(r0,r1)*.72,f:Math.min(r0,r1)*.72,b:Math.min(r0,r1)*.72},{c:b,w:r1,f:r1,b:r1}],{n:12,m:12}),kn);
-    kugel(r0*1.25,knD,...a);kugel(r1*1.25,knD,...b);};
-  // Beine im breiten Stand, Knie leicht gebeugt, Stiefel ab der Wade
-  for(const s of[-1,1]){const hu=[s*.09,.9,0],kn2=[s*.13,.5,.05],fu=[s*.15,.1,-.01];knochen(hu,kn2,.024,.02);knochen(kn2,fu,.02,.016);
-    add(new THREE.SphereGeometry(.03,14,10),knD,s*.13,.5,.065);                                                        // Kniescheibe
-    add(querschnitte([{c:[s*.142,.36,.02],w:.064,f:.062,b:.07},{c:[s*.146,.26,.008],w:.058,f:.054,b:.064},{c:[s*.15,.15,-.004],w:.05,f:.05,b:.056},{c:[s*.15,.08,-.006],w:.048,f:.052,b:.056}]),stiefel);
-    add(querschnitte([{c:[s*.142,.375,.02],w:.072,f:.07,b:.078},{c:[s*.142,.34,.02],w:.07,f:.068,b:.076}],{deckel:false,n:24}),leder);
-    add(querschnitte([{c:[s*.15,.05,-.06],w:.04,f:.03,b:.03},{c:[s*.15,.055,-.02],w:.046,f:.045,b:.045},{c:[s*.152,.045,.05],w:.05,f:.035,b:.035},{c:[s*.154,.035,.12],w:.044,f:.025,b:.025},{c:[s*.154,.03,.15],w:.03,f:.018,b:.018}].map(q=>({c:q.c,w:q.w,f:q.f,b:q.b,e:2.4})),{n:24}),stiefel);
-    add(new THREE.BoxGeometry(.1,.016,.22),dunkel,s*.152,.008,.045);}
-  // Becken
-  const be=add(new THREE.TorusGeometry(.08,.025,10,24,Math.PI*1.4),kn,0,.93,0);be.rotation.set(Math.PI/2,0,Math.PI*.8);be.scale.set(1.25,.85,1);
-  // Wirbelsäule leicht nach vorn gebeugt, Brustkorb aus Rippenbögen, Brustbein, Schlüsselbeine
-  for(let i=0;i<14;i++){const t=i/13,y=.95+t*.55,z=-.035-.03*Math.sin(t*Math.PI)+t*.03;kugel(.017-.004*t,i%2?knD:kn,0,y,z);}
-  // Rippen: je Seite ein Bogen von der Wirbelsäule nach vorn und abwärts zum Brustbein (vorn offen)
-  for(let i=0;i<6;i++)for(const s of[-1,1]){const y=1.4-i*.05,br=.1+.03*Math.sin((i+1.2)/7*Math.PI),pts=[];
-    for(let k=0;k<=10;k++){const a=k/10*Math.PI*.92,x=s*Math.sin(a)*br*1.05,z=-.04-Math.cos(a)*br*.7+.04,yy=y-Math.pow(k/10,1.6)*.05;pts.push(new THREE.Vector3(x,yy,z+(k/10)*.06));}
-    add(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),20,.0075,6,false),kn);}
-  add(querschnitte([{c:[0,1.39,.098],w:.016,f:.008,b:.008},{c:[0,1.22,.1],w:.014,f:.008,b:.008}],{n:10,m:10}),kn);
-  for(const s of[-1,1])knochen([s*.02,1.44,.07],[s*.16,1.45,.02],.011,.013);
-  // Arme: rechts mit Schwert gesenkt, links angewinkelt mit Schild
-  const AR={'-1':[[-.18,1.42,0],[-.24,1.15,.03],[-.26,.92,.12]],'1':[[.18,1.42,0],[.25,1.18,.06],[.23,1.06,.25]]};
-  for(const s of[-1,1]){const[sh,el,wr]=AR[s];knochen(sh,el,.02,.017);knochen(el,wr,.016,.013);
-    knochen([el[0]+s*.012,el[1],el[2]],[wr[0]+s*.012,wr[1],wr[2]],.011,.009);                                          // zweiter Unterarmknochen
-    const H=new THREE.Group();H.position.set(...wr);const dir=new THREE.Vector3(...wr).sub(new THREE.Vector3(...el)).normalize();H.quaternion.setFromUnitVectors(new THREE.Vector3(0,-1,0),dir);G.add(H);
-    const hk=(g,x,y,z)=>{const o=new THREE.Mesh(g,kn);o.position.set(x,y,z);o.castShadow=true;H.add(o);};
-    hk(new THREE.BoxGeometry(.035,.045,.03),0,-.03,0);for(let f=0;f<4;f++)for(let g=0;g<3;g++)hk(new THREE.SphereGeometry(.007,8,6),-.013+f*.009,-.06-g*.016,.012+g*.008);}
-  // Schulterstücke aus Leder mit Nieten, rechts zweilagig
-  for(const s of[-1,1]){const sp=add(new THREE.SphereGeometry(.075,22,12,0,Math.PI*2,0,Math.PI*.5),leder,s*.18,1.44,0);sp.scale.set(1.1,.7,1.05);sp.rotation.z=-s*.5;
-    for(let k=0;k<4;k++){const a=k/3*Math.PI-Math.PI/2;add(new THREE.SphereGeometry(.007,8,6),eisen,s*(.18+.06*Math.cos(a)*.3)+s*.03,1.45-.01*k,.05*Math.sin(a));}
-    if(s<0){const s2=add(new THREE.SphereGeometry(.07,22,12,0,Math.PI*2,0,Math.PI*.5),leder,s*.2,1.4,0);s2.scale.set(1.05,.55,1);s2.rotation.z=.6;}}
-  // Brustriemen von der linken Schulter zur rechten Hüfte, Gürtel mit runder Schnalle
-  {const rr=[];for(let k=0;k<=10;k++){const t=k/10,y=1.44-t*.48,x=.15-t*.3;rr.push({c:[x,y,.115-.02*Math.sin(t*Math.PI)],w:.016,f:.004,b:.004});}add(querschnitte(rr,{n:10,m:30}),leder);}
-  add(querschnitte([{c:[0,.955,0],w:.15,f:.1,b:.1},{c:[0,1.0,0],w:.145,f:.097,b:.097}],{deckel:false,n:40}),leder);
-  add(new THREE.TorusGeometry(.025,.008,8,20),eisen,0,.978,.103);add(new THREE.CylinderGeometry(.017,.017,.008,16),stahlD,0,.978,.1).rotation.x=Math.PI/2;
-  // Lendenschurz vorn und hinten: unten zerrissen (Zacken), Falten schattiert
-  for(const z of[1,-1]){const bahn=[];for(let k=0;k<=6;k++){const y=.97-k*.05;bahn.push({c:[0,y,z*(.1+k*.007)],w:.11+k*.007,f:.004,b:.004});}
-    const g=querschnitte(bahn,{n:28,m:24,form:(p,t,u)=>{const zack=Math.max(0,t-.6)/.4;p.y+=zack*(.06*Math.abs(Math.sin(u*31))+.03*Math.sin(u*13));p.z+=z*.01*Math.sin(u*17);},farbe:(p,t,u)=>.6+.4*Math.abs(Math.sin(u*9))*(1-t*.4)});
-    add(g,tuch);}
-  // Schädel: Hirnschale, Wangenknochen, Augenhöhlen, Nasenloch, Oberkiefer mit Zähnen, Unterkiefer
-  const K=new THREE.Group();K.position.set(0,1.66,.01);K.rotation.x=.08;G.add(K);
-  const kk=(g,m,x,y,z,sx=1,sy=1,sz=1)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.scale.set(sx,sy,sz);o.castShadow=true;K.add(o);return o;};
-  kk(new THREE.SphereGeometry(.088,32,24),kn,0,.028,-.005,.88,.98,1.05);
-  kk(new THREE.SphereGeometry(.07,24,16),kn,0,-.02,.03,.9,.85,.95);
-  for(const s of[-1,1]){kk(new THREE.SphereGeometry(.024,16,12),loch,s*.033,-.0,.077,1,.9,.7);kk(new THREE.SphereGeometry(.016,12,8),kn,s*.055,-.025,.058,1,.7,1);}
+  // Gelenkgerüst: jedes Gelenk eine Gruppe; Teile werden in den Koordinaten ihres Gelenks angelegt
+  const J=(p,x,y,z)=>{const g=new THREE.Group();g.position.set(x,y,z);p.add(g);return g;};
+  const an=(p,g,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;p.add(o);return o;};
+  const kugel=(p,r,m,x,y,z)=>an(p,new THREE.SphereGeometry(r,14,10),m,x,y,z);
+  const knochen=(p,a,b,r0,r1)=>{const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),c=A.clone().lerp(B,.5),rm=Math.min(r0,r1)*.72;
+    an(p,querschnitte([{c:a,w:r0,f:r0,b:r0},{c:c.toArray(),w:rm,f:rm,b:rm},{c:b,w:r1,f:r1,b:r1}],{n:12,m:12}),kn);kugel(p,r0*1.25,knD,...a);kugel(p,r1*1.25,knD,...b);};
+  const G=new THREE.Group(),R={};
+  R.becken=J(G,0,.93,0);
+  // Becken, Gürtel mit runder Schnalle, Lendenschurz vorn und hinten (unten zerrissen)
+  const be=an(R.becken,new THREE.TorusGeometry(.08,.025,10,24,Math.PI*1.4),kn);be.rotation.set(Math.PI/2,0,Math.PI*.8);be.scale.set(1.25,.85,1);
+  an(R.becken,querschnitte([{c:[0,.025,0],w:.15,f:.1,b:.1},{c:[0,.07,0],w:.145,f:.097,b:.097}],{deckel:false,n:40}),leder);
+  an(R.becken,new THREE.TorusGeometry(.025,.008,8,20),eisen,0,.048,.103);an(R.becken,new THREE.CylinderGeometry(.017,.017,.008,16),stahlD,0,.048,.1).rotation.x=Math.PI/2;
+  R.schurz=[];
+  for(const z of[1,-1]){const S2=J(R.becken,0,.04,z*.1);R.schurz.push(S2);const bahn=[];for(let k=0;k<=6;k++){const y=-k*.05;bahn.push({c:[0,y,z*k*.007],w:.11+k*.007,f:.004,b:.004});}
+    an(S2,querschnitte(bahn,{n:28,m:24,form:(p,t,u)=>{const zack=Math.max(0,t-.6)/.4;p.y+=zack*(.06*Math.abs(Math.sin(u*31))+.03*Math.sin(u*13));p.z+=z*.01*Math.sin(u*17);},farbe:(p,t,u)=>.6+.4*Math.abs(Math.sin(u*9))*(1-t*.4)}),tuch);}
+  // Wirbelsäule und Brustkorb (Gelenk über dem Becken)
+  R.rumpf=J(R.becken,0,.03,0);
+  for(let i=0;i<14;i++){const t=i/13,y=-.01+t*.55,z=-.035-.03*Math.sin(t*Math.PI)+t*.03;kugel(R.rumpf,.017-.004*t,i%2?knD:kn,0,y,z);}
+  for(let i=0;i<6;i++)for(const s of[-1,1]){const y=.44-i*.05,br=.1+.03*Math.sin((i+1.2)/7*Math.PI),pts=[];
+    for(let k=0;k<=10;k++){const a=k/10*Math.PI*.92;pts.push(new THREE.Vector3(s*Math.sin(a)*br*1.05,y-Math.pow(k/10,1.6)*.05,-Math.cos(a)*br*.7+(k/10)*.06));}
+    an(R.rumpf,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),20,.0075,6,false),kn);}
+  an(R.rumpf,querschnitte([{c:[0,.43,.098],w:.016,f:.008,b:.008},{c:[0,.26,.1],w:.014,f:.008,b:.008}],{n:10,m:10}),kn);
+  for(const s of[-1,1])knochen(R.rumpf,[s*.02,.48,.07],[s*.16,.49,.02],.011,.013);
+  {const rr=[];for(let k=0;k<=10;k++){const t=k/10;rr.push({c:[.15-t*.3,.48-t*.48,.115-.02*Math.sin(t*Math.PI)],w:.016,f:.004,b:.004});}an(R.rumpf,querschnitte(rr,{n:10,m:30}),leder);}
+  for(const s of[-1,1]){const sp=an(R.rumpf,new THREE.SphereGeometry(.075,22,12,0,Math.PI*2,0,Math.PI*.5),leder,s*.18,.48,0);sp.scale.set(1.1,.7,1.05);sp.rotation.z=-s*.5;
+    for(let k=0;k<4;k++){const a=k/3*Math.PI-Math.PI/2;an(R.rumpf,new THREE.SphereGeometry(.007,8,6),eisen,s*(.21+.018*Math.cos(a)),.49-.01*k,.05*Math.sin(a));}
+    if(s<0){const s2=an(R.rumpf,new THREE.SphereGeometry(.07,22,12,0,Math.PI*2,0,Math.PI*.5),leder,s*.2,.44,0);s2.scale.set(1.05,.55,1);s2.rotation.z=.6;}}
+  // Hals und Schädel
+  for(let i=0;i<3;i++)kugel(R.rumpf,.018,i%2?knD:kn,0,.56+i*.035,-.01);
+  R.kopf=J(R.rumpf,0,.67,.01);R.kopf.rotation.x=.08;
+  const kk=(g,m,x,y,z,sx=1,sy=1,sz=1)=>{const o=an(R.kopf,g,m,x,y,z);o.scale.set(sx,sy,sz);return o;};
+  kk(new THREE.SphereGeometry(.088,32,24),kn,0,.028,-.005,.88,.98,1.05);kk(new THREE.SphereGeometry(.07,24,16),kn,0,-.02,.03,.9,.85,.95);
+  for(const s of[-1,1]){kk(new THREE.SphereGeometry(.024,16,12),loch,s*.033,0,.077,1,.9,.7);kk(new THREE.SphereGeometry(.016,12,8),kn,s*.055,-.025,.058,1,.7,1);}
   kk(new THREE.ConeGeometry(.012,.026,3),loch,0,-.033,.088,1,1,.5).rotation.x=Math.PI;
   kk(new THREE.BoxGeometry(.07,.02,.04),kn,0,-.06,.058);for(let i=-3;i<=3;i++)kk(new THREE.BoxGeometry(.008,.012,.006),knD,i*.0095,-.072,.079);
-  const kie=kk(new THREE.BoxGeometry(.07,.026,.05),kn,0,-.092,.048);for(let i=-3;i<=3;i++)kk(new THREE.BoxGeometry(.008,.011,.006),knD,i*.0095,-.081,.074);
-  for(const s of[-1,1])kk(new THREE.BoxGeometry(.012,.05,.05),kn,s*.04,-.075,.02).rotation.x=.3;
-  // Hals aus Wirbeln
-  for(let i=0;i<3;i++)kugel(.018,i%2?knD:kn,0,1.52+i*.035,-.01);
-  // Schwert in der rechten Hand, Spitze schräg nach vorn unten
-  const sw=new THREE.Group();sw.position.set(-.265,.88,.13);sw.rotation.set(-.45,0,.05);G.add(sw);
-  const m2=(g,m,x,y,z)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;sw.add(o);return o;};
+  R.kiefer=J(R.kopf,0,-.07,.02);an(R.kiefer,new THREE.BoxGeometry(.07,.026,.05),kn,0,-.022,.028);for(let i=-3;i<=3;i++)an(R.kiefer,new THREE.BoxGeometry(.008,.011,.006),knD,i*.0095,-.011,.054);
+  for(const s of[-1,1])an(R.kiefer,new THREE.BoxGeometry(.012,.05,.05),kn,s*.04,-.005,0).rotation.x=.3;
+  // Arme: Schulter → Ellbogen → Hand, rechts Schwert, links Schild
+  const ARM={'-1':[[-.18,.46,0],[-.06,-.27,.03],[-.02,-.23,.09]],'1':[[.18,.46,0],[.07,-.24,.06],[-.02,-.12,.19]]};
+  for(const s of[-1,1]){const[sh,el,wr]=ARM[s],k=s<0?'R':'L';
+    const S1=R['schulter'+k]=J(R.rumpf,...sh);knochen(S1,[0,0,0],el,.02,.017);
+    const E=R['ellbogen'+k]=J(S1,...el);knochen(E,[0,0,0],wr,.016,.013);knochen(E,[s*.012,0,0],[wr[0]+s*.012,wr[1],wr[2]],.011,.009);
+    const H=R['hand'+k]=J(E,...wr);const dir=new THREE.Vector3(...wr).normalize();const HH=J(H,0,0,0);HH.quaternion.setFromUnitVectors(new THREE.Vector3(0,-1,0),dir);
+    an(HH,new THREE.BoxGeometry(.035,.045,.03),kn,0,-.03,0);for(let f=0;f<4;f++)for(let g=0;g<3;g++)an(HH,new THREE.SphereGeometry(.007,8,6),kn,-.013+f*.009,-.06-g*.016,.012+g*.008);}
+  // Schwert in der rechten Hand
+  const sw=J(R.handR,-.005,-.04,.0);sw.rotation.set(-.45,0,.05);R.schwert=sw;
+  const m2=(g,m,x,y,z)=>an(sw,g,m,x,y,z);
   m2(new THREE.CylinderGeometry(.013,.013,.1,10),leder,0,.04,0);m2(new THREE.SphereGeometry(.018,10,8),eisen,0,.1,0);m2(new THREE.BoxGeometry(.15,.018,.026),eisen,0,-.015,0);
   m2(new THREE.BoxGeometry(.045,.62,.008),stahl,0,-.33,0);m2(new THREE.ConeGeometry(.023,.06,4),stahl,0,-.67,0).rotation.set(Math.PI,Math.PI/4,0);m2(new THREE.BoxGeometry(.01,.54,.01),stahlD,0,-.3,.002);
-  // Runder Holzschild am linken Arm: Bretter, Eisenrand mit Nieten, Buckel in der Mitte
-  const sh=new THREE.Group();sh.position.set(.3,1.1,.24);sh.rotation.set(0,.9,0);G.add(sh);
-  const sm=(g,m,x,y,z)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=true;sh.add(o);return o;};
-  sm(new THREE.CylinderGeometry(.2,.2,.025,40),M({map:schildTex(),roughness:.7}),0,0,0).rotation.x=Math.PI/2;
-  sm(new THREE.TorusGeometry(.2,.012,10,48),eisen,0,0,0);
+  // Runder Holzschild am linken Unterarm
+  const sh=J(R.ellbogenL,-.0,-.1,.12);sh.rotation.set(0,.9,0);
+  const sm=(g,m,x,y,z)=>an(sh,g,m,x,y,z);
+  sm(new THREE.CylinderGeometry(.2,.2,.025,40),M({map:schildTex(),roughness:.7}),0,0,0).rotation.x=Math.PI/2;sm(new THREE.TorusGeometry(.2,.012,10,48),eisen,0,0,0);
   for(let k=0;k<16;k++){const a=k/16*Math.PI*2;sm(new THREE.SphereGeometry(.007,8,6),eisen,Math.cos(a)*.185,Math.sin(a)*.185,.015);}
-  const bu=sm(new THREE.SphereGeometry(.05,20,12,0,Math.PI*2,0,Math.PI*.5),stahl,0,0,.012);bu.rotation.x=Math.PI/2;
-  G.scale.setScalar((+L.groesse||1.8)/1.8);return G;}
+  sm(new THREE.SphereGeometry(.05,20,12,0,Math.PI*2,0,Math.PI*.5),stahl,0,0,.012).rotation.x=Math.PI/2;
+  // Beine: Hüfte → Knie → Fuß, Stiefel am Unterschenkel und Fuß
+  for(const s of[-1,1]){const k=s<0?'R':'L';
+    const HU=R['huefte'+k]=J(R.becken,s*.09,-.03,0);knochen(HU,[0,0,0],[s*.012,-.4,.03],.024,.02);
+    const KN=R['knie'+k]=J(HU,s*.012,-.4,.03);an(KN,new THREE.SphereGeometry(.03,14,10),knD,0,0,.017);knochen(KN,[0,0,0],[s*.01,-.4,-.04],.02,.016);
+    an(KN,querschnitte([{c:[s*.004,-.14,-.01],w:.064,f:.062,b:.07},{c:[s*.006,-.24,-.022],w:.058,f:.054,b:.064},{c:[s*.01,-.35,-.034],w:.05,f:.05,b:.056},{c:[s*.01,-.42,-.036],w:.048,f:.052,b:.056}]),stiefel);
+    an(KN,querschnitte([{c:[s*.004,-.125,-.01],w:.072,f:.07,b:.078},{c:[s*.004,-.16,-.01],w:.07,f:.068,b:.076}],{deckel:false,n:24}),leder);
+    const FU=R['fuss'+k]=J(KN,s*.01,-.4,-.04);
+    an(FU,querschnitte([{c:[0,-.05,-.05],w:.04,f:.03,b:.03},{c:[0,-.045,-.01],w:.046,f:.045,b:.045},{c:[s*.002,-.055,.06],w:.05,f:.035,b:.035},{c:[s*.004,-.065,.13],w:.044,f:.025,b:.025},{c:[s*.004,-.07,.16],w:.03,f:.018,b:.018}].map(q=>({c:q.c,w:q.w,f:q.f,b:q.b,e:2.4})),{n:24}),stiefel);
+    an(FU,new THREE.BoxGeometry(.1,.016,.22),dunkel,s*.002,-.092,.055);}
+  G.scale.setScalar((+L.groesse||1.8)/1.8);
+  G.userData.gelenke=R;G.userData.pose=(art,t)=>skelettPose(R,art,t);skelettPose(R,'idle',0);
+  return G;}
+// Bewegungen des Skeletts: Ruhe, Laufen (Schrittzyklus), Angriff (Schwerthieb von oben)
+function skelettPose(R,art,t){
+  const set=(g,x=0,y=0,z=0)=>g.rotation.set(x,y,z);
+  R.becken.position.y=.93;set(R.becken);set(R.rumpf,.12,0,0);set(R.kopf,-.04,0,0);set(R.kiefer);
+  set(R.schulterR,0,0,.05);set(R.ellbogenR);set(R.handR);set(R.schulterL,0,0,-.05);set(R.ellbogenL);set(R.handL);
+  set(R.huefteR,-.04,0,.06);set(R.knieR,.08);set(R.fussR,-.04);set(R.huefteL,.04,0,-.06);set(R.knieL,.08);set(R.fussL,-.04);
+  for(const sc of R.schurz)set(sc);
+  if(art==='idle'){const a=Math.sin(t*Math.PI*2);R.becken.position.y=.93+a*.004;R.rumpf.rotation.x=.12+a*.015;R.kiefer.rotation.x=Math.max(0,a)*.06;}
+  else if(art==='walk'){const p=t*Math.PI*2,s=Math.sin(p),c=Math.cos(p);
+    R.huefteR.rotation.x=-.48*s;R.huefteL.rotation.x=.48*s;
+    R.knieR.rotation.x=.12+.9*Math.max(0,c)*Math.max(0,s+.25);R.knieL.rotation.x=.12+.9*Math.max(0,-c)*Math.max(0,-s+.25);
+    R.fussR.rotation.x=.25*s-.05;R.fussL.rotation.x=-.25*s-.05;
+    R.becken.position.y=.925+.03*Math.abs(c);R.becken.rotation.y=.1*s;R.rumpf.rotation.y=-.16*s;R.rumpf.rotation.z=.03*c;
+    R.schulterR.rotation.x=.3*s;R.schulterL.rotation.x=-.2*s;R.ellbogenR.rotation.x=-.15-.15*Math.max(0,s);
+    R.kopf.rotation.y=.08*s;R.schurz[0].rotation.x=-.25*Math.abs(s);R.schurz[1].rotation.x=.18*Math.abs(s);}
+  else if(art==='attack'){
+    // Schlüsselbilder: ausholen über den Kopf, zuschlagen nach vorn unten, zurück
+    const KF=[[0,0,0,0,.12],[-2.3,-.6,.35,.25,.05],[-2.7,-.9,.5,.3,0],[-.9,-.1,-.3,-.25,.32],[-.4,-.25,-.45,-.3,.28],[-.1,-.1,-.15,-.1,.18]];
+    const u=Math.min(.999,t)*(KF.length-1),i=Math.floor(u),f=u-i,k=KF[i].map((v,n)=>v+(KF[i+1][n]-v)*f);
+    R.schulterR.rotation.set(k[0],0,.05+k[2]*.4);R.ellbogenR.rotation.x=k[1];R.rumpf.rotation.y=k[3];R.rumpf.rotation.x=k[4];
+    R.schulterL.rotation.set(-.35,0,-.15);R.ellbogenL.rotation.x=-.3;
+    R.huefteL.rotation.x=-.45;R.knieL.rotation.x=.4;R.huefteR.rotation.x=.3;R.knieR.rotation.x=.25;R.becken.position.y=.9;R.kiefer.rotation.x=.12;}
+}
 // Schildbretter: senkrechte Holzbretter mit Fugen
 function schildTex(){return tex(128,128,(g,w,h)=>{g.fillStyle='#5a3c22';g.fillRect(0,0,w,h);for(let x=0;x<w;x+=21){g.fillStyle=`rgba(${(x*7)%40+20},${(x*5)%20+10},0,.25)`;g.fillRect(x,0,21,h);g.fillStyle='rgba(20,10,4,.7)';g.fillRect(x,0,2,h);}
   for(let k=0;k<30;k++){g.strokeStyle='rgba(30,15,5,.35)';g.beginPath();const x=Math.random()*w;g.moveTo(x,0);g.bezierCurveTo(x+4,h/3,x-4,h*2/3,x+2,h);g.stroke();}rausch(g,w,h,18,57);},1);}
@@ -512,5 +535,5 @@ function kettenTex(){return tex(128,128,(g,w,h)=>{g.fillStyle='#4a4e54';g.fillRe
   rausch(g,w,h,14,43);},40);}
 
 function bau(spec={}){return spec.klasse==='magier'?magier(spec):spec.klasse==='krieger'?krieger(spec):spec.klasse==='waldlaeufer'?waldlaeufer(spec):spec.klasse==='skelett'?skelett(spec):startfigur(spec);}
-window.Figur={bau,querschnitte,flackern};
+window.Figur={bau,querschnitte,flackern,pose:(G,art,t)=>G.userData.pose&&G.userData.pose(art,t)};
 })();

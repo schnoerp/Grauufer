@@ -82,8 +82,8 @@ test('Rev 125: Feste Figuren (Magier, Krieger, Waldläufer) in 8 Richtungen, Mag
   // Skelettkrieger: eigene Figur, schaut die Spielfigur an, wenn er neben ihr steht
   const sk = await page.evaluate(() => { const o = { id: 'tsk', k: 'skeleton', x: S.p.x + 1, y: S.p.y, rx: S.p.x + 1, ry: S.p.y, hp: 24, maxHp: 24, face: 1, dir8: 0 }; S.enemies.push(o);
     let r8 = null; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (F, ob, ...a) => { if (ob === o) r8 = F.indexOf(F[dir8Von(S.p.x - o.x, S.p.y - o.y)]); return alt(F, ob, ...a); };
-    const n = performance.now(); draw0(n / 1000, n, .016); window.drawFigurBild = drawFigurBild = alt; S.enemies.pop(); return [FIGBILD.skeleton.length, r8 === dir8Von(-1, 0)]; });
-  expect(sk).toEqual([8, true]);
+    const n = performance.now(); draw0(n / 1000, n, .016); window.drawFigurBild = drawFigurBild = alt; S.enemies.pop(); return [FIGBILD.skeleton.length, r8 === dir8Von(-1, 0), FIGBILD.skeleton.walk.map(r => r.length).join(), FIGBILD.skeleton.atk.map(r => r.length).join()]; });
+  expect(sk).toEqual([8, true, '8,8,8,8,8,8,8,8', '6,6,6,6,6,6,6,6']);
   expect(fehler).toEqual([]);
 });
 
