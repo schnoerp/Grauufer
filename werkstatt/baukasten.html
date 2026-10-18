@@ -37,7 +37,7 @@ input[type=range]{width:100%}
   <input id="name" type="text" title="Name des Hauses">
   <button id="neu">Neu</button><button id="beispiel">Beispiel</button>
   <select id="liste" title="Gespeicherte Häuser"><option value="">Gespeicherte Häuser …</option></select>
-  <button id="speichern">Speichern</button><button id="loeschen">Löschen</button><button id="herunter">Herunterladen</button>
+  <button id="speichern">Speichern</button><button id="loeschen">Löschen</button><button id="senden" title="Öffnet GitHub mit dem fertigen Haus; dort nur noch absenden">An Claudia senden</button><button id="herunter">Herunterladen</button>
   <button id="ladeKnopf">Datei laden</button><input id="datei" type="file" accept=".json" hidden>
 </header>
 <main>
@@ -86,7 +86,7 @@ async function ablageStart(){if(!(window.claude&&window.claude.use))return;let d
   Ablage={art:'claude',haeuser:{},
     async speichere(sp){try{await col.doc(slug(sp.name)).set({name:sp.name||'Haus',spec:kopie(sp),geaendert:new Date().toISOString()});return true;}catch(e){return false;}},
     async loesche(n){try{await col.doc(slug(n)).delete();}catch(e){meldung('Löschen ging nicht.');}}};
-  $('herunter').hidden=true;meldung('Gespeicherte Häuser sieht auch Claudia.');
+  $('herunter').hidden=true;$('senden').hidden=true;meldung('Gespeicherte Häuser sieht auch Claudia.');
   col.onSnapshot(q=>{const h={};q.docs.forEach(d=>{const x=d.data();if(x&&x.spec)h[x.name||d.id]=x.spec;});Ablage.haeuser=h;felder();},()=>meldung('Verbindung zum Speicher verloren – bitte neu laden.'));}
 try{const z=localStorage.getItem(SPEICHER+'-zuletzt');if(z)spec=JSON.parse(z);}catch(e){}
 
@@ -161,6 +161,11 @@ $('links').onclick=()=>{drehung=(drehung+3)&3;geaendert();};$('rechts').onclick=
 $('neu').onclick=()=>{spec={name:'Neues Haus',breite:4,tiefe:3,wand:'fachwerk',dach:'schiefer',first:'x',verwitterung:.5,schornstein:false,oeffnungen:[{seite:'vorn',feld:1,art:'tuer'}],einrichtung:[]};geaendert();};
 $('beispiel').onclick=()=>{spec=kopie(HB.BEISPIEL);geaendert();};
 $('speichern').onclick=async()=>{meldung('Speichere …');const ok=await Ablage.speichere(spec);meldung(ok?`„${spec.name}“ gespeichert.`:'Speichern ging nicht – bitte noch einmal versuchen.');felder();};
+// An Claudia senden: öffnet ein vorausgefülltes GitHub-Issue mit der Hausbeschreibung (nur noch „Submit“ tippen)
+window.hausLink=()=>{const j=JSON.stringify(spec);const body='Neues Haus aus dem Haus-Baukasten. Claudia baut es ins Spiel ein.\n\n```json\n'+j+'\n```\n';
+  return'https://github.com/schnoerp/Grauufer/issues/new?title='+encodeURIComponent('Haus: '+(spec.name||'Haus'))+'&body='+encodeURIComponent(body);};
+$('senden').onclick=()=>{const u=window.hausLink();if(u.length>7500){meldung('Das Haus ist zu groß für den Versand – bitte weniger Einrichtung.');return;}
+  const w=window.open(u,'_blank');meldung(w?'GitHub ist geöffnet: dort auf „Create“ bzw. „Submit new issue“ tippen.':'GitHub ließ sich nicht öffnen – bitte Pop-ups erlauben.');};
 let loeschFrage=0;$('loeschen').onclick=async()=>{const n=$('liste').value||spec.name;if(!Ablage.haeuser[n]){meldung('Dieses Haus ist nicht gespeichert.');return;}
   if(Date.now()-loeschFrage>4000){loeschFrage=Date.now();meldung(`„${n}“ wirklich löschen? Noch einmal tippen.`);return;}
   loeschFrage=0;await Ablage.loesche(n);meldung(`„${n}“ gelöscht.`);felder();};

@@ -364,3 +364,15 @@ test('Werkstatt: Baukasten erlaubt je Feld nur ein Möbelstück und entfernt zuv
   expect([a, b, c, d, alt]).toEqual(['truhe2', 'schrank0,teppich0', 'saecke0,teppich0', '', 'truhe,teppich']);
   expect(fehler).toEqual([]);
 });
+
+test('Werkstatt: Baukasten erzeugt den Versand an Claudia als GitHub-Issue', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'baukasten.html'));
+  await page.waitForFunction(() => window.Hausbau && typeof window.hausLink === 'function', null, { timeout: 30000 });
+  await page.click('#beispiel');
+  const r = await page.evaluate(() => { const u = new URL(hausLink()), b = u.searchParams.get('body');
+    const j = JSON.parse(b.slice(b.indexOf('```json') + 7, b.lastIndexOf('```')));
+    return [u.origin + u.pathname, u.searchParams.get('title'), j.name, j.breite, hausLink().length < 7500, !document.getElementById('senden').hidden]; });
+  expect(r).toEqual(['https://github.com/schnoerp/Grauufer/issues/new', 'Haus: Fischerhaus', 'Fischerhaus', 5, true, true]);
+  expect(fehler).toEqual([]);
+});
