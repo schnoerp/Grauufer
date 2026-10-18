@@ -1,6 +1,6 @@
 # Grauufer – Baukästen
 
-**Revision 5**, Stand: Spiel-Rev 115. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 6**, Stand: Spiel-Rev 118. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zweite Entwickler Teile der Spielwelt selbst zusammenstellen. Die Baukästen gehören zur Grafik-Werkstatt; Technik, Stilregeln und Kamera stehen in Grauufer_Grafik_RevXX.md.
 
@@ -126,7 +126,7 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 
 - Die fünf Häuser in Grauufer sind 3 × 3 Felder groß mit der Tür vorn in der Mitte, wie die bisherigen Hütten. Die Bewohner stehen im mittleren Feld, die Einrichtung steht in den Randfeldern, die im Spiel als Wand gelten. Die verlassene Kate ist neu und steht leer.
 - Je Haus drei Bilder, gerendert mit `npm run haeuser` im Maßstab des Spiels (ein Feld 160 Einheiten breit, Raster wie im Spiel) und als PNG mit Farbtabelle in `index.html` eingebettet (seit Spiel-Rev 111 verlustfrei mit höchstens 256 Farben je Bild; alle 19 Häuser zusammen etwa 850 KB): **außen** mit Dach, **innen hinten** (Boden, hintere Wände, Einrichtung) und **innen vorn** (die zwei niedrigen Wände zur Kamera).
-- Steht die Figur im Haus oder dahinter, zeigt das Spiel die Innenansicht: das hintere Bild vor den Figuren, die niedrigen vorderen Wände danach. Seit Spiel-Rev 111 wird das hintere Bild in senkrechten Streifen je Feldlinie gezeichnet, jeweils beim hintersten Hausfeld; so verdeckt nichts, was hinter dem Haus steht (z. B. die Stadtmauer), die Rückwand. Sonst das Haus von außen mit Dach. Die Bilder werden beim Start einmal im Hauptspeicher entpackt, in der kleinen Rastergröße, und beim Zeichnen ohne Glättung vergrößert; bis dahin zeichnet das Spiel die alte Hütte.
+- Steht die Figur im Haus, zeigt das Spiel die Innenansicht (seit Spiel-Rev 118 nur dann; vorher auch, wenn sie dahinter stand): das hintere Bild vor den Figuren, die niedrigen vorderen Wände danach. Seit Spiel-Rev 111 wird das hintere Bild in senkrechten Streifen je Feldlinie gezeichnet, jeweils beim hintersten Hausfeld; so verdeckt nichts, was hinter dem Haus steht (z. B. die Stadtmauer), die Rückwand. Sonst das Haus von außen mit Dach. Die Bilder werden beim Start einmal im Hauptspeicher entpackt, in der kleinen Rastergröße, und beim Zeichnen ohne Glättung vergrößert; bis dahin zeichnet das Spiel die alte Hütte.
 
 **Weiter geplant:**
 

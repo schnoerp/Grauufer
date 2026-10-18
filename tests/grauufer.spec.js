@@ -466,11 +466,12 @@ test('Grauufer: fünf Häuser aus der Grafik-Werkstatt, außen und innen', async
     const m = BILDHAUS.find(b => b.bild === 'mareth'), mareth = NPCS.find(n => n.id === 'mareth');
     S.p.x = S.p.rx = m.x0 + 1; S.p.y = S.p.ry = m.y0 + 1; await warte(); const drin = m._m;
     S.p.x = S.p.rx = m.x0 - 6; S.p.y = S.p.ry = m.y0 - 6; await warte(); const draussen = m._m;
-    return { namen: BILDHAUS.map(b => b.bild).filter(n => !n.includes('_') && n !== 'gruft').sort(), drin, draussen, mitte: mareth.x === m.x0 + 1 && mareth.y === m.y0 + 1,
+    S.p.x = S.p.rx = m.x0 + 1; S.p.y = S.p.ry = m.y0 - 1; await warte(); const dahinter = m._m;
+    return { namen: BILDHAUS.map(b => b.bild).filter(n => !n.includes('_') && n !== 'gruft').sort(), drin, draussen, dahinter, mitte: mareth.x === m.x0 + 1 && mareth.y === m.y0 + 1,
       bilder: Object.values(HAUSBILD).every(h => ['a', 'h', 'v'].every(s => h[s].c.width > 100)) };
   });
   expect(r.namen).toEqual(['bram', 'ilsabe', 'mareth', 'oswin', 'verlassen']);
-  expect(r.drin).toBe('i'); expect(r.draussen).toBe('a'); expect(r.mitte).toBe(true); expect(r.bilder).toBe(true);
+  expect(r.drin).toBe('i'); expect(r.draussen).toBe('a'); expect(r.dahinter).toBe('a'); expect(r.mitte).toBe(true); expect(r.bilder).toBe(true);
   expect(fehler).toEqual([]);
 });
 
