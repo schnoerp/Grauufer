@@ -16,14 +16,14 @@ Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = 
 |---|---|
 | `index.html` | das komplette Spiel (HTML, CSS, JavaScript, eingebettete Schrift) |
 | `werkstatt/` | Grafik-Werkstatt: 3D-Modelle im Code, mit three.js gerendert (`npm run grafik`, Vorschaubilder in `werkstatt/vorschau/`); **Haus-Baukasten** `werkstatt/baukasten.html` (über GitHub Pages unter `https://schnoerp.github.io/Grauufer/werkstatt/baukasten.html`, Häuser per „Über GitHub an Claudia senden“ als GitHub-Issue; als Claude-Seite mit gemeinsamem Speicher über `node werkstatt/artefakt.js`) |
-| `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze …) |
+| `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze, Baukästen, Aufgabenliste …) |
 | `CLAUDE.md` | Arbeitsregeln für Claude Code |
 
-Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_RevXX.md` (aktuell Rev 20).
+Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_RevXX.md` (aktuell Rev 21).
 
 ## Tests
 
-Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 32 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität, Story-Baum, Kugeln für Leben und Mana, Spieltitel, Logo, Die Tiefe mit Gegnern, Tafeln, Truhen, Thronhüter und Ring, Notgrund gegen schwarzen Boden).
+Bei jedem Push prüft GitHub automatisch (Reiter **Actions**): Syntax und Revision von `index.html` sowie 33 Browser-Tests (Start, Fenster, Fußzeile, Gespräch, Speichern, Truhe, Charakter, Angeln, Lava, zwei Enden, Fehlerbehebungen aus Rev 94, Symbol, Schatten und Farbstimmung, Südküste, feine Bodenzeichnung, Bäume, automatische Bildqualität, Story-Baum, Kugeln für Leben und Mana, Spieltitel, Logo, Die Tiefe mit Gegnern, Tafeln, Truhen, Thronhüter und Ring, Notgrund gegen schwarzen Boden).
 
 Lokal: `npm install`, `npx playwright install chromium`, dann `npm test`.
 

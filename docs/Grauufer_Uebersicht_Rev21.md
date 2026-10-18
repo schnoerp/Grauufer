@@ -1,6 +1,6 @@
 # Grauufer – Übersicht
 
-**Revision 20**, Stand: Spiel-Rev 108. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
+**Revision 21**, Stand: Spiel-Rev 108. Einstieg in die Spieldefinition: welches Dokument wofür zuständig ist und wie Namen geschrieben werden.
 
 **Spieltitel:** „Grauufer 1.0“ (seit Spiel-Rev 103). So steht er im Browser-Reiter („Grauufer 1.0 (Rev NN)“), im Titelbild, im Titeldialog („Ein Rollenspiel von schnoerp-media, Revision NN“) und im Beenden-Dialog. „Grauufer“ allein bleibt der Name des Fischerdorfs in der Spielwelt; die Dokumente behalten ihre Dateinamen `Grauufer_<Thema>_RevXX.md`.
 
@@ -21,10 +21,12 @@
 | Grauufer_Stil_RevXX.md | Grafik, Farben, Figurengrößen, Klang, Texte, Leistung | Bedienung |
 | Grauufer_Fortschritt_RevXX.md | Balancing: Stufen, Erfahrung, Richtstufen je Gebiet | Formeln, Preise |
 | Grauufer_Wirtschaft_RevXX.md | **einzige Quelle** für Preise, Dienste, Verkaufen, Goldbilanz | Gegnergold, Questbelohnungen |
+| Grauufer_Offen_Aufgabenliste_RevXX.md | Aufgabenliste: alle angefangenen und geplanten Aufgaben, Reihenfolge, offene Entscheidungen, Prüfpunkte, mit Verweis auf das zuständige Dokument (seit Spiel-Rev 108) | Werte, Einzelheiten |
 | Grauufer_Fahrplan_RevXX.md | Reihenfolge der Umsetzung, Aufteilung auf 2 Entwickler | Inhalte |
 | Grauufer_Charakter_RevXX.md | Attribute, Fertigkeiten, Talentbaum, Freischaltungen in der Welt (seit Spiel-Rev 90) | Kampfformeln |
 | Grauufer_Schaetze_RevXX.md | Truhen, Mimiken, Schatzkarten, Grabstellen, Lesepulte, Tafeln, Hindernisse mit Fundorten (seit Spiel-Rev 89/90) | Gegenstandswerte |
-| Grauufer_Grafik_RevXX.md | Grafik-Werkstatt: vorgerenderte 3D-Grafik, Stilregeln, Haus und Rucksack wie in Pagan, Fahrplan der neuen Grafik (seit Spiel-Rev 108) | heutige Spielgrafik (→ Stil) |
+| Grauufer_Grafik_RevXX.md | Grafik-Werkstatt: vorgerenderte 3D-Grafik, Stilregeln, Haus und Rucksack wie in Pagan, Fahrplan der neuen Grafik (seit Spiel-Rev 108) | heutige Spielgrafik (→ Stil), Bedienung der Baukästen |
+| Grauufer_Baukaesten_RevXX.md | Haus-Baukasten (Haustypen, Geschosse, Öffnungen, Einrichtung, JSON-Beschreibung), geplanter Anlagen-Baukasten für Burg und Schloss, geplanter Figuren-Baukasten, geplanter Landschafts-Baukasten, Weg der Häuser ins Spiel (seit Spiel-Rev 108) | Stilregeln, Kamera (→ Grafik) |
 
 Karte von Morvenn als Bild: `Morvenn_Karte_Rev34.png` (im Ordner `docs/`, Stand der Karte: Spiel-Rev 34; neuere Orte und Koordinaten stehen in Grauufer_Welt_RevXX.md).
 
@@ -95,4 +97,4 @@ Ghul, Wolf, Ertrunkener, Aschenhund, Bandit, Harpyie, Riesenspinne, Moorleiche, 
 Aschenhorn, Nhal (der Hungernde), Siegelwächter, Morgenwind (Schiff), Haldor (Kapitän), Die Stillen, Die Seelotsen, Die Glutschmiede, Die Sturmbrüder, Titanenbrecher, Portal, Lesepult, Runentafel, Titanentafel, Runentor, Gittertor, Felsbrocken, Vogelnest, Mimik, Glutgeist, Flaschenpost, Schatzkarte, Grabstelle, Fertigkeit, Talent, Attributpunkt, Talentpunkt, Tagebuch.
 
 ### Neue Begriffe (seit Spiel-Rev 99–108)
-Grauufer 1.0 (Spieltitel), schnoerp-media, Story-Baum (Knopf „Geschichte“, Taste G), Lebenskugel, Manakugel, Die Tiefe, Treppe (Zugang zur Tiefe), Thronsaal, Ring der Tiefe, Notgrund (Ersatzboden, solange der Bodenpuffer aufgebaut wird), Grafik-Werkstatt (Ordner `werkstatt/`, rendert 3D-Modelle zu Spielbildern), Haus-Baukasten (`werkstatt/baukasten.html`, Häuser selbst zusammenstellen).
+Grauufer 1.0 (Spieltitel), schnoerp-media, Story-Baum (Knopf „Geschichte“, Taste G), Lebenskugel, Manakugel, Die Tiefe, Treppe (Zugang zur Tiefe), Thronsaal, Ring der Tiefe, Notgrund (Ersatzboden, solange der Bodenpuffer aufgebaut wird), Grafik-Werkstatt (Ordner `werkstatt/`, rendert 3D-Modelle zu Spielbildern), Haus-Baukasten (`werkstatt/baukasten.html`, Häuser selbst zusammenstellen), Haustyp (Vorlage im Haus-Baukasten), Anlagen-Baukasten (geplant, Burg und Schloss), Figuren-Baukasten (geplant, Gesprächspartner, Gegner, Spielerfiguren), Landschafts-Baukasten (geplant, Bäume, Felsen, Ufer, Höhlen; optional Gebietsentwurf).
