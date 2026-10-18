@@ -28,7 +28,7 @@ const FIGUREN = [
       const s = Avatar.Szene(c, { w: W0, h: H0, k: K, fuss: FUSS0, boden: false }); s.licht('nacht');
       const G = Figur.bau(spec); s.fest(G); Figur.flackern(G, 0);
       // ein Bild in Richtung r: zuschneiden, Fußpunkt und Lage der leuchtenden Steine merken
-      // Bewegungsbilder in 70 % der Auflösung (Dateigröße); sk = Maßstab gegenüber K, das Spiel gleicht ihn aus
+      // Bewegungsbilder in 60 % der Auflösung (Dateigröße); sk = Maßstab gegenüber K, das Spiel gleicht ihn aus
       const bild = (r, sk = 1) => {
         const W = Math.round(W0 * sk), H = Math.round(H0 * sk), FUSS = Math.round(FUSS0 * sk);
         s.groesse(W, H, K * sk, FUSS); s.zeige('idle', 0, r);
@@ -38,17 +38,17 @@ const FIGUREN = [
         x0 = Math.max(0, x0 - 2); y0 = Math.max(0, y0 - 2); x1 = Math.min(W - 1, x1 + 2); y1 = Math.min(H - 1, y1 + 2);
         const o = document.createElement('canvas'); o.width = x1 - x0 + 1; o.height = y1 - y0 + 1; o.getContext('2d').drawImage(q, x0, y0, o.width, o.height, 0, 0, o.width, o.height);
         const licht = (G.userData.leuchten || []).map(l => { const [lx, ly] = s.projiziere(l.kern.position); return [Math.round(lx - x0), Math.round(ly - y0), l.phase]; });
-        return { u: o.toDataURL('image/webp', sk < 1 ? .78 : .88), w: o.width, h: o.height, ax: Math.round(W / 2 - x0), ay: Math.round(H - FUSS - y0), licht, ...(sk < 1 ? { sk } : {}) };
+        return { u: o.toDataURL('image/webp', sk < 1 ? .74 : .88), w: o.width, h: o.height, ax: Math.round(W / 2 - x0), ay: Math.round(H - FUSS - y0), licht, ...(sk < 1 ? { sk } : {}) };
       };
       const d = { d: [] };
       for (let r = 0; r < 8; r++) d.d.push(bild(r));
-      // Figuren mit Gelenkgerüst: Laufen (8 Bilder) und Angriff (6 Bilder) je Richtung (seit Spiel-Rev 126)
+      // Figuren mit Gelenkgerüst: Laufen (8 Bilder) und Angriff (6 Bilder) je Richtung (seit Spiel-Rev 125)
       if (G.userData.pose) {
         d.walk = []; d.atk = [];
         for (let r = 0; r < 8; r++) {
           const w = [], a = [];
-          for (let f = 0; f < 8; f++) { Figur.pose(G, 'walk', f / 8); w.push(bild(r, .7)); }
-          for (let f = 0; f < 6; f++) { Figur.pose(G, 'attack', f / 5); a.push(bild(r, .7)); }
+          for (let f = 0; f < 8; f++) { Figur.pose(G, 'walk', f / 8); w.push(bild(r, .6)); }
+          for (let f = 0; f < 6; f++) { Figur.pose(G, 'attack', f / 5); a.push(bild(r, .6)); }
           d.walk.push(w); d.atk.push(a);
         }
         Figur.pose(G, 'idle', 0);

@@ -57,9 +57,10 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 - **Krieger:** Kettenhemd mit Kettenkragen, blauer Wappenrock mit goldenem Kreuz (Wappen der Siegelwächter), Schulterplatten, Beinschienen, Lederarmschienen, Schwert in der rechten Hand, Tropfenschild mit Goldkreuz am linken Arm, kurzes Haar.
 - **Waldläufer:** grüner Kapuzenumhang (vorn offen, mit Faltenschatten), Hemd und geschnürtes Lederwams, Armschienen, Gürtel mit Tasche und Messer, Köcher mit Pfeilen auf dem Rücken, Langbogen in der linken Hand, Bart.
 - **Gegner Skelettkrieger** (seit Spiel-Rev 125, Zielbild des Auftraggebers): Knochenkörper, Lederschulterstücke, Brustriemen, Gürtel mit Rundschnalle, zerrissener roter Lendenschurz, Stiefel, Schwert, runder Holzschild; Einzelheiten in Grauufer_Gegner_RevXX.md. Gegner neben der Spielfigur schauen sie an.
-- **Bewegungsbilder** (bisher Skelettkrieger): Laufen 8 Bilder (90 ms je Bild) und Angriff 6 Bilder (450 ms ab dem Ausfallschritt) je Richtung, gerendert in 70 % der Auflösung (WebP), das Spiel gleicht den Maßstab aus. Figuren ohne Gelenkgerüst wippen beim Laufen nur auf und ab.
-- Alle Figuren zusammen etwa 692 KB (davon Skelettkrieger mit Bewegungen etwa 470 KB).
-- **Geplant:** die drei Frauenfiguren im selben Stil (zurückgestellt, Entscheidung des Auftraggebers Spiel-Rev 125); weitere Gegner; Lauf- und Angriffsbilder für Krieger, Magier und Waldläufer (Gelenkgerüst wie beim Skelettkrieger).
+- **Bewegungsbilder** (Skelettkrieger, Krieger, Magier, Waldläufer): Laufen 8 Bilder (90 ms je Bild) und Angriff 6 Bilder (450 ms ab dem Ausfallschritt) je Richtung, gerendert in 60 % der Auflösung (WebP), das Spiel gleicht den Maßstab aus. Figuren ohne Gelenkgerüst wippen beim Laufen nur auf und ab.
+- **Gelenkgerüst der drei Klassen** (`binde` und `menschPose` in `werkstatt/modelle/figur.js`): Knochen für Becken, Rumpf, Brust, Hals, Kopf, Arme und Beine; starre Teile (Kopf, Hände, Schwert, Schild, Stab, Kugel, Bogen) hängen fest an ihrem Knochen, Kleidung und Körper werden weich nach Abstand zu den Knochen gebunden (breite Teile wie Wappenrock, Umhang und Robe folgen den Armen nicht). Angriff: Krieger Schwerthieb von oben, Waldläufer Bogenschuss (Bogen gehoben, Sehne gezogen), Magier Zauberstoß mit der Kugel nach vorn.
+- Alle Figuren zusammen etwa 1 656 KB (Magier 482 KB, Krieger 375 KB, Waldläufer 353 KB, Skelettkrieger 446 KB).
+- **Geplant:** die drei Frauenfiguren im selben Stil (zurückgestellt, Entscheidung des Auftraggebers Spiel-Rev 125); weitere Gegner; Robe des Magiers beim Laufen ruhiger, Bogenhaltung feiner.
 
 ### Farbwelt je Gebiet
 
