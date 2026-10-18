@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 16**, Stand: Spiel-Rev 108. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 17**, Stand: Spiel-Rev 109. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -97,6 +97,10 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 | Farbstimmung je Gebiet | dünne Farbschicht über dem ganzen Bild, beim Gebietswechsel weich überblendet (ca. 1 s) | Grau (Grauufer, Sonnwacht, Wildnis): kühles Blaugrau, 8 %; Nebel (Tränensee, Fahlmoor, Nebelwald, Miras Kate): Grün, 11 %; Glut (Glutschlund): Rot, 10 %; Schnee (Sturmspitze, Frostmark): Eisblau, 7 %; Staub (Sandhafen, Ödnis, Tempel): Ocker, 8 %; Höhle (Grotte, Kristallhöhle): Violett, 12 %; Innenraum: warmes Braun, 6 % |
 
 Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus 6 Orten): Rev 95 24,8 ms, Rev 96 24,8 ms, also keine messbare Mehrlast. Es werden keine neuen Grafikkarten-Leinwände angelegt.
+
+### Vorgerenderte Häuser (Im Spiel seit Spiel-Rev 109)
+
+Die fünf Häuser in Grauufer sind keine Codegrafik mehr, sondern Bilder aus der Grafik-Werkstatt (Stilregeln: Grauufer_Grafik_RevXX.md, Häuser: Grauufer_Baukaesten_RevXX.md). Alle anderen Häuser, Mauern und Bäume bleiben vorerst Codegrafik.
 
 ### Weitere Grafik (Im Spiel seit Spiel-Rev 64–90)
 - Vulkan mit Rauch und Lavasee, Portale mit wirbelndem Licht, animiertes Meer (Wellenkämme, Brandung, seit Spiel-Rev 80), Schiffswrack (Rev 83), Truhen offen/zu, Mimik, Lesepulte, Runentafeln, Felsbrocken, Gittertore, Runentore, Vogelnester.

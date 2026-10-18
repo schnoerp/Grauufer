@@ -73,7 +73,8 @@ function texturen(v){const key=Math.round(v*4);if(CACHE[key])return CACHE[key];c
 
 // ---------- Bausteine ----------
 // ebene: bei der Innenansicht das gezeigte Geschoss (0 = Erdgeschoss, 1 und 2 = Obergeschosse, danach der Dachboden)
-function Bau(spec,innen,drehung=0,ebene=0){
+// opt.spiel: Bild fürs Spiel – ohne Wiese und Bodenflecken; die niedrigen Wände zur Kamera sind markiert (userData.vorn)
+function Bau(spec,innen,drehung=0,ebene=0,opt={}){
   const v=Math.max(0,Math.min(1,+spec.verwitterung||0)),tx=texturen(v);setSeed(spec.name||'haus');
   const B=Math.max(2,Math.min(9,spec.breite|0)),D=Math.max(2,Math.min(9,spec.tiefe|0)),HX=B*T,HZ=D*T,G=Math.max(1,Math.min(3,spec.geschosse|0||1)),DB=!!spec.dachboden&&spec.dachform!=='pult',L=G+(DB?1:0);
   ebene=Math.max(0,Math.min(L-1,ebene|0));const HG=G*WH,dachboden=innen&&DB&&ebene===G;
@@ -101,7 +102,7 @@ function Bau(spec,innen,drehung=0,ebene=0){
   const oeff={};(spec.oeffnungen||[]).forEach(o=>{if(o&&o.art&&o.art!=='wand')oeff[(o.geschoss|0)+':'+o.seite+':'+o.feld]=o.art;});
 
   // Wand mit Öffnungen (Löcher in Metern entlang der Wand: [von, bis, unten, oben, art])
-  function wand(seite,len,x,z,achse,hgt,gs){const aus=seite==='hinten'||seite==='rechts'?-1:1,g=new THREE.Group(),sockel=gs?(typ==='stein'?99:0):sockel0;g.position.set(x,gs*WH,z);if(achse==='z')g.rotation.y=-PI/2;haus.add(g);
+  function wand(seite,len,x,z,achse,hgt,gs){const aus=seite==='hinten'||seite==='rechts'?-1:1,g=new THREE.Group(),sockel=gs?(typ==='stein'?99:0):sockel0;g.position.set(x,gs*WH,z);if(achse==='z')g.rotation.y=-PI/2;haus.add(g);if(innen&&gs===ebene&&niedrig.includes(seite))g.userData.vorn=true;
     const n=Math.round(len/T),loecher=[];
     for(let f=0;f<n;f++){const a=oeff[gs+':'+seite+':'+f];if(!a)continue;const m=(f+.5)*T;
       loecher.push(a==='tuer'?[m-.6,m+.6,0,2.4,a]:a==='tor'?[m-.95,m+.95,0,2.6,a]:a==='portal'?[m-.8,m+.8,0,2.7,a]:a==='luke'?[m-.35,m+.35,1.5,2.1,a]:[m-.5,m+.5,1.3,2.3,a]);}
@@ -141,7 +142,7 @@ function Bau(spec,innen,drehung=0,ebene=0){
   for(let gs=0;gs<=bis;gs++){const hw=s=>innen&&gs===ebene&&niedrig.includes(s)?1.1:WH;
     wand('hinten',HX,0,0,'x',hw('hinten'),gs);wand('links',HZ,0,0,'z',hw('links'),gs);wand('vorn',HX,0,HZ,'x',hw('vorn'),gs);wand('rechts',HZ,HX,0,'z',hw('rechts'),gs);}
   [[0,0,'hinten','links'],[HX,0,'hinten','rechts'],[0,HZ,'links','vorn'],[HX,HZ,'vorn','rechts']].forEach(([x,z,s1,s2])=>{const h=innen&&!dachboden?(niedrig.includes(s1)||niedrig.includes(s2)?ebene*WH+1.15:(ebene+1)*WH+.05):HG+.05;
-    if(typ==='holz')box(.3,h,.3,mHolz,x,h/2,z);else uv(box(.42,h,.42,mStein,x,h/2,z),[.3,h/2.3]);});
+    const o=typ==='holz'?box(.3,h,.3,mHolz,x,h/2,z):uv(box(.42,h,.42,mStein,x,h/2,z),[.3,h/2.3]);if(innen&&(niedrig.includes(s1)||niedrig.includes(s2)))o.userData.vorn=true;});
   uv(box(HX,.12,HZ,M({map:tx.dielen}),HX/2,.06,HZ/2),[B/2,D/2]);
   // Decke zum Obergeschoss mit Treppenloch (nur in der Innenansicht des Obergeschosses sichtbar)
   const treppen=bereinige(spec.einrichtung).filter(e=>e.art==='treppe'&&(e.geschoss|0)<L-1&&e.x>=0&&e.x<B&&e.z>=0&&e.z<D);
@@ -284,11 +285,11 @@ function Bau(spec,innen,drehung=0,ebene=0){
     for(const[x,z,w,d]of[[HX/2,.35,HX,.5],[.35,HZ/2,.5,HZ]]){const p=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mRuss);p.material.opacity=.15+.25*v;p.rotation.x=-PI/2;p.position.set(x,.125,z);vw.add(p);}
     if(v>.3&&!dachboden)for(const[x,z,ry]of[[.16,.16,PI/4],[HX-.16,.16,-PI/4]]){const w=new THREE.Mesh(new THREE.CircleGeometry(.6,8,0,PI/2),mNetz);w.position.set(x,WH-.05,z);w.rotation.set(PI,ry+PI*.75,0);vw.add(w);}
     if(v>.5)for(let i=0;i<8*v;i++)box(.08+rnd()*.12,.05,.06+rnd()*.1,mPutz,.4+rnd()*(HX-.8),.14,.4+rnd()*(HZ-.8),vw,rnd()*3);void hausAlt;}
-  else{for(const k in oeff)if(oeff[k]==='tuer'){const[s,f]=k.split(':'),m=(+f+.5)*T;const p=s==='vorn'?[m,HZ+1.4]:s==='hinten'?[m,-1.4]:s==='links'?[-1.4,m]:[HX+1.4,m];
+  else{if(!opt.spiel)for(const k in oeff)if(oeff[k]==='tuer'){const[s,f]=k.split(':'),m=(+f+.5)*T;const p=s==='vorn'?[m,HZ+1.4]:s==='hinten'?[m,-1.4]:s==='links'?[-1.4,m]:[HX+1.4,m];
       const d=new THREE.Mesh(new THREE.CircleGeometry(2.0,24),M({color:0x3a2c1c,roughness:1,transparent:true,opacity:.4+.4*v}));d.rotation.x=-PI/2;d.scale.set(1.3,.8,1);d.position.set(p[0],.01,p[1]);d.receiveShadow=true;haus.add(d);}
     for(let i=0;i<180*v;i++){const s=rnd(),a=.2+rnd()*.35;let x,z;if(s<.3){x=rnd()*HX;z=HZ+a;}else if(s<.6){x=HX+a;z=rnd()*HZ;}else if(s<.8){x=-a;z=rnd()*HZ;}else{x=rnd()*HX;z=-a;}
       const c=new THREE.Mesh(new THREE.ConeGeometry(.05+rnd()*.07,.25+rnd()*.45,5),mUnkraut[rnd()<.5?0:1]);c.position.set(x,.15,z);c.rotation.set((rnd()-.5)*.5,0,(rnd()-.5)*.5);c.castShadow=true;haus.add(c);}}
-  const wiese=new THREE.Mesh(new THREE.PlaneGeometry(120,120),mt(tx.wiese,18,18,{roughness:1}));wiese.rotation.x=-PI/2;wiese.receiveShadow=true;root.add(wiese);
+  const wiese=new THREE.Mesh(new THREE.PlaneGeometry(120,120),mt(tx.wiese,18,18,{roughness:1}));wiese.rotation.x=-PI/2;wiese.receiveShadow=true;if(!opt.spiel)root.add(wiese);
   root.userData={HX,HZ,ebene,hoehe:innen?(dachboden?HG+dRh:(ebene+1)*WH):HG+(spec.first==='z'?HX:HZ)*.48+1.5};
   return root;}
 
@@ -303,14 +304,18 @@ function Szene(canvas){
   let bau=null;
   return{renderer:R,
     // K = Pixel je Meter (46 entspricht den Werkstatt-Bildern; ein Feld im Spiel = K·2,1·√2·160/137 px); ohne K wird eingepasst
-    zeige(spec,innen,drehung=0,K,ebene=0){if(bau){scene.remove(bau);bau.traverse(o=>{if(o.geometry)o.geometry.dispose();});}
-      bau=Bau(spec,innen,drehung,ebene);bau.rotation.y=-drehung*PI/2;scene.add(bau);
+    // opt.spiel wie bei Bau; opt.schicht 'hinten' (ohne die niedrigen Wände zur Kamera) oder 'vorn' (nur diese)
+    zeige(spec,innen,drehung=0,K,ebene=0,opt={}){if(bau){scene.remove(bau);bau.traverse(o=>{if(o.geometry)o.geometry.dispose();});}
+      bau=Bau(spec,innen,drehung,ebene,opt);
+      if(opt.schicht)bau.traverse(o=>{if(!o.isMesh)return;let v=false;for(let a=o;a&&!v;a=a.parent)v=!!a.userData.vorn;o.visible=opt.schicht==='vorn'?v:!v;});bau.rotation.y=-drehung*PI/2;scene.add(bau);
       const{HX,HZ,hoehe}=bau.userData,w=R.domElement.width,h=R.domElement.height,dd=HX+HZ+2*T;
       const pw=dd*.7071,ph=dd*.3536+hoehe*.866;if(!K)K=Math.min(w/(pw*1.08),h/(ph*1.12));
       Object.assign(cam,{left:-w/2/K,right:w/2/K,top:h/2/K,bottom:-h/2/K});cam.updateProjectionMatrix();
       const ty=innen?bau.userData.ebene*WH+1.0:hoehe*.42,el=PI/6,az=PI/4,d=80;cam.position.set(d*Math.cos(el)*Math.sin(az),ty+d*Math.sin(el),d*Math.cos(el)*Math.cos(az));cam.lookAt(0,ty,0);
       const s=Math.max(HX,HZ)*.9+4;sun.position.set(-8,30,14);Object.assign(sun.shadow.camera,{left:-s,right:s,top:s,bottom:-s,near:1,far:90});sun.shadow.camera.updateProjectionMatrix();
       hemi.intensity=innen?.5:.62;R.render(scene,cam);},
+    // Bildpunkt eines Weltpunkts (Meter, Hausmitte = 0,0,0) in der zuletzt gezeigten Ansicht
+    punkt(x,y,z){const v=new THREE.Vector3(x,y,z).project(cam),w=R.domElement.width,h=R.domElement.height;return[(v.x+1)/2*w,(1-v.y)/2*h];},
     groesse(spec,innen,K,ebene=0){const B=spec.breite*T,D=spec.tiefe*T,dd=B+D+2*T,G=Math.max(1,Math.min(3,spec.geschosse|0||1)),ho=innen?(spec.dachboden&&ebene>=G?G*WH+(spec.first==='z'?B:D)*.48:(Math.min(ebene,G-1)+1)*WH):G*WH+(spec.first==='z'?B:D)*.48+1.5;return[Math.ceil(dd*.7071*K*1.08),Math.ceil((dd*.3536+ho*.866)*K*1.12)];}};
 }
 // Haustypen als Vorlagen (nach Größe und Aufwand): setzen Größe, Bauart und eine Grundeinrichtung, danach frei änderbar
