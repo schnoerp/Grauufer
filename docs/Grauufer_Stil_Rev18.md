@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 17**, Stand: Spiel-Rev 109. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 18**, Stand: Spiel-Rev 110. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -55,6 +55,8 @@ Bildzeit (Waldgebiete Wildnis, Nebelwald, Frostmark, Fahlmoor, CPU 4-fach gedros
 | Skorpion | 54 × 34 | Sandskorpion |
 
 Endgegner werden 1,2- bis 1,6-fach vergrößert.
+
+**Seit Spiel-Rev 110** werden alle Figuren (Spielfigur, Gesprächspartner, Gegner) auf **75 %** dieser Maße verkleinert (`FIGF` in `index.html`), damit sie zu den Häusern aus der Grafik-Werkstatt passen: etwa 2,2 m bei einem Feld = 2,1 m, knapp über Türhöhe (2,4 m). Verkleinert wird einmal beim Anlegen des Bildes vor dem Rastern; der Pixel-Look bleibt gleich fein, die Bildzeit unverändert. Namen über den Figuren sitzen entsprechend tiefer; die Tippfläche zum Ansprechen und Angreifen bleibt so groß wie vorher.
 
 ### Farbwelt je Gebiet
 
