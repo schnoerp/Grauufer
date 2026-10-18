@@ -21,6 +21,7 @@
 | Grauufer_Stil_RevXX.md | Grafik, Farben, Figurengrößen, Klang, Texte, Leistung | Bedienung |
 | Grauufer_Fortschritt_RevXX.md | Balancing: Stufen, Erfahrung, Richtstufen je Gebiet | Formeln, Preise |
 | Grauufer_Wirtschaft_RevXX.md | **einzige Quelle** für Preise, Dienste, Verkaufen, Goldbilanz | Gegnergold, Questbelohnungen |
+| Grauufer_Offen_Aufgabenliste_RevXX.md | Aufgabenliste: alle angefangenen und geplanten Aufgaben, Reihenfolge, offene Entscheidungen, Prüfpunkte, mit Verweis auf das zuständige Dokument (seit Spiel-Rev 108) | Werte, Einzelheiten |
 | Grauufer_Fahrplan_RevXX.md | Reihenfolge der Umsetzung, Aufteilung auf 2 Entwickler | Inhalte |
 | Grauufer_Charakter_RevXX.md | Attribute, Fertigkeiten, Talentbaum, Freischaltungen in der Welt (seit Spiel-Rev 90) | Kampfformeln |
 | Grauufer_Schaetze_RevXX.md | Truhen, Mimiken, Schatzkarten, Grabstellen, Lesepulte, Tafeln, Hindernisse mit Fundorten (seit Spiel-Rev 89/90) | Gegenstandswerte |

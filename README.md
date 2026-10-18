@@ -16,7 +16,7 @@ Bedienung kurz: Tippen = laufen und handeln · zwei Finger bzw. Strg + Ziehen = 
 |---|---|
 | `index.html` | das komplette Spiel (HTML, CSS, JavaScript, eingebettete Schrift) |
 | `werkstatt/` | Grafik-Werkstatt: 3D-Modelle im Code, mit three.js gerendert (`npm run grafik`, Vorschaubilder in `werkstatt/vorschau/`); **Haus-Baukasten** `werkstatt/baukasten.html` (über GitHub Pages unter `https://schnoerp.github.io/Grauufer/werkstatt/baukasten.html`, Häuser per „Über GitHub an Claudia senden“ als GitHub-Issue; als Claude-Seite mit gemeinsamem Speicher über `node werkstatt/artefakt.js`) |
-| `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze, Baukästen …) |
+| `docs/` | Konzeptdokumente (Übersicht, Story, Welt, Quests, Gegner, Charakter, Schätze, Baukästen, Aufgabenliste …) |
 | `CLAUDE.md` | Arbeitsregeln für Claude Code |
 
 Einstieg in die Dokumente: `docs/Grauufer_Uebersicht_RevXX.md` (aktuell Rev 21).
