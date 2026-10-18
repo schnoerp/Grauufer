@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 18**, Stand: Spiel-Rev 110. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 19**, Stand: Spiel-Rev 111. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -102,7 +102,7 @@ Bildzeit (Messung mit Playwright, 1250 × 650, CPU 4-fach gedrosselt, Mittel aus
 
 ### Vorgerenderte Häuser (Im Spiel seit Spiel-Rev 109)
 
-Die fünf Häuser in Grauufer sind keine Codegrafik mehr, sondern Bilder aus der Grafik-Werkstatt (Stilregeln: Grauufer_Grafik_RevXX.md, Häuser: Grauufer_Baukaesten_RevXX.md). Alle anderen Häuser, Mauern und Bäume bleiben vorerst Codegrafik.
+Die fünf Häuser in Grauufer und seit Spiel-Rev 111 die acht Häuser und die Wachhalle in Sonnwacht sind keine Codegrafik mehr, sondern Bilder aus der Grafik-Werkstatt (Stilregeln: Grauufer_Grafik_RevXX.md, Häuser: Grauufer_Baukaesten_RevXX.md). Alle anderen Häuser, Mauern und Bäume bleiben vorerst Codegrafik.
 
 ### Weitere Grafik (Im Spiel seit Spiel-Rev 64–90)
 - Vulkan mit Rauch und Lavasee, Portale mit wirbelndem Licht, animiertes Meer (Wellenkämme, Brandung, seit Spiel-Rev 80), Schiffswrack (Rev 83), Truhen offen/zu, Mimik, Lesepulte, Runentafeln, Felsbrocken, Gittertore, Runentore, Vogelnester.

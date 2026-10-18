@@ -457,13 +457,13 @@ test('Werkstatt: Haustypen als Vorlagen mit Tor, Portal, Luke, Pultdach und Gaub
 
 test('Grauufer: fünf Häuser aus der Grafik-Werkstatt, außen und innen', async ({ page }) => {
   const fehler = await frisch(page);
-  await page.waitForFunction(() => Object.keys(HAUSBILD).length === 5, null, { timeout: 10000 });
+  await page.waitForFunction(() => Object.keys(HAUSBILD).length === Object.keys(HAUSBILDER).length, null, { timeout: 10000 });
   const r = await page.evaluate(async () => {
     const warte = () => new Promise(f => requestAnimationFrame(() => requestAnimationFrame(f)));
     const m = BILDHAUS.find(b => b.bild === 'mareth'), mareth = NPCS.find(n => n.id === 'mareth');
     S.p.x = S.p.rx = m.x0 + 1; S.p.y = S.p.ry = m.y0 + 1; await warte(); const drin = m._m;
     S.p.x = S.p.rx = m.x0 - 6; S.p.y = S.p.ry = m.y0 - 6; await warte(); const draussen = m._m;
-    return { namen: BILDHAUS.map(b => b.bild).sort(), drin, draussen, mitte: mareth.x === m.x0 + 1 && mareth.y === m.y0 + 1,
+    return { namen: BILDHAUS.map(b => b.bild).filter(n => !n.startsWith('sw_')).sort(), drin, draussen, mitte: mareth.x === m.x0 + 1 && mareth.y === m.y0 + 1,
       bilder: Object.values(HAUSBILD).every(h => ['a', 'h', 'v'].every(s => h[s].c.width > 100)) };
   });
   expect(r.namen).toEqual(['bram', 'ilsabe', 'mareth', 'oswin', 'verlassen']);
@@ -479,5 +479,21 @@ test('Figuren auf 75 % verkleinert, Pixel-Look bleibt', async ({ page }) => {
   });
   expect(r.f).toBe(0.75); expect(r.klein).toBe(true);
   expect(r.hoch).toBeLessThan(32);
+  expect(fehler).toEqual([]);
+});
+
+test('Sonnwacht: acht Häuser und die Wachhalle aus der Werkstatt, Innenansicht in Streifen', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => Object.keys(HAUSBILD).length === Object.keys(HAUSBILDER).length, null, { timeout: 10000 });
+  const r = await page.evaluate(async () => {
+    const warte = () => new Promise(f => requestAnimationFrame(() => requestAnimationFrame(f)));
+    const sw = BILDHAUS.filter(b => b.bild.startsWith('sw_')), h = sw.find(b => b.bild === 'sw_wachhalle');
+    S.p.x = S.p.rx = h.x0 + 5; S.p.y = S.p.ry = h.y0 + 2; await warte(); const drin = h._m;
+    let streifen = 0; const alt = drawHausStreifen; drawHausStreifen = (b, c) => { if (b === h) streifen++; alt(b, c); }; await warte(); drawHausStreifen = alt;
+    S.p.x = S.p.rx = h.x0 + 5; S.p.y = S.p.ry = h.y1 + 8; await warte();
+    return { n: sw.length, gross: [h.x1 - h.x0 + 1, h.y1 - h.y0 + 1], drin, draussen: h._m, streifen };
+  });
+  expect(r.n).toBe(9); expect(r.gross).toEqual([11, 5]); expect(r.drin).toBe('i'); expect(r.draussen).toBe('a');
+  expect(r.streifen).toBeGreaterThan(10);
   expect(fehler).toEqual([]);
 });

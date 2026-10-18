@@ -1,0 +1,75 @@
+{
+ "name": "Werkstatt",
+ "breite": 3,
+ "tiefe": 3,
+ "wand": "holz",
+ "dach": "schindeln",
+ "dachform": "pult",
+ "first": "x",
+ "verwitterung": 0.4,
+ "schornstein": false,
+ "geschosse": 1,
+ "dachboden": false,
+ "gauben": false,
+ "oeffnungen": [
+  {
+   "seite": "vorn",
+   "feld": 1,
+   "art": "tor"
+  },
+  {
+   "seite": "rechts",
+   "feld": 1,
+   "art": "luke"
+  },
+  {
+   "seite": "links",
+   "feld": 1,
+   "art": "fenster"
+  }
+ ],
+ "einrichtung": [
+  {
+   "art": "werkbank",
+   "x": 0,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "werkbank",
+   "x": 2,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "brennholz",
+   "x": 1,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "faesser",
+   "x": 0,
+   "z": 1,
+   "dreh": 1
+  },
+  {
+   "art": "kiste",
+   "x": 2,
+   "z": 1,
+   "dreh": 3
+  },
+  {
+   "art": "saecke",
+   "x": 0,
+   "z": 2,
+   "dreh": 0
+  },
+  {
+   "art": "kiste",
+   "x": 2,
+   "z": 2,
+   "dreh": 3
+  }
+ ]
+}

@@ -1,0 +1,86 @@
+{
+ "name": "Bauernkate",
+ "breite": 3,
+ "tiefe": 3,
+ "wand": "fachwerk",
+ "dach": "reet",
+ "dachform": "sattel",
+ "first": "x",
+ "verwitterung": 0.35,
+ "schornstein": true,
+ "geschosse": 1,
+ "dachboden": false,
+ "gauben": false,
+ "oeffnungen": [
+  {
+   "seite": "vorn",
+   "feld": 1,
+   "art": "tuer"
+  },
+  {
+   "seite": "vorn",
+   "feld": 0,
+   "art": "fenster"
+  },
+  {
+   "seite": "rechts",
+   "feld": 1,
+   "art": "fenster"
+  },
+  {
+   "seite": "hinten",
+   "feld": 1,
+   "art": "fenster"
+  }
+ ],
+ "einrichtung": [
+  {
+   "art": "kamin",
+   "x": 0,
+   "z": 1,
+   "dreh": 1
+  },
+  {
+   "art": "kessel",
+   "x": 0,
+   "z": 1,
+   "dreh": 1
+  },
+  {
+   "art": "bett",
+   "x": 2,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "heu",
+   "x": 0,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "saecke",
+   "x": 1,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "tisch",
+   "x": 2,
+   "z": 1,
+   "dreh": 3
+  },
+  {
+   "art": "brennholz",
+   "x": 0,
+   "z": 2,
+   "dreh": 1
+  },
+  {
+   "art": "faesser",
+   "x": 2,
+   "z": 2,
+   "dreh": 3
+  }
+ ]
+}

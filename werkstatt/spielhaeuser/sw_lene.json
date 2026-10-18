@@ -1,0 +1,80 @@
+{
+ "name": "Lenes Haus",
+ "breite": 3,
+ "tiefe": 3,
+ "wand": "stein",
+ "dach": "schindeln",
+ "dachform": "sattel",
+ "first": "z",
+ "verwitterung": 0.35,
+ "schornstein": true,
+ "geschosse": 1,
+ "dachboden": false,
+ "gauben": false,
+ "oeffnungen": [
+  {
+   "seite": "vorn",
+   "feld": 1,
+   "art": "tuer"
+  },
+  {
+   "seite": "vorn",
+   "feld": 0,
+   "art": "fenster"
+  },
+  {
+   "seite": "rechts",
+   "feld": 1,
+   "art": "fenster"
+  },
+  {
+   "seite": "links",
+   "feld": 1,
+   "art": "fenster"
+  }
+ ],
+ "einrichtung": [
+  {
+   "art": "bett",
+   "x": 0,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "truhe",
+   "x": 1,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "kiste",
+   "x": 2,
+   "z": 0,
+   "dreh": 0
+  },
+  {
+   "art": "faesser",
+   "x": 0,
+   "z": 1,
+   "dreh": 1
+  },
+  {
+   "art": "saecke",
+   "x": 2,
+   "z": 1,
+   "dreh": 3
+  },
+  {
+   "art": "kiste",
+   "x": 0,
+   "z": 2,
+   "dreh": 0
+  },
+  {
+   "art": "faesser",
+   "x": 2,
+   "z": 2,
+   "dreh": 3
+  }
+ ]
+}
