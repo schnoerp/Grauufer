@@ -12,32 +12,32 @@ html,body{margin:0;height:100%;}
 body{display:flex;flex-direction:column;background:var(--holz);color:var(--tinte);font-family:'Pixelify Sans',sans-serif;font-size:15px}
 header{min-height:52px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-block:6px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));background:linear-gradient(#6a4628,#3a2716);color:#f4e2bc;box-shadow:0 2px 6px #0008}
 header h1{font-size:22px;font-weight:500;margin:0 12px 0 0;white-space:nowrap}
-header input{width:180px}
+header input[type=text]{width:150px}header select{width:170px}header h1{font-size:18px;margin-right:4px}header button{min-height:32px;padding:3px 8px;font-size:14px}header{gap:6px}
 #status{font-size:13px;color:#6a3a14;margin:0 0 6px;min-height:1em}
 main{flex:1;min-height:0;display:grid;grid-template-columns:270px minmax(300px,1fr) minmax(360px,1.5fr);gap:10px;padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .tafel{background:radial-gradient(ellipse at 50% 30%,var(--perg),var(--perg2));border-radius:8px;box-shadow:inset 0 0 24px #a07a4488,0 3px 8px #0008;padding:10px;overflow:auto;min-height:0}
-h2{font-size:17px;font-weight:500;margin:4px 0 8px;border-bottom:1px solid #a07a44}
-label{display:block;margin:8px 0 3px}
+h2{font-size:17px;font-weight:500;margin:2px 0 6px;border-bottom:1px solid #a07a44}
+label{display:block;margin:5px 0 2px}
 select,input,button{font-family:inherit;font-size:15px;color:var(--tinte)}
 select,input[type=text]{width:100%;padding:5px;border:1px solid #8a6434;border-radius:5px;background:#f6ead0}
 button{padding:6px 10px;border:2px solid #6a4420;border-radius:6px;background:linear-gradient(#d8aa6a,#a8743c);cursor:pointer;min-height:36px}
 button:active{transform:translateY(1px)}
 button.an{background:linear-gradient(#7ab060,#4a7a34);color:#fff8e8;border-color:#2e5020}
 .reihe{display:flex;gap:6px;align-items:center}.reihe>*{flex:1}
-.zahl{display:flex;align-items:center;gap:6px}.zahl b{min-width:28px;text-align:center;font-size:18px}.zahl button{flex:0 0 40px}
+.zahl{display:flex;align-items:center;gap:6px}.zahl b{min-width:28px;text-align:center;font-size:18px}.zahl button{flex:0 0 40px;min-height:30px;padding:2px}
 input[type=range]{width:100%}
-#plan{width:100%;touch-action:manipulation;background:#5a6a34;border-radius:6px;display:block}
+#plan{max-width:100%;touch-action:manipulation;margin:0 auto;background:#5a6a34;border-radius:6px;display:block}
 .werkzeuge{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.werkzeuge button{flex:0 0 auto;padding:4px 8px;min-height:32px;font-size:14px}
 #ansicht{width:100%;height:calc(100% - 50px);display:block;border-radius:6px;background:#6a7240}
 .hinweis{font-size:13px;color:#6a4a2a;margin-top:6px;line-height:1.35}
-@media (max-width:1000px){body{display:block;height:auto}main{grid-template-columns:1fr}#ansicht{height:420px}header input{width:100%}}
+@media (max-width:1000px){body{display:block;height:auto}main{grid-template-columns:1fr}#ansicht{height:420px}header input[type=text],header select{width:100%}}
 </style></head>
 <body>
 <header><h1>Haus-Baukasten</h1>
   <input id="name" type="text" title="Name des Hauses">
   <button id="neu">Neu</button><button id="beispiel">Beispiel</button>
   <select id="liste" title="Gespeicherte Häuser"><option value="">Gespeicherte Häuser …</option></select>
-  <button id="speichern">Speichern</button><button id="loeschen">Löschen</button><button id="senden" title="Öffnet GitHub mit dem fertigen Haus; dort nur noch absenden">An Claudia senden</button><button id="herunter">Herunterladen</button>
+  <button id="speichern">Speichern</button><button id="loeschen">Löschen</button><button id="senden" title="Öffnet GitHub mit dem fertigen Haus; dort nur noch absenden">Über GitHub an Claudia senden</button><button id="herunter">Herunterladen</button>
   <button id="ladeKnopf">Datei laden</button><input id="datei" type="file" accept=".json" hidden>
 </header>
 <main>
@@ -55,7 +55,7 @@ input[type=range]{width:100%}
   <h2 style="margin-top:14px">Ansicht</h2>
   <div class="reihe"><button id="aussen" class="an">Außen</button><button id="innen">Innen</button></div>
   <div class="reihe" style="margin-top:6px"><button id="links">⟲ Drehen</button><button id="rechts">Drehen ⟳</button></div>
-  <p class="hinweis">Gespeichert wird im Browser. „Herunterladen“ erzeugt eine Datei für <code>werkstatt/haeuser/</code>; daraus rendert <code>npm run grafik</code> die Spielbilder.</p>
+  <p class="hinweis" id="ablagehinweis">„Speichern“ merkt sich das Haus nur in diesem Browser. Fertige Häuser mit „Über GitHub an Claudia senden“ abschicken: GitHub öffnet sich, dort nur noch absenden.</p>
 </section>
 <section class="tafel">
   <h2>Grundriss <span style="font-size:13px">(oben = hinten, unten = vorn mit Blick zur Kamera)</span></h2>
@@ -86,7 +86,7 @@ async function ablageStart(){if(!(window.claude&&window.claude.use))return;let d
   Ablage={art:'claude',haeuser:{},
     async speichere(sp){try{await col.doc(slug(sp.name)).set({name:sp.name||'Haus',spec:kopie(sp),geaendert:new Date().toISOString()});return true;}catch(e){return false;}},
     async loesche(n){try{await col.doc(slug(n)).delete();}catch(e){meldung('Löschen ging nicht.');}}};
-  $('herunter').hidden=true;$('senden').hidden=true;meldung('Gespeicherte Häuser sieht auch Claudia.');
+  $('herunter').hidden=true;$('senden').hidden=true;$('ablagehinweis').textContent='„Speichern“ legt das Haus im gemeinsamen Speicher ab; Claudia kann es dort direkt abholen.';meldung('Gespeicherte Häuser sieht auch Claudia.');
   col.onSnapshot(q=>{const h={};q.docs.forEach(d=>{const x=d.data();if(x&&x.spec)h[x.name||d.id]=x.spec;});Ablage.haeuser=h;felder();},()=>meldung('Verbindung zum Speicher verloren – bitte neu laden.'));}
 try{const z=localStorage.getItem(SPEICHER+'-zuletzt');if(z)spec=JSON.parse(z);}catch(e){}
 
@@ -101,7 +101,9 @@ function zeigeWerkzeuge(){$('werkzeuge').innerHTML='';WZ.forEach(([k,n])=>{const
 // ---------- Grundriss ----------
 const plan=$('plan'),pg=plan.getContext('2d');let cs=40;
 const KURZ={bett:'Bett',truhe:'Tru',schrank:'Schr',regal:'Reg',kamin:'Kam',wandbrett:'Brett',waffen:'Waf',tisch:'Tisch',faesser:'Fäs',kiste:'Kis',saecke:'Sä',hocker:'Ho',teppich:'Tep',kessel:'Kes',stuhl:'Stu',besen:'Bes',brennholz:'Holz'};
-function zeichnePlan(){const B=spec.breite,D=spec.tiefe;cs=Math.floor(Math.min(600/(B+2),520/(D+2)));plan.width=cs*(B+2);plan.height=cs*(D+2);
+function zeichnePlan(){const B=spec.breite,D=spec.tiefe,tafel=plan.parentElement,breit=tafel.clientWidth-22;
+  let hoch=520;if(window.innerWidth>1000){const rest=tafel.scrollHeight-plan.offsetHeight;hoch=tafel.clientHeight-rest-8;}
+  cs=Math.max(18,Math.floor(Math.min(breit/(B+2),Math.max(120,hoch)/(D+2),70)));plan.width=cs*(B+2);plan.height=cs*(D+2);
   pg.fillStyle='#5a6a34';pg.fillRect(0,0,plan.width,plan.height);
   for(let x=-1;x<=B;x++)for(let z=-1;z<=D;z++){const drin=x>=0&&x<B&&z>=0&&z<D;pg.fillStyle=drin?((x+z)%2?'#8a6438':'#94703f'):((x+z)%2?'#62723a':'#5a6a34');pg.fillRect((x+1)*cs,(z+1)*cs,cs,cs);}
   pg.strokeStyle='#3a3026';pg.lineWidth=Math.max(5,cs*.16);pg.strokeRect(cs,cs,B*cs,D*cs);
@@ -161,7 +163,7 @@ $('links').onclick=()=>{drehung=(drehung+3)&3;geaendert();};$('rechts').onclick=
 $('neu').onclick=()=>{spec={name:'Neues Haus',breite:4,tiefe:3,wand:'fachwerk',dach:'schiefer',first:'x',verwitterung:.5,schornstein:false,oeffnungen:[{seite:'vorn',feld:1,art:'tuer'}],einrichtung:[]};geaendert();};
 $('beispiel').onclick=()=>{spec=kopie(HB.BEISPIEL);geaendert();};
 $('speichern').onclick=async()=>{meldung('Speichere …');const ok=await Ablage.speichere(spec);meldung(ok?`„${spec.name}“ gespeichert.`:'Speichern ging nicht – bitte noch einmal versuchen.');felder();};
-// An Claudia senden: öffnet ein vorausgefülltes GitHub-Issue mit der Hausbeschreibung (nur noch „Submit“ tippen)
+// Über GitHub an Claudia senden: öffnet ein vorausgefülltes GitHub-Issue mit der Hausbeschreibung (nur noch „Submit“ tippen)
 window.hausLink=()=>{const j=JSON.stringify(spec);const body='Neues Haus aus dem Haus-Baukasten. Claudia baut es ins Spiel ein.\n\n```json\n'+j+'\n```\n';
   return'https://github.com/schnoerp/Grauufer/issues/new?title='+encodeURIComponent('Haus: '+(spec.name||'Haus'))+'&body='+encodeURIComponent(body);};
 $('senden').onclick=()=>{const u=window.hausLink();if(u.length>7500){meldung('Das Haus ist zu groß für den Versand – bitte weniger Einrichtung.');return;}
@@ -174,7 +176,7 @@ $('herunter').onclick=()=>{const a=document.createElement('a');a.href=URL.create
   a.download=(spec.name||'haus').toLowerCase().replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss').replace(/[^a-z0-9]+/g,'_')+'.json';a.click();};
 $('ladeKnopf').onclick=()=>$('datei').click();
 $('datei').onchange=async()=>{const f=$('datei').files[0];if(!f)return;try{spec=JSON.parse(await f.text());geaendert();}catch(e){meldung('Die Datei ist kein gültiges Haus.');}};
-window.addEventListener('resize',()=>{clearTimeout(warte);warte=setTimeout(rendere,150);});
+window.addEventListener('resize',()=>{zeichnePlan();clearTimeout(warte);warte=setTimeout(rendere,150);});
 zeigeWerkzeuge();geaendert();ablageStart();
 </script>
 </body></html>
