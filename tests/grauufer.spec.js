@@ -74,7 +74,7 @@ test('Rev 125: Feste Figuren (Magier, Krieger, Waldläufer) in 8 Richtungen, Mag
   const r = await page.evaluate(() => {
     const F = figurFuer(S.p), richt = [];
     for (const [dx, dy] of [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]]) { setFace(S.p, dx, dy); richt.push(S.p.dir8); }
-    let gemalt = 0; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (...a) => { const ok = alt(...a); if (ok) gemalt++; return ok; };
+    let gemalt = 0; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (...a) => { const ok = alt(...a); if (ok && a[1] === S.p) gemalt++; return ok; };/* nur die Spielfigur zählen (Wölfe in der Nähe nutzen seit Rev 127 denselben Weg) */
     const n = performance.now(); draw0(n / 1000, n, .016); window.drawFigurBild = drawFigurBild = alt;
     return [F.length, F.every(d => d.licht.length === 2), new Set(richt).size, richt[0], gemalt, ['krieger', 'laeufer'].map(c => (figurFuer({ cls: c, look: { sex: 'w' } }) || []).length)];
   });
