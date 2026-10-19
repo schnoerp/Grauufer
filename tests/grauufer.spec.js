@@ -718,3 +718,17 @@ test('Rev 126: Gruft (Abstieg in die Tiefe) ohne Fenster und Luken, Werkstatt-Bi
   expect(r).toEqual([[78, 207, 86, 211]]);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 127: Wolf, Frostwolf und Aschenhund als feste Figuren in natürlicher Größe', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => ['wolf', 'frostwolf', 'hound'].every(k => FIGBILD[k] && FIGBILD[k].every(d => d.i.complete && d.i.naturalWidth > 0)), null, { timeout: 20000 });
+  const r = await page.evaluate(() => ['wolf', 'frostwolf', 'hound'].map(k => { const F = FIGBILD[k];
+    return [F.length, F.walk.map(x => x.length).join(), F.atk.map(x => x.length).join(), F[2].h < FIGBILD.krieger_m[2].h * .7, F[2].w * .5 < TW]; }));
+  expect(r).toEqual(Array(3).fill([8, '8,8,8,8,8,8,8,8', '6,6,6,6,6,6,6,6', true, true]));
+  // ein Wolf neben der Spielfigur wird mit seinen Bildern gezeichnet
+  const n = await page.evaluate(() => { const o = { id: 'tw', k: 'wolf', x: S.p.x + 1, y: S.p.y, rx: S.p.x + 1, ry: S.p.y, hp: 12, maxHp: 12, face: 1, dir8: 0 }; S.enemies.push(o);
+    let z = 0; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (F, ob, ...a) => { if (ob === o && F === FIGBILD.wolf) z++; return alt(F, ob, ...a); };
+    const t = performance.now(); draw0(t / 1000, t, .016); window.drawFigurBild = drawFigurBild = alt; S.enemies.pop(); return z; });
+  expect(n).toBe(1);
+  expect(fehler).toEqual([]);
+});

@@ -14,6 +14,10 @@ const FIGUREN = [
   { name: 'krieger_m', spec: { klasse: 'krieger' } },
   { name: 'laeufer_m', spec: { klasse: 'waldlaeufer' } },
   { name: 'skeleton', spec: { klasse: 'skelett' } },        // Gegner Skelettkrieger (Schlüssel wie im Spiel)
+  // Gegner Wolf, Frostwolf, Aschenhund (seit Spiel-Rev 127): breitere Bildfläche, Fußpunkt höher (die Schnauze ragt zur Kamera)
+  { name: 'wolf', spec: { klasse: 'wolf', fell: 'wolf' }, w: 280, h: 260, fuss: 70 },
+  { name: 'frostwolf', spec: { klasse: 'wolf', fell: 'frostwolf' }, w: 280, h: 260, fuss: 70 },
+  { name: 'hound', spec: { klasse: 'wolf', fell: 'aschenhund' }, w: 280, h: 260, fuss: 70 },
 ];
 
 (async () => {
@@ -54,7 +58,7 @@ const FIGUREN = [
         Figur.pose(G, 'idle', 0);
       }
       return d;
-    }, [fig.spec, K, W, H, FUSS]);
+    }, [fig.spec, K, fig.w || W, fig.h || H, fig.fuss || FUSS]);
   }
   await b.close();
   if (fehler.length) { console.error('Fehler beim Rendern:', fehler); process.exit(1); }
