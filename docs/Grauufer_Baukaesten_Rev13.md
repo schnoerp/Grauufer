@@ -1,6 +1,6 @@
 # Grauufer – Baukästen
 
-**Revision 12**, Stand: Spiel-Rev 125. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 13**, Stand: Spiel-Rev 126. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zweite Entwickler Teile der Spielwelt selbst zusammenstellen. Die Baukästen gehören zur Grafik-Werkstatt; Technik, Stilregeln und Kamera stehen in Grauufer_Grafik_RevXX.md.
 
@@ -139,7 +139,7 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 | Wohnhaus am Markt | `sh_wohnhaus.json` | Teppiche, Bett, Kessel mit Brennholz, Wandbrett | 212,220 |
 | Yasmins Haus | `sh_yasmin.json` | 2 Geschosse; Ladentheke, Regale, Fässer, Säcke | 223,220 |
 
-**Im Spiel seit Spiel-Rev 115 (Grauufer, Gruft):** die Gruft von Grauufer (`gruft.json`, 9 × 5 Felder): Bruchstein, Schiefer-Walmdach, stark verwittert, Portal vorn, Luken; innen **Steinboden** (neue Angabe `boden: "stein"`), Truhe, Regale, Waffen an der Wand, Kisten. Altar, Steinwächter und die Treppe in die Tiefe zeichnet weiter das Spiel; das Tor bleibt verschlossen, bis man den Gruftschlüssel hat. Auch Gebäude mit Steinmauern (`#`) und Tür (`D`) lassen sich damit durch Werkstatt-Häuser ersetzen.
+**Im Spiel seit Spiel-Rev 115 (Grauufer, Gruft):** die Gruft von Grauufer (`gruft.json`, 9 × 5 Felder): Bruchstein, Schiefer-Walmdach, stark verwittert, Portal vorn, **ohne Fenster und Luken** (seit Spiel-Rev 126 auf Wunsch des Auftraggebers); innen **Steinboden** (neue Angabe `boden: "stein"`), Truhe, Regale, Waffen an der Wand, Kisten. Altar, Steinwächter und die Treppe in die Tiefe zeichnet weiter das Spiel; das Tor bleibt verschlossen, bis man den Gruftschlüssel hat. Auch Gebäude mit Steinmauern (`#`) und Tür (`D`) lassen sich damit durch Werkstatt-Häuser ersetzen.
 
 - Die fünf Häuser in Grauufer sind 3 × 3 Felder groß mit der Tür vorn in der Mitte, wie die bisherigen Hütten. Die Bewohner stehen im mittleren Feld, die Einrichtung steht in den Randfeldern, die im Spiel als Wand gelten. Die verlassene Kate ist neu und steht leer.
 - Je Haus drei Bilder, gerendert mit `npm run haeuser` im Maßstab des Spiels (ein Feld 160 Einheiten breit, Raster wie im Spiel) und als PNG mit Farbtabelle in `index.html` eingebettet (seit Spiel-Rev 111 verlustfrei mit höchstens 256 Farben je Bild; alle 19 Häuser zusammen etwa 850 KB): **außen** mit Dach, **innen hinten** (Boden, hintere Wände, Einrichtung) und **innen vorn** (die zwei niedrigen Wände zur Kamera).

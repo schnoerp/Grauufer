@@ -13,11 +13,7 @@
  "gauben": false,
  "boden": "stein",
  "oeffnungen": [
-  {"seite": "vorn", "feld": 4, "art": "portal"},
-  {"seite": "vorn", "feld": 1, "art": "luke"},
-  {"seite": "vorn", "feld": 7, "art": "luke"},
-  {"seite": "links", "feld": 2, "art": "luke"},
-  {"seite": "rechts", "feld": 2, "art": "fenster_vernagelt"}
+  {"seite": "vorn", "feld": 4, "art": "portal"}
  ],
  "einrichtung": [
   {"art": "truhe", "x": 0, "z": 0, "dreh": 0},

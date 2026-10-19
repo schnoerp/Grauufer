@@ -19,7 +19,7 @@ Diese Datei liest Claude Code bei jeder Sitzung. Sie hält fest, wie in diesem R
 
 ## 3. Revisionen
 
-- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **125**).
+- Jede ausgelieferte Änderung erhöht die **Spiel-Revision** um 1 (aktuell **126**).
 - Die Revision steht an zwei Stellen in `index.html`: im `<title>` als Versionsnummer („Grauufer 1.0.NNN“, seit Spiel-Rev 112) und im Titeldialog („Revision NNN“). Beide anpassen; Titelbild und Dialoge übernehmen die Versionsnummer aus dem `<title>`.
 - Commit-Nachricht beginnt mit `Rev NN:` und beschreibt die Änderung auf Deutsch.
 
