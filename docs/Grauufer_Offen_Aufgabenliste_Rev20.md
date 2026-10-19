@@ -1,6 +1,6 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 19**, Stand: Spiel-Rev 127. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 20**, Stand: Spiel-Rev 128. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
@@ -56,6 +56,7 @@
 ## 5. Prüfpunkte für den Auftraggeber
 
 - Fenster nur noch mit dem Siegel oben rechts schließen, Knopf „Schließen“ entfernt (Spiel-Rev 122) – im Spiel prüfen.
+- Flaschenpost-Fenster auf dem Tablet zu groß (Browser-Zoom der ganzen Seite) – behoben in Spiel-Rev 128 (Seiten-Zoom des Browsers aus, kleinere Überschrift); auf dem Tablet prüfen.
 - Größerer Zoom bis etwa 560 % (Spiel-Rev 125) auf dem Tablet prüfen (Bildzeit, Schärfe).
 - **Avatar-Baukasten (Spiel-Rev 122):** deine Figur einstellen und speichern; Claudia holt sie aus dem gemeinsamen Speicher ab.
 - Neues Startbild nach deiner Gemini-Vorlage auf dem Tablet ansehen (Spiel-Rev 121); bei Bedarf Originaldatei in höherer Auflösung nachreichen.
