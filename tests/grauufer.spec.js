@@ -708,3 +708,13 @@ test('Figur vor einer langen Hauswand bleibt sichtbar (Haus in Streifen gezeichn
   expect(r.aussen).toBe('a'); expect(r.davorGezeichnet).toBe(0); expect(r.streifen).toBeGreaterThan(10);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 126: Gruft (Abstieg in die Tiefe) ohne Fenster und Luken, Werkstatt-Bild geladen', async ({ page }) => {
+  const g = require(path.resolve(__dirname, '..', 'werkstatt', 'spielhaeuser', 'gruft.json'));
+  expect(g.oeffnungen.map(o => o.art)).toEqual(['portal']);
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => !!HAUSBILD.gruft, null, { timeout: 15000 });
+  const r = await page.evaluate(() => WORLD.blds.filter(b => b.bild === 'gruft').map(b => [b.x0, b.y0, b.x1, b.y1]));
+  expect(r).toEqual([[78, 207, 86, 211]]);
+  expect(fehler).toEqual([]);
+});
