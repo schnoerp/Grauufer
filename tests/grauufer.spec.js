@@ -732,3 +732,13 @@ test('Rev 127: Wolf, Frostwolf und Aschenhund als feste Figuren in natürlicher 
   expect(n).toBe(1);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 128: Browser zoomt die Seite nicht, Flaschenpost-Fenster passt aufs Tablet', async ({ page }) => {
+  await page.setViewportSize({ width: 1000, height: 600 });
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => { storyCard('Flaschenpost', '<p>In der Flasche steckt ein Stück Pergament.</p>' + mapImg(0));
+    const h = document.querySelector('#overlay .ov h1'), o = document.querySelector('#overlay');
+    return [/user-scalable=no/.test(document.querySelector('meta[name=viewport]').content), h.scrollWidth <= h.clientWidth, parseFloat(getComputedStyle(h).fontSize) <= 46, o.scrollHeight <= o.clientHeight]; });
+  expect(r).toEqual([true, true, true, true]);
+  expect(fehler).toEqual([]);
+});

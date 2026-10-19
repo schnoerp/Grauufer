@@ -1,6 +1,6 @@
 # Grauufer – Bedienung
 
-**Revision 23**, Stand: Spiel-Rev 125. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 24**, Stand: Spiel-Rev 128. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Zielgeräte (Im Spiel)
 
@@ -56,6 +56,8 @@
 
 **Regeln**
 - Kein Zoom mit dem Mausrad allein, nur mit Strg (seit Spiel-Rev 74).
+- Der Browser selbst vergrößert die Seite nicht mehr (seit Spiel-Rev 128, `user-scalable=no` im Viewport): vorher konnte der Zwei-Finger-Zoom auf dem Tablet über einem Fenster (z. B. Flaschenpost) die ganze Seite vergrößern, das Fenster ragte dann über den Bildschirm. Gezoomt wird nur die Spielwelt.
+- Ereignisfenster (Flaschenpost, Fundstücke, Traumfetzen) haben eine kleinere Überschrift als der Spieltitel (30–46 Punkte statt 46–80), damit lange Titel nicht abgeschnitten werden (seit Spiel-Rev 128).
 - Maßstab (seit Spiel-Rev 31): Bei 100 % ist ein Feld etwa 1/22 der kürzeren Bildschirmseite breit (32 bis 66 Punkte); vorher 1/16 (44 bis 90 Punkte). Die Oberfläche (Schrift, Leiste, Fenster) bleibt davon unberührt.
 - Beenden-Knopf vorhanden.
 - Kein Knopf für die Grafik mehr (seit Spiel-Rev 100): Die Bildqualität regelt sich automatisch (volle Auflösung, bei Ruckeln 80 % bzw. 65 %), siehe Grauufer_Stil_RevXX.md, Abschnitt 5. Vorher: Knopf „Grafik“ mit Hoch, Mittel, Niedrig, Automatisch.
