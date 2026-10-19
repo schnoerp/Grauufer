@@ -74,7 +74,7 @@ test('Rev 125: Feste Figuren (Magier, Krieger, Waldläufer) in 8 Richtungen, Mag
   const r = await page.evaluate(() => {
     const F = figurFuer(S.p), richt = [];
     for (const [dx, dy] of [[1, 1], [1, 0], [1, -1], [0, -1], [-1, -1], [-1, 0], [-1, 1], [0, 1]]) { setFace(S.p, dx, dy); richt.push(S.p.dir8); }
-    let gemalt = 0; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (...a) => { const ok = alt(...a); if (ok) gemalt++; return ok; };
+    let gemalt = 0; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (...a) => { const ok = alt(...a); if (ok && a[1] === S.p) gemalt++; return ok; };/* nur die Spielfigur zählen (Wölfe in der Nähe nutzen seit Rev 127 denselben Weg) */
     const n = performance.now(); draw0(n / 1000, n, .016); window.drawFigurBild = drawFigurBild = alt;
     return [F.length, F.every(d => d.licht.length === 2), new Set(richt).size, richt[0], gemalt, ['krieger', 'laeufer'].map(c => (figurFuer({ cls: c, look: { sex: 'w' } }) || []).length)];
   });
@@ -716,5 +716,19 @@ test('Rev 126: Gruft (Abstieg in die Tiefe) ohne Fenster und Luken, Werkstatt-Bi
   await page.waitForFunction(() => !!HAUSBILD.gruft, null, { timeout: 15000 });
   const r = await page.evaluate(() => WORLD.blds.filter(b => b.bild === 'gruft').map(b => [b.x0, b.y0, b.x1, b.y1]));
   expect(r).toEqual([[78, 207, 86, 211]]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 127: Wolf, Frostwolf und Aschenhund als feste Figuren in natürlicher Größe', async ({ page }) => {
+  const fehler = await frisch(page);
+  await page.waitForFunction(() => ['wolf', 'frostwolf', 'hound'].every(k => FIGBILD[k] && FIGBILD[k].every(d => d.i.complete && d.i.naturalWidth > 0)), null, { timeout: 20000 });
+  const r = await page.evaluate(() => ['wolf', 'frostwolf', 'hound'].map(k => { const F = FIGBILD[k];
+    return [F.length, F.walk.map(x => x.length).join(), F.atk.map(x => x.length).join(), F[2].h < FIGBILD.krieger_m[2].h * .7, F[2].w * .5 < TW]; }));
+  expect(r).toEqual(Array(3).fill([8, '8,8,8,8,8,8,8,8', '6,6,6,6,6,6,6,6', true, true]));
+  // ein Wolf neben der Spielfigur wird mit seinen Bildern gezeichnet
+  const n = await page.evaluate(() => { const o = { id: 'tw', k: 'wolf', x: S.p.x + 1, y: S.p.y, rx: S.p.x + 1, ry: S.p.y, hp: 12, maxHp: 12, face: 1, dir8: 0 }; S.enemies.push(o);
+    let z = 0; const alt = drawFigurBild; window.drawFigurBild = drawFigurBild = (F, ob, ...a) => { if (ob === o && F === FIGBILD.wolf) z++; return alt(F, ob, ...a); };
+    const t = performance.now(); draw0(t / 1000, t, .016); window.drawFigurBild = drawFigurBild = alt; S.enemies.pop(); return z; });
+  expect(n).toBe(1);
   expect(fehler).toEqual([]);
 });

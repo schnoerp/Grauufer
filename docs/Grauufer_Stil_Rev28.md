@@ -1,6 +1,6 @@
 # Grauufer – Stil
 
-**Revision 27**, Stand: Spiel-Rev 125. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 28**, Stand: Spiel-Rev 127. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 ## 1. Leitbild (Im Spiel)
 
@@ -59,8 +59,9 @@ Endgegner werden 1,2- bis 1,6-fach vergrößert.
 - **Gegner Skelettkrieger** (seit Spiel-Rev 125, Zielbild des Auftraggebers): Knochenkörper, Lederschulterstücke, Brustriemen, Gürtel mit Rundschnalle, zerrissener roter Lendenschurz, Stiefel, Schwert, runder Holzschild; Einzelheiten in Grauufer_Gegner_RevXX.md. Gegner neben der Spielfigur schauen sie an.
 - **Bewegungsbilder** (Skelettkrieger, Krieger, Magier, Waldläufer): Laufen 8 Bilder (90 ms je Bild) und Angriff 6 Bilder (450 ms ab dem Ausfallschritt) je Richtung, gerendert in 60 % der Auflösung (WebP), das Spiel gleicht den Maßstab aus. Figuren ohne Gelenkgerüst wippen beim Laufen nur auf und ab.
 - **Gelenkgerüst der drei Klassen** (`binde` und `menschPose` in `werkstatt/modelle/figur.js`): Knochen für Becken, Rumpf, Brust, Hals, Kopf, Arme und Beine; starre Teile (Kopf, Hände, Schwert, Schild, Stab, Kugel, Bogen) hängen fest an ihrem Knochen, Kleidung und Körper werden weich nach Abstand zu den Knochen gebunden (breite Teile wie Wappenrock, Umhang und Robe folgen den Armen nicht). Angriff: Krieger Schwerthieb von oben, Waldläufer Bogenschuss (Bogen gehoben, Sehne gezogen), Magier Zauberstoß mit der Kugel nach vorn.
-- Alle Figuren zusammen etwa 1 656 KB (Magier 482 KB, Krieger 375 KB, Waldläufer 353 KB, Skelettkrieger 446 KB).
-- **Geplant:** die drei Frauenfiguren im selben Stil (zurückgestellt, Entscheidung des Auftraggebers Spiel-Rev 125); weitere Gegner; Robe des Magiers beim Laufen ruhiger, Bogenhaltung feiner.
+- **Gegner Wolf, Frostwolf, Aschenhund** (seit Spiel-Rev 127): ein gemeinsames Wolfsmodell (`wolf` und `wolfPose` in `werkstatt/modelle/figur.js`) mit Gelenken für Beine (vorn Schulter, Ellbogen, Pfote; hinten Hüfte, Knie, Sprunggelenk, Pfote), Hals, Kopf, Unterkiefer und Schwanz; Fellfarben als Farbverlauf (Rücken dunkel, Bauch hell), zotteliges Fell an Nacken, Brust, Keulen und Schwanz. Bewegungen: Ruhe (Atmen, Schwanz), Trab (diagonale Beinpaare), Angriff (ducken, Sprung mit offenem Maul, Biss). Größe wie in der Natur: nur noch etwa halb so groß wie der alte gezeichnete Wolf, der eine ganze Feldbreite einnahm. Grundlage ist die Baubeschreibung mit Maßen und Farbwerten, die der Auftraggeber mit ChatGPT erarbeitet hat; die von ChatGPT mitgelieferten Bilder stammen von Dritten und wurden nicht verwendet. Bildfläche 280 × 260 mit Fußpunkt 70 (Schnauze ragt zur Kamera). Der Glutgeist nutzt weiter die alte Zeichnung.
+- Alle Figuren zusammen etwa 2 511 KB (Magier 482 KB, Krieger 375 KB, Waldläufer 352 KB, Skelettkrieger 446 KB, Wolf 297 KB, Frostwolf 319 KB, Aschenhund 240 KB); `index.html` etwa 4,2 MB.
+- **Geplant:** die drei Frauenfiguren im selben Stil (zurückgestellt, Entscheidung des Auftraggebers Spiel-Rev 125); weitere Gegner (z. B. Glutgeist, Ghul, Steinwächter); Robe des Magiers beim Laufen ruhiger, Bogenhaltung feiner.
 
 ### Farbwelt je Gebiet
 

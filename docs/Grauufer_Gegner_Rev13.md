@@ -1,6 +1,6 @@
 # Grauufer – Gegner
 
-**Revision 12**, Stand: Spiel-Rev 125. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 13**, Stand: Spiel-Rev 127. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Diese Datei ist die **einzige Quelle für Gegnerwerte**. Formeln und Regeln (Treffer, Schaden, Aggro, Wiederbelebung) stehen in Grauufer_Kampfsystem_RevXX.md.
 
@@ -107,9 +107,9 @@ Alle Gegner sind selbst gezeichnet (Canvas), ohne Fremdgrafiken. Grundformen: Me
 | Moorleiche | Mensch, gebückt, Kapuze | moosgrüne Haut, Seetang, hellgrüne Augen |
 | Skelettkrieger | feste Figur (seit Spiel-Rev 125) | Im neuen Stil nach Zielbild des Auftraggebers, in 8 Blickrichtungen (Grauufer_Stil_RevXX.md): Knochen mit Gelenkköpfen, Schädel mit dunklen Augenhöhlen und Zähnen, Rippenbögen, Lederschulterstücke mit Nieten, Brustriemen, Gürtel mit runder Schnalle, zerrissener roter Lendenschurz, Lederstiefel, Schwert und runder Holzschild mit Eisenrand und Buckel; schaut die Spielfigur an, wenn er neben ihr steht. **Bewegungen:** Gelenkgerüst (Becken, Wirbelsäule, Kopf mit Unterkiefer, Schultern, Ellbogen, Hände, Hüften, Knie, Füße, Lendenschurz); Laufen mit 8 Bildern (Beine schwingen, Knie beugen, Arme pendeln gegenläufig, Kiefer klappert), Angriff mit 6 Bildern (Schwert über den Kopf ausholen, nach vorn unten zuschlagen, Ausfallschritt), je in 8 Richtungen. Vorher: Mensch mit Knochen, Rippen, roten Augen und Schwert |
 | Bandit | Mensch, Kapuze | erdfarbener Umhang, Schwert |
-| Wolf | Hund | graues Fell, gelbe Augen |
-| Frostwolf | Hund | weißgraues Fell, eisblaue Augen |
-| Aschenhund | Hund | dunkelbraun mit glühenden Rissen, orange Augen |
+| Wolf | feste Figur (seit Spiel-Rev 127) | Im neuen Stil in 8 Blickrichtungen mit Trab und Sprungbiss (Grauufer_Stil_RevXX.md): schlanker Waldwolf, Schulterhöhe 0,8 m, Körper 1,3 m, Schwanz 0,45 m; dunkler Rücken (#393A37), Flanken #77766F, heller Bauch und Kehle (#B8B4A6), struppiger Nacken, buschiger Schwanz mit dunkler Spitze, angelegte Ohren, gelbe Augen (#E4B94A), Narbe über dem linken Auge |
+| Frostwolf | feste Figur (seit Spiel-Rev 127) | gleicher Körper, weißgraues Fell (#D7DDE0 / #A3B3BE / #F0F2EE), dunklere Pfoten, eisblaue Augen (#81DFFF) |
+| Aschenhund | feste Figur (seit Spiel-Rev 127) | gleicher Körper, fast schwarzes Fell (#171819 / #292729 / #414040), orange glühende Risse an Schultern und Flanken (#E64A18), orange Augen (#FF741C) |
 | Harpyie | Harpyie, schwebend | violettgraue Flügel, dunkles Haar, rote Augen |
 | Riesenspinne | Spinne | dunkelbraun, rote Augen |
 | Sandskorpion | Skorpion | sandfarben |

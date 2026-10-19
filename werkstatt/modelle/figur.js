@@ -13,7 +13,7 @@ function cr(a,i,t){const n=a.length,p0=a[Math.max(0,i-1)],p1=a[i],p2=a[Math.min(
   return .5*((2*p1)+(-p0+p2)*t+(2*p0-5*p1+4*p2-p3)*t*t+(-p0+3*p1-3*p2+p3)*t*t*t);}
 
 // Querschnittskörper. Jeder Schnitt: c (Mitte), w (halbe Breite), f (Tiefe nach vorn), b (Tiefe nach hinten), e (Rundung 2 = Ellipse, größer = kantiger).
-// Die Achse ergibt sich aus der Folge der Mitten; „vorn“ ist +z, „seitlich“ steht senkrecht darauf.
+// Die Achse ergibt sich aus der Folge der Mitten; „vorn“ ist +z, „seitlich“ steht senkrecht darauf. opt.farbe(p,t,u) liefert eine Helligkeit oder [r,g,b] (linear, seit Spiel-Rev 127).
 function querschnitte(S,opt={}){
   const N=opt.n||40,M=opt.m||Math.max(24,S.length*8),deckel=opt.deckel!==false;
   const kx=S.map(s=>s.c[0]),ky=S.map(s=>s.c[1]),kz=S.map(s=>s.c[2]),kw=S.map(s=>s.w),kf=S.map(s=>s.f),kb=S.map(s=>s.b),ke=S.map(s=>s.e||2.2);
@@ -28,12 +28,12 @@ function querschnitte(S,opt={}){
     for(let j=0;j<=N;j++){const th=Math.PI+j/N*Math.PI*2,s=Math.sin(th),c=Math.cos(th);
       const p=R.c.clone().addScaledVector(Sd,R.w*sp(s,R.e)).addScaledVector(F,(c>=0?R.f:R.b)*sp(c,R.e));
       if(opt.form)opt.form(p,r/M,j/N);
-      if(vor)bogen+=p.distanceTo(vor);vor=p;P.push(p.x,p.y,p.z);UV.push(bogen,vlaenge);if(opt.farbe){const f=opt.farbe(p,r/M,j/N);CO.push(f,f,f);}}}
+      if(vor)bogen+=p.distanceTo(vor);vor=p;P.push(p.x,p.y,p.z);UV.push(bogen,vlaenge);if(opt.farbe){const f=opt.farbe(p,r/M,j/N);if(Array.isArray(f))CO.push(...f);else CO.push(f,f,f);}}}
   for(let r=0;r<M;r++)for(let j=0;j<N;j++){const a=r*(N+1)+j,b=a+N+1;I.push(a,b,a+1,a+1,b,b+1);}
   // Umlaufsinn prüfen: Flächen müssen nach außen zeigen (sonst blendet three.js sie aus)
   {const r=Math.floor(M/2),a=r*(N+1)+Math.floor(N/4),b=a+N+1,q=k=>V(P[k*3],P[k*3+1],P[k*3+2]);
     const n=q(b).sub(q(a)).cross(q(a+1).sub(q(a))),aus=q(a).sub(ringe[r].c);if(n.dot(aus)<0)for(let k=0;k<I.length;k+=3){const t=I[k+1];I[k+1]=I[k+2];I[k+2]=t;}}
-  if(deckel){const fl=I.length&&I[1]!==N+1;for(const r of[0,M]){const mi=P.length/3,C=ringe[r].c;P.push(C.x,C.y,C.z);UV.push(0,0);if(opt.farbe)CO.push(1,1,1);
+  if(deckel){const fl=I.length&&I[1]!==N+1;for(const r of[0,M]){const mi=P.length/3,C=ringe[r].c;P.push(C.x,C.y,C.z);UV.push(0,0);if(opt.farbe){const k=r*(N+1)*3;CO.push(CO[k],CO[k+1],CO[k+2]);}
     for(let j=0;j<N;j++){const a=r*(N+1)+j;if((r>0)!==fl)I.push(a,mi,a+1);else I.push(a,a+1,mi);}}}
   const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(P,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(UV,2));
   if(opt.farbe)g.setAttribute('color',new THREE.Float32BufferAttribute(CO,3));
@@ -608,6 +608,137 @@ function kettenTex(){return tex(128,128,(g,w,h)=>{g.fillStyle='#4a4e54';g.fillRe
   for(let y=0;y<h;y+=8)for(let x=0;x<w;x+=8){const ox=(y/8)%2?4:0;g.strokeStyle='rgba(200,206,214,.75)';g.lineWidth=2;g.beginPath();g.arc(x+ox,y,3.2,0,Math.PI*2);g.stroke();g.strokeStyle='rgba(20,22,26,.6)';g.beginPath();g.arc(x+ox+.8,y+.8,3.2,Math.PI*.1,Math.PI*.9);g.stroke();}
   rausch(g,w,h,14,43);},40);}
 
-function bau(spec={}){return spec.klasse==='magier'?magier(spec):spec.klasse==='krieger'?krieger(spec):spec.klasse==='waldlaeufer'?waldlaeufer(spec):spec.klasse==='skelett'?skelett(spec):startfigur(spec);}
+// ---------- Wolf (Gegner Wolf, Frostwolf, Aschenhund; seit Spiel-Rev 127, nach der Baubeschreibung des Auftraggebers) ----------
+// Maße: Schulterhöhe 0,8 m, Körper 1,3 m, Schwanz 0,45 m; schlank, tiefer Brustkorb, eingezogene Taille, keilförmiger Kopf. Blickrichtung +z.
+const WOLFFELL={
+  wolf:{ruecken:'#393A37',flanke:'#77766F',bauch:'#B8B4A6',nase:'#1D1B1A',augen:'#E4B94A'},
+  frostwolf:{ruecken:'#D7DDE0',flanke:'#A3B3BE',bauch:'#F0F2EE',nase:'#303B46',augen:'#81DFFF',pfoten:'#7d8a94'},
+  aschenhund:{ruecken:'#171819',flanke:'#292729',bauch:'#414040',nase:'#0D0C0C',augen:'#FF741C',risse:'#E64A18'}};
+const linF=h=>{const c=new THREE.Color(h);return[c.r,c.g,c.b].map(v=>Math.pow(v,2.2));};
+const mischF=(a,b,t)=>{t=Math.max(0,Math.min(1,t));return a.map((v,i)=>v+(b[i]-v)*t);};
+const glatt=(a,b,x)=>{const t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);};
+// Körper in Längsrichtung (z): Schnitte {z, y, w (halbe Breite), u (nach unten), o (nach oben)}; gebaut stehend, dann umgelegt
+function liegend(S,opt={}){const g=querschnitte(S.map(q=>({c:[q.x||0,q.z,-q.y],w:q.w,f:q.u,b:q.o,e:q.e||2.2})),opt);g.rotateX(Math.PI/2);return g;}
+// Fell zottelig machen: Punkte entlang der Flächennormale versetzen (Menge je Punkt aus maske)
+function zotteln(g,maske,staerke){g.computeVertexNormals();const P=g.attributes.position,N=g.attributes.normal,v=new THREE.Vector3();
+  for(let i=0;i<P.count;i++){v.fromBufferAttribute(P,i);const m=maske(v);if(m<=0)continue;
+    const n=.5+.5*Math.sin(v.x*157+v.y*91)*Math.sin(v.z*133+v.y*61)+.25*Math.sin(v.x*311+v.z*277);
+    const d=staerke*m*Math.max(0,n);P.setXYZ(i,v.x+N.getX(i)*d,v.y+N.getY(i)*d,v.z+N.getZ(i)*d);}
+  P.needsUpdate=true;g.computeVertexNormals();return g;}
+function fellTex(){return tex(128,128,(g,w,h)=>{g.fillStyle='#e6e6e6';g.fillRect(0,0,w,h);
+  for(let k=0;k<1400;k++){const x=Math.random()*w,y=Math.random()*h;g.strokeStyle=Math.random()<.55?'rgba(0,0,0,.32)':'rgba(255,255,255,.35)';g.lineWidth=1;
+    g.beginPath();g.moveTo(x,y);g.lineTo(x+(Math.random()-.5)*2,y+5+Math.random()*7);g.stroke();}},7);}
+function wolf(spec){
+  const art=WOLFFELL[spec.fell]?spec.fell:'wolf',L=WOLFFELL[art];
+  const RU=linF(L.ruecken),FL=linF(L.flanke),BA=linF(L.bauch),PF=L.pfoten?linF(L.pfoten):mischF(FL,RU,.35);
+  const M=o=>new THREE.MeshStandardMaterial(Object.assign({roughness:.85,metalness:0},o));
+  const fell=M({map:fellTex(),vertexColors:true,roughness:.92}),nase=M({color:L.nase,roughness:.35}),
+    zahn=M({color:0xe8e0cc,roughness:.4}),rachen=M({color:0x3a1212,roughness:.6}),
+    auge=new THREE.MeshStandardMaterial({color:0x000000,emissive:L.augen,emissiveIntensity:1.6,roughness:.2,toneMapped:false}),
+    narbe=M({color:0x8e7068,roughness:.7});
+  const J=(p,x,y,z)=>{const g=new THREE.Group();g.position.set(x,y,z);p.add(g);return g;};
+  const an=(p,g,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(g,m);o.position.set(x,y,z);o.castShadow=o.receiveShadow=true;p.add(o);return o;};
+  // Farbe je Ringwinkel: h = 0 unten (Bauch), 1 oben (Rücken)
+  const hoehe=u=>(1-Math.cos(Math.PI+u*Math.PI*2))/2;
+  const rumpfFarbe=(p,t,u)=>{const h=hoehe(u),seite=Math.abs(Math.sin(Math.PI+u*Math.PI*2));
+    let f=mischF(BA,FL,glatt(.15,.5,h));f=mischF(f,RU,glatt(.62,.92,h));if(h>.9&&seite<.25)f=mischF(f,RU.map(v=>v*.7),.6);return f;};
+  const G=new THREE.Group(),R={};
+  R.rumpf=J(G,0,0,0);
+  // Rumpf: Kruppe → eingezogene Taille → tiefer Brustkorb → Brust
+  const RS=[{z:-.47,y:.64,w:.05,u:.05,o:.04},{z:-.4,y:.635,w:.1,u:.11,o:.09},{z:-.3,y:.63,w:.112,u:.13,o:.1},{z:-.17,y:.625,w:.095,u:.09,o:.09},
+    {z:-.04,y:.625,w:.11,u:.14,o:.1},{z:.1,y:.635,w:.13,u:.2,o:.13},{z:.22,y:.645,w:.125,u:.21,o:.15},{z:.32,y:.635,w:.1,u:.17,o:.11},{z:.39,y:.63,w:.06,u:.1,o:.06}];
+  an(R.rumpf,zotteln(liegend(RS,{n:44,m:72,farbe:rumpfFarbe}),p=>glatt(.08,.28,p.z)*.6+glatt(.5,.66,p.y)*.2+(p.y<.48?.25:0),.016),fell);
+  // Hals mit struppiger Mähne
+  R.hals=J(R.rumpf,0,.7,.28);R.hals.rotation.x=-.1;
+  an(R.hals,zotteln(liegend([{z:-.08,y:-.03,w:.11,u:.15,o:.11},{z:.06,y:.04,w:.095,u:.12,o:.11},{z:.18,y:.1,w:.075,u:.09,o:.085},{z:.26,y:.13,w:.06,u:.07,o:.065}],
+    {n:40,m:40,farbe:(p,t,u)=>{const h=hoehe(u);return mischF(mischF(BA,FL,glatt(.25,.55,h)),RU,glatt(.7,.95,h));}}),()=>1,.016),fell);
+  // Kopf: breiter Schädel, keilförmige Schnauze, Unterkiefer als eigenes Gelenk
+  R.kopf=J(R.hals,0,.13,.24);R.kopf.rotation.x=.18;
+  const kopfFarbe=(p,t,u)=>{const h=hoehe(u),seite=Math.abs(Math.sin(Math.PI+u*Math.PI*2));let f=mischF(BA,FL,glatt(.3,.6,h));
+    if(t<.45)f=mischF(f,RU,glatt(.75,1,h)*.7);if(t>.75)f=mischF(f,RU.map(v=>v*.8),glatt(.55,.9,h)*.6);if(t>.4&&t<.7&&seite>.8&&h<.55)f=mischF(f,BA,.6);return f;};
+  an(R.kopf,liegend([{z:-.08,y:.01,w:.065,u:.065,o:.065},{z:-.02,y:.012,w:.076,u:.07,o:.074},{z:.04,y:.0,w:.066,u:.06,o:.06},{z:.09,y:-.014,w:.048,u:.046,o:.044},
+    {z:.145,y:-.022,w:.036,u:.032,o:.034},{z:.19,y:-.026,w:.026,u:.022,o:.026}],{n:36,m:48,farbe:kopfFarbe}),fell);
+  // Wangenfell
+  for(const s of[-1,1]){const w=an(R.kopf,new THREE.SphereGeometry(.05,16,12),fell,s*.05,-.03,.0);w.scale.set(.7,.9,1.2);
+    const gw=w.geometry,C=[];for(let i=0;i<gw.attributes.position.count;i++)C.push(...mischF(BA,FL,.35));gw.setAttribute('color',new THREE.Float32BufferAttribute(C,3));}
+  an(R.kopf,new THREE.SphereGeometry(.021,16,12),nase,0,-.012,.195).scale.set(1.1,.85,.9);
+  for(const s of[-1,1]){
+    an(R.kopf,new THREE.SphereGeometry(.0115,14,10),auge,s*.04,.03,.056).scale.set(1,.7,.8);
+    const br=an(R.kopf,new THREE.SphereGeometry(.018,12,8),fell,s*.044,.044,.05);br.scale.set(1.2,.45,.8);
+    {const gw=br.geometry,C=[];for(let i=0;i<gw.attributes.position.count;i++)C.push(...RU);gw.setAttribute('color',new THREE.Float32BufferAttribute(C,3));}
+    // angelegte Ohren
+    const oh=J(R.kopf,s*.046,.064,-.04);oh.rotation.set(-.85,0,-s*.35);
+    const og=new THREE.ConeGeometry(.037,.1,12,1);og.translate(0,.047,0);const C=[];for(let i=0;i<og.attributes.position.count;i++)C.push(...mischF(FL,RU,.6));
+    og.setAttribute('color',new THREE.Float32BufferAttribute(C,3));an(oh,og,fell).scale.set(1,1,.45);
+    an(oh,new THREE.ConeGeometry(.018,.06,10,1).translate(0,.032,.007),rachen).scale.set(1,1,.3);
+    // Fangzähne oben
+    an(R.kopf,new THREE.ConeGeometry(.0045,.022,6).rotateX(Math.PI),zahn,s*.016,-.048,.158);}
+  // kleine Narbe über dem linken Auge (links = +x)
+  an(R.kopf,new THREE.BoxGeometry(.004,.032,.004),narbe,.05,.052,.045).rotation.set(.3,0,.5);
+  // Lefzen: dunkle Mundlinie, darunter der Rachen
+  an(R.kopf,liegend([{z:.03,y:-.045,w:.045,u:.006,o:.004},{z:.17,y:-.042,w:.024,u:.005,o:.004}],{n:16,m:12}),nase);
+  an(R.kopf,liegend([{z:.0,y:-.05,w:.038,u:.012,o:.004},{z:.15,y:-.047,w:.02,u:.008,o:.004}],{n:16,m:12}),rachen);
+  R.kiefer=J(R.kopf,0,-.046,.02);
+  an(R.kiefer,liegend([{z:-.04,y:-.012,w:.044,u:.024,o:.008},{z:.06,y:-.012,w:.034,u:.02,o:.008},{z:.15,y:-.01,w:.02,u:.013,o:.006}],
+    {n:24,m:24,farbe:()=>mischF(BA,FL,.25)}),fell);
+  for(const s of[-1,1])an(R.kiefer,new THREE.ConeGeometry(.004,.018,6),zahn,s*.013,.004,.13);
+  // Beine: vorn Schulter → Ellbogen → Pfote, hinten Hüfte → Knie → Sprunggelenk → Pfote
+  const beinFarbe=s=>(p,t,u)=>{const th=Math.PI+u*Math.PI*2,innen=Math.sin(th)*s<0?1:0,vorn=Math.max(0,Math.cos(th));
+    let f=mischF(FL,BA,(innen*.55+glatt(.4,1,t)*.35)*glatt(.1,.35,t));f=mischF(f,RU,vorn*glatt(.2,.6,t)*.3);return f;};
+  const pfote=(p,s)=>{const pg=new THREE.SphereGeometry(.036,16,12),C=[];for(let i=0;i<pg.attributes.position.count;i++)C.push(...PF);
+    pg.setAttribute('color',new THREE.Float32BufferAttribute(C,3));const o=an(p,pg,fell,0,.004,.028);o.scale.set(.8,.75,1.25);
+    for(let k=-1;k<=1;k++)an(p,new THREE.ConeGeometry(.004,.012,5).rotateX(Math.PI/2+.6),nase,k*.012+s*.002,-.012,.075);};
+  R.vorn=[];R.hinten=[];
+  for(const s of[-1,1]){
+    const SH=J(R.rumpf,s*.085,.62,.2),EL=J(SH,0,-.21,-.025),PW=J(EL,0,-.27,.005),PP=J(PW,0,-.115,.012);
+    an(SH,querschnitte([{c:[0,.02,.02],w:0.065,f:0.088,b:0.077},{c:[0,-.06,0],w:0.059,f:0.077,b:0.071},{c:[0,-.17,-.02],w:0.047,f:0.053,b:0.053},{c:[0,-.23,-.025],w:0.040,f:0.042,b:0.047}],{n:24,m:24,deckel:false,farbe:beinFarbe(s)}),fell);
+    an(EL,querschnitte([{c:[0,.02,0],w:0.038,f:0.040,b:0.047},{c:[0,-.1,.004],w:0.031,f:0.033,b:0.035},{c:[0,-.22,.006],w:0.025,f:0.026,b:0.026},{c:[0,-.28,.006],w:0.024,f:0.026,b:0.024}],{n:20,m:20,deckel:false,farbe:beinFarbe(s)}),fell);
+    an(PW,querschnitte([{c:[0,.01,0],w:0.025,f:0.026,b:0.024},{c:[0,-.07,.008],w:0.024,f:0.026,b:0.021},{c:[0,-.11,.014],w:0.026,f:0.031,b:0.021}],{n:18,m:12,deckel:false,farbe:()=>mischF(FL,PF,.5)}),fell);
+    pfote(PP,s);R.vorn.push([SH,EL,PW,PP]);
+    const HU=J(R.rumpf,s*.08,.64,-.35),KN=J(HU,0,-.23,.09),SP=J(KN,0,-.25,-.11),HP=J(SP,0,-.145,.02);
+    an(HU,zotteln(querschnitte([{c:[0,.0,-.02],w:0.073,f:0.106,b:0.106},{c:[0,-.06,.01],w:0.076,f:0.118,b:0.106},{c:[0,-.16,.06],w:0.057,f:0.071,b:0.077},{c:[0,-.24,.09],w:0.040,f:0.042,b:0.047}],{n:28,m:28,deckel:false,farbe:beinFarbe(s)}),p=>p.z<-.02&&p.y<-.04?1:0,.016),fell);
+    an(KN,querschnitte([{c:[0,.02,0],w:0.038,f:0.042,b:0.047},{c:[0,-.12,-.05],w:0.031,f:0.031,b:0.047},{c:[0,-.22,-.095],w:0.024,f:0.024,b:0.028},{c:[0,-.26,-.11],w:0.026,f:0.024,b:0.031}],{n:20,m:20,deckel:false,farbe:beinFarbe(s)}),fell);
+    an(SP,querschnitte([{c:[0,.01,0],w:0.024,f:0.024,b:0.028},{c:[0,-.08,.01],w:0.021,f:0.024,b:0.021},{c:[0,-.14,.018],w:0.025,f:0.028,b:0.021}],{n:18,m:12,deckel:false,farbe:()=>mischF(FL,PF,.5)}),fell);
+    pfote(HP,s);R.hinten.push([HU,KN,SP,HP]);}
+  // buschiger Schwanz mit dunkler Spitze, in zwei Gelenken
+  R.schwanz=J(R.rumpf,0,.665,-.45);R.schwanz.rotation.x=.55;R.schwanz2=null;
+  {const T1=[{c:[0,0,0],w:.035,f:.035,b:.035},{c:[0,-.07,-.02],w:.05,f:.052,b:.055},{c:[0,-.17,-.03],w:.062,f:.065,b:.068},{c:[0,-.24,-.03],w:.064,f:.066,b:.07}];
+    const T2=[{c:[0,0,0],w:.064,f:.066,b:.07},{c:[0,-.08,.005],w:.058,f:.06,b:.064},{c:[0,-.16,.01],w:.04,f:.042,b:.044},{c:[0,-.22,.012],w:.012,f:.012,b:.012}];
+    const sf=(von,bis)=>(p,t,u)=>{const tt=von+(bis-von)*t,oben=Math.max(0,-Math.cos(Math.PI+u*Math.PI*2));return mischF(mischF(mischF(FL,BA,(1-oben)*.4),RU,oben*.6),RU.map(v=>v*.55),glatt(.78,.95,tt));};
+    an(R.schwanz,zotteln(querschnitte(T1,{n:24,m:24,farbe:sf(0,.5)}),()=>1,.018),fell);
+    R.schwanz2=J(R.schwanz,0,-.24,-.03);an(R.schwanz2,zotteln(querschnitte(T2,{n:24,m:24,farbe:sf(.5,1)}),()=>1,.018),fell);}
+  // Aschenhund: glühende Risse an Schultern und Flanken
+  if(L.risse){const glut=new THREE.MeshBasicMaterial({color:L.risse,toneMapped:false});
+    const breite=z=>{for(let i=0;i<RS.length-1;i++)if(z>=RS[i].z&&z<=RS[i+1].z){const f=(z-RS[i].z)/(RS[i+1].z-RS[i].z),A=RS[i],B=RS[i+1];return{w:A.w+(B.w-A.w)*f,y:A.y+(B.y-A.y)*f,u:A.u+(B.u-A.u)*f,o:A.o+(B.o-A.o)*f};}return RS[0];};
+    const RISSE=[[[.26,.02],[.21,.05],[.16,.0],[.11,.04]],[[.19,-.07],[.14,-.04],[.09,-.09],[.04,-.06]],[[.02,.04],[-.05,.07],[-.11,.03]],[[-.16,-.02],[-.23,.02],[-.3,-.03],[-.36,.0]]];
+    for(const s of[-1,1])for(const r of RISSE){const pts=r.map(([z,dy])=>{const q=breite(z),h=dy>0?q.o:q.u,x=q.w*Math.sqrt(Math.max(0,1-Math.pow(dy/h,2)));return new THREE.Vector3(s*(x+.004),q.y+dy,z);});
+      an(R.rumpf,new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),16,.0042,5,false),glut).castShadow=false;}}
+  G.userData.gelenke=R;G.userData.pose=(a,t)=>wolfPose(R,a,t);wolfPose(R,'idle',0);
+  return G;}
+// Bewegungen des Wolfs: Ruhe (Atmen, Schwanz), Laufen (Trab: diagonale Beinpaare), Angriff (ducken, Sprung mit offenem Maul, Biss, zurück)
+function wolfPose(R,art,t){
+  R.rumpf.position.set(0,0,0);R.rumpf.rotation.set(0,0,0);R.hals.rotation.set(-.1,0,0);R.kopf.rotation.set(.18,0,0);R.kiefer.rotation.set(.04,0,0);
+  R.schwanz.rotation.set(.55,0,0);R.schwanz2.rotation.set(.12,0,0);
+  for(const B of[...R.vorn,...R.hinten])for(const g of B)g.rotation.set(0,0,0);
+  const bein=(B,a,b,c,d=0)=>{B[0].rotation.x=a;B[1].rotation.x=b;B[2].rotation.x=c;B[3].rotation.x=d;};
+  if(art==='idle'){const a=Math.sin(t*Math.PI*2);R.rumpf.position.y=a*.004;R.hals.rotation.x=-.1+a*.02;R.schwanz.rotation.z=.12*a;R.schwanz2.rotation.z=.15*a;R.kiefer.rotation.x=.04+Math.max(0,a)*.03;return;}
+  if(art==='walk'){const p=t*Math.PI*2;
+    // Trab: vorn links mit hinten rechts, vorn rechts mit hinten links
+    for(let i=0;i<2;i++){const ph=p+(i?Math.PI:0),s=Math.sin(ph),c=Math.cos(ph),hebt=Math.max(0,c);
+      bein(R.vorn[i],-.42*s,.95*hebt*Math.max(0,s+.3),.45*hebt,-.3*hebt);
+      const ph2=p+(i?0:Math.PI),s2=Math.sin(ph2),c2=Math.cos(ph2),hebt2=Math.max(0,c2);
+      bein(R.hinten[i],-.38*s2,-.45*hebt2,.7*hebt2,-.25*hebt2);}
+    R.rumpf.position.y=.016*Math.cos(2*p);R.rumpf.rotation.z=.025*Math.sin(p);R.hals.rotation.x=-.06+.04*Math.cos(2*p);R.kopf.rotation.x=.12;
+    R.schwanz.rotation.z=.22*Math.sin(p);R.schwanz2.rotation.z=.25*Math.sin(p-.8);R.schwanz.rotation.x=.75;return;}
+  if(art==='attack'){
+    // Schlüsselbilder: [vor, hoch, Neigung, Vorderbein, Hinterbein, Hals, Kopf, Kiefer]
+    const KF=[[0,0,0,0,0,-.1,.18,.04],[-.04,-.07,.05,.25,.45,.2,.3,.12],[.16,.1,-.2,-.9,.75,-.35,-.25,.75],[.24,.02,.1,-.35,.3,.15,.35,.15],[.12,0,.04,-.1,.1,0,.2,.08],[.03,0,0,0,0,-.08,.18,.04]];
+    const u=Math.min(.999,t)*(KF.length-1),i=Math.floor(u),f=u-i,k=KF[i].map((v,n)=>v+(KF[i+1][n]-v)*f);
+    R.rumpf.position.set(0,k[1],k[0]);R.rumpf.rotation.x=k[2];R.hals.rotation.x=k[5];R.kopf.rotation.x=k[6];R.kiefer.rotation.x=k[7];
+    for(const B of R.vorn)bein(B,k[3],k[3]<0?-k[3]*.3:k[3]*1.6,k[3]<0?.2:-k[3]*.8);
+    for(const B of R.hinten)bein(B,k[4]>.3?-k[4]*.5:k[4],k[4]>.3?-k[4]*.4:-k[4],k[4]*1.1);
+    R.schwanz.rotation.x=.55-k[2]*2;}
+}
+function bau(spec={}){return spec.klasse==='magier'?magier(spec):spec.klasse==='krieger'?krieger(spec):spec.klasse==='waldlaeufer'?waldlaeufer(spec):spec.klasse==='skelett'?skelett(spec):spec.klasse==='wolf'?wolf(spec):startfigur(spec);}
 window.Figur={bau,querschnitte,flackern,pose:(G,art,t)=>G.userData.pose&&G.userData.pose(art,t)};
 })();
