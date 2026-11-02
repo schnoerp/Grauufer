@@ -1,6 +1,6 @@
 # Grauufer – Offene Punkte (Aufgabenliste)
 
-**Revision 20**, Stand: Spiel-Rev 128. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
+**Revision 21**, Stand: Spiel-Rev 129. Sammelliste aller angefangenen und geplanten Aufgaben. Sie enthält keine Werte (Leben, Preise, Koordinaten), sondern verweist auf das zuständige Dokument; dort stehen die Einzelheiten. Erledigte Punkte werden gestrichen, neue kommen bei jeder Änderung dazu.
 
 ## 1. Angefangen
 
@@ -17,7 +17,8 @@
 3. **Pilot B – Die Tiefe:** Ruheloser, Steinwächter, Echo, Skelettkrieger, Thronhüter in neuer Grafik. → Grauufer_Grafik_RevXX.md
 4. **Spielerfiguren:** 3 Klassen, fest je Klasse. → Grauufer_Baukaesten_RevXX.md
 5. Restliche Oberwelt, Gegner und Gesprächspartner in neuer Grafik; Rucksack wie in Pagan; Weltgegenstände (aufheben, ablegen, Behälter). → Grauufer_Grafik_RevXX.md
-6. **Anlagen-Baukasten** für Burg und Schloss. → Grauufer_Baukaesten_RevXX.md
+6. **Anlagen-Baukasten** für Burg und Schloss.
+7. **Dungeon-Baukasten, Stufe 2:** Rätsel und Fallen (Hebel mit Gitter, Schlüsseltüren, Bodenfallen, Geheimgänge). Stufe 1 erledigt (Spiel-Rev 129: Räume, Einrichtung, Gegner, Schätze, Truhen, Probelauf); erste Dungeons entwirft der Auftraggeber. → Grauufer_Baukaesten_RevXX.md → Grauufer_Baukaesten_RevXX.md
 7. **Landschafts-Baukasten, Teil B** (Gebietsentwurf, optional), frühestens vor dem ersten neuen Kontinent. → Grauufer_Baukaesten_RevXX.md
 
 ## 3. Geplant, nach Themen

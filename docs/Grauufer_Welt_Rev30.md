@@ -1,6 +1,6 @@
 # Grauufer – Welt
 
-**Revision 29**, Stand: Spiel-Rev 119. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 30**, Stand: Spiel-Rev 129. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Erzählerischer Hintergrund der Orte: Grauufer_Story_RevXX.md. Gegner je Gebiet: Grauufer_Gegner_RevXX.md.
 
@@ -211,6 +211,10 @@ Die Karte (Taste M) bekommt zwei Ebenen:
 
 **Stil:** gealtertes Pergament mit verblassten Rändern, passend zum Pagan-Ton; Meer dunkel mit angedeuteten Wellen.
 
+
+## 7c. Dungeons aus dem Dungeon-Baukasten (Im Spiel seit Spiel-Rev 129)
+
+Neue Dungeons liegen wie die Tiefe unter der Weltkarte (ab Reihe 250, ab Spalte 110 nebeneinander), jeder als eigene dunkle Zone mit einer Treppe hinauf und einer Treppe hinab im gewählten Gebiet. Entwurf, Format und Regeln: Grauufer_Baukaesten_RevXX.md, Abschnitt 5b. Noch ist kein Dungeon eingebettet.
 
 ## 7b. Die Tiefe (Im Spiel seit Spiel-Rev 105–107)
 
