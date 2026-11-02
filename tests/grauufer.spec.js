@@ -742,3 +742,54 @@ test('Rev 128: Browser zoomt die Seite nicht, Flaschenpost-Fenster passt aufs Ta
   expect(r).toEqual([true, true, true, true]);
   expect(fehler).toEqual([]);
 });
+
+test('Rev 129: Dungeon aus dem Baukasten – Probelauf startet im Dungeon, Treppe ins Freie, nichts wird gespeichert', async ({ page }) => {
+  const R = ['############', '#__________#', '#_E__U__U__#', '#__________#', '#____kk____#', '#__B_kk_o__#', '#__________#', '############'];
+  const d = { name: 'Testgewölbe', ort: 'grau', stil: 'ruine', raster: R, eingang: { x: 2, y: 2 }, gegner: [{ art: 'skeleton', x: 9, y: 5 }, { art: 'gibtsnicht', x: 9, y: 6 }],
+    schaetze: [{ art: 'potion', x: 3, y: 6 }], truhen: [{ art: 'locked', x: 10, y: 1 }, { art: 'mimic', x: 1, y: 6 }] };
+  const h = Buffer.from(JSON.stringify(d), 'utf8').toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto(URL + '#probe=' + h);
+  await page.waitForFunction(() => typeof READY !== 'undefined' && READY && S && S.p && String(zoneAt(S.p.x, S.p.y)).startsWith('dg_'), null, { timeout: 30000 });
+  const r = await page.evaluate(() => { if (!DECOK) buildDeco(); const g = DGL[0], P = PORTALS[g.pi], U = PORTALS[g.pi + 1];
+    return { zone: zoneAt(S.p.x, S.p.y), name: ZDEF[g.id].name, oben: [T(P.x, P.y), zoneAt(P.x, P.y), P.y < MORVH], unten: T(U.x, U.y), splash: document.querySelector('#splash').hidden,
+      gegner: S.enemies.filter(e => e.id.startsWith('dg_')).map(e => e.k), truhen: CHESTS.filter(c => c.x >= g.at[0] && c.y >= g.at[1] && c.y < g.at[1] + 8).map(c => c.t),
+      boden: T(g.at[0] + 5, g.at[1] + 4), rand: T(g.at[0], g.at[1]), gespeichert: localStorage.getItem(KEY) !== null }; });
+  expect(r).toEqual({ zone: 'dg_probe', name: 'Testgewölbe', oben: ['E', 'grau', true], unten: 'E', splash: true, gegner: ['skeleton'], truhen: ['locked', 'mimic'], boden: 'k', rand: '#', gespeichert: false });
+  // Treppe hinauf führt ins Freie nach Grauufer
+  const z = await page.evaluate(() => { const g = DGL[0], U = PORTALS[g.pi + 1]; TESTFREE = true; S.p.x = S.p.rx = U.x; S.p.y = S.p.ry = U.y; G.ptT = 0; portalTick(performance.now()); return [zoneAt(S.p.x, S.p.y), S.p.y < MORVH]; });
+  expect(z).toEqual(['grau', true]);
+  await page.evaluate(() => save(true));
+  expect(await page.evaluate(() => localStorage.getItem(KEY))).toBe(null);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 129: Ohne Probelauf und ohne eingebettete Dungeons bleibt die Welt unverändert', async ({ page }) => {
+  const fehler = await frisch(page);
+  const r = await page.evaluate(() => [DGL.length, Object.keys(ZDEF).filter(k => k.startsWith('dg_')).length, PORTALS.length, PORTALS.every(P => P.x >= 0)]);
+  expect(r).toEqual([0, 0, 10, true]);
+  expect(fehler).toEqual([]);
+});
+
+test('Rev 129: Dungeon-Baukasten – Beispiel gültig, Listen passen zum Spiel, Malen und Probelauf-Adresse', async ({ page }) => {
+  const fehler = []; page.on('pageerror', e => fehler.push(String(e)));
+  await page.goto('file://' + path.resolve(__dirname, '..', 'werkstatt', 'dungeonbaukasten.html'));
+  await page.click('#beispiel');
+  const pr = await page.evaluate(() => [...document.querySelectorAll('#pruefung li')].map(l => l.className));
+  expect(pr.every(c => c !== 'warn')).toBe(true);
+  // Rechteck aus Felsboden aufziehen
+  await page.click('#rechteck'); await page.click('#wzBau button:nth-child(3)');
+  const c = await page.locator('#plan').boundingBox(), Z = c.width / 26;
+  await page.mouse.move(c.x + Z * 19.5, c.y + Z * 1.5); await page.mouse.down(); await page.mouse.move(c.x + Z * 23.5, c.y + Z * 2.5); await page.mouse.up();
+  const sp = await page.evaluate(() => dungeonSpec());
+  expect(sp.raster[1].slice(19, 24)).toBe('rrrrr');
+  const listen = await page.evaluate(() => ({ g: Object.keys(GEGNER), s: Object.keys(SCHATZ), o: ORTE, a: probeAdresse(), l: dungeonLink() }));
+  expect(listen.a.startsWith('../index.html#probe=')).toBe(true);
+  expect(listen.l.length).toBeLessThan(7800);
+  // Die Listen müssen zu den Gegnern, Gegenständen und Gebieten im Spiel passen
+  await page.goto(URL);
+  await page.waitForFunction(() => typeof READY !== 'undefined' && READY, null, { timeout: 30000 });
+  const ok = await page.evaluate(L => [L.g.every(k => KINDS[k] && !KINDS[k].boss), L.s.every(k => ITEMS[k]), Object.entries(L.o).every(([k, n]) => ZDEF[k] && ZDEF[k].rect && ZDEF[k].name === n)], listen);
+  expect(ok).toEqual([true, true, true]);
+  expect(fehler).toEqual([]);
+});

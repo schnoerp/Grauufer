@@ -1,6 +1,6 @@
 # Grauufer – Baukästen
 
-**Revision 13**, Stand: Spiel-Rev 126. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
+**Revision 14**, Stand: Spiel-Rev 129. **Im Spiel** = in der aktuellen Spielversion umgesetzt (aus dem Code übernommen). **Geplant** = noch nicht im Spiel.
 
 Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zweite Entwickler Teile der Spielwelt selbst zusammenstellen. Die Baukästen gehören zur Grafik-Werkstatt; Technik, Stilregeln und Kamera stehen in Grauufer_Grafik_RevXX.md.
 
@@ -11,6 +11,7 @@ Dieses Dokument beschreibt die Baukästen, mit denen der Auftraggeber und der zw
 | Haus-Baukasten | vorhanden in der Werkstatt; im Spiel: fünf Häuser in Grauufer (seit Spiel-Rev 109) und neun in Sonnwacht (seit Spiel-Rev 111), Abschnitt 6 | einzelne Häuser vom Schuppen bis zur Residenz: Grundriss, Wände, Dach, Geschosse, Fenster und Türen, Einrichtung (Abschnitt 2) |
 | Anlagen-Baukasten | Geplant | Burg und Schloss als Anlagen aus mehreren Teilen (Abschnitt 3) |
 | Figuren-Baukasten | **Avatar-Baukasten** in der Werkstatt vorhanden (seit Spiel-Rev 122), noch nicht im Spiel; Gesprächspartner und Gegner geplant | Spielerfigur, später Gesprächspartner und Gegner aus gemeinsamen Körperbau-Familien (Abschnitt 4) |
+| Dungeon-Baukasten | **vorhanden** in der Werkstatt (seit Spiel-Rev 129), Abschnitt 5b; Rätsel und Fallen geplant | neue Dungeons unter der Weltkarte: Räume und Gänge, Einrichtung, Gegner, Schätze, Truhen, Treppe ins Freie, Probelauf im echten Spiel |
 | Landschafts-Baukasten | Geplant | Teil A: Bäume, Felsen, Ufer, Klippen, Höhlen als Bausteine; Teil B (optional, später): Gebiete auf dem Raster entwerfen (Abschnitt 5) |
 
 | Teil | Datei |
@@ -103,6 +104,32 @@ Beide Wege sind für Tablet (1280 × 800), Rechner und Handy ausgelegt.
 - Gerendert in der Werkstatt wie die Häuser, Abgabe über die Claude-Seite oder GitHub.
 
 **Teil B – Gebietsentwurf (optional, später):** Berge, Seen, Meer, Wald und Wege auf einem Raster malen; Claude baut das Ergebnis in die Karte ein. Nur für neue Gebiete (z. B. weitere Kontinente, Grauufer_Welt_RevXX.md, Abschnitt 7); Morvenn wird nicht neu gemalt, weil Quests und Koordinaten daran hängen.
+
+## 5b. Dungeon-Baukasten (vorhanden seit Spiel-Rev 129)
+
+Auf Wunsch des Auftraggebers („wir brauchen einen Dungeon-Baukasten“; Entscheidung: **nur neue Dungeons**, die Tiefe bleibt wie sie ist; Inhalte: Räume und Gänge, Einrichtung, Gegner und Schätze, Rätsel und Fallen; Vorschau: Grundriss und Spielansicht).
+
+| Teil | Datei |
+|---|---|
+| Bedienseite | `werkstatt/dungeonbaukasten.html` (über GitHub Pages: `https://schnoerp.github.io/Grauufer/werkstatt/dungeonbaukasten.html`) |
+| Dungeons im Spiel | `werkstatt/dungeons/*.json`, eingebettet mit `npm run dungeons` (`werkstatt/dungeons.js`) zwischen `/*#DUNGEONS*/` und `/*#DUNGEONS-ENDE*/` in `index.html` |
+
+**Bedienung:**
+- Grundriss als Raster von oben (Breite 10–48, Höhe 10–60 Felder; der Rand ist immer Mauer). Malen mit **Pinsel** (tippen oder ziehen) oder **Rechteck** (ganze Räume aufziehen).
+- **Bauen:** Mauer, Steinboden, Felsboden, Geröll, heller Fels, Schacht (begehbar); Wasser, Lava (nicht begehbar).
+- **Einrichtung:** Säule, Felsbrocken, Stein, Grab, Kristall, Feuerstelle, Amboss (nicht begehbar). Alle Felder sind die Kartenzeichen des Spiels und werden mit der Spielgrafik gezeichnet.
+- **Gegner** (15 Arten ohne Endgegner: Skelettkrieger, Ruheloser, Steinwächter, Echo, Ghul, Ertrunkener, Moorleiche, Riesenspinne, Wolf, Frostwolf, Aschenhund, Glutgeist, Sandskorpion, Harpyie, Bandit), **Schätze** (20 Gegenstände, z. B. Heiltrank, Goldbeutel, Edelstein, Dietrich, Waffen und Rüstungen), **Truhen** (Holz, verschlossen, mit Falle, Mimik – sie nutzen die vorhandenen Regeln für Schlösser und Fallenkunde).
+- **Treppe:** genau eine Treppe hinauf ins Freie. Die Treppe hinab entsteht im gewählten **Gebiet** (25 Gebiete von Grauufer bis Klippenküste) auf dem freien Feld, das der Mitte des Gebiets am nächsten liegt (alle Nachbarn begehbar, nicht neben Wegsteinen, Portalen oder anderen Treppen).
+- **Stil:** Ruine (gemauerte Gewölbe) oder Höhle (Fels); der Dungeon ist immer dunkel wie die Tiefe.
+- **Prüfung:** Treppe vorhanden, alle begehbaren Felder und alle Gegner, Schätze und Truhen von der Treppe aus erreichbar.
+- **Probelauf:** startet das echte Spiel (rechts eingebettet oder in neuem Fenster) als Krieger, Magier oder Waldläufer direkt an der Treppe des Dungeons (`index.html#probe=…`, der Dungeon steht als Base64-JSON in der Adresse). Im Probelauf wird kein Spielstand gelesen, gelöscht oder geschrieben.
+- **Ablage:** „Speichern“ im Browser (`localStorage`, Schlüssel `grauufer-dungeons`), „Herunterladen“ als JSON, „Über GitHub an Claudia senden“ (vorausgefülltes GitHub-Issue wie beim Haus-Baukasten).
+
+**Beschreibung eines Dungeons (JSON):** `name`, `stil` (`ruine`/`hoehle`), `ort` (Gebietsschlüssel, z. B. `grau`), `raster` (Zeilen aus Kartenzeichen `#_rkp~LOUBo+KFn`), `eingang` `{x,y}`, `gegner` `[{art,x,y}]`, `schaetze` `[{art,x,y}]`, `truhen` `[{art,x,y}]` (art `wood`/`locked`/`trap`/`mimic`).
+
+**Im Spiel (seit Spiel-Rev 129):** Jeder eingebettete Dungeon wird eine eigene Zone (`dg_<Dateiname>`, dunkel, Höhlenstimmung) unter der Weltkarte: ab Reihe 250, von Spalte 110 an nebeneinander mit 3 Feldern Abstand. Unbekannte Gegner- oder Gegenstandsarten werden übergangen. Die Truhen der Dungeons werden nach allen übrigen Truhen angelegt, damit deren Nummern im Spielstand gleich bleiben. Noch ist **kein** Dungeon eingebettet; die ersten entwirft der Auftraggeber.
+
+**Geplant (Stufe 2, Spiel-Rev 130):** Rätsel und Fallen – Hebel mit Gitter, verschlossene Türen mit Schlüssel, Bodenfallen, Geheimgänge. Dafür braucht das Spiel neue Regeln.
 
 ## 6. Weg ins Spiel
 
